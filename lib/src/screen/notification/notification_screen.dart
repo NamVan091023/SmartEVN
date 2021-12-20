@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/notification_model.dart';
-import 'package:pollution_environment/src/commons/network/pollutionApi.dart';
+import 'package:pollution_environment/src/network/pollutionApi.dart';
 
 class NotificationScreen extends StatefulWidget {
   _NotificationScreenState createState() => _NotificationScreenState();

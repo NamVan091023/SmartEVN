@@ -5,7 +5,7 @@ class ReportModel {
 
   ReportModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<ReportData>();
+      data = [];
       json['data'].forEach((v) {
         data.add(new ReportData.fromJson(v));
       });
@@ -24,7 +24,6 @@ class ReportModel {
 class ReportData {
   String id, latitude, longitude, address;
   int type, status, like;
-
 
   ReportData(this.id, this.latitude, this.longitude, this.address, this.status,
       this.type);

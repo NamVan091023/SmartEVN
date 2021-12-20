@@ -6,7 +6,7 @@ import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/components/web_view.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/facebook_response.dart';
-import 'package:pollution_environment/src/commons/network/pollutionApi.dart';
+import 'package:pollution_environment/src/network/pollutionApi.dart';
 import 'package:pollution_environment/src/screen/sign_in/sign_in_screen.dart';
 
 class ProfileNotLogin extends StatefulWidget {

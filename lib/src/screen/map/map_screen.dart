@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/internal.dart';
 import 'package:pollution_environment/src/model/pollution_position_model.dart';
-import 'package:pollution_environment/src/commons/network/pollutionApi.dart';
+import 'package:pollution_environment/src/network/pollutionApi.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/station_screen.dart';
 

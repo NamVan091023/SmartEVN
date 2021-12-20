@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/province_data.dart';
-import 'package:pollution_environment/src/commons/network/pollutionApi.dart';
+import 'package:pollution_environment/src/network/pollutionApi.dart';
 
 class StationData extends StatefulWidget {
   const StationData({Key key}) : super(key: key);
