@@ -50,7 +50,7 @@ class _SignFormState extends State<SignForm> {
               Text("Nhớ mật khẩu"),
               Spacer(),
               GestureDetector(
-                onTap: () => Get.to(ForgotPasswordScreen(),
+                onTap: () => Get.to(() => ForgotPasswordScreen(),
                     binding: ForgotPasswordBindings()),
                 child: Text(
                   "Quên mật khấu",
@@ -83,7 +83,7 @@ class _SignFormState extends State<SignForm> {
     hideLoading();
 
     if (data.errorCode == 0) {
-      Get.to(MainBoard());
+      Get.to(() => MainBoard());
       PreferenceUtils.setBool(KEY_IS_ADMIN, data.data.role == 1 ? false : true);
       PreferenceUtils.setString(KEY_EMAIL, data.data.email);
       PreferenceUtils.setBool(KEY_IS_LOGIN, true);

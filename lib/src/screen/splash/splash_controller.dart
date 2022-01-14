@@ -72,7 +72,7 @@ class SplashController extends GetxController {
       (Timer timer) {
         if (_start == 0) {
           _timer.cancel();
-          Get.to(MaterialPageRoute(builder: (context) => MainBoard()));
+          Get.to(() => MaterialPageRoute(builder: (context) => MainBoard()));
         } else {
           _start--;
         }

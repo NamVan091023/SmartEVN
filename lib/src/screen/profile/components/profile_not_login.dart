@@ -51,7 +51,7 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
               borderRadius: BorderRadius.circular(20),
             ),
             onPressed: () {
-              Get.to(SignInScreen(), binding: SignInBindings());
+              Get.to(() => SignInScreen(), binding: SignInBindings());
             },
           ),
         ),

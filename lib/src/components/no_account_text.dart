@@ -18,7 +18,7 @@ class NoAccountText extends StatelessWidget {
           style: TextStyle(fontSize: getProportionateScreenWidth(16)),
         ),
         GestureDetector(
-          onTap: () => Get.to(SignUpScreen(), binding: SignUpBindings()),
+          onTap: () => Get.to(() => SignUpScreen(), binding: SignUpBindings()),
           child: Text(
             "Đăng ký",
             style: TextStyle(

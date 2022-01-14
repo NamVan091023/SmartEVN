@@ -114,7 +114,7 @@ class SignUpForm extends StatelessWidget {
     SimpleResult data = await PollutionNetwork().registerUser();
     hideLoading();
     if (data.errorCode == 0) {
-      Get.to(SignInScreen());
+      Get.to(() => SignInScreen());
       Fluttertoast.showToast(
           msg: "Đăng kí thành công",
           toastLength: Toast.LENGTH_SHORT,

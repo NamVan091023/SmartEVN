@@ -18,7 +18,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen>
     with AutomaticKeepAliveClientMixin<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
-  List<PollutionPosition> positions = new List();
+  List<PollutionPosition> positions = [];
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(20.9109654, 105.8113753),
     zoom: 14.4746,

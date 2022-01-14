@@ -67,7 +67,7 @@ class Body extends StatelessWidget {
                     DefaultButton(
                       text: "Tiếp tục",
                       press: () {
-                        Get.to(MainBoard());
+                        Get.to(() => MainBoard());
                       },
                     ),
                     Spacer(),
