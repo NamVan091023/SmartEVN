@@ -10,7 +10,7 @@ class ReportUser extends StatefulWidget {
 
 class _ReportUserState extends State<ReportUser>
     with AutomaticKeepAliveClientMixin<ReportUser> {
-  List<ReportData> list;
+  List<ReportData>? list;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,9 @@ class _ReportUserState extends State<ReportUser>
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * 0.03),
-        child: (list != null && list.isNotEmpty)
+        child: (list != null && list!.isNotEmpty)
             ? ListView.builder(
-                itemCount: list.length,
+                itemCount: list!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return buildRow(index);
                 })
@@ -49,13 +49,13 @@ class _ReportUserState extends State<ReportUser>
   Future<void> getData() async {
     var data = await PollutionNetwork().getReport();
     setState(() {
-      list = data.data;
+      list = data?.data;
     });
   }
 
   @override
   void initState() {
-    list = new List();
+    list = [];
     getData();
   }
 
@@ -78,7 +78,7 @@ class _ReportUserState extends State<ReportUser>
           child: Row(
             children: [
               Image.asset(
-                getIconTypePollution(list[index].type),
+                getIconTypePollution(list![index].type),
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               SizedBox(
@@ -91,7 +91,9 @@ class _ReportUserState extends State<ReportUser>
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        list[index].address == null ? "" : list[index].address,
+                        list![index].address == null
+                            ? ""
+                            : list![index].address!,
                         style: TextStyle(color: mainText, fontSize: 17),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -106,11 +108,11 @@ class _ReportUserState extends State<ReportUser>
                       child: Row(
                         children: [
                           Text(
-                            list[index].status == 0
+                            list![index].status == 0
                                 ? "Đang chờ phê duyệt"
                                 : "Đã duyệt",
                             style: TextStyle(
-                                color: list[index].status == 0
+                                color: list![index].status == 0
                                     ? Colors.red
                                     : Colors.green,
                                 fontSize: 12),

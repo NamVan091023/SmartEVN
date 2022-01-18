@@ -17,10 +17,10 @@ class _FilterScreenState extends State<FilterScreen> {
   final String ALL = 'Tất cả';
   List<PollutionPosition> positions = [];
   List<PollutionPosition> result = [];
-  List<String> cities = new List<String>();
-  List<String> districts = new List<String>();
-  String selectedCity = 'Tất cả';
-  String selectedDistrict = "Tất cả";
+  List<String?> cities = <String?>[];
+  List<String?> districts = <String?>[];
+  String? selectedCity = 'Tất cả';
+  String? selectedDistrict = "Tất cả";
   String selectedPollution = "Tất cả";
 
   @override
@@ -53,7 +53,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.15,
                 ),
-                CustomDropdown<String>(
+                CustomDropdown<String?>(
                   items: cities,
                   onChanged: (val) => {selectedCity = val},
                   center: true,
@@ -73,7 +73,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.09,
                 ),
-                CustomDropdown<String>(
+                CustomDropdown<String?>(
                   items: districts,
                   onChanged: (val) => {selectedDistrict = val},
                   center: true,

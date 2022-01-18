@@ -1,12 +1,12 @@
 import 'package:pollution_environment/src/model/simple_respone.dart';
 
 class UserModel extends SimpleResult {
-  Data data;
+  UserData? data;
 
   UserModel.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
     errorCode = json['errorCode'];
     message = json['message'];
-    data = new Data.fromJson(json['data']);
+    data = new UserData.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -19,13 +19,13 @@ class UserModel extends SimpleResult {
   }
 }
 
-class Data {
-  String name, avatar, email;
-  int post, role;
+class UserData {
+  String? name, avatar, email;
+  int? post, role;
 
-  Data(this.name, this.avatar, this.email, this.post, this.role);
+  UserData(this.name, this.avatar, this.email, this.post, this.role);
 
-  Data.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     avatar = json['avatar'];
     email = json['email'];

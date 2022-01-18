@@ -11,140 +11,140 @@ class PollutionNetwork {
   final client = Dio();
   final url = 'https://60b094c61f26610017ffe81d.mockapi.io/';
 
-  Future<DataFacebook> getData() async {
+  Future<DataFacebook?> getData() async {
     try {
       final response = await client.post(url + 'getDataFacebook');
       if (response.statusCode == 201) {
         return DataFacebook.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<SimpleResult> loginUser() async {
+  Future<SimpleResult?> loginUser() async {
     try {
       final response = await client.post(url + 'loginUser');
       if (response.statusCode == 201) {
         return UserModel.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<SimpleResult> registerUser() async {
+  Future<SimpleResult?> registerUser() async {
     try {
       final response = await client.post(url + 'registerUser');
       if (response.statusCode == 201) {
         return SimpleResult.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<SimpleResult> updateUserInfor() async {
+  Future<SimpleResult?> updateUserInfor() async {
     try {
       final response = await client.post(url + 'updateUserInfor');
       if (response.statusCode == 201) {
         return SimpleResult.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<SimpleResult> removeReport() async {
+  Future<SimpleResult?> removeReport() async {
     try {
       final response = await client.post(url + 'removeReport');
       if (response.statusCode == 201) {
         return SimpleResult.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<PollutionPositionModel> getPollutionPosition() async {
+  Future<PollutionPositionModel?> getPollutionPosition() async {
     try {
       final response = await client.post(url + 'getPollutionPositon');
       if (response.statusCode == 201) {
         return PollutionPositionModel.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<NotificationModel> getNotification() async {
+  Future<NotificationModel?> getNotification() async {
     try {
       final response = await client.post(url + 'getNotification');
       if (response.statusCode == 201) {
         return NotificationModel.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<ReportModel> getReport() async {
+  Future<ReportModel?> getReport() async {
     try {
       final response = await client.post(url + 'getReport');
       if (response.statusCode == 201) {
         return ReportModel.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<PollutionModel> getAllInforPollution() async {
+  Future<PollutionModel?> getAllInforPollution() async {
     try {
       final response = await client.post(url + 'getAllInforPollution');
       if (response.statusCode == 201) {
         return PollutionModel.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);
     }
   }
 
-  Future<SimpleResult> createReport() async {
+  Future<SimpleResult?> createReport() async {
     try {
       final response = await client.post(url + 'getReport');
       if (response.statusCode == 201) {
         return SimpleResult.fromJson(response.data);
       } else {
         print('${response.statusCode} : ${response.data.toString()}');
-        throw response.statusCode;
+        throw response.statusCode!;
       }
     } catch (error) {
       print(error);

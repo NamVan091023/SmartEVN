@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _SignFormState extends State<SignForm> {
                   value: controller.remember.value,
                   activeColor: Colors.green,
                   onChanged: (value) {
-                    controller.setRemember(value);
+                    controller.setRemember(value!);
                   },
                 ),
               ),
@@ -64,9 +65,9 @@ class _SignFormState extends State<SignForm> {
           DefaultButton(
             text: "Tiếp tục",
             press: () async {
-              if (_formKey.currentState.validate()) {
+              if (_formKey.currentState!.validate()) {
                 // đăng nhập thành công
-                _formKey.currentState.save();
+                _formKey.currentState!.save();
                 KeyboardUtil.hideKeyboard(context);
                 showLoading();
                 await loginUser();
@@ -79,15 +80,17 @@ class _SignFormState extends State<SignForm> {
   }
 
   Future<void> loginUser() async {
-    UserModel data = await PollutionNetwork().loginUser();
+    UserModel data =
+        await (PollutionNetwork().loginUser() as FutureOr<UserModel>);
     hideLoading();
 
     if (data.errorCode == 0) {
       Get.to(() => MainBoard());
-      PreferenceUtils.setBool(KEY_IS_ADMIN, data.data.role == 1 ? false : true);
-      PreferenceUtils.setString(KEY_EMAIL, data.data.email);
+      PreferenceUtils.setBool(
+          KEY_IS_ADMIN, data.data!.role == 1 ? false : true);
+      PreferenceUtils.setString(KEY_EMAIL, data.data!.email!);
       PreferenceUtils.setBool(KEY_IS_LOGIN, true);
-      String user = jsonEncode(data.data.toJson());
+      String user = jsonEncode(data.data!.toJson());
       PreferenceUtils.setString("user", user);
       Fluttertoast.showToast(
           msg: "Đăng nhập thành công",
@@ -99,7 +102,7 @@ class _SignFormState extends State<SignForm> {
           fontSize: 16.0);
     } else {
       Fluttertoast.showToast(
-          msg: data.message,
+          msg: data.message!,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -107,18 +110,17 @@ class _SignFormState extends State<SignForm> {
           textColor: Colors.red,
           fontSize: 16.0);
     }
-    return true;
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => controller.onSavePassword(newValue),
+      onSaved: (newValue) => controller.onSavePassword(newValue!),
       onChanged: (value) {
         controller.onChangePassword(value);
       },
       validator: (value) {
-        return controller.onValidatorPassword(value);
+        return controller.onValidatorPassword(value!);
       },
       decoration: InputDecoration(
         labelText: "Mật khẩu",
@@ -134,12 +136,12 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => controller.onSaveEmail(newValue),
+      onSaved: (newValue) => controller.onSaveEmail(newValue!),
       onChanged: (value) {
         controller.onChangeEmail(value);
       },
       validator: (value) {
-        return controller.onValidatorEmail(value);
+        return controller.onValidatorEmail(value!);
       },
       decoration: InputDecoration(
         labelText: "Email",

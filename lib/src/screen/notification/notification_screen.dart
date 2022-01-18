@@ -10,7 +10,7 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen>
     with AutomaticKeepAliveClientMixin<NotificationScreen> {
-  List<Data> list;
+  List<Data>? list;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,9 @@ class _NotificationScreenState extends State<NotificationScreen>
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * 0.03),
-        child: (list != null && list.isNotEmpty)
+        child: (list != null && list!.isNotEmpty)
             ? ListView.builder(
-                itemCount: list.length,
+                itemCount: list!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return buildRow(index);
                 })
@@ -41,13 +41,13 @@ class _NotificationScreenState extends State<NotificationScreen>
   Future<void> getData() async {
     var data = await PollutionNetwork().getNotification();
     setState(() {
-      list = data.data;
+      list = data?.data;
     });
   }
 
   @override
   void initState() {
-    list = new List();
+    list = [];
     getData();
   }
 
@@ -70,7 +70,7 @@ class _NotificationScreenState extends State<NotificationScreen>
           child: Row(
             children: [
               Image.asset(
-                getIconTypePollution(list[index].type),
+                getIconTypePollution(list![index].type),
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               SizedBox(
@@ -83,7 +83,9 @@ class _NotificationScreenState extends State<NotificationScreen>
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        list[index].address == null ? "" : list[index].address,
+                        list![index].address == null
+                            ? ""
+                            : list![index].address!,
                         style: TextStyle(color: mainText, fontSize: 17),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -96,7 +98,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        list[index].range == null ? "" : list[index].range,
+                        list![index].range == null ? "" : list![index].range!,
                         style: TextStyle(color: Colors.black, fontSize: 12),
                         maxLines: 1,
                         textAlign: TextAlign.left,

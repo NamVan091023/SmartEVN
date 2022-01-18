@@ -41,8 +41,9 @@ class _ManageScreenState extends State<ManageScreen>
               Scaffold(
                 body: Center(
                   child: ListView.builder(
-                    itemCount:
-                        listItem.length == 0 ? listAll.length : listItem.length,
+                    itemCount: listItem.length == 0
+                        ? listAll!.length
+                        : listItem.length,
                     itemBuilder: (BuildContext context, int index) {
                       return listItem.length == 0
                           ? _buildRowAll(index)
@@ -63,7 +64,7 @@ class _ManageScreenState extends State<ManageScreen>
               ),
               Center(
                 child: ListView.builder(
-                  itemCount: list.length,
+                  itemCount: list!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return _buildRow(index);
                   },
@@ -77,160 +78,163 @@ class _ManageScreenState extends State<ManageScreen>
   }
 
   List listItemPollution = ["Đất", "Nước", "Không khí"];
-  String valueChoose;
-  String valuePollution;
+  String? valueChoose;
+  String? valuePollution;
 
-  List<ReportData> list;
-  List<PollutionData> listAll;
+  List<ReportData>? list;
+  List<PollutionData>? listAll;
 
   Future<void> getData() async {
     var data = await PollutionNetwork().getReport();
     setState(() {
-      list = data.data;
+      list = data?.data;
     });
   }
 
   Future<void> getDataAnalyz() async {
     var data = await PollutionNetwork().getAllInforPollution();
     setState(() {
-      listAll = data.data;
+      listAll = data?.data;
     });
   }
 
   @override
   void initState() {
-    list = new List();
-    listAll = new List();
+    list = [];
+    listAll = [];
     getData();
     getDataAnalyz();
   }
 
   Widget _buildRow(int index) {
-    return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 1 / 6,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Color(0xFFF5F6F9),
-          ),
-          height: MediaQuery.of(context).size.height * 0.1,
-          width: double.infinity,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.04),
-            child: Row(
-              children: [
-                Image.asset(
-                  getIconTypePollution(list[index].type),
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.03,
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          list[index].address == null
-                              ? ""
-                              : list[index].address,
-                          style: TextStyle(color: mainText, fontSize: 17),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Điểm tương đồng: " + list[index].like.toString(),
-                              style: TextStyle(color: Colors.red, fontSize: 12),
-                              maxLines: 1,
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'Duyệt',
-          color: Colors.green,
-          icon: Icons.add,
-          onTap: () async {
-            showLoading();
-            SimpleResult data = await PollutionNetwork().removeReport();
-            hideLoading();
-            if (data.errorCode == 0) {
-              Fluttertoast.showToast(
-                  msg: "Duyệt thành công",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.transparent,
-                  textColor: Colors.green,
-                  fontSize: 16.0);
-            } else {
-              Fluttertoast.showToast(
-                  msg: data.message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.transparent,
-                  textColor: Colors.red,
-                  fontSize: 16.0);
-            }
-          },
-        ),
-        IconSlideAction(
-          caption: 'Xoá',
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () async {
-            showLoading();
-            SimpleResult data = await PollutionNetwork().removeReport();
-            hideLoading();
-            if (data.errorCode == 0) {
-              Fluttertoast.showToast(
-                  msg: "Duyệt thành công",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.transparent,
-                  textColor: Colors.green,
-                  fontSize: 16.0);
-            } else {
-              Fluttertoast.showToast(
-                  msg: data.message,
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.transparent,
-                  textColor: Colors.red,
-                  fontSize: 16.0);
-            }
-          },
-        ),
-      ],
-    );
+    return Text("TODO");
+    // return Slidable(
+    //   startActionPane: ActionPane(
+    //     motion: const ScrollMotion(),
+    //     children: [SlidableDrawerActionPane()],
+    //   ),
+    //   child: Padding(
+    //     padding: const EdgeInsets.all(8.0),
+    //     child: Container(
+    //       decoration: BoxDecoration(
+    //         borderRadius: BorderRadius.circular(10),
+    //         color: Color(0xFFF5F6F9),
+    //       ),
+    //       height: MediaQuery.of(context).size.height * 0.1,
+    //       width: double.infinity,
+    //       child: Padding(
+    //         padding: EdgeInsets.symmetric(
+    //             horizontal: MediaQuery.of(context).size.width * 0.04),
+    //         child: Row(
+    //           children: [
+    //             Image.asset(
+    //               getIconTypePollution(list[index].type),
+    //               height: MediaQuery.of(context).size.height * 0.05,
+    //             ),
+    //             SizedBox(
+    //               width: MediaQuery.of(context).size.width * 0.03,
+    //             ),
+    //             Flexible(
+    //               child: Column(
+    //                 mainAxisAlignment: MainAxisAlignment.center,
+    //                 children: [
+    //                   SizedBox(
+    //                     width: double.infinity,
+    //                     child: Text(
+    //                       list[index].address == null
+    //                           ? ""
+    //                           : list[index].address,
+    //                       style: TextStyle(color: mainText, fontSize: 17),
+    //                       maxLines: 1,
+    //                       overflow: TextOverflow.ellipsis,
+    //                       textAlign: TextAlign.left,
+    //                     ),
+    //                   ),
+    //                   SizedBox(
+    //                     height: MediaQuery.of(context).size.height * 0.01,
+    //                   ),
+    //                   SizedBox(
+    //                     width: double.infinity,
+    //                     child: Row(
+    //                       children: [
+    //                         Text(
+    //                           "Điểm tương đồng: " + list[index].like.toString(),
+    //                           style: TextStyle(color: Colors.red, fontSize: 12),
+    //                           maxLines: 1,
+    //                           textAlign: TextAlign.left,
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   )
+    //                 ],
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    //   secondaryActions: <Widget>[
+    //     IconSlideAction(
+    //       caption: 'Duyệt',
+    //       color: Colors.green,
+    //       icon: Icons.add,
+    //       onTap: () async {
+    //         showLoading();
+    //         SimpleResult data = await PollutionNetwork().removeReport();
+    //         hideLoading();
+    //         if (data.errorCode == 0) {
+    //           Fluttertoast.showToast(
+    //               msg: "Duyệt thành công",
+    //               toastLength: Toast.LENGTH_SHORT,
+    //               gravity: ToastGravity.BOTTOM,
+    //               timeInSecForIosWeb: 1,
+    //               backgroundColor: Colors.transparent,
+    //               textColor: Colors.green,
+    //               fontSize: 16.0);
+    //         } else {
+    //           Fluttertoast.showToast(
+    //               msg: data.message,
+    //               toastLength: Toast.LENGTH_SHORT,
+    //               gravity: ToastGravity.BOTTOM,
+    //               timeInSecForIosWeb: 1,
+    //               backgroundColor: Colors.transparent,
+    //               textColor: Colors.red,
+    //               fontSize: 16.0);
+    //         }
+    //       },
+    //     ),
+    //     IconSlideAction(
+    //       caption: 'Xoá',
+    //       color: Colors.red,
+    //       icon: Icons.delete,
+    //       onTap: () async {
+    //         showLoading();
+    //         SimpleResult data = await PollutionNetwork().removeReport();
+    //         hideLoading();
+    //         if (data.errorCode == 0) {
+    //           Fluttertoast.showToast(
+    //               msg: "Duyệt thành công",
+    //               toastLength: Toast.LENGTH_SHORT,
+    //               gravity: ToastGravity.BOTTOM,
+    //               timeInSecForIosWeb: 1,
+    //               backgroundColor: Colors.transparent,
+    //               textColor: Colors.green,
+    //               fontSize: 16.0);
+    //         } else {
+    //           Fluttertoast.showToast(
+    //               msg: data.message,
+    //               toastLength: Toast.LENGTH_SHORT,
+    //               gravity: ToastGravity.BOTTOM,
+    //               timeInSecForIosWeb: 1,
+    //               backgroundColor: Colors.transparent,
+    //               textColor: Colors.red,
+    //               fontSize: 16.0);
+    //         }
+    //       },
+    //     ),
+    //   ],
+    // );
   }
 
   @override
@@ -265,7 +269,7 @@ class _ManageScreenState extends State<ManageScreen>
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        listAll[index].name,
+                        listAll![index].name!,
                         style: TextStyle(color: mainText, fontSize: 17),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -281,7 +285,7 @@ class _ManageScreenState extends State<ManageScreen>
                         children: [
                           Text(
                             "Số vùng nhiễm: " +
-                                listAll[index].totalPollution.toString(),
+                                listAll![index].totalPollution.toString(),
                             style: TextStyle(color: Colors.red, fontSize: 12),
                             maxLines: 1,
                             textAlign: TextAlign.left,
@@ -294,7 +298,7 @@ class _ManageScreenState extends State<ManageScreen>
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                listAll[index].normal.toString(),
+                                listAll![index].normal.toString(),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 12),
                                 maxLines: 1,
@@ -310,7 +314,7 @@ class _ManageScreenState extends State<ManageScreen>
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                listAll[index].warning.toString(),
+                                listAll![index].warning.toString(),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 12),
                                 maxLines: 1,
@@ -326,7 +330,7 @@ class _ManageScreenState extends State<ManageScreen>
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                listAll[index].dangerous.toString(),
+                                listAll![index].dangerous.toString(),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 12),
                                 maxLines: 1,
@@ -347,7 +351,7 @@ class _ManageScreenState extends State<ManageScreen>
     );
   }
 
-  List<Items> listItem = new List();
+  List<Items> listItem = [];
 
   reload(List<Items> values) {
     listItem.clear();

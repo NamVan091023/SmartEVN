@@ -130,11 +130,11 @@ class _MapScreenState extends State<MapScreen>
   _getPollutionPosition() async {
     if (isFirstTime) {
       isFirstTime = false;
-      PollutionPositionModel data =
+      PollutionPositionModel? data =
           await PollutionNetwork().getPollutionPosition();
-      data.data.pollutionPosition.length;
+      data?.data?.pollutionPosition!.length;
       positions.clear();
-      positions.addAll(data.data.pollutionPosition);
+      positions.addAll(data!.data!.pollutionPosition!);
       positions.addAll(Internal().listPosition);
 
       _addMarker(positions);
@@ -147,13 +147,13 @@ class _MapScreenState extends State<MapScreen>
       myMarker.add(
         Marker(
             position: LatLng(
-                double.parse(item.latitude), double.parse(item.longtitude)),
+                double.parse(item.latitude!), double.parse(item.longtitude!)),
             icon: BitmapDescriptor.defaultMarkerWithHue(item.type == "AIR"
                 ? BitmapDescriptor.hueBlue
                 : item.type == "WATER"
                     ? BitmapDescriptor.hueGreen
                     : BitmapDescriptor.hueOrange),
-            markerId: MarkerId(item.id)),
+            markerId: MarkerId(item.id!)),
       );
     }
     setState(() {

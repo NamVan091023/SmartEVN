@@ -3,9 +3,9 @@ import 'package:pollution_environment/src/commons/constants.dart';
 
 class TwoTextLine extends StatelessWidget {
   const TwoTextLine({
-    Key key,
-    @required this.textOne,
-    @required this.textTwo,
+    Key? key,
+    required this.textOne,
+    required this.textTwo,
   }) : super(key: key);
   final String textOne;
   final String textTwo;

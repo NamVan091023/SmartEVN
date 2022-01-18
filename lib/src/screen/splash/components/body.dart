@@ -10,7 +10,7 @@ import '../../../components/default_button.dart';
 import '../components/splash_content.dart';
 
 class Body extends StatelessWidget {
-  Body({Key key}) : super(key: key);
+  Body({Key? key}) : super(key: key);
   final List<Map<String, String>> splashData = [
     {
       "text": "Chào mừng bạn cùng chúng tôi,\n Chung tay bảo vệ môi trường!",
@@ -81,7 +81,7 @@ class Body extends StatelessWidget {
     );
   }
 
-  AnimatedContainer buildDot({int index}) {
+  AnimatedContainer buildDot({int? index}) {
     return AnimatedContainer(
       duration: kAnimationDuration,
       margin: EdgeInsets.only(right: 5),

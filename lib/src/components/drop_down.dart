@@ -13,9 +13,9 @@ import 'package:flutter/material.dart';
 // }
 class CustomDropdown<T> extends StatefulWidget {
   CustomDropdown({
-    Key key,
-    @required this.items,
-    @required this.onChanged,
+    Key? key,
+    required this.items,
+    required this.onChanged,
     this.onInit,
     this.padding = const EdgeInsets.only(top: 10.0),
     this.height = 40,
@@ -30,7 +30,7 @@ class CustomDropdown<T> extends StatefulWidget {
   void Function(T value) onChanged;
 
   /// onInit
-  void Function(T value) onInit;
+  void Function(T value)? onInit;
 
   ///padding
   EdgeInsetsGeometry padding;
@@ -41,15 +41,15 @@ class CustomDropdown<T> extends StatefulWidget {
   /// center
   bool center;
 
-  String Function(String text) itemText;
+  String Function(String text)? itemText;
 
   @override
   _CustomDropdownState<T> createState() => _CustomDropdownState();
 }
 
-class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
+class _CustomDropdownState<T> extends State<CustomDropdown<T?>> {
   /// current selected value
-  T _selectedValue;
+  T? _selectedValue;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
   /// set default selected value when init
   _initValue() {
     _selectedValue = widget.items[0];
-    if (widget.onInit != null) widget.onInit(_selectedValue);
+    if (widget.onInit != null) widget.onInit!(_selectedValue);
   }
 
   _buildBody() {
@@ -91,18 +91,18 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
             child: new DropdownButtonHideUnderline(
               child: new DropdownButton<T>(
                 value: _selectedValue,
-                onChanged: (T newValue) {
+                onChanged: (T? newValue) {
                   setState(() {
                     _selectedValue = newValue;
                     widget.onChanged(newValue);
                   });
                 },
-                items: widget.items.map((T f) {
+                items: widget.items.map((T? f) {
                   return new DropdownMenuItem<T>(
                     value: f,
                     child: new Text(
                       (widget.itemText != null)
-                          ? widget.itemText(f.toString())
+                          ? widget.itemText!(f.toString())
                           : f.toString(),
                       style: new TextStyle(color: Colors.black),
                     ),

@@ -7,17 +7,17 @@ class SignInController extends GetxController {
   RxString email = "".obs;
   RxString password = "".obs;
   RxBool remember = false.obs;
-  RxList<String> errors = RxList<String>();
+  RxList<String?> errors = RxList<String?>();
 
   void setRemember(bool value) {
     remember.value = value;
   }
 
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error)) errors.add(error);
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error)) errors.remove(error);
   }
 
@@ -34,7 +34,7 @@ class SignInController extends GetxController {
     return null;
   }
 
-  String onValidatorPassword(String value) {
+  String? onValidatorPassword(String value) {
     if (value.isEmpty) {
       addError(error: kPassNullError);
       return "";
@@ -56,7 +56,7 @@ class SignInController extends GetxController {
     return null;
   }
 
-  String onValidatorEmail(String value) {
+  String? onValidatorEmail(String value) {
     if (value.isEmpty) {
       addError(error: kEmailNullError);
       return "";

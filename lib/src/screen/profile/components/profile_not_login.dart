@@ -15,8 +15,8 @@ class ProfileNotLogin extends StatefulWidget {
 }
 
 class ProfileNotLoginState extends State<ProfileNotLogin> {
-  List<Data> list;
-  DataFacebook data;
+  List<Data>? list;
+  late DataFacebook? data;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +30,9 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
           ),
         ),
         body: Container(
-          child: (list != null && list.isNotEmpty)
+          child: (list != null && list!.isNotEmpty)
               ? ListView.builder(
-                  itemCount: list.length,
+                  itemCount: list!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return buildRow(index);
                   })
@@ -61,23 +61,23 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
   Future<void> getData() async {
     data = await PollutionNetwork().getData();
     setState(() {
-      list = data.data;
+      list = data?.data;
     });
   }
 
   @override
   void initState() {
-    list = new List();
+    list = [];
     if (PreferenceUtils.getString("datafb") != "") {
       Map userMap = jsonDecode(PreferenceUtils.getString("datafb"));
-      data = DataFacebook.fromJson(userMap);
-      list = data.data;
+      data = DataFacebook.fromJson(userMap as Map<String, dynamic>);
+      list = data?.data;
     } else
       getData();
   }
 
   Widget buildRow(int index) {
-    double x = index != list.length - 1 ? 5 : 70;
+    double x = index != list!.length - 1 ? 5 : 70;
     return Container(
       margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: x),
       padding: EdgeInsets.all(10),
@@ -93,9 +93,9 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MyWebView(list[index].link)));
-          list[index].view = list[index].view + 1;
-          String datafb = jsonEncode(data.toJson());
+                  builder: (context) => MyWebView(list![index].link)));
+          list![index].view = list![index].view! + 1;
+          String datafb = jsonEncode(data?.toJson());
           PreferenceUtils.setString("datafb", datafb);
           setState(() {});
         },
@@ -103,14 +103,14 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              child: Text(list[index].name,
+              child: Text(list![index].name!,
                   style:
                       TextStyle(color: mainText, fontWeight: FontWeight.bold),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
             ),
             Text(
-              list[index].description,
+              list![index].description!,
               style: TextStyle(color: mainText, fontWeight: FontWeight.normal),
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
@@ -118,7 +118,7 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
             Container(
               width: double.infinity,
               child: Text(
-                list[index].view.toString() + " view",
+                list![index].view.toString() + " view",
                 style: TextStyle(
                     color: Colors.indigo, fontWeight: FontWeight.w600),
                 textAlign: TextAlign.end,

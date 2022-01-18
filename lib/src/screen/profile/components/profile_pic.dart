@@ -3,10 +3,10 @@ import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_screen.dart';
 
 class ProfilePic extends StatelessWidget {
-  final Data user;
+  final UserData? user;
 
   const ProfilePic({
-    Key key,
+    Key? key,
     this.user,
   }) : super(key: key);
 
@@ -20,11 +20,11 @@ class ProfilePic extends StatelessWidget {
         overflow: Overflow.visible,
         children: [
           CircleAvatar(
-            backgroundImage: user.avatar == null
+            backgroundImage: (user!.avatar == null
                 ? AssetImage("assets/images/profile_image.png")
                 : NetworkImage(
-                    user.avatar,
-                  ),
+                    user!.avatar!,
+                  )) as ImageProvider<Object>?,
           ),
           Positioned(
             right: 0,

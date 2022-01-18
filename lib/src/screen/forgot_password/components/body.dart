@@ -52,12 +52,12 @@ class ForgotPassForm extends StatelessWidget {
         children: [
           TextFormField(
             keyboardType: TextInputType.emailAddress,
-            onSaved: (newValue) => controller.onSave(newValue),
+            onSaved: (newValue) => controller.onSave(newValue!),
             onChanged: (value) {
               controller.onChange(value);
             },
             validator: (value) {
-              return controller.onValidator(value);
+              return controller.onValidator(value!);
             },
             decoration: InputDecoration(
               labelText: "Email",
@@ -74,7 +74,7 @@ class ForgotPassForm extends StatelessWidget {
           DefaultButton(
             text: "Tiếp tục",
             press: () {
-              if (_formKey.currentState.validate()) {
+              if (_formKey.currentState!.validate()) {
                 // Do what you want to do
               }
             },

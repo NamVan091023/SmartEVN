@@ -15,8 +15,8 @@ class MainBoard extends StatefulWidget {
 
 class _MainBoardState extends State<MainBoard> {
   int indexPage = 0;
-  bool isAdmin = PreferenceUtils.getBool(KEY_IS_ADMIN, false);
-  bool isLogin = PreferenceUtils.getBool(KEY_IS_LOGIN, false);
+  bool isAdmin = PreferenceUtils.getBool(KEY_IS_ADMIN, true);
+  bool isLogin = PreferenceUtils.getBool(KEY_IS_LOGIN, true);
 
   List<Widget> _list = <Widget>[
     MapScreen(),

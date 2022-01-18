@@ -1,5 +1,5 @@
 class ReportModel {
-  List<ReportData> data;
+  List<ReportData>? data;
 
   ReportModel({this.data});
 
@@ -7,7 +7,7 @@ class ReportModel {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data.add(new ReportData.fromJson(v));
+        data!.add(new ReportData.fromJson(v));
       });
     }
   }
@@ -15,15 +15,15 @@ class ReportModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class ReportData {
-  String id, latitude, longitude, address;
-  int type, status, like;
+  String? id, latitude, longitude, address;
+  int? type, status, like;
 
   ReportData(this.id, this.latitude, this.longitude, this.address, this.status,
       this.type);

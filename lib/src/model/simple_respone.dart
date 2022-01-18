@@ -1,8 +1,8 @@
 
 
 class SimpleResult {
-  int errorCode;
-  String message;
+  int? errorCode;
+  String? message;
 
   SimpleResult(this.errorCode, this.message);
 

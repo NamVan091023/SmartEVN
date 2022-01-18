@@ -4,18 +4,18 @@ import 'package:pollution_environment/src/commons/constants.dart';
 
 class PrimaryTextField extends StatelessWidget {
   PrimaryTextField(
-      {Key key,
-      @required this.controller,
+      {Key? key,
+      required this.controller,
       this.hint,
       this.type,
       this.color,
-      @required this.isPassword,
-      @required this.iconData})
+      required this.isPassword,
+      required this.iconData})
       : super(key: key);
 
-  final String hint;
+  final String? hint;
   final TextEditingController controller;
-  final TextInputType type;
+  final TextInputType? type;
   final color;
   final bool isPassword;
   final IconData iconData;

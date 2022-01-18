@@ -8,7 +8,7 @@ import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
 
 class SplashController extends GetxController {
-  Timer _timer;
+  late Timer _timer;
   int _start = 3;
   var currentPage = 0.obs;
 

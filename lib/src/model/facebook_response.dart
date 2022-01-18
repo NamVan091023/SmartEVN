@@ -1,13 +1,13 @@
 class DataFacebook {
-  List<Data> data;
+  List<Data>? data;
 
   DataFacebook({this.data});
 
   DataFacebook.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -15,20 +15,20 @@ class DataFacebook {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Data {
-  String id;
-  String description;
-  String name;
-  String message;
-  String updatedTime;
-  String link;
-  int view = 0;
+  String? id;
+  String? description;
+  String? name;
+  String? message;
+  String? updatedTime;
+  String? link;
+  int? view = 0;
 
   Data(
       {this.id,

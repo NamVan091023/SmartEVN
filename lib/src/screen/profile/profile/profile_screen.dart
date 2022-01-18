@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     if (PreferenceUtils.getString("user") != "") {
       Map userMap = jsonDecode(PreferenceUtils.getString("user"));
-      user = Data.fromJson(userMap);
+      user = UserData.fromJson(userMap as Map<String, dynamic>);
     }
 
     return Scaffold(

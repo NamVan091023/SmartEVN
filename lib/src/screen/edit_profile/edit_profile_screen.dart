@@ -11,16 +11,16 @@ import 'package:pollution_environment/src/model/simple_respone.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final Data user;
+  final UserData? user;
 
-  const EditProfileScreen({Key key, this.user}) : super(key: key);
+  const EditProfileScreen({Key? key, this.user}) : super(key: key);
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  String email, name;
-  File _image;
+  String? email, name;
+  File? _image;
 
   final nameController = new TextEditingController();
   final mailController = new TextEditingController();
@@ -53,11 +53,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 overflow: Overflow.visible,
                 children: [
                   CircleAvatar(
-                    backgroundImage: _image == null
+                    backgroundImage: (_image == null
                         ? NetworkImage(
-                            widget.user.avatar,
+                            widget.user!.avatar!,
                           )
-                        : FileImage(_image),
+                        : FileImage(_image!)) as ImageProvider<Object>?,
                   ),
                   Positioned(
                     right: 0,
@@ -122,10 +122,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     onPressed: () async {
                       KeyboardUtil.hideKeyboard(context);
                       showLoading();
-                      SimpleResult data =
+                      SimpleResult? data =
                           await PollutionNetwork().updateUserInfor();
                       hideLoading();
-                      if (data.errorCode == 0) {
+                      if (data?.errorCode == 0) {
                         Fluttertoast.showToast(
                             msg: "Cập nhật thành công",
                             toastLength: Toast.LENGTH_SHORT,
@@ -136,7 +136,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             fontSize: 16.0);
                       } else {
                         Fluttertoast.showToast(
-                            msg: data.message,
+                            msg: data?.message ?? "",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
@@ -163,7 +163,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future _openCamera(BuildContext context) async {
-    PickedFile picture =
+    PickedFile? picture =
         await ImagePicker().getImage(source: ImageSource.camera);
     setState(() {
       if (picture != null) _image = File(picture.path);
@@ -184,7 +184,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         return null;
       },
       validator: (value) {
-        if (value.isEmpty) {
+        if (value!.isEmpty) {
           addError(error: kEmailNullError);
           return "";
         } else if (!emailValidatorRegExp.hasMatch(value)) {
@@ -216,7 +216,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         return null;
       },
       validator: (value) {
-        if (value.isEmpty) {
+        if (value!.isEmpty) {
           addError(error: kEmailNullError);
           return "";
         } else if (!emailValidatorRegExp.hasMatch(value)) {
@@ -235,16 +235,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  final List<String> errors = [];
+  final List<String?> errors = [];
 
-  void addError({String error}) {
+  void addError({String? error}) {
     if (!errors.contains(error))
       setState(() {
         errors.add(error);
       });
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error))
       setState(() {
         errors.remove(error);

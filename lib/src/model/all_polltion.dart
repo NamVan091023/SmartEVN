@@ -1,13 +1,13 @@
 class PollutionModel {
-  List<PollutionData> data;
+  List<PollutionData>? data;
 
   PollutionModel({this.data});
 
   PollutionModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<PollutionData>();
+      data = <PollutionData>[];
       json['data'].forEach((v) {
-        data.add(new PollutionData.fromJson(v));
+        data!.add(new PollutionData.fromJson(v));
       });
     }
   }
@@ -15,20 +15,20 @@ class PollutionModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class PollutionData {
-  String name;
-  int district;
-  int totalPollution;
-  int normal;
-  int warning;
-  int dangerous;
-  List<Items> items;
+  String? name;
+  int? district;
+  int? totalPollution;
+  int? normal;
+  int? warning;
+  int? dangerous;
+  List<Items>? items;
 
   PollutionData({this.name, this.district, this.totalPollution, this.items});
 
@@ -40,9 +40,9 @@ class PollutionData {
     warning = json['warning'];
     normal = json['normal'];
     if (json['items'] != null) {
-      items = new List<Items>();
+      items = <Items>[];
       json['items'].forEach((v) {
-        items.add(new Items.fromJson(v));
+        items!.add(new Items.fromJson(v));
       });
     }
   }
@@ -56,20 +56,20 @@ class PollutionData {
     data['warning'] = this.warning;
     data['dangerous'] = this.dangerous;
     if (this.items != null) {
-      data['items'] = this.items.map((v) => v.toJson()).toList();
+      data['items'] = this.items!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Items {
-  String id;
-  String latitude;
-  String longitude;
-  String address;
-  int type;
-  int district;
-  int level;
+  String? id;
+  String? latitude;
+  String? longitude;
+  String? address;
+  int? type;
+  int? district;
+  int? level;
 
   Items(
       {this.id,

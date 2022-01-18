@@ -9,9 +9,9 @@ import 'profile_menu.dart';
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
-  final Data user;
+  final UserData? user;
 
-  Body({Key key, @required this.user}) : super(key: key);
+  Body({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            user.name,
+            user!.name!,
             style: TextStyle(
               color: Colors.green,
               fontSize: size20,
@@ -38,7 +38,7 @@ class Body extends StatelessWidget {
             children: [
               Spacer(),
               TwoTextLine(
-                  textOne: user.post.toString(), textTwo: "Số bài viết"),
+                  textOne: user!.post.toString(), textTwo: "Số bài viết"),
               Spacer(),
               TwoTextLine(textOne: "32", textTwo: "Số điểm post"),
               Spacer(),

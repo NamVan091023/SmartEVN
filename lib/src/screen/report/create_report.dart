@@ -12,7 +12,7 @@ import 'package:pollution_environment/src/model/internal.dart';
 import 'package:pollution_environment/src/model/pollution_position_model.dart';
 
 class CreateReport extends StatefulWidget {
-  const CreateReport({Key key}) : super(key: key);
+  const CreateReport({Key? key}) : super(key: key);
 
   @override
   _CreateReportState createState() => _CreateReportState();

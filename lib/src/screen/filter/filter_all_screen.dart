@@ -5,12 +5,12 @@ import 'package:pollution_environment/src/components/drop_down.dart';
 import 'package:pollution_environment/src/model/all_polltion.dart';
 
 class FilterAllScreen extends StatefulWidget {
-  List<PollutionData> positions;
+  List<PollutionData>? positions;
 
   FilterAllScreen(this.positions);
 
   @override
-  _FilterAllScreenState createState() => _FilterAllScreenState(this.positions);
+  _FilterAllScreenState createState() => _FilterAllScreenState(this.positions!);
 }
 
 class _FilterAllScreenState extends State<FilterAllScreen> {
@@ -18,10 +18,10 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
   List<PollutionData> positions = [];
   List<Items> positionsData = [];
   List<Items> result = [];
-  List<String> cities = new List<String>();
-  List<String> districts = new List<String>();
+  List<String> cities = <String>[];
+  List<String?> districts = <String?>[];
   String selectedCity = 'Tất cả';
-  String selectedDistrict = "Tất cả";
+  String? selectedDistrict = "Tất cả";
   String selectedPollution = "Tất cả";
 
   @override
@@ -74,7 +74,7 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.09,
                 ),
-                CustomDropdown<String>(
+                CustomDropdown<String?>(
                   items: districts,
                   onChanged: (val) => {selectedDistrict = val},
                   center: true,
@@ -111,7 +111,7 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
                   {
                     result = positionsData
                         .where((item) =>
-                            listItemNameDistrict[item.district] ==
+                            listItemNameDistrict[item.district!] ==
                             selectedDistrict)
                         .toList()
                   },
@@ -141,7 +141,7 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
     districts.add('Tất cả');
     for (PollutionData poi in positions) {
       if (poi.items != null) {
-        positionsData.addAll(poi.items);
+        positionsData.addAll(poi.items!);
       }
     }
     districts.addAll(positions.map((item) => item.name).toSet().toList());

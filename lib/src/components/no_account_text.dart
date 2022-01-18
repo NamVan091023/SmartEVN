@@ -5,7 +5,7 @@ import 'package:pollution_environment/src/screen/sign_up/sign_up_screen.dart';
 
 class NoAccountText extends StatelessWidget {
   const NoAccountText({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

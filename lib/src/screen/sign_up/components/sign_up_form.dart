@@ -33,8 +33,8 @@ class SignUpForm extends StatelessWidget {
           DefaultButton(
             text: "Tiếp tục",
             press: () async {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
                 showLoading();
@@ -50,12 +50,12 @@ class SignUpForm extends StatelessWidget {
   TextFormField buildConformPassFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => controller.saveConformPass(newValue),
+      onSaved: (newValue) => controller.saveConformPass(newValue!),
       onChanged: (value) {
         controller.changeConformPass(value);
       },
       validator: (value) {
-        return controller.validatorConformPass(value);
+        return controller.validatorConformPass(value!);
       },
       decoration: InputDecoration(
         labelText: "Xác nhận mật khẩu",
@@ -71,12 +71,12 @@ class SignUpForm extends StatelessWidget {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => controller.savePassword(newValue),
+      onSaved: (newValue) => controller.savePassword(newValue!),
       onChanged: (value) {
         controller.changePassword(value);
       },
       validator: (value) {
-        return controller.validatorPassword(value);
+        return controller.validatorPassword(value!);
       },
       decoration: InputDecoration(
         labelText: "Mật khẩu",
@@ -92,12 +92,12 @@ class SignUpForm extends StatelessWidget {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => controller.saveEmail(newValue),
+      onSaved: (newValue) => controller.saveEmail(newValue!),
       onChanged: (value) {
         controller.changeEmail(value);
       },
       validator: (value) {
-        return controller.validatorEmail(value);
+        return controller.validatorEmail(value!);
       },
       decoration: InputDecoration(
         labelText: "Email",
@@ -111,9 +111,9 @@ class SignUpForm extends StatelessWidget {
   }
 
   Future<void> registerUser() async {
-    SimpleResult data = await PollutionNetwork().registerUser();
+    SimpleResult? data = await PollutionNetwork().registerUser();
     hideLoading();
-    if (data.errorCode == 0) {
+    if (data?.errorCode == 0) {
       Get.to(() => SignInScreen());
       Fluttertoast.showToast(
           msg: "Đăng kí thành công",
@@ -126,7 +126,7 @@ class SignUpForm extends StatelessWidget {
       // MaterialPageRoute(builder: (context) => MainBoard());
     } else {
       Fluttertoast.showToast(
-          msg: data.message,
+          msg: data?.message ?? "",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -134,6 +134,5 @@ class SignUpForm extends StatelessWidget {
           textColor: Colors.red,
           fontSize: 16.0);
     }
-    return true;
   }
 }

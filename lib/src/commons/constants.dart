@@ -76,7 +76,7 @@ void hideLoading() {
   Get.back();
 }
 
-String getIconTypePollution(int type) {
+String getIconTypePollution(int? type) {
   String urlAsses = "";
   switch (type) {
     case air:

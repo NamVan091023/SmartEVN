@@ -8,12 +8,12 @@ class SignUpController extends GetxController {
   RxString password = "".obs;
   RxString conformPassword = "".obs;
   RxBool remember = false.obs;
-  final RxList<String> errors = RxList<String>();
-  void addError({String error}) {
+  final RxList<String?> errors = RxList<String?>();
+  void addError({String? error}) {
     if (!errors.contains(error)) errors.add(error);
   }
 
-  void removeError({String error}) {
+  void removeError({String? error}) {
     if (errors.contains(error)) errors.remove(error);
   }
 
@@ -31,7 +31,7 @@ class SignUpController extends GetxController {
     conformPassword.value = value;
   }
 
-  String validatorConformPass(String value) {
+  String? validatorConformPass(String value) {
     if (value.isEmpty) {
       addError(error: kPassNullError);
       return "";
@@ -56,7 +56,7 @@ class SignUpController extends GetxController {
     password.value = value;
   }
 
-  String validatorPassword(String value) {
+  String? validatorPassword(String value) {
     if (value.isEmpty) {
       addError(error: kPassNullError);
       return "";
@@ -81,7 +81,7 @@ class SignUpController extends GetxController {
     return null;
   }
 
-  String validatorEmail(String value) {
+  String? validatorEmail(String value) {
     if (value.isEmpty) {
       addError(error: kEmailNullError);
       return "";

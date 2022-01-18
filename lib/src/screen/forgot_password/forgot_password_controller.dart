@@ -4,7 +4,7 @@ import 'package:pollution_environment/src/commons/constants.dart';
 
 class ForgotPasswordController extends GetxController {
   RxList<String> errors = RxList<String>();
-  RxString email;
+  late RxString email;
 
   void onSave(String value) {
     email.value = value;
@@ -20,7 +20,7 @@ class ForgotPasswordController extends GetxController {
     return null;
   }
 
-  String onValidator(String value) {
+  String? onValidator(String value) {
     if (value.isEmpty && !errors.contains(kEmailNullError)) {
       errors.add(kEmailNullError);
     } else if (!emailValidatorRegExp.hasMatch(value) &&

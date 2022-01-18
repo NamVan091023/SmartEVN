@@ -6,17 +6,17 @@ import 'package:pollution_environment/src/model/province_data.dart';
 import 'package:pollution_environment/src/network/pollutionApi.dart';
 
 class StationData extends StatefulWidget {
-  const StationData({Key key}) : super(key: key);
+  const StationData({Key? key}) : super(key: key);
   static bool IS_FIRST_TIME = true;
   @override
   _StationDataState createState() => _StationDataState();
 }
 
 class _StationDataState extends State<StationData> {
-  List<ProvinceData> provinceData;
+  late List<ProvinceData> provinceData;
   @override
   void initState() {
-    provinceData = new List();
+    provinceData = [];
     getData();
   }
 
@@ -47,7 +47,7 @@ class _StationDataState extends State<StationData> {
         ));
   }
 
-  Future<void> getData() {
+  Future<void> getData() async {
     provinceData.clear();
     Stream.fromIterable([
       'Cau Giay',
@@ -58,7 +58,7 @@ class _StationDataState extends State<StationData> {
       'Dong Anh',
     ]).listen((event) async {
       var data = await PollutionNetwork().getAirVisualData(event);
-      print("TAGGGG" + data.data.city);
+      print("TAGGGG" + data!.data!.city!);
       provinceData.add(data);
       if (provinceData.length == 6) {
         setState(() {});
@@ -79,7 +79,7 @@ class _StationDataState extends State<StationData> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              data.data.city,
+              data.data!.city!,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -94,17 +94,17 @@ class _StationDataState extends State<StationData> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "AQI: ${data.data.current.pollution.aqius}",
+                        "AQI: ${data.data!.current!.pollution!.aqius}",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.normal),
                       ),
                       Text(
-                        "Áp suất: ${data.data.current.weather.pr}hPa",
+                        "Áp suất: ${data.data!.current!.weather!.pr}hPa",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.normal),
                       ),
                       Text(
-                        "Tốc độ gió: ${data.data.current.weather.pr}m/s",
+                        "Tốc độ gió: ${data.data!.current!.weather!.pr}m/s",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.normal),
                       )
@@ -121,12 +121,12 @@ class _StationDataState extends State<StationData> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Nhiệt độ: ${data.data.current.weather.tp}°C",
+                        "Nhiệt độ: ${data.data!.current!.weather!.tp}°C",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.normal),
                       ),
                       Text(
-                        "Độ ẩm: ${data.data.current.weather.hu}%",
+                        "Độ ẩm: ${data.data!.current!.weather!.hu}%",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.normal),
                       )

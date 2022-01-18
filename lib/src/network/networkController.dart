@@ -1,3 +1,3 @@
 class PollutionNetwork {
-  static final BASE_URL = "https://60b094c61f26610017ffe81d.mockapi.io/";
+  static final BASE_URL = "http://127.0.0.1";
 }
