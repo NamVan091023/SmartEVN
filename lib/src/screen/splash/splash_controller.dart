@@ -1,22 +1,24 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
-import 'package:pollution_environment/src/screen/main/main_board.dart';
+import 'package:pollution_environment/src/model/token_response.dart';
+import 'package:pollution_environment/src/network/apis/users/user_api.dart';
+import 'package:pollution_environment/src/routes/app_pages.dart';
 
 class SplashController extends GetxController {
   late Timer _timer;
   int _start = 3;
   var currentPage = 0.obs;
+  bool _isLogin = false;
 
   @override
   void onInit() {
     _determinePosition();
-    PreferenceUtils.setBool("isOpened", true);
+    // PreferenceUtils.setBool("isOpened", true);
     super.onInit();
+    startTimer();
   }
 
   @override
@@ -72,11 +74,48 @@ class SplashController extends GetxController {
       (Timer timer) {
         if (_start == 0) {
           _timer.cancel();
-          Get.to(() => MaterialPageRoute(builder: (context) => MainBoard()));
+          checkAccessPermission();
         } else {
+          setPage(3 - _start);
           _start--;
         }
       },
     );
+  }
+
+  void checkAccessPermission() async {
+    bool isRememberLogin = PreferenceUtils.getBool(KEY_REMEMBER_LOGIN);
+    if (isRememberLogin) {
+      String? refreshToken = PreferenceUtils.getString(KEY_REFRESH_TOKEN);
+      if (refreshToken == null) {
+        Get.offAllNamed(Routes.LOGIN_SCREEN);
+      } else {
+        showLoading();
+        try {
+          TokensResponse tokenResponse =
+              await UserApi().refreshToken(refreshToken);
+          String? newAccessToken = tokenResponse.access?.token;
+          String? newRefreshToken = tokenResponse.refresh?.token;
+
+          hideLoading();
+          if (newAccessToken != null && newRefreshToken != null) {
+            PreferenceUtils.setString(KEY_ACCESS_TOKEN, newAccessToken);
+            PreferenceUtils.setString(KEY_REFRESH_TOKEN, newRefreshToken);
+            Get.offAllNamed(Routes.HOME_SCREEN);
+          } else {
+            Get.offAllNamed(Routes.LOGIN_SCREEN);
+          }
+        } catch (e) {
+          hideLoading();
+          Get.offAllNamed(Routes.LOGIN_SCREEN);
+        }
+      }
+    } else {
+      Get.offAllNamed(Routes.LOGIN_SCREEN);
+    }
+  }
+
+  void stopTimer() {
+    _timer.cancel();
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
 
 import 'sign_up_form.dart';
@@ -17,19 +16,18 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text("Đăng ký tài khoản", style: headingStyle),
                 Text(
-                  "Vui lòng điền các thông tin",
+                  "Vui lòng điền đầy đủ các thông tin",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignUpForm(),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 Text(
-                  'Nhấn tiếp tục là bạn đã đồng ý\n với điều khoản của chúng tôi!',
+                  'Nhấn đăng ký là bạn đã đồng ý\n với điều khoản của chúng tôi!',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.caption,
-                )
+                ),
+                SizedBox(height: getProportionateScreenHeight(20)),
               ],
             ),
           ),

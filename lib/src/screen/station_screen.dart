@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/province_data.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
 
 class StationData extends StatefulWidget {
   const StationData({Key? key}) : super(key: key);
@@ -57,7 +56,8 @@ class _StationDataState extends State<StationData> {
       'Hoan Kiem',
       'Dong Anh',
     ]).listen((event) async {
-      var data = await PollutionNetwork().getAirVisualData(event);
+      var data = null;
+      //await PollutionNetwork().getAirVisualData(event);
       print("TAGGGG" + data!.data!.city!);
       provinceData.add(data);
       if (provinceData.length == 6) {

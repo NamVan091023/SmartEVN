@@ -20,14 +20,6 @@ class Body extends StatelessWidget {
             children: [
               SizedBox(height: SizeConfig.screenHeight * 0.04),
               Text(
-                "Quên mật khẩu",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(28),
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
                 "Nhập email của bạn, chúng tôi sẽ gửi\n mail xác nhận đến email của bạn",
                 textAlign: TextAlign.center,
               ),
@@ -70,7 +62,7 @@ class ForgotPassForm extends StatelessWidget {
           ),
           SizedBox(height: getProportionateScreenHeight(30)),
           Obx(() => FormError(errors: controller.errors.toList())),
-          SizedBox(height: SizeConfig.screenHeight * 0.1),
+          SizedBox(height: SizeConfig.screenHeight * 0.02),
           DefaultButton(
             text: "Tiếp tục",
             press: () {
@@ -79,8 +71,6 @@ class ForgotPassForm extends StatelessWidget {
               }
             },
           ),
-          SizedBox(height: SizeConfig.screenHeight * 0.1),
-          NoAccountText(),
         ],
       ),
     );

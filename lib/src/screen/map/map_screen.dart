@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/internal.dart';
 import 'package:pollution_environment/src/model/pollution_position_model.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/station_screen.dart';
 
@@ -101,10 +99,11 @@ class _MapScreenState extends State<MapScreen>
                   ),
                   SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => {
+                    onTap: () {
+                      _getPollutionPosition();
                       setState(() {
                         isShowInformation = !isShowInformation;
-                      })
+                      });
                     },
                     child: Container(
                         width: 40,
@@ -112,7 +111,7 @@ class _MapScreenState extends State<MapScreen>
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: primaryColor),
-                        child: Icon(Icons.clear_rounded)),
+                        child: Icon(Icons.info_outline)),
                   )
                 ],
               ),
@@ -130,12 +129,22 @@ class _MapScreenState extends State<MapScreen>
   _getPollutionPosition() async {
     if (isFirstTime) {
       isFirstTime = false;
-      PollutionPositionModel? data =
-          await PollutionNetwork().getPollutionPosition();
+      PollutionPositionModel? data = null;
+      // await PollutionNetwork().getPollutionPosition();
       data?.data?.pollutionPosition!.length;
       positions.clear();
       positions.addAll(data!.data!.pollutionPosition!);
       positions.addAll(Internal().listPosition);
+      positions.add(PollutionPosition(
+          type: "AIR",
+          longitude: "20.9109654",
+          latitude: "105.8113753",
+          id: "1"));
+      positions.add(PollutionPosition(
+          type: "WATER",
+          longitude: "21.9109654",
+          latitude: "105.7113753",
+          id: "2"));
 
       _addMarker(positions);
     }

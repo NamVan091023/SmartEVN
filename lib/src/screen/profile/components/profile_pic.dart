@@ -3,7 +3,7 @@ import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_screen.dart';
 
 class ProfilePic extends StatelessWidget {
-  final UserData? user;
+  final UserModel? user;
 
   const ProfilePic({
     Key? key,
@@ -23,7 +23,7 @@ class ProfilePic extends StatelessWidget {
             backgroundImage: (user!.avatar == null
                 ? AssetImage("assets/images/profile_image.png")
                 : NetworkImage(
-                    user!.avatar!,
+                    user!.avatar,
                   )) as ImageProvider<Object>?,
           ),
           Positioned(

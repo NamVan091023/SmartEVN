@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
-import 'package:pollution_environment/src/components/custom_surfix_icon.dart';
+import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:pollution_environment/src/components/default_button.dart';
 import 'package:pollution_environment/src/components/form_error.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
-import 'package:pollution_environment/src/model/simple_respone.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
-import 'package:pollution_environment/src/screen/sign_in/sign_in_screen.dart';
+import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/sign_up/sign_up_controller.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignUpForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -23,22 +21,43 @@ class SignUpForm extends StatelessWidget {
       key: _formKey,
       child: Column(
         children: [
+          buildNameFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildConformPassFormField(),
+          SizedBox(height: getProportionateScreenHeight(20)),
           Obx(() => FormError(errors: controller.errors.toList())),
-          SizedBox(height: getProportionateScreenHeight(40)),
+          SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
-            text: "Tiếp tục",
+            text: "Đăng ký",
             press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                showLoading();
-                await registerUser();
+                await controller.registerUser(() {
+                  Fluttertoast.showToast(
+                      msg: "Đăng ký thành công",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                  Get.toNamed(Routes.HOME_SCREEN);
+                }, (err) {
+                  Alert(
+                          context: context,
+                          title: "Thất bại",
+                          desc: err,
+                          image: Image.asset("assets/icons/error.png"),
+                          buttons: [],
+                          style: alertStyle())
+                      .show();
+                });
               }
             },
           ),
@@ -63,7 +82,7 @@ class SignUpForm extends StatelessWidget {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        suffixIcon: Icon(Icons.lock),
       ),
     );
   }
@@ -84,7 +103,7 @@ class SignUpForm extends StatelessWidget {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
+        suffixIcon: Icon(Icons.lock),
       ),
     );
   }
@@ -105,34 +124,28 @@ class SignUpForm extends StatelessWidget {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        suffixIcon: Icon(Icons.mail),
       ),
     );
   }
 
-  Future<void> registerUser() async {
-    SimpleResult? data = await PollutionNetwork().registerUser();
-    hideLoading();
-    if (data?.errorCode == 0) {
-      Get.to(() => SignInScreen());
-      Fluttertoast.showToast(
-          msg: "Đăng kí thành công",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.transparent,
-          textColor: Colors.green,
-          fontSize: 16.0);
-      // MaterialPageRoute(builder: (context) => MainBoard());
-    } else {
-      Fluttertoast.showToast(
-          msg: data?.message ?? "",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.transparent,
-          textColor: Colors.red,
-          fontSize: 16.0);
-    }
+  TextFormField buildNameFormField() {
+    return TextFormField(
+        keyboardType: TextInputType.text,
+        onSaved: (newValue) => controller.saveName(newValue!),
+        onChanged: (value) {
+          controller.changeName(value);
+        },
+        validator: (value) {
+          return controller.validatorName(value!);
+        },
+        decoration: InputDecoration(
+          labelText: "Họ và tên",
+          hintText: "Nhập họ tên của bạn",
+          // If  you are using latest version of flutter then lable text and hint text shown like this
+          // if you r using flutter less then 1.20.* then maybe this is not working properly
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.person),
+        ));
   }
 }

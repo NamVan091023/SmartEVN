@@ -14,14 +14,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     with AutomaticKeepAliveClientMixin<ProfileScreen> {
-  var isLogin = PreferenceUtils.getBool(KEY_IS_LOGIN, false);
+  var isLogin = PreferenceUtils.getBool(KEY_IS_LOGIN);
   var user;
 
   @override
   Widget build(BuildContext context) {
     if (PreferenceUtils.getString("user") != "") {
-      Map userMap = jsonDecode(PreferenceUtils.getString("user"));
-      user = UserData.fromJson(userMap as Map<String, dynamic>);
+      Map userMap = jsonDecode(PreferenceUtils.getString("user") ?? "");
+      // user = UserResponse.fromJson(userMap as Map<String, dynamic>);
     }
 
     return Scaffold(

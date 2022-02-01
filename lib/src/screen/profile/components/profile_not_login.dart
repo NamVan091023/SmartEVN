@@ -6,7 +6,6 @@ import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/components/web_view.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/facebook_response.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
 import 'package:pollution_environment/src/screen/sign_in/sign_in_screen.dart';
 
 class ProfileNotLogin extends StatefulWidget {
@@ -59,7 +58,8 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
   }
 
   Future<void> getData() async {
-    data = await PollutionNetwork().getData();
+    data = null;
+    //await PollutionNetwork().getData();
     setState(() {
       list = data?.data;
     });
@@ -69,7 +69,7 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
   void initState() {
     list = [];
     if (PreferenceUtils.getString("datafb") != "") {
-      Map userMap = jsonDecode(PreferenceUtils.getString("datafb"));
+      Map userMap = jsonDecode(PreferenceUtils.getString("datafb") ?? "");
       data = DataFacebook.fromJson(userMap as Map<String, dynamic>);
       list = data?.data;
     } else

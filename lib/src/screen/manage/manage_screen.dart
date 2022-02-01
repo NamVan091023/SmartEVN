@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/all_polltion.dart';
 import 'package:pollution_environment/src/model/report_response.dart';
-import 'package:pollution_environment/src/model/simple_respone.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
 import 'package:pollution_environment/src/screen/filter/filter_all_screen.dart';
 
 class ManageScreen extends StatefulWidget {
@@ -85,14 +82,15 @@ class _ManageScreenState extends State<ManageScreen>
   List<PollutionData>? listAll;
 
   Future<void> getData() async {
-    var data = await PollutionNetwork().getReport();
+    var data = null; //await PollutionNetwork().getReport();
     setState(() {
       list = data?.data;
     });
   }
 
   Future<void> getDataAnalyz() async {
-    var data = await PollutionNetwork().getAllInforPollution();
+    var data = null;
+    //await PollutionNetwork().getAllInforPollution();
     setState(() {
       listAll = data?.data;
     });

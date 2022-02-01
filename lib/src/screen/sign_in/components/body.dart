@@ -3,7 +3,7 @@ import 'package:pollution_environment/src/commons/size_config.dart';
 import 'package:pollution_environment/src/components/no_account_text.dart';
 import 'sign_form.dart';
 
-class Body extends StatelessWidget {
+class SignInBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,6 +24,7 @@ class Body extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
                 Text(
                   "Đăng nhập với email của bạn",
                   textAlign: TextAlign.center,
@@ -32,6 +33,7 @@ class Body extends StatelessWidget {
                 SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 NoAccountText(),
+                SizedBox(height: getProportionateScreenHeight(20)),
               ],
             ),
           ),

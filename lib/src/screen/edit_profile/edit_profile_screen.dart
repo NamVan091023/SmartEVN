@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
-import 'package:pollution_environment/src/model/simple_respone.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final UserData? user;
+  final UserModel? user;
 
   const EditProfileScreen({Key? key, this.user}) : super(key: key);
   @override
@@ -55,7 +53,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   CircleAvatar(
                     backgroundImage: (_image == null
                         ? NetworkImage(
-                            widget.user!.avatar!,
+                            widget.user!.avatar,
                           )
                         : FileImage(_image!)) as ImageProvider<Object>?,
                   ),
@@ -122,10 +120,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     onPressed: () async {
                       KeyboardUtil.hideKeyboard(context);
                       showLoading();
-                      SimpleResult? data =
-                          await PollutionNetwork().updateUserInfor();
+                      UserResponse? data =
+                          null; // await PollutionNetwork().updateUserInfor();
                       hideLoading();
-                      if (data?.errorCode == 0) {
+                      if (data == 0) {
                         Fluttertoast.showToast(
                             msg: "Cập nhật thành công",
                             toastLength: Toast.LENGTH_SHORT,
@@ -136,7 +134,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             fontSize: 16.0);
                       } else {
                         Fluttertoast.showToast(
-                            msg: data?.message ?? "",
+                            msg: "",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,

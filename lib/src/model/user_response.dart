@@ -1,45 +1,50 @@
-import 'package:pollution_environment/src/model/simple_respone.dart';
+import 'package:pollution_environment/src/model/token_response.dart';
 
-class UserModel extends SimpleResult {
-  UserData? data;
+class UserResponse {
+  UserModel? user;
+  TokensResponse? tokens;
 
-  UserModel.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    errorCode = json['errorCode'];
-    message = json['message'];
-    data = new UserData.fromJson(json['data']);
+  UserResponse.fromJson(Map<String, dynamic> json) {
+    user = UserModel.fromJson(json['user']);
+    tokens = TokensResponse.fromJson(json['tokens']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['errorCode'] = this.errorCode;
-    data['message'] = this.message;
-    data['data'] = this.data;
-
+    data['user'] = this.user;
+    data['tokens'] = this.tokens;
     return data;
   }
 }
 
-class UserData {
-  String? name, avatar, email;
-  int? post, role;
+class UserModel {
+  String? role;
+  bool? isEmailVerified;
+  String? email;
+  String? name;
+  String? id;
+  String? createdAt;
+  String avatar = '';
+  int post = 0;
 
-  UserData(this.name, this.avatar, this.email, this.post, this.role);
-
-  UserData.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    avatar = json['avatar'];
-    email = json['email'];
-    post = json['post'];
+  UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     role = json['role'];
+    isEmailVerified = json['isEmailVerified'];
+    email = json['email'];
+    name = json['name'];
+    createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['avatar'] = this.avatar;
-    data['email'] = this.email;
-    data['post'] = this.post;
+    data['id'] = this.id;
     data['role'] = this.role;
+    data['isEmailVerified'] = this.isEmailVerified;
+    data['email'] = this.email;
+    data['name'] = this.name;
+    data['createdAt'] = this.createdAt;
+    data['avatar'] = this.avatar;
     return data;
   }
 }

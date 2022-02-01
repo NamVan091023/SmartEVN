@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
+import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
+import 'package:pollution_environment/src/screen/sign_in/sign_in_screen.dart';
 import 'package:pollution_environment/src/screen/splash/splash_controller.dart';
 
 import '../../../components/default_button.dart';
@@ -40,12 +43,13 @@ class Body extends StatelessWidget {
               child: PageView.builder(
                 onPageChanged: (value) {
                   conn.setPage(value);
+                  conn.stopTimer();
                 },
                 itemCount: splashData.length,
-                itemBuilder: (context, index) => SplashContent(
-                  image: splashData[index]["image"],
-                  text: splashData[index]['text'],
-                ),
+                itemBuilder: (context, index) => Obx(() => SplashContent(
+                      image: splashData[conn.currentPage.value]["image"],
+                      text: splashData[conn.currentPage.value]['text'],
+                    )),
               ),
             ),
             Expanded(
@@ -67,7 +71,8 @@ class Body extends StatelessWidget {
                     DefaultButton(
                       text: "Tiếp tục",
                       press: () {
-                        Get.to(() => MainBoard());
+                        conn.stopTimer();
+                        conn.checkAccessPermission();
                       },
                     ),
                     Spacer(),

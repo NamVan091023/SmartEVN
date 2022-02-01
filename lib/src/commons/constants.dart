@@ -1,7 +1,7 @@
-import 'dart:ui';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
 
 const air = 1;
@@ -60,20 +60,23 @@ final headingStyle = TextStyle(
 
 const String KEY_IS_LOGIN = "KEY_IS_LOGIN";
 const String KEY_IS_ADMIN = "KEY_IS_ADMIN";
+const String KEY_REMEMBER_LOGIN = "KEY_REMEMBER_LOGIN";
 const String KEY_EMAIL = "KEY_EMAIL";
+const String KEY_PASSWORD = "KEY_PASSWORD";
+const String KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN";
+const String KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN";
 const String IS_FIRST_TIME = "IS_FIRST_TIME";
 
-void showLoading() {
-  Get.dialog(
-    Center(
-      child: CircularProgressIndicator(),
-    ),
-    barrierDismissible: false,
-  );
+void showLoading({String? text = null, double? progress = null}) {
+  if (progress != null) {
+    EasyLoading.showProgress(progress, status: text);
+  } else {
+    EasyLoading.show(status: text);
+  }
 }
 
 void hideLoading() {
-  Get.back();
+  EasyLoading.dismiss();
 }
 
 String getIconTypePollution(int? type) {

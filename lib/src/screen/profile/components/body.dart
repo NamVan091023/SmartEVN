@@ -9,7 +9,7 @@ import 'profile_menu.dart';
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
-  final UserData? user;
+  final UserModel? user;
 
   Body({Key? key, required this.user}) : super(key: key);
 
@@ -25,7 +25,7 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            user!.name!,
+            user?.name ?? "",
             style: TextStyle(
               color: Colors.green,
               fontSize: size20,

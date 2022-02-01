@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/report_response.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
 import 'package:pollution_environment/src/screen/report/create_report.dart';
 
 class ReportUser extends StatefulWidget {
@@ -47,7 +46,8 @@ class _ReportUserState extends State<ReportUser>
   }
 
   Future<void> getData() async {
-    var data = await PollutionNetwork().getReport();
+    var data = null;
+    // await PollutionNetwork().getReport();
     setState(() {
       list = data?.data;
     });

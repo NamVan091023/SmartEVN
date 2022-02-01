@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/notification_model.dart';
-import 'package:pollution_environment/src/network/pollutionApi.dart';
 
 class NotificationScreen extends StatefulWidget {
   _NotificationScreenState createState() => _NotificationScreenState();
@@ -39,7 +38,8 @@ class _NotificationScreenState extends State<NotificationScreen>
   }
 
   Future<void> getData() async {
-    var data = await PollutionNetwork().getNotification();
+    var data = null;
+    // await PollutionNetwork().getNotification();
     setState(() {
       list = data?.data;
     });

@@ -26,7 +26,7 @@ class _CreateReportState extends State<CreateReport> {
 
   @override
   Widget build(BuildContext context) {
-    userNameController.text = PreferenceUtils.getString(KEY_EMAIL, "");
+    userNameController.text = PreferenceUtils.getString(KEY_EMAIL, "") ?? "";
     return Scaffold(
         appBar: AppBar(
           backgroundColor: primaryColor,
