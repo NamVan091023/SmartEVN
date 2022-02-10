@@ -25,7 +25,8 @@ class UserApi {
       response = await apiService.request(
           method: APIMethod.POST,
           endPoint: UserAPIPath.login,
-          data: {"email": email, "password": password});
+          data: {"email": email, "password": password},
+          options: Options(headers: {"requiresToken": false}));
 
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
@@ -48,7 +49,8 @@ class UserApi {
       response = await apiService.request(
           method: APIMethod.POST,
           endPoint: UserAPIPath.register,
-          data: {"name": name, "email": email, "password": password});
+          data: {"name": name, "email": email, "password": password},
+          options: Options(headers: {"requiresToken": false}));
 
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
@@ -70,7 +72,8 @@ class UserApi {
       response = await apiService.request(
           method: APIMethod.POST,
           endPoint: UserAPIPath.refreshToken,
-          data: {"refreshToken": token});
+          data: {"refreshToken": token},
+          options: Options(headers: {"requiresToken": false}));
 
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
