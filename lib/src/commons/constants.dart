@@ -67,7 +67,7 @@ const String KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN";
 const String KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN";
 const String IS_FIRST_TIME = "IS_FIRST_TIME";
 
-void showLoading({String? text = null, double? progress = null}) {
+void showLoading({String? text, double? progress}) {
   if (progress != null) {
     EasyLoading.showProgress(progress, status: text);
   } else {

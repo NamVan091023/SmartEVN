@@ -27,7 +27,7 @@ class CustomDropdown<T> extends StatefulWidget {
   List<T> items;
 
   /// onChanged
-  void Function(T value) onChanged;
+  void Function(T? value) onChanged;
 
   /// onInit
   void Function(T value)? onInit;

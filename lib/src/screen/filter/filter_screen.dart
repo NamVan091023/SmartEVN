@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/components/default_button.dart';
 import 'package:pollution_environment/src/components/drop_down.dart';
-import 'package:pollution_environment/src/model/pollution_position_model.dart';
+import 'package:pollution_environment/src/screen/filter/filter_screen_controller.dart';
 
-class FilterScreen extends StatefulWidget {
-  List<PollutionPosition> positions;
-
-  FilterScreen(this.positions);
-
-  @override
-  _FilterScreenState createState() => _FilterScreenState(this.positions);
-}
-
-class _FilterScreenState extends State<FilterScreen> {
-  final String ALL = 'Tất cả';
-  List<PollutionPosition> positions = [];
-  List<PollutionPosition> result = [];
-  List<String?> cities = <String?>[];
-  List<String?> districts = <String?>[];
-  String? selectedCity = 'Tất cả';
-  String? selectedDistrict = "Tất cả";
-  String selectedPollution = "Tất cả";
+class FilterMapScreen extends StatelessWidget {
+  final FilterMapController _controller = Get.put(FilterMapController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +14,7 @@ class _FilterScreenState extends State<FilterScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Get.back(),
         ),
         title: Text('Lọc tìm kiếm',
             style: TextStyle(color: Colors.white, fontSize: titleTextSize)),
@@ -54,8 +39,8 @@ class _FilterScreenState extends State<FilterScreen> {
                   width: MediaQuery.of(context).size.width * 0.15,
                 ),
                 CustomDropdown<String?>(
-                  items: cities,
-                  onChanged: (val) => {selectedCity = val},
+                  items: _controller.cities,
+                  onChanged: (val) => {_controller.selectedCity = val},
                   center: true,
                 ),
               ],
@@ -74,8 +59,8 @@ class _FilterScreenState extends State<FilterScreen> {
                   width: MediaQuery.of(context).size.width * 0.09,
                 ),
                 CustomDropdown<String?>(
-                  items: districts,
-                  onChanged: (val) => {selectedDistrict = val},
+                  items: _controller.districts,
+                  onChanged: (val) => {_controller.selectedDistrict = val},
                   center: true,
                 ),
               ],
@@ -95,7 +80,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
                 CustomDropdown<String>(
                   items: ['Tất cả', 'Không khí', 'Nước', 'Tiếng ồn'],
-                  onChanged: (val) => {selectedPollution = val},
+                  onChanged: (val) => {_controller.selectedPollution = val!},
                   center: true,
                 ),
               ],
@@ -106,47 +91,42 @@ class _FilterScreenState extends State<FilterScreen> {
             DefaultButton(
               text: 'Hoàn tất',
               press: () => {
-                if (selectedCity != ALL)
+                if (_controller.selectedCity != _controller.ALL)
                   {
-                    result = positions
-                        .where((item) => item.city == selectedCity)
+                    _controller.result = _controller.pollutions
+                        .where((item) => item.city == _controller.selectedCity)
                         .toList()
                   },
-                if (selectedDistrict != ALL)
+                if (_controller.selectedDistrict != _controller.ALL)
                   {
-                    result = positions
-                        .where((item) => item.district == selectedDistrict)
+                    _controller.result = _controller.pollutions
+                        .where((item) =>
+                            item.district == _controller.selectedDistrict)
                         .toList()
                   },
-                if (selectedPollution != ALL)
+                if (_controller.selectedPollution != _controller.ALL)
                   {
-                    result = positions
+                    _controller.result = _controller.pollutions
                         .where((item) =>
                             item.type ==
-                            (selectedPollution == "Không khí"
+                            (_controller.selectedPollution == "Không khí"
                                 ? "AIR"
-                                : selectedPollution == "Nước"
+                                : _controller.selectedPollution == "Nước"
                                     ? "WATER"
                                     : "NOISE"))
                         .toList()
                   },
-                if (selectedCity == selectedDistrict &&
-                    selectedPollution == ALL &&
-                    selectedDistrict == selectedPollution)
-                  {result = positions},
-                Navigator.pop(context, result)
+                if (_controller.selectedCity == _controller.selectedDistrict &&
+                    _controller.selectedPollution == _controller.ALL &&
+                    _controller.selectedDistrict ==
+                        _controller.selectedPollution)
+                  {_controller.result = _controller.pollutions},
+                Navigator.pop(context, _controller.result)
               },
             ),
           ],
         ),
       ),
     );
-  }
-
-  _FilterScreenState(this.positions) {
-    cities.add('Tất cả');
-    districts.add('Tất cả');
-    cities.addAll(positions.map((item) => item.city).toSet().toList());
-    districts.addAll(positions.map((item) => item.district).toSet().toList());
   }
 }

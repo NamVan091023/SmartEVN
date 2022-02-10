@@ -1,13 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/generated/assets.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/commons/theme.dart';
+
 import 'package:pollution_environment/src/model/internal.dart';
-import 'package:pollution_environment/src/model/pollution_position_model.dart';
+import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
-import 'package:pollution_environment/src/screen/station_screen.dart';
+import 'package:pollution_environment/src/screen/map/map_controller.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MapScreen extends StatefulWidget {
   _MapScreenState createState() => _MapScreenState();
@@ -15,109 +19,101 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen>
     with AutomaticKeepAliveClientMixin<MapScreen> {
-  Completer<GoogleMapController> _controller = Completer();
-  List<PollutionPosition> positions = [];
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(20.9109654, 105.8113753),
-    zoom: 14.4746,
-  );
-
-  void getPos() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(position.latitude, position.longitude), zoom: 13)));
-  }
-
-  bool isShowInformation = false;
-  bool isFirstTime = true;
-  final List<Marker> myMarker = [];
-
+  final MapController _controller = Get.put(MapController());
+  late Timer _timer;
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+
+    _controller.getPollutionPosition();
+    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+      _controller.getPollutionPosition();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    getPos();
-    _getPollutionPosition();
-    Internal().eventBus.on<PollutionPosition>().listen((event) {
-      setState(() {});
-    });
+    _controller.getPos();
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            myLocationEnabled: true,
-            zoomGesturesEnabled: true,
-            zoomControlsEnabled: false,
-            onCameraIdle: null,
-            onCameraMove: null,
-            myLocationButtonEnabled: false,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            markers: Set.from(myMarker),
-          ),
+          Obx(() => GoogleMap(
+                mapType: MapType.normal,
+                myLocationEnabled: true,
+                zoomGesturesEnabled: true,
+                zoomControlsEnabled: false,
+                myLocationButtonEnabled: false,
+                initialCameraPosition: _controller.kGooglePlex,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.mapController.complete(controller);
+                },
+                markers: _controller.markers.toSet(),
+              )),
           Container(
-            margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.7, right: size20),
+            margin: EdgeInsets.only(top: 60, right: 10),
             child: Align(
-              alignment: Alignment.bottomRight,
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) => StationData()))
-                        .then((value) => {_addMarker(value)}),
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: primaryColor),
-                      child: Icon(Icons.wb_sunny_outlined),
+              alignment: Alignment.topRight,
+              child: Container(
+                width: 44,
+                decoration: new BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 2), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius:
+                        new BorderRadius.all(const Radius.circular(11.0))),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                      color: Colors.red,
+                      focusColor: Colors.green,
+                      icon: Icon(
+                        Icons.gps_fixed_outlined,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        _controller.getPos();
+                      },
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) => FilterScreen(positions)))
-                        .then((value) => {_addMarker(value)}),
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: primaryColor),
-                      child: Icon(Icons.filter_alt_outlined),
+                    Divider(
+                      color: Colors.grey.shade400,
+                      height: 1,
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      _getPollutionPosition();
-                      setState(() {
-                        isShowInformation = !isShowInformation;
-                      });
-                    },
-                    child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: primaryColor),
-                        child: Icon(Icons.info_outline)),
-                  )
-                ],
+                    IconButton(
+                      color: Colors.red,
+                      focusColor: Colors.green,
+                      icon: Icon(
+                        Icons.filter_alt_outlined,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Get.to(() => FilterMapScreen());
+                      },
+                    ),
+                    Divider(
+                      color: Colors.grey.shade400,
+                      height: 1,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.info_outline,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        showInfo();
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-          isShowInformation ? _buildNoteScreen() : SizedBox()
         ],
       ),
     );
@@ -125,128 +121,195 @@ class _MapScreenState extends State<MapScreen>
 
   @override
   bool get wantKeepAlive => false;
-
-  _getPollutionPosition() async {
-    if (isFirstTime) {
-      isFirstTime = false;
-      PollutionPositionModel? data = null;
-      // await PollutionNetwork().getPollutionPosition();
-      data?.data?.pollutionPosition!.length;
-      positions.clear();
-      positions.addAll(data!.data!.pollutionPosition!);
-      positions.addAll(Internal().listPosition);
-      positions.add(PollutionPosition(
-          type: "AIR",
-          longitude: "20.9109654",
-          latitude: "105.8113753",
-          id: "1"));
-      positions.add(PollutionPosition(
-          type: "WATER",
-          longitude: "21.9109654",
-          latitude: "105.7113753",
-          id: "2"));
-
-      _addMarker(positions);
-    }
-  }
-
-  _addMarker(List<PollutionPosition> list) {
-    myMarker.clear();
-    for (var item in list) {
-      myMarker.add(
-        Marker(
-            position: LatLng(
-                double.parse(item.latitude!), double.parse(item.longtitude!)),
-            icon: BitmapDescriptor.defaultMarkerWithHue(item.type == "AIR"
-                ? BitmapDescriptor.hueBlue
-                : item.type == "WATER"
-                    ? BitmapDescriptor.hueGreen
-                    : BitmapDescriptor.hueOrange),
-            markerId: MarkerId(item.id!)),
-      );
-    }
-    setState(() {
-      myMarker.length;
-    });
-  }
-
-  Widget _buildNoteScreen() {
-    return Scaffold(
-        backgroundColor: Colors.black54,
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: Padding(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/location.png',
-                      height: 50,
-                      width: 50,
-                      color: Colors.blue,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                    ),
-                    Text('Không khí',
-                        style: TextStyle(
-                            fontSize: mainTextSize, color: Colors.deepOrange))
-                  ],
+  void showInfo() {
+    Alert(
+        context: context,
+        title: "Các loại ô nhiễm",
+        // image: Image.asset("assets/icons/info.png"),
+        style: alertStyle(),
+        content: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  Assets.iconPinAir,
+                  height: 25,
+                  width: 25,
                 ),
-                SizedBox(height: 30),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/location.png',
-                      height: 50,
-                      width: 50,
-                      color: Colors.green,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                    ),
-                    Text('Nước',
-                        style: TextStyle(
-                            fontSize: mainTextSize, color: Colors.deepOrange))
-                  ],
+                SizedBox(
+                  width: 10,
                 ),
-                SizedBox(height: 30),
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/location.png',
-                      height: 50,
-                      width: 50,
-                      color: Colors.orange,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                    ),
-                    Text('Tiếng ồn',
-                        style: TextStyle(
-                            fontSize: mainTextSize, color: Colors.deepOrange))
-                  ],
+                Expanded(
+                  child: new Text("Ô nhiễm không khí"),
                 )
               ],
             ),
-          ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  Assets.iconPinLand,
+                  height: 25,
+                  width: 25,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: new Text("Ô nhiễm đất"),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  Assets.iconPinWater,
+                  height: 25,
+                  width: 25,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: new Text("Ô nhiễm nước"),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Image.asset(
+                  Assets.iconPinSound,
+                  height: 25,
+                  width: 25,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: new Text("Ô nhiễm tiếng ồn"),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Mức độ ô nhiễm",
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 25,
+                  height: 25,
+                  color: getQualityColor(6),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Tốt"),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 25,
+                  height: 25,
+                  color: getQualityColor(5),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Trung bình"),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 25,
+                  height: 25,
+                  color: getQualityColor(4),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Kém"),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 25,
+                  height: 25,
+                  color: getQualityColor(3),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Xấu"),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 25,
+                  height: 25,
+                  color: getQualityColor(2),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Rất xấu"),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  width: 25,
+                  height: 25,
+                  color: getQualityColor(1),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Nguy hại"),
+              ],
+            ),
+          ],
         ),
-        floatingActionButton: GestureDetector(
-          onTap: () => setState(() {
-            isShowInformation = !isShowInformation;
-          }),
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(25)),
-            child: Icon(Icons.clear),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
+        buttons: []).show();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }

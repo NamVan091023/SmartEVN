@@ -9,7 +9,7 @@ import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 class SignInController extends GetxController {
   RxString email = "".obs;
   RxString password = "".obs;
-  RxBool remember = false.obs;
+  RxBool remember = PreferenceUtils.getBool(KEY_REMEMBER_LOGIN).obs;
   RxList<String?> errors = RxList<String?>();
 
   void setRemember(bool value) {
@@ -83,8 +83,12 @@ class SignInController extends GetxController {
         // PreferenceUtils.setBool(KEY_IS_LOGIN, true);
         // PreferenceUtils.setString("user", user);
         String? refreshToken = response.tokens?.refresh?.token;
+        String? accessToken = response.tokens?.access?.token;
         if (refreshToken != null) {
           PreferenceUtils.setString(KEY_REFRESH_TOKEN, refreshToken);
+        }
+        if (accessToken != null) {
+          PreferenceUtils.setString(KEY_ACCESS_TOKEN, accessToken);
         }
 
         PreferenceUtils.setBool(KEY_REMEMBER_LOGIN, remember.value);

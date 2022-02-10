@@ -10,6 +10,7 @@ import 'package:pollution_environment/src/components/default_button.dart';
 import 'package:pollution_environment/src/components/drop_down.dart';
 import 'package:pollution_environment/src/model/internal.dart';
 import 'package:pollution_environment/src/model/pollution_position_model.dart';
+import 'package:pollution_environment/src/model/pollution_response.dart';
 
 class CreateReport extends StatefulWidget {
   const CreateReport({Key? key}) : super(key: key);
@@ -70,7 +71,7 @@ class _CreateReportState extends State<CreateReport> {
                   Spacer(),
                   CustomDropdown<String>(
                     items: ['Không khí', 'Nước', 'Tiếng ồn'],
-                    onChanged: (val) => {type = val},
+                    onChanged: (val) => {type = val!},
                     center: true,
                   )
                 ],
@@ -262,13 +263,13 @@ class _CreateReportState extends State<CreateReport> {
             ? "WATER"
             : "AIR";
     var random = Random();
-    Internal().listPosition.add(new PollutionPosition(
+    Internal().listPollution.add(new PollutionModel(
         id: "${random.nextInt(10000)}",
-        longitude: first.coordinates.longitude.toString(),
-        latitude: first.coordinates.latitude.toString(),
+        lng: first.coordinates.longitude,
+        lat: first.coordinates.latitude,
         type: type,
-        city: "",
-        district: ""));
+        provinceName: "",
+        districtName: ""));
     Internal().eventBus.fire(PollutionPosition);
     hideLoading();
     Fluttertoast.showToast(

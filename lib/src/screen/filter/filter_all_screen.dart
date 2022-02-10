@@ -56,7 +56,7 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
                 ),
                 CustomDropdown<String>(
                   items: cities,
-                  onChanged: (val) => {selectedCity = val},
+                  onChanged: (val) => {selectedCity = val!},
                   center: true,
                 ),
               ],
@@ -96,7 +96,7 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
                 ),
                 CustomDropdown<String>(
                   items: ['Tất cả', 'Không khí', 'Nước', 'Tiếng ồn'],
-                  onChanged: (val) => {selectedPollution = val},
+                  onChanged: (val) => {selectedPollution = val!},
                   center: true,
                 ),
               ],

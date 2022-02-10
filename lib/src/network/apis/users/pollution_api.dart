@@ -15,20 +15,32 @@ class PollutionApi {
     apiService = APIService();
   }
 
-  Future<PollutionsResponse> getAllPollution(String? type, String? provinceName,
-      String? districtName, String? quality, String? userId) async {
+  Future<PollutionsResponse> getAllPollution(
+      {String? type,
+      String? provinceName,
+      String? districtName,
+      String? quality,
+      String? userId,
+      int? limit,
+      int? page}) async {
     Response response;
+    Map<String, String> data = {};
+
+    if (type != null && type != '') data["type"] = type;
+    if (provinceName != null && provinceName != '')
+      data["provinceName"] = provinceName;
+    if (districtName != null && districtName != '')
+      data["districtName"] = districtName;
+    if (quality != null && quality != '') data["quality"] = quality;
+    if (userId != null && userId != '') data["userId"] = userId;
+    if (limit != null) data["limit"] = '$limit';
+    if (page != null) data["page"] = '$page';
+
     try {
       response = await apiService.request(
         method: APIMethod.GET,
         endPoint: PollutionAPIPath.getPollution,
-        data: {
-          "type": type,
-          "provinceName": provinceName,
-          "districtName": districtName,
-          "quality": quality,
-          "userId": userId,
-        },
+        data: data,
       );
 
       BaseResponse baseResponse;
