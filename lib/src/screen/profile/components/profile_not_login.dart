@@ -68,12 +68,12 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
   @override
   void initState() {
     list = [];
-    if (PreferenceUtils.getString("datafb") != "") {
-      Map userMap = jsonDecode(PreferenceUtils.getString("datafb") ?? "");
-      data = DataFacebook.fromJson(userMap as Map<String, dynamic>);
-      list = data?.data;
-    } else
-      getData();
+    // if (PreferenceUtils.getString("datafb") != "") {
+    //   Map userMap = jsonDecode(PreferenceUtils.getString("datafb") ?? "");
+    //   data = DataFacebook.fromJson(userMap as Map<String, dynamic>);
+    //   list = data?.data;
+    // } else
+    getData();
   }
 
   Widget buildRow(int index) {

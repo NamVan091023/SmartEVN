@@ -19,10 +19,10 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (PreferenceUtils.getString("user") != "") {
-      Map userMap = jsonDecode(PreferenceUtils.getString("user") ?? "");
-      // user = UserResponse.fromJson(userMap as Map<String, dynamic>);
-    }
+    // if (PreferenceUtils.getString("user") != "") {
+    //   Map userMap = jsonDecode(PreferenceUtils.getString("user") ?? "");
+    //   // user = UserResponse.fromJson(userMap as Map<String, dynamic>);
+    // }
 
     return Scaffold(
       body: isLogin ? Body(user: user) : ProfileNotLogin(),

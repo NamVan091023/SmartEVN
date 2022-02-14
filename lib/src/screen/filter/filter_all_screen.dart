@@ -67,7 +67,7 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
             Row(
               children: [
                 Text(
-                  'Quận/ Huyện:',
+                  'Quận/Huyện:',
                   style:
                       TextStyle(fontSize: secondaryTextSize, color: mainText),
                 ),
@@ -106,29 +106,7 @@ class _FilterAllScreenState extends State<FilterAllScreen> {
             ),
             DefaultButton(
               text: 'Hoàn tất',
-              press: () => {
-                if (selectedDistrict != ALL)
-                  {
-                    result = positionsData
-                        .where((item) =>
-                            listItemNameDistrict[item.district!] ==
-                            selectedDistrict)
-                        .toList()
-                  },
-                if (selectedPollution != ALL)
-                  {
-                    result = positionsData
-                        .where((item) =>
-                            item.type ==
-                            (selectedPollution == "Không khí"
-                                ? 1
-                                : selectedPollution == "Nước"
-                                    ? 2
-                                    : 3))
-                        .toList()
-                  },
-                Navigator.pop(context, result)
-              },
+              press: () => {},
             ),
           ],
         ),

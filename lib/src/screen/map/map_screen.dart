@@ -9,6 +9,7 @@ import 'package:pollution_environment/src/commons/theme.dart';
 
 import 'package:pollution_environment/src/model/internal.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
+import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/map/map_controller.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -93,7 +94,7 @@ class _MapScreenState extends State<MapScreen>
                         color: Colors.black,
                       ),
                       onPressed: () {
-                        Get.to(() => FilterMapScreen());
+                        Get.toNamed(Routes.MAP_FILTER_SCREEN);
                       },
                     ),
                     Divider(

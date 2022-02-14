@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_screen.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
 import 'package:pollution_environment/src/screen/sign_in/sign_in_screen.dart';
@@ -31,6 +32,10 @@ class AppPages {
     GetPage(
       name: Routes.HOME_SCREEN,
       page: () => MainBoard(),
+    ),
+    GetPage(
+      name: Routes.MAP_FILTER_SCREEN,
+      page: () => FilterMapScreen(),
     ),
   ];
 }

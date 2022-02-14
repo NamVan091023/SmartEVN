@@ -94,21 +94,3 @@ String getIconTypePollution(int? type) {
   }
   return urlAsses;
 }
-
-const List listItemNameDistrict = [
-  "Ba Đình",
-  "Bắc Từ Liêm",
-  "Cầu giấy",
-  "Đống Đa",
-  "Hà đông",
-  "Hai bà trưng",
-  "Hoàn Kiếm",
-  "Hoàng Mai",
-  "Long Biên",
-  "Nam Từ Liêm",
-  "Tây Hồ",
-  "Thanh Xuân",
-];
-String getNameDistrict(int index) {
-  return listItemNameDistrict[index];
-}

@@ -17,31 +17,31 @@ class CustomDropdown<T> extends StatefulWidget {
     required this.items,
     required this.onChanged,
     this.onInit,
-    this.padding = const EdgeInsets.only(top: 10.0),
+    this.padding = const EdgeInsets.all(10),
     this.height = 40,
     this.center = false,
     this.itemText,
   }) : super(key: key);
 
   /// list item
-  List<T> items;
+  final List<T> items;
 
   /// onChanged
-  void Function(T? value) onChanged;
+  final void Function(T? value) onChanged;
 
   /// onInit
-  void Function(T value)? onInit;
+  final void Function(T value)? onInit;
 
   ///padding
-  EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry padding;
 
   /// container height
-  double height;
+  final double height;
 
   /// center
-  bool center;
+  final bool center;
 
-  String Function(String text)? itemText;
+  final String Function(T? value)? itemText;
 
   @override
   _CustomDropdownState<T> createState() => _CustomDropdownState();
@@ -64,7 +64,10 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T?>> {
 
   /// set default selected value when init
   _initValue() {
-    _selectedValue = widget.items[0];
+    if (widget.items.isEmpty) {
+      _selectedValue = null;
+    } else
+      _selectedValue = widget.items[0];
     if (widget.onInit != null) widget.onInit!(_selectedValue);
   }
 
@@ -97,12 +100,14 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T?>> {
                     widget.onChanged(newValue);
                   });
                 },
+                menuMaxHeight: 300,
+                isExpanded: true,
                 items: widget.items.map((T? f) {
                   return new DropdownMenuItem<T>(
                     value: f,
                     child: new Text(
                       (widget.itemText != null)
-                          ? widget.itemText!(f.toString())
+                          ? widget.itemText!(f)
                           : f.toString(),
                       style: new TextStyle(color: Colors.black),
                     ),

@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
-import 'package:pollution_environment/src/network/apis/users/pollution_api.dart';
+import 'package:pollution_environment/src/network/apis/pollution/pollution_api.dart';
+import 'package:pollution_environment/src/screen/filter/filter_storage_controller.dart';
 
 class MapController extends GetxController {
   Completer<GoogleMapController> mapController = Completer();
+  final FilterStorageController _filterStorageController =
+      Get.put(FilterStorageController());
 
   final CameraPosition kGooglePlex = CameraPosition(
     target: LatLng(20.9109654, 105.8113753),
@@ -31,7 +33,12 @@ class MapController extends GetxController {
 
   getPollutionPosition() async {
     PollutionsResponse? pollutionsResponse =
-        await PollutionApi().getAllPollution(limit: 100);
+        await PollutionApi().getAllPollution(
+      limit: 100,
+      provinceName: _filterStorageController.selectedProvince.value?.name,
+      districtName: _filterStorageController.selectedDistrict.value?.name,
+      wardName: _filterStorageController.selectedWard.value?.name,
+    );
     List<PollutionModel> pollutions = pollutionsResponse.results ?? [];
 
     _addMarker(pollutions);
