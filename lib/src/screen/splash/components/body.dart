@@ -64,7 +64,8 @@ class Body extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         splashData.length,
-                        (index) => Obx(() => buildDot(index: index)),
+                        (index) =>
+                            Obx(() => buildDot(context: context, index: index)),
                       ),
                     ),
                     Spacer(flex: 3),
@@ -86,15 +87,16 @@ class Body extends StatelessWidget {
     );
   }
 
-  AnimatedContainer buildDot({int? index}) {
+  AnimatedContainer buildDot({required BuildContext context, int? index}) {
     return AnimatedContainer(
       duration: kAnimationDuration,
       margin: EdgeInsets.only(right: 5),
       height: 6,
       width: conn.currentPage.value == index ? 20 : 6,
       decoration: BoxDecoration(
-        color:
-            conn.currentPage.value == index ? Colors.green : Color(0xFFD8D8D8),
+        color: conn.currentPage.value == index
+            ? Theme.of(context).primaryColor
+            : Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(3),
       ),
     );

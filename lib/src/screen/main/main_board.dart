@@ -5,8 +5,6 @@ import 'package:pollution_environment/src/screen/notification/notification_scree
 import 'package:pollution_environment/src/screen/profile/profile/profile_screen.dart';
 import 'package:pollution_environment/src/screen/report_user/report_user_screen.dart';
 
-import '../../commons/constants.dart';
-
 class MainBoard extends StatefulWidget {
   _MainBoardState createState() => _MainBoardState();
 }
@@ -38,8 +36,6 @@ class _MainBoardState extends State<MainBoard> {
         index: indexPage,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: form,
-        selectedItemColor: primaryColor,
         type: BottomNavigationBarType.fixed,
         currentIndex: indexPage,
         onTap: (value) {

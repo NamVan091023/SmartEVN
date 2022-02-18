@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
 import 'package:pollution_environment/src/model/user_response.dart';

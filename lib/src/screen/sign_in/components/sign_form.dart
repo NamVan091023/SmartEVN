@@ -3,14 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
-import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:pollution_environment/src/components/form_error.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/sign_in/sign_in_controller.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../components/default_button.dart';
 
@@ -45,7 +44,6 @@ class _SignFormState extends State<SignForm> {
                 Obx(
                   () => Checkbox(
                     value: controller.remember.value,
-                    activeColor: Colors.green,
                     onChanged: (value) {
                       controller.setRemember(value!);
                     },
@@ -78,19 +76,12 @@ class _SignFormState extends State<SignForm> {
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
+                          backgroundColor: Theme.of(context).primaryColor,
                           fontSize: 16.0);
                       Get.offAllNamed(Routes.HOME_SCREEN);
                     }
                   }, (err) {
-                    Alert(
-                        context: context,
-                        title: "Thất bại",
-                        desc: err,
-                        image: Image.asset("assets/icons/error.png"),
-                        style: alertStyle(),
-                        buttons: []).show();
+                    showAlertError(desc: err);
                   });
                 }
               },

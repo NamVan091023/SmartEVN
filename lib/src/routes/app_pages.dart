@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_screen.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
+import 'package:pollution_environment/src/screen/report/create_report.dart';
 import 'package:pollution_environment/src/screen/sign_in/sign_in_screen.dart';
 import 'package:pollution_environment/src/screen/sign_up/sign_up_screen.dart';
 import 'package:pollution_environment/src/screen/splash/splash_screen.dart';
@@ -36,6 +37,10 @@ class AppPages {
     GetPage(
       name: Routes.MAP_FILTER_SCREEN,
       page: () => FilterMapScreen(),
+    ),
+    GetPage(
+      name: Routes.CREATE_REPORT_SCREEN,
+      page: () => CreateReport(),
     ),
   ];
 }

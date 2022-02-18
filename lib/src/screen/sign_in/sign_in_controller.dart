@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
@@ -71,17 +72,12 @@ class SignInController extends GetxController {
   }
 
   Future<void> loginUser(Function onSuccess, Function(String) onError) async {
-    showLoading(text: "Đang đăng nhập...");
+    showLoading(text: "Đang đăng nhập");
     UserApi().login(email.value, password.value).then((response) {
       hideLoading();
       debugPrint("Login success $response");
       UserModel? user = response.user;
       if (user != null) {
-        // PreferenceUtils.setBool(
-        //     KEY_IS_ADMIN, user.role == 'admin' ? true : false);
-        // PreferenceUtils.setString(KEY_EMAIL, user.email!);
-        // PreferenceUtils.setBool(KEY_IS_LOGIN, true);
-        // PreferenceUtils.setString("user", user);
         String? refreshToken = response.tokens?.refresh?.token;
         String? accessToken = response.tokens?.access?.token;
         if (refreshToken != null) {

@@ -17,19 +17,12 @@ class DefaultButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: getProportionateScreenHeight(56),
-      child: TextButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ))),
+      child: ElevatedButton(
         onPressed: press as void Function()?,
         child: Text(
           text!,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(18),
-            color: Colors.white,
           ),
         ),
       ),

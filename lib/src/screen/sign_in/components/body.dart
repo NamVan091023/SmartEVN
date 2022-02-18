@@ -18,16 +18,13 @@ class SignInBody extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight * 0.04),
                 Text(
                   "Xin chào!",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(28),
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.headline2,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.04),
                 Text(
                   "Đăng nhập với email của bạn",
                   textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignForm(),

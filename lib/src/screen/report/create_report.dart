@@ -1,221 +1,194 @@
-import 'dart:math';
+import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_geocoder/geocoder.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/components/default_button.dart';
-import 'package:pollution_environment/src/components/drop_down.dart';
-import 'package:pollution_environment/src/model/internal.dart';
-import 'package:pollution_environment/src/model/pollution_position_model.dart';
-import 'package:pollution_environment/src/model/pollution_response.dart';
+import 'package:pollution_environment/src/model/address_model.dart';
+import 'package:pollution_environment/src/model/pollution_quality_model.dart';
+import 'package:pollution_environment/src/model/pollution_type_model.dart';
+import 'package:pollution_environment/src/screen/report/create_report_controller.dart';
 
-class CreateReport extends StatefulWidget {
-  const CreateReport({Key? key}) : super(key: key);
-
-  @override
-  _CreateReportState createState() => _CreateReportState();
-}
-
-class _CreateReportState extends State<CreateReport> {
-  TextEditingController userNameController = new TextEditingController();
-  List<Asset> images = [];
-  TextEditingController addressController = TextEditingController();
-  String type = "Không khí";
-
+class CreateReport extends StatelessWidget {
+  final CreateReportController _controller = Get.put(CreateReportController());
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    userNameController.text = PreferenceUtils.getString(KEY_EMAIL, "") ?? "";
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: primaryColor,
           title: Text(
             'Báo cáo địa điểm ô nhiễm',
-            style: TextStyle(color: Colors.white, fontSize: titleTextSize),
           ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Get.back(),
           ),
           centerTitle: true,
         ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.1),
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 50,
-              ),
-              TextFormField(
-                controller: userNameController,
-                enabled: false,
-                decoration: InputDecoration(
-                    labelText: "Người báo cáo",
-                    labelStyle: TextStyle(fontSize: titleTextSize)),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Loại ô nhiễm:',
-                    style:
-                        TextStyle(fontSize: secondaryTextSize, color: mainText),
-                  ),
-                  Spacer(),
-                  CustomDropdown<String>(
-                    items: ['Không khí', 'Nước', 'Tiếng ồn'],
-                    onChanged: (val) => {type = val!},
-                    center: true,
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Mức độ ô nhiễm:',
-                    style:
-                        TextStyle(fontSize: secondaryTextSize, color: mainText),
-                  ),
-                  Spacer(),
-                  CustomDropdown<String>(
-                    items: ['Nhẹ', 'Vừa', 'Nặng'],
-                    onChanged: (val) => {},
-                    center: true,
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: "Mô tả",
-                    labelStyle: TextStyle(fontSize: titleTextSize)),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                controller: addressController,
-                decoration: InputDecoration(
-                    labelText: "Địa chỉ",
-                    labelStyle: TextStyle(fontSize: titleTextSize)),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () {
-                  images.length < 5
-                      ? loadAssets()
-                      : Fluttertoast.showToast(
-                          msg: "Bạn chỉ được chọn tối đa 5 ảnh");
-                },
-                child: Container(
-                  height: 40,
-                  padding: EdgeInsets.only(left: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: new Border.all(color: primaryColor, width: 1.0),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.camera_alt_outlined,
-                        color: primaryColor,
-                      ),
-                      Spacer(),
-                      Spacer(),
-                      Text(
-                        'Thêm ảnh',
-                        style: TextStyle(color: primaryColor),
-                      ),
-                      Spacer(),
-                      Spacer(),
-                      Spacer(),
-                    ],
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: _buildTypeSelection(),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: _buildQualitySelection(),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                _buildProvinceSelection(),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: _buildDistrictSelection(),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: _buildWardSelection(),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                _buildSpecialAddressInput(),
+                SizedBox(
+                  height: 20,
+                ),
+                _buildDescriptionInput(),
+                SizedBox(
+                  height: 20,
+                ),
+                DottedBorder(
+                  borderType: BorderType.RRect,
+                  color: Theme.of(context).primaryColor,
+                  strokeWidth: 2,
+                  dashPattern: [5, 5],
+                  radius: Radius.circular(20),
+                  padding: EdgeInsets.all(6),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildImageList(context),
+                        TextButton(
+                            onPressed: () => loadAssets(isCamera: true),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.file_upload_rounded,
+                                  size: 50,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                Text(
+                                  "Tải ảnh lên",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            )),
+                        TextButton(
+                            onPressed: () => loadAssets(isCamera: false),
+                            child: Text(
+                              "Chọn ảnh từ thư viện",
+                              textAlign: TextAlign.center,
+                            ))
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              images.length > 0
-                  ? Expanded(
-                      child: GridView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: images.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, childAspectRatio: 1 / 1),
-                      itemBuilder: (context, index) {
-                        return _buildItemImage(index);
-                      },
-                    ))
-                  : SizedBox(),
-              SizedBox(
-                height: 30,
-              ),
-              DefaultButton(
-                text: 'Hoàn thành',
-                press: () => createReport(),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                DefaultButton(
+                  text: 'Hoàn thành',
+                  press: () => createReport(context),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
           ),
         ));
   }
 
+  Widget _buildImageList(BuildContext context) {
+    return Obx(() => _controller.images.isNotEmpty
+        ? new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.all(5.0),
+                height: 150.0,
+                child: ListView.builder(
+                    itemCount: _controller.images.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => _buildItemImage(index)),
+              ),
+              Divider(
+                color: Theme.of(context).primaryColor,
+              ),
+            ],
+          )
+        : SizedBox());
+  }
+
   Widget _buildItemImage(int index) {
     return Container(
+      width: 150,
       padding: EdgeInsets.all(1),
       child: Stack(
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: AssetThumb(
-              asset: images[index],
-              width: 500,
-              height: 500,
-              spinner: Center(
-                child: SizedBox(
-                  width: 15,
-                  height: 15,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
+            child: Image.file(
+              _controller.images[index],
+              width: 150,
+              height: 150,
+              fit: BoxFit.fill,
             ),
           ),
           Align(
             alignment: Alignment.topRight,
             child: InkWell(
               onTap: () {
-                setState(() {
-                  images.removeAt(index);
-                });
+                _controller.images.removeAt(index);
               },
               child: Container(
                 margin: EdgeInsets.all(2),
                 padding: EdgeInsets.all(1),
-                decoration: BoxDecoration(color: white, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.close,
-                  size: 16,
-                  color: Color(0xFFFF8D00),
-                ),
+                decoration:
+                    BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                child: Icon(Icons.close, size: 16, color: Colors.red),
               ),
             ),
           ),
@@ -224,62 +197,286 @@ class _CreateReportState extends State<CreateReport> {
     );
   }
 
-  Future<void> loadAssets() async {
-    List<Asset> resultList = <Asset>[];
-    String error = 'No Error Detected';
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 5,
-        enableCamera: true,
-        selectedAssets: images,
-        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-        materialOptions: MaterialOptions(
-          actionBarColor: "#FF4CAF50",
-          actionBarTitle: "Pollution Environment",
-          allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#FF4CAF50",
-        ),
-      );
-    } on Exception catch (e) {
-      error = e.toString();
-    }
-    if (!mounted) return;
-
-    setState(() {
-      images = resultList;
-    });
+  Widget _buildProvinceSelection() {
+    return Obx(() => DropdownSearch<ProvinceModel>(
+          mode: Mode.MENU,
+          onChanged: (item) => _controller.saveProvince(item),
+          clearButtonSplashRadius: 20,
+          showSelectedItems: true,
+          compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
+          selectedItem: _controller.selectedProvince.value,
+          showSearchBox: true,
+          dropdownSearchDecoration: InputDecoration(
+            labelText: "Tỉnh/Thành phố",
+            hintText: "Chọn tỉnh/thành phố",
+            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+          ),
+          itemAsString: (item) => item?.name ?? "",
+          onFind: (String? filter) => _controller.getDataProvince(),
+          maxHeight: 300,
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (item) {
+            if (item == null)
+              return "Trường này là bắt buộc";
+            else
+              return null;
+          },
+          searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Nhập để tìm kiếm",
+                  hintStyle: TextStyle(color: Colors.grey))),
+          popupShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ));
   }
 
-  Future<void> createReport() async {
-    showLoading();
-    var query = addressController.text;
-    var addresses = await Geocoder.local.findAddressesFromQuery(query);
-    var first = addresses.first;
-    type = type == "Không khí"
-        ? "Noise"
-        : type == "Nước"
-            ? "WATER"
-            : "AIR";
-    var random = Random();
-    Internal().listPollution.add(new PollutionModel(
-        id: "${random.nextInt(10000)}",
-        lng: first.coordinates.longitude,
-        lat: first.coordinates.latitude,
-        type: type,
-        provinceName: "",
-        districtName: ""));
-    Internal().eventBus.fire(PollutionPosition);
-    hideLoading();
-    Fluttertoast.showToast(
-        msg: "Tạo báo cáo thành công",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.green,
-        backgroundColor: Colors.transparent,
-        fontSize: 16.0);
-    Navigator.pop(context);
+  Widget _buildDistrictSelection() {
+    return Obx(() => DropdownSearch<DistrictModel>(
+          mode: Mode.MENU,
+          onChanged: (item) => _controller.saveDistrict(item),
+          clearButtonSplashRadius: 20,
+          showSelectedItems: true,
+          compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
+          selectedItem: _controller.selectedDistrict.value,
+          showSearchBox: true,
+          dropdownSearchDecoration: InputDecoration(
+            labelText: "Quận/Huyện",
+            hintText: "Chọn quận/huyện",
+            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+          ),
+          itemAsString: (item) => item?.name ?? "",
+          items: _controller.getDistricts(),
+          maxHeight: 300,
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (item) {
+            if (item == null)
+              return "Trường này là bắt buộc";
+            else
+              return null;
+          },
+          searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Nhập để tìm kiếm",
+                  hintStyle: TextStyle(color: Colors.grey))),
+          popupShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ));
+  }
+
+  Widget _buildWardSelection() {
+    return Obx(() => DropdownSearch<WardModel>(
+          mode: Mode.MENU,
+          onChanged: (item) => _controller.saveWard(item),
+          clearButtonSplashRadius: 20,
+          showSelectedItems: true,
+          compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
+          selectedItem: _controller.selectedWard.value,
+          showSearchBox: true,
+          dropdownSearchDecoration: InputDecoration(
+            labelText: "Phường/Xã",
+            hintText: "Chọn phường/xã",
+            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+          ),
+          itemAsString: (item) => item?.name ?? "",
+          items: _controller.getWards(),
+          maxHeight: 300,
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (item) {
+            if (item == null)
+              return "Trường này là bắt buộc";
+            else
+              return null;
+          },
+          searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Nhập để tìm kiếm",
+                  hintStyle: TextStyle(color: Colors.grey))),
+          popupShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ));
+  }
+
+  Widget _buildTypeSelection() {
+    return Obx(() => DropdownSearch<PollutionType>(
+          mode: Mode.MENU,
+          onChanged: (item) => _controller.saveType(item),
+          clearButtonSplashRadius: 20,
+          showSelectedItems: true,
+          compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
+          selectedItem: _controller.selectedType.value,
+          showSearchBox: true,
+          dropdownSearchDecoration: InputDecoration(
+            labelText: "Loại ô nhiễm",
+            hintText: "Chọn loại ô nhiễm",
+            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+          ),
+          itemAsString: (item) => item?.name ?? "",
+          onFind: (String? filter) => _controller.getPollutionTypes(),
+          maxHeight: 300,
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (item) {
+            if (item == null)
+              return "Trường này là bắt buộc";
+            else
+              return null;
+          },
+          searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Nhập để tìm kiếm",
+                  hintStyle: TextStyle(color: Colors.grey))),
+          popupShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ));
+  }
+
+  Widget _buildQualitySelection() {
+    return Obx(() => DropdownSearch<PollutionQuality>(
+          mode: Mode.MENU,
+          onChanged: (item) => _controller.saveQuality(item),
+          clearButtonSplashRadius: 20,
+          showSelectedItems: true,
+          compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
+          selectedItem: _controller.selectedQuality.value,
+          showSearchBox: true,
+          dropdownSearchDecoration: InputDecoration(
+            labelText: "Mức độ ô nhiễm",
+            hintText: "Chọn mức độ",
+            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+          ),
+          itemAsString: (item) => item?.name ?? "",
+          onFind: (String? filter) => _controller.getPollutionQualities(),
+          maxHeight: 300,
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          validator: (item) {
+            if (item == null)
+              return "Trường này là bắt buộc";
+            else
+              return null;
+          },
+          searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Nhập để tìm kiếm",
+                  hintStyle: TextStyle(color: Colors.grey))),
+          popupShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ));
+  }
+
+  Widget _buildSpecialAddressInput() {
+    return TextFormField(
+      keyboardType: TextInputType.streetAddress,
+      onSaved: (newValue) => _controller.saveSpecialAddress(newValue),
+      onChanged: (value) {
+        _controller.saveSpecialAddress(value);
+      },
+      minLines: 1,
+      maxLines: 5,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (item) {
+        if (item == null || item.isEmpty) {
+          return "Trường này là bắt buộc";
+        } else {
+          return null;
+        }
+      },
+      decoration: InputDecoration(
+        labelText: "Địa chỉ chi tiết",
+        hintText: "Nhập địa chỉ chi tiết",
+        contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 20),
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+
+  Widget _buildDescriptionInput() {
+    return TextFormField(
+      keyboardType: TextInputType.multiline,
+      onSaved: (newValue) => _controller.saveDescription(newValue),
+      onChanged: (value) {
+        _controller.saveDescription(value);
+      },
+      minLines: 2,
+      maxLines: 5,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (item) {
+        if (item == null || item.isEmpty) {
+          return "Trường này là bắt buộc";
+        } else {
+          return null;
+        }
+      },
+      decoration: InputDecoration(
+        labelText: "Mô tả",
+        hintText: "Nhập mô tả thông tin ô nhiễm",
+        contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 20),
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+
+  Future<void> loadAssets({required bool isCamera}) async {
+    List<XFile> resultList = <XFile>[];
+    final ImagePicker _picker = ImagePicker();
+    try {
+      if (isCamera) {
+        XFile? image = await _picker.pickImage(source: ImageSource.camera);
+        if (image != null) {
+          _controller.images.add(File(image.path));
+        }
+      } else {
+        resultList = await _picker.pickMultiImage() ?? [];
+        _controller.images.addAll(resultList.map((e) => File(e.path)).toList());
+      }
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> createReport(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      _controller.createReport((error) {
+        showAlertError(desc: error);
+      });
+    }
   }
 }

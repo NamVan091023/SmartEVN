@@ -10,4 +10,6 @@ abstract class Routes {
   static const HOME_SCREEN = '/home';
   static const MAP_SCREEN = '/map';
   static const MAP_FILTER_SCREEN = '/map_filter_screen';
+
+  static const CREATE_REPORT_SCREEN = '/create_report_screen';
 }

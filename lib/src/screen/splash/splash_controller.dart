@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
@@ -11,12 +12,9 @@ class SplashController extends GetxController {
   late Timer _timer;
   int _start = 3;
   var currentPage = 0.obs;
-  bool _isLogin = false;
-
   @override
   void onInit() {
     _determinePosition();
-    // PreferenceUtils.setBool("isOpened", true);
     super.onInit();
     startTimer();
   }

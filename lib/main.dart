@@ -24,7 +24,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // bool isOpened = PreferenceUtils.getBool("isOpened", true);
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -36,7 +35,9 @@ class MyApp extends StatelessWidget {
     );
     return DismissKeyboard(
       child: GetMaterialApp(
-        theme: theme(),
+        theme: themeLight(),
+        darkTheme: themeDark(),
+        themeMode: ThemeMode.system,
         initialRoute: Routes.INITIAL,
         getPages: AppPages.pages,
         // defaultTransition: Transition.cupertino,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/src/commons/size_config.dart';
-import 'package:pollution_environment/src/screen/sign_up/sign_up_screen.dart';
+import 'package:pollution_environment/src/routes/app_pages.dart';
 
 class NoAccountText extends StatelessWidget {
   const NoAccountText({
@@ -15,14 +14,15 @@ class NoAccountText extends StatelessWidget {
       children: [
         Text(
           "Bạn chưa có tài khoản? ",
-          style: TextStyle(fontSize: getProportionateScreenWidth(16)),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         GestureDetector(
-          onTap: () => Get.to(() => SignUpScreen(), binding: SignUpBindings()),
+          onTap: () => Get.toNamed(Routes.SIGNUP_SCREEN),
           child: Text(
             "Đăng ký ngay",
             style: TextStyle(
-                fontSize: getProportionateScreenWidth(16), color: Colors.green),
+                fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
+                color: Theme.of(context).primaryColor),
           ),
         ),
       ],

@@ -20,10 +20,7 @@ class FilterMapScreen extends StatelessWidget {
             onPressed: () {
               Get.back();
             }),
-        title: Text('Lọc tìm kiếm',
-            style: TextStyle(color: Colors.white, fontSize: titleTextSize)),
-        centerTitle: true,
-        backgroundColor: primaryColor,
+        title: Text('Lọc tìm kiếm'),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -107,7 +104,7 @@ class FilterMapScreen extends StatelessWidget {
           selectedItem: _controller.selectedDistrict.value,
           showSearchBox: true,
           dropdownSearchDecoration: InputDecoration(
-            labelText: "Loại quận/huyện",
+            labelText: "Quận/huyện",
             hintText: "Chọn quận/huyện",
             contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
           ),
@@ -232,23 +229,4 @@ class FilterMapScreen extends StatelessWidget {
           ),
         ));
   }
-
-  // Widget _buildSpecialAddressInput() {
-  //   return TextFormField(
-  //     keyboardType: TextInputType.emailAddress,
-  //     onSaved: (newValue) => _controller.specialAddress = newValue,
-  //     onChanged: (value) {
-  //       _controller.specialAddress = value;
-  //     },
-  //     minLines: 1,
-  //     maxLines: 5,
-  //     decoration: InputDecoration(
-  //       labelText: "Địa chỉ chi tiết",
-  //       hintText: "Nhập địa chỉ chi tiết",
-  //       // floatingLabelBehavior: FloatingLabelBehavior.always,
-  //       contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 20),
-  //       border: OutlineInputBorder(),
-  //     ),
-  //   );
-  // }
 }

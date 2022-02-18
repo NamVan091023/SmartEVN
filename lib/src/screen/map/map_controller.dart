@@ -16,6 +16,13 @@ class MapController extends GetxController {
   final FilterStorageController _filterStorageController =
       Get.put(FilterStorageController());
 
+  @override
+  void onInit() {
+    super.onInit();
+
+    getPollutionPosition();
+  }
+
   final CameraPosition kGooglePlex = CameraPosition(
     target: LatLng(20.9109654, 105.8113753),
     zoom: 14.4746,
@@ -35,9 +42,15 @@ class MapController extends GetxController {
     PollutionsResponse? pollutionsResponse =
         await PollutionApi().getAllPollution(
       limit: 100,
-      provinceName: _filterStorageController.selectedProvince.value?.name,
-      districtName: _filterStorageController.selectedDistrict.value?.name,
-      wardName: _filterStorageController.selectedWard.value?.name,
+      provinceName: _filterStorageController.selectedProvince.value?.id == "-1"
+          ? null
+          : _filterStorageController.selectedProvince.value?.name,
+      districtName: _filterStorageController.selectedDistrict.value?.id == "-1"
+          ? null
+          : _filterStorageController.selectedDistrict.value?.name,
+      wardName: _filterStorageController.selectedWard.value?.id == "-1"
+          ? null
+          : _filterStorageController.selectedWard.value?.name,
     );
     List<PollutionModel> pollutions = pollutionsResponse.results ?? [];
 

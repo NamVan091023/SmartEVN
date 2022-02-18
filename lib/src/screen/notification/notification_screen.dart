@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/notification_model.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -70,7 +71,7 @@ class _NotificationScreenState extends State<NotificationScreen>
           child: Row(
             children: [
               Image.asset(
-                getIconTypePollution(list![index].type),
+                getAssetPollution("list![index].type")!,
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               SizedBox(

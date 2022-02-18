@@ -19,6 +19,7 @@ class Body extends StatelessWidget {
                 Text(
                   "Vui lòng điền đầy đủ các thông tin",
                   textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignUpForm(),
@@ -26,6 +27,7 @@ class Body extends StatelessWidget {
                 Text(
                   'Nhấn đăng ký là bạn đã đồng ý\n với điều khoản của chúng tôi!',
                   textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: getProportionateScreenHeight(20)),
               ],

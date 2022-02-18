@@ -1,12 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
-
-const air = 1;
-const water = 2;
-const noise = 3;
 
 const mainText = Color(0xFF2E3E5C);
 const secondaryText = Color(0xFF9FA5C0);
@@ -33,7 +26,6 @@ const kTextColor = Color(0xFF757575);
 
 const kAnimationDuration = Duration(milliseconds: 200);
 
-bool isLogin = false;
 OutlineInputBorder outlineInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(getProportionateScreenWidth(15)),
@@ -66,31 +58,3 @@ const String KEY_PASSWORD = "KEY_PASSWORD";
 const String KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN";
 const String KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN";
 const String IS_FIRST_TIME = "IS_FIRST_TIME";
-
-void showLoading({String? text, double? progress}) {
-  if (progress != null) {
-    EasyLoading.showProgress(progress, status: text);
-  } else {
-    EasyLoading.show(status: text);
-  }
-}
-
-void hideLoading() {
-  EasyLoading.dismiss();
-}
-
-String getIconTypePollution(int? type) {
-  String urlAsses = "";
-  switch (type) {
-    case air:
-      urlAsses = "assets/icons/ic_air.png";
-      break;
-    case noise:
-      urlAsses = "assets/icons/ic_noise.png";
-      break;
-    case water:
-      urlAsses = "assets/icons/ic_water.png";
-      break;
-  }
-  return urlAsses;
-}

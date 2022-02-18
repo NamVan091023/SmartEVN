@@ -41,6 +41,7 @@ class ProfileNotLoginState extends State<ProfileNotLogin> {
           width: MediaQuery.of(context).size.width * 0.5,
           height: 40,
           child: FloatingActionButton.extended(
+            heroTag: "profile",
             backgroundColor: Colors.green,
             label: Text(
               'Đăng nhập',

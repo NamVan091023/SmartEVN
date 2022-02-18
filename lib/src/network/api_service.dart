@@ -12,7 +12,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
-final baseUrl = "http://10.8.0.2:3000/v1";
+final baseUrl = "http://172.16.82.185:3000/v1"; // "http://10.8.0.2:3000/v1";
 
 class AuthInterceptor extends QueuedInterceptor {
   final Dio _dio;
@@ -164,8 +164,8 @@ class APIService {
   APIService() {
     _dio = Dio(BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: 5000,
-        receiveTimeout: 3000,
+        connectTimeout: 8000,
+        receiveTimeout: 8000,
         sendTimeout: 8000));
 
     _dio.interceptors.addAll([
@@ -199,6 +199,26 @@ class APIService {
           response =
               await _dio.get(endPoint, queryParameters: data, options: options);
       }
+    } on DioError catch (e) {
+      BaseResponse baseResponse = BaseResponse.fromJson(e.response?.data);
+      throw Exception(baseResponse.message ?? e.message);
+    } catch (e) {
+      throw Exception("Đã có lỗi xảy ra, vui lòng thử lại.");
+    }
+    return response;
+  }
+
+  Future<Response> requestFormData(
+      {required String endPoint,
+      FormData? data,
+      Function(int, int)? onSendProgress}) async {
+    Response response;
+
+    try {
+      response = await _dio.post(endPoint,
+          data: data,
+          options: Options(contentType: "multipart/form-data"),
+          onSendProgress: onSendProgress);
     } on DioError catch (e) {
       switch (e.type) {
         case DioErrorType.response:

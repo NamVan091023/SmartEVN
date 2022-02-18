@@ -3,6 +3,8 @@ import 'dart:ui' as ui;
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'dart:convert';
 
@@ -59,4 +61,32 @@ String? getAssetPollution(String pollution) {
     default:
       return null;
   }
+}
+
+void showAlertError(
+    {String title = "Thông báo", required String desc, Function? onConfirm}) {
+  Get.defaultDialog(
+    title: title,
+    content: Text(
+      desc,
+      textAlign: TextAlign.center,
+    ),
+    titlePadding: EdgeInsets.all(10),
+    contentPadding: EdgeInsets.all(10),
+    radius: 10,
+    onConfirm: () => onConfirm ?? Get.back(),
+    textConfirm: "Đồng ý",
+  );
+}
+
+void showLoading({String? text, double? progress}) {
+  if (progress != null) {
+    EasyLoading.showProgress(progress, status: text);
+  } else {
+    EasyLoading.show(status: text);
+  }
+}
+
+void hideLoading() {
+  EasyLoading.dismiss();
 }

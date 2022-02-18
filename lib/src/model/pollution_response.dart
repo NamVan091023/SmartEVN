@@ -2,11 +2,11 @@ class PollutionModel {
   List<String>? images;
   int? qualityScore;
   String? provinceName;
-  int? provinceId;
+  String? provinceId;
   String? districtName;
-  int? districtId;
+  String? districtId;
   String? wardName;
-  int? wardId;
+  String? wardId;
   String? type;
   String? quality;
   String? user;
@@ -17,6 +17,7 @@ class PollutionModel {
   String? createdAt;
   String? updatedAt;
   String? id;
+  int? status;
 
   PollutionModel(
       {this.images,
@@ -34,6 +35,7 @@ class PollutionModel {
       this.specialAddress,
       this.lat,
       this.lng,
+      this.status,
       this.createdAt,
       this.updatedAt,
       this.id});
@@ -57,6 +59,7 @@ class PollutionModel {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     id = json['id'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +82,7 @@ class PollutionModel {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['id'] = this.id;
+    data['status'] = this.status;
     return data;
   }
 }
@@ -89,7 +93,7 @@ class PollutionsResponse {
   int? limit;
   int? totalPages;
   int? totalResults;
-  double? avgQualityScore;
+  num? avgQualityScore;
   String? avgQuality;
 
   PollutionsResponse(

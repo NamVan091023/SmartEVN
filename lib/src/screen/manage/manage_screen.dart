@@ -49,6 +49,7 @@ class _ManageScreenState extends State<ManageScreen>
                   ),
                 ),
                 floatingActionButton: FloatingActionButton(
+                  heroTag: "manage",
                   backgroundColor: Colors.green,
                   child: Icon(Icons.filter_alt_outlined),
                   onPressed: () {
