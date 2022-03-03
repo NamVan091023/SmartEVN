@@ -5,16 +5,18 @@ import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
-import 'package:pollution_environment/src/network/apis/users/user_api.dart';
+import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 
 class SplashController extends GetxController {
   late Timer _timer;
   int _start = 3;
   var currentPage = 0.obs;
+
   @override
   void onInit() {
     _determinePosition();
+
     super.onInit();
     startTimer();
   }
@@ -91,7 +93,7 @@ class SplashController extends GetxController {
         showLoading();
         try {
           TokensResponse tokenResponse =
-              await UserApi().refreshToken(refreshToken);
+              await AuthApi().refreshToken(refreshToken);
           String? newAccessToken = tokenResponse.access?.token;
           String? newRefreshToken = tokenResponse.refresh?.token;
 

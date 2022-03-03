@@ -4,7 +4,7 @@ import 'package:get/state_manager.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
-import 'package:pollution_environment/src/network/apis/users/user_api.dart';
+import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 
 class SignUpController extends GetxController {
   RxString name = "".obs;
@@ -82,7 +82,7 @@ class SignUpController extends GetxController {
   Future<void> registerUser(
       Function onSuccess, Function(String) onError) async {
     showLoading(text: "Đang đăng ký...");
-    UserApi().register(name.value, email.value, password.value).then(
+    AuthApi().register(name.value, email.value, password.value).then(
         (response) {
       hideLoading();
       debugPrint("Register success $response");

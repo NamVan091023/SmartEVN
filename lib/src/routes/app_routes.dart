@@ -12,4 +12,6 @@ abstract class Routes {
   static const MAP_FILTER_SCREEN = '/map_filter_screen';
 
   static const CREATE_REPORT_SCREEN = '/create_report_screen';
+
+  static const EDIT_PROFILE_SCREEN = '/edit_profile_screen';
 }

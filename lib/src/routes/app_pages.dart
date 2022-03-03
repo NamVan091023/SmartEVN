@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/screen/edit_profile/edit_profile_screen.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_screen.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
@@ -42,5 +43,9 @@ class AppPages {
       name: Routes.CREATE_REPORT_SCREEN,
       page: () => CreateReport(),
     ),
+    GetPage(
+      name: Routes.EDIT_PROFILE_SCREEN,
+      page: () => EditProfileScreen(),
+    )
   ];
 }

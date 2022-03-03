@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_controller.dart';
 
@@ -18,16 +17,6 @@ class ForgotPasswordScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Quên mật khẩu"),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.arrow_back_outlined),
-              onPressed: () {
-                Get.back();
-              },
-            );
-          },
-        ),
       ),
       body: Body(),
     );

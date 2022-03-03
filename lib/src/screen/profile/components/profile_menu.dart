@@ -16,22 +16,31 @@ class ProfileMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: FlatButton(
-        padding: EdgeInsets.all(20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        color: Color(0xFFF5F6F9),
+      child: ElevatedButton(
+        // padding: EdgeInsets.all(20),
+
+        // style: ButtonStyle(
+        //     shape: MaterialStateProperty.all(RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(15))),
+        //     backgroundColor:
+        //         MaterialStateProperty.all(Theme.of(context).cardColor)),
         onPressed: press,
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              icon,
-              color: Colors.green,
-              width: 22,
-            ),
-            SizedBox(width: 20),
-            Expanded(child: Text(text)),
-            Icon(Icons.arrow_forward_ios),
-          ],
+        child: Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                icon,
+                color: Theme.of(context).primaryIconTheme.color,
+                width: 22,
+              ),
+              SizedBox(width: 20),
+              Expanded(child: Text(text)),
+              Icon(
+                Icons.arrow_forward_ios,
+              ),
+            ],
+          ),
         ),
       ),
     );

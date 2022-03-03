@@ -4,7 +4,6 @@ import 'package:pollution_environment/src/commons/size_config.dart';
 import 'package:pollution_environment/src/components/custom_surfix_icon.dart';
 import 'package:pollution_environment/src/components/default_button.dart';
 import 'package:pollution_environment/src/components/form_error.dart';
-import 'package:pollution_environment/src/components/no_account_text.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_controller.dart';
 
 class Body extends StatelessWidget {

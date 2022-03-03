@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
 
 class TwoTextLine extends StatelessWidget {
   const TwoTextLine({
@@ -14,22 +13,8 @@ class TwoTextLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          textOne,
-          style: TextStyle(
-            color: secondaryText,
-            fontSize: secondaryTextSize,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          textTwo,
-          style: TextStyle(
-            color: Colors.green,
-            fontSize: size12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(textOne, style: Theme.of(context).textTheme.titleMedium),
+        Text(textTwo, style: Theme.of(context).textTheme.caption),
       ],
     );
   }

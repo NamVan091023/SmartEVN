@@ -24,15 +24,18 @@ class UserModel {
   String? name;
   String? id;
   String? createdAt;
-  String avatar = '';
+  String? avatar;
+  bool? isNotificationReceived;
   int post = 0;
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     role = json['role'];
     isEmailVerified = json['isEmailVerified'];
+    isNotificationReceived = json['isNotificationReceived'];
     email = json['email'];
     name = json['name'];
+    avatar = json['avatar'];
     createdAt = json['createdAt'];
   }
 
@@ -41,6 +44,7 @@ class UserModel {
     data['id'] = this.id;
     data['role'] = this.role;
     data['isEmailVerified'] = this.isEmailVerified;
+    data['isNotificationReceived'] = this.isNotificationReceived;
     data['email'] = this.email;
     data['name'] = this.name;
     data['createdAt'] = this.createdAt;

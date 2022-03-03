@@ -72,12 +72,8 @@ class _SignFormState extends State<SignForm> {
                   await controller.loginUser(() {
                     {
                       Fluttertoast.showToast(
-                          msg: "Đăng nhập thành công",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Theme.of(context).primaryColor,
-                          fontSize: 16.0);
+                        msg: "Đăng nhập thành công",
+                      );
                       Get.offAllNamed(Routes.HOME_SCREEN);
                     }
                   }, (err) {

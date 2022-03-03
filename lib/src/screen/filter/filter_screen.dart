@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/components/default_button.dart';
 import 'package:pollution_environment/src/model/address_model.dart';
 import 'package:pollution_environment/src/model/pollution_quality_model.dart';
@@ -15,11 +14,6 @@ class FilterMapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              Get.back();
-            }),
         title: Text('Lọc tìm kiếm'),
       ),
       body: Padding(

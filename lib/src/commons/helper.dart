@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
   print('--- Parse json from: $assetsPath');
@@ -29,7 +33,7 @@ Future<ui.Image> getImageFromPath(String imagePath) async {
   return completer.future;
 }
 
-Color getQualityColor(int quality) {
+Color getQualityColor(int? quality) {
   switch (quality) {
     case 6:
       return Colors.green;
@@ -40,15 +44,34 @@ Color getQualityColor(int quality) {
     case 3:
       return Colors.red;
     case 2:
-      return Colors.pink;
-    case 1:
       return Colors.purple;
+    case 1:
+      return Colors.brown;
     default:
       return Colors.green;
   }
 }
 
-String? getAssetPollution(String pollution) {
+String getQualityText(int? quality) {
+  switch (quality) {
+    case 6:
+      return "Tốt";
+    case 5:
+      return "Trung bình";
+    case 4:
+      return "Kém";
+    case 3:
+      return "Xấu";
+    case 2:
+      return "Rất xấu";
+    case 1:
+      return "Nguy hại";
+    default:
+      return "";
+  }
+}
+
+String getAssetPollution(String? pollution) {
   switch (pollution) {
     case "air":
       return Assets.iconPinAir;
@@ -59,7 +82,22 @@ String? getAssetPollution(String pollution) {
     case "water":
       return Assets.iconPinWater;
     default:
-      return null;
+      return Assets.iconLogo;
+  }
+}
+
+String getNamePollution(String? pollution) {
+  switch (pollution) {
+    case "air":
+      return "Ô nhiễm không khí";
+    case "land":
+      return "Ô nhiễm đất";
+    case "sound":
+      return "Ô nhiễm tiếng ồn";
+    case "water":
+      return "Ô nhiễm nước";
+    default:
+      return "";
   }
 }
 
@@ -89,4 +127,75 @@ void showLoading({String? text, double? progress}) {
 
 void hideLoading() {
   EasyLoading.dismiss();
+}
+
+String? convertDate(String date) {
+  try {
+    DateTime parseDate =
+        new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(date);
+    var inputDate = DateTime.parse(parseDate.toString());
+    var outputFormat = DateFormat('dd/MM/yyyy hh:mm a');
+    var outputDate = outputFormat.format(inputDate);
+    return outputDate;
+  } catch (e) {
+    return "";
+  }
+}
+
+String timeAgoSinceDate({bool numericDates = true, required String dateStr}) {
+  DateTime date = new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dateStr);
+  final date2 = DateTime.now().toLocal();
+  final difference = date2.difference(date);
+
+  if (difference.inSeconds < 5) {
+    return 'Vừa xong';
+  } else if (difference.inSeconds <= 60) {
+    return '${difference.inSeconds} giây trước';
+  } else if (difference.inMinutes <= 1) {
+    return (numericDates) ? '1 phút trước' : 'Một phút trước';
+  } else if (difference.inMinutes <= 60) {
+    return '${difference.inMinutes} phút trước';
+  } else if (difference.inHours <= 1) {
+    return (numericDates) ? '1 giờ trước' : 'Một giờ trước';
+  } else if (difference.inHours <= 60) {
+    return '${difference.inHours} giờ trước';
+  } else if (difference.inDays <= 1) {
+    return (numericDates) ? '1 ngày trước' : 'Hôm qua';
+  } else if (difference.inDays <= 6) {
+    return '${difference.inDays} ngày trước';
+  } else if ((difference.inDays / 7).ceil() <= 1) {
+    return (numericDates) ? '1 tuần trước' : 'Tuần trước';
+  } else if ((difference.inDays / 7).ceil() <= 4) {
+    return '${(difference.inDays / 7).ceil()} tuần trước';
+  } else if ((difference.inDays / 30).ceil() <= 1) {
+    return (numericDates) ? '1 tháng trước' : 'Tháng trước';
+  } else if ((difference.inDays / 30).ceil() <= 30) {
+    return '${(difference.inDays / 30).ceil()} tháng trước';
+  } else if ((difference.inDays / 365).ceil() <= 1) {
+    return (numericDates) ? '1 năm trước' : 'Năm trước';
+  }
+  return '${(difference.inDays / 365).floor()} năm trước';
+}
+
+Future<String> getDeviceIdentifier() async {
+  String deviceIdentifier = "unknown";
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+  if (kIsWeb) {
+    WebBrowserInfo webInfo = await deviceInfo.webBrowserInfo;
+    deviceIdentifier =
+        "${webInfo.vendor}${webInfo.userAgent}${webInfo.hardwareConcurrency.toString()}";
+  } else {
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      deviceIdentifier = androidInfo.androidId ?? "";
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      deviceIdentifier = iosInfo.identifierForVendor ?? "";
+    } else if (Platform.isLinux) {
+      LinuxDeviceInfo linuxInfo = await deviceInfo.linuxInfo;
+      deviceIdentifier = linuxInfo.machineId ?? "";
+    }
+  }
+  return deviceIdentifier;
 }

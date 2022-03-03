@@ -127,6 +127,7 @@ class PollutionApi {
       int? status,
       List<String>? quality,
       int? limit,
+      String? sortBy,
       int? page}) async {
     Response response;
     Map<String, String> data = {};
@@ -144,6 +145,7 @@ class PollutionApi {
     if (status != null) data["status"] = '$status';
     if (limit != null) data["limit"] = '$limit';
     if (page != null) data["page"] = '$page';
+    if (sortBy != null) data["sortBy"] = sortBy;
 
     try {
       response = await apiService.request(
@@ -160,6 +162,28 @@ class PollutionApi {
         PollutionsResponse pollutionsResponse =
             PollutionsResponse.fromJson(baseResponse.data!);
         return pollutionsResponse;
+      }
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<PollutionModel> getOnePollution({required String id}) async {
+    Response response;
+
+    try {
+      response = await apiService.request(
+          endPoint: "${PollutionAPIPath.getPollution}/$id",
+          method: APIMethod.GET);
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+      if (baseResponse.data == null) {
+        throw Exception(baseResponse.message);
+      } else {
+        PollutionModel pollutionModel =
+            PollutionModel.fromJson(baseResponse.data!);
+        return pollutionModel;
       }
     } on DioError catch (e) {
       throw (e);
@@ -215,7 +239,8 @@ class PollutionApi {
       response = await apiService.requestFormData(
           endPoint: PollutionAPIPath.updatePollution,
           data: formData,
-          onSendProgress: onSendProgress);
+          onSendProgress: onSendProgress,
+          method: APIMethod.POST);
 
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);

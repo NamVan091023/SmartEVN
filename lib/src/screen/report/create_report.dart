@@ -22,11 +22,6 @@ class CreateReport extends StatelessWidget {
           title: Text(
             'Báo cáo địa điểm ô nhiễm',
           ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Get.back(),
-          ),
-          centerTitle: true,
         ),
         body: Container(
           width: double.infinity,

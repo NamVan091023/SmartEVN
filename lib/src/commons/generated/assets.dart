@@ -27,4 +27,7 @@ class Assets {
   static const String iconPinWater = 'assets/icons/ic_pin_water.png';
   static const String iconPinLand = 'assets/icons/ic_pin_land.png';
   static const String iconPinSound = 'assets/icons/ic_pin_sound.png';
+  static const String iconLogo = 'assets/logos/logo.png';
+
+  static const String iconContent = 'assets/icons/content.svg';
 }

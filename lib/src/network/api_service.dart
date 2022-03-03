@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as GetX;
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
@@ -12,7 +13,11 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
-final baseUrl = "http://172.16.82.185:3000/v1"; // "http://10.8.0.2:3000/v1";
+// final host = "http://10.8.0.2:3000";
+// final host = "http://192.168.123.235:3000";
+final host = "http://172.16.82.169:3000";
+// final host = "http://47.254.198.138";
+final baseUrl = "$host/v1";
 
 class AuthInterceptor extends QueuedInterceptor {
   final Dio _dio;
@@ -79,7 +84,10 @@ class AuthInterceptor extends QueuedInterceptor {
     if (err.response?.statusCode == 403 || err.response?.statusCode == 401) {
       // for some reasons the token can be invalidated before it is expired by the backend.
       // then we should navigate the user back to login page
-
+      if (err.requestOptions.headers["isLogin"] == true) {
+        // Không xử lý lỗi token khi đăng nhập
+        return handler.next(err);
+      }
       _performLogout(_dio);
 
       // create custom dio error
@@ -101,7 +109,6 @@ class AuthInterceptor extends QueuedInterceptor {
 
   void _performLogout(Dio dio) {
     PreferenceUtils.remove(KEY_ACCESS_TOKEN); // remove token from local storage
-
     // back to login page without using context
     Fluttertoast.showToast(
         msg: "Phiên làm việc đã hết hạn, vui lòng đăng nhập lại");
@@ -200,9 +207,16 @@ class APIService {
               await _dio.get(endPoint, queryParameters: data, options: options);
       }
     } on DioError catch (e) {
-      BaseResponse baseResponse = BaseResponse.fromJson(e.response?.data);
-      throw Exception(baseResponse.message ?? e.message);
+      BaseResponse? baseResponse;
+      if (e.response?.data != null) {
+        baseResponse = BaseResponse.fromJson(e.response?.data);
+      }
+      hideLoading();
+      showAlertError(desc: baseResponse?.message ?? e.message);
+      throw Exception(baseResponse?.message ?? e.message);
     } catch (e) {
+      hideLoading();
+      showAlertError(desc: "Đã có lỗi xảy ra, vui lòng thử lại");
       throw Exception("Đã có lỗi xảy ra, vui lòng thử lại.");
     }
     return response;
@@ -210,15 +224,44 @@ class APIService {
 
   Future<Response> requestFormData(
       {required String endPoint,
+      required APIMethod method,
       FormData? data,
       Function(int, int)? onSendProgress}) async {
     Response response;
 
     try {
-      response = await _dio.post(endPoint,
-          data: data,
-          options: Options(contentType: "multipart/form-data"),
-          onSendProgress: onSendProgress);
+      switch (method) {
+        case APIMethod.POST:
+          response = await _dio.post(endPoint,
+              data: data,
+              options: Options(contentType: "multipart/form-data"),
+              onSendProgress: onSendProgress);
+          break;
+        case APIMethod.PUT:
+          response = await _dio.put(endPoint,
+              data: data,
+              options: Options(contentType: "multipart/form-data"),
+              onSendProgress: onSendProgress);
+          break;
+        case APIMethod.PATCH:
+          response = await _dio.patch(endPoint,
+              data: data,
+              options: Options(contentType: "multipart/form-data"),
+              onSendProgress: onSendProgress);
+          break;
+        case APIMethod.DELETE:
+          response = await _dio.delete(
+            endPoint,
+            data: data,
+            options: Options(contentType: "multipart/form-data"),
+          );
+          break;
+        default:
+          response = await _dio.post(endPoint,
+              data: data,
+              options: Options(contentType: "multipart/form-data"),
+              onSendProgress: onSendProgress);
+      }
     } on DioError catch (e) {
       switch (e.type) {
         case DioErrorType.response:

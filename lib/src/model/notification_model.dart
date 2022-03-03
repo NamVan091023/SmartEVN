@@ -1,50 +1,74 @@
-class NotificationModel {
-  List<Data>? data;
+import 'package:pollution_environment/src/model/pollution_response.dart';
 
-  NotificationModel({this.data});
+class NotificationResponse {
+  List<NotificationModel>? results;
+  int? page;
+  int? limit;
+  int? totalPages;
+  int? totalResults;
 
-  NotificationModel.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+  NotificationResponse(
+      {this.results,
+      this.page,
+      this.limit,
+      this.totalPages,
+      this.totalResults});
+
+  NotificationResponse.fromJson(Map<String, dynamic> json) {
+    if (json['results'] != null) {
+      results = <NotificationModel>[];
+      json['results'].forEach((v) {
+        results!.add(new NotificationModel.fromJson(v));
       });
     }
+    page = json['page'];
+    limit = json['limit'];
+    totalPages = json['totalPages'];
+    totalResults = json['totalResults'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    if (this.results != null) {
+      data['results'] = this.results!.map((v) => v.toJson()).toList();
     }
+    data['page'] = this.page;
+    data['limit'] = this.limit;
+    data['totalPages'] = this.totalPages;
+    data['totalResults'] = this.totalResults;
     return data;
   }
 }
 
-class Data {
-  String? id, latitude, longitude, address, range;
-  int? type;
+class NotificationModel {
+  String? user;
+  PollutionModel? pollution;
+  String? createdAt;
+  String? updatedAt;
+  String? id;
 
-  Data(this.id, this.latitude, this.longitude, this.address, this.range,
-      this.type);
+  NotificationModel(
+      {this.user, this.pollution, this.createdAt, this.updatedAt, this.id});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  NotificationModel.fromJson(Map<String, dynamic> json) {
+    user = json['user'];
+    pollution = json['pollution'] != null
+        ? new PollutionModel.fromJson(json['pollution'])
+        : null;
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
     id = json['id'];
-    latitude = json['latitude'] == null ? "" : json['latitude'];
-    longitude = json['longitude'] == null ? "" : json['longitude'];
-    address = json['address'] == null ? "" : json['address'];
-    type = json['type'] == null ? 0 : json['type'];
-    range = json['range'] == null ? "" : json['range'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user'] = this.user;
+    if (this.pollution != null) {
+      data['pollution'] = this.pollution!.toJson();
+    }
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
     data['id'] = this.id;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['address'] = this.address;
-    data['type'] = this.type;
-    data['range'] = this.range;
     return data;
   }
 }

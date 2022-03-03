@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/map/map_controller.dart';
@@ -28,64 +29,158 @@ class MapScreen extends StatelessWidget {
                 },
                 markers: _controller.markers.toSet(),
               )),
-          Container(
-            margin: EdgeInsets.only(top: 60, right: 10),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                width: 44,
-                decoration: new BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 2), // changes position of shadow
+          Obx(() => _buildListViewPollution()),
+          _buildFilterActionView(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListViewPollution() {
+    return _controller.pollutions.isNotEmpty &&
+            _controller.indexPollutionSelected.value != null
+        ? Align(
+            alignment: Alignment.bottomCenter,
+            child: CarouselSlider.builder(
+              carouselController: _controller.carouselController.value,
+              itemCount: _controller.pollutions.length,
+              itemBuilder:
+                  (BuildContext context, int itemIndex, int pageViewIndex) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    shadowColor: Colors.grey,
+                    elevation: 5,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            getAssetPollution(
+                                _controller.pollutions[itemIndex].type!),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  getNamePollution(
+                                      _controller.pollutions[itemIndex].type!),
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  "${_controller.pollutions[itemIndex].specialAddress}, ${_controller.pollutions[itemIndex].wardName}, ${_controller.pollutions[itemIndex].districtName}, ${_controller.pollutions[itemIndex].provinceName}",
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  getQualityText(_controller
+                                          .pollutions[itemIndex].qualityScore ??
+                                      0),
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                )
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                    borderRadius:
-                        new BorderRadius.all(const Radius.circular(11.0))),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      focusColor: Colors.green,
-                      icon: Icon(
-                        Icons.gps_fixed_outlined,
+                    ),
+                  ),
+                );
+              },
+              options: CarouselOptions(
+                aspectRatio: 2.0,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, _) async {
+                  var mapController = await _controller.mapController.future;
+                  mapController.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                        zoom: 13.0,
+                        target: LatLng(_controller.pollutions[index].lat!,
+                            _controller.pollutions[index].lng!),
                       ),
-                      onPressed: () {
-                        _controller.getPos();
-                      },
                     ),
-                    Divider(
-                      height: 1,
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.filter_alt_outlined,
-                      ),
-                      onPressed: () {
-                        Get.toNamed(Routes.MAP_FILTER_SCREEN);
-                      },
-                    ),
-                    Divider(
-                      height: 1,
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.info_outline,
-                      ),
-                      onPressed: () {
-                        showInfo();
-                      },
-                    ),
-                  ],
-                ),
+                  );
+                },
+                initialPage: _controller.indexPollutionSelected.value ?? 0,
               ),
             ),
+          )
+        : Container();
+  }
+
+  Widget _buildFilterActionView(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 60, right: 10),
+      child: Align(
+        alignment: Alignment.topRight,
+        child: Container(
+          width: 44,
+          decoration: new BoxDecoration(
+              color: Theme.of(context).cardColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 2), // changes position of shadow
+                ),
+              ],
+              borderRadius: new BorderRadius.all(const Radius.circular(11.0))),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              IconButton(
+                focusColor: Colors.green,
+                icon: Icon(
+                  Icons.gps_fixed_outlined,
+                ),
+                onPressed: () {
+                  _controller.getPos();
+                },
+              ),
+              Divider(
+                height: 1,
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.filter_alt_outlined,
+                ),
+                onPressed: () {
+                  Get.toNamed(Routes.MAP_FILTER_SCREEN)
+                      ?.then((value) => _controller.getPollutionPosition());
+                },
+              ),
+              Divider(
+                height: 1,
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.info_outline,
+                ),
+                onPressed: () {
+                  showInfo();
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -176,101 +271,45 @@ class MapScreen extends StatelessWidget {
           SizedBox(
             height: 8,
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 25,
-                height: 25,
-                color: getQualityColor(6),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Tốt"),
-            ],
-          ),
+          _buildQualityScore(6),
           SizedBox(
             height: 8,
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 25,
-                height: 25,
-                color: getQualityColor(5),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Trung bình"),
-            ],
-          ),
+          _buildQualityScore(5),
           SizedBox(
             height: 8,
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 25,
-                height: 25,
-                color: getQualityColor(4),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Kém"),
-            ],
-          ),
+          _buildQualityScore(4),
           SizedBox(
             height: 8,
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 25,
-                height: 25,
-                color: getQualityColor(3),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Xấu"),
-            ],
-          ),
+          _buildQualityScore(3),
           SizedBox(
             height: 8,
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 25,
-                height: 25,
-                color: getQualityColor(2),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Rất xấu"),
-            ],
-          ),
+          _buildQualityScore(2),
           SizedBox(
             height: 8,
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 25,
-                height: 25,
-                color: getQualityColor(1),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Nguy hại"),
-            ],
-          ),
+          _buildQualityScore(1),
         ],
       ),
+    );
+  }
+
+  Widget _buildQualityScore(int score) {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 25,
+          height: 25,
+          color: getQualityColor(score),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(getQualityText(score)),
+      ],
     );
   }
 }

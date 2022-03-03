@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:geolocator/geolocator.dart';
@@ -13,8 +14,14 @@ import 'package:pollution_environment/src/screen/filter/filter_storage_controlle
 
 class MapController extends GetxController {
   Completer<GoogleMapController> mapController = Completer();
+  Rx<CarouselController> carouselController = CarouselController().obs;
+
   final FilterStorageController _filterStorageController =
       Get.put(FilterStorageController());
+
+  RxSet<Marker> markers = RxSet<Marker>();
+  RxList<PollutionModel> pollutions = RxList<PollutionModel>();
+  Rxn<int> indexPollutionSelected = Rxn<int>();
 
   @override
   void onInit() {
@@ -36,8 +43,6 @@ class MapController extends GetxController {
         target: LatLng(position.latitude, position.longitude), zoom: 13)));
   }
 
-  RxSet<Marker> markers = RxSet<Marker>();
-
   getPollutionPosition() async {
     PollutionsResponse? pollutionsResponse =
         await PollutionApi().getAllPollution(
@@ -52,25 +57,36 @@ class MapController extends GetxController {
           ? null
           : _filterStorageController.selectedWard.value?.name,
     );
-    List<PollutionModel> pollutions = pollutionsResponse.results ?? [];
+    var list = pollutionsResponse.results ?? [];
 
-    _addMarker(pollutions);
+    _addMarker(list);
   }
 
   _addMarker(List<PollutionModel> list) async {
     markers.clear();
+    pollutions.clear();
     for (var item in list) {
       if (item.lat != null &&
           item.lng != null &&
           item.type != null &&
           item.qualityScore != null) {
         var icon = await getMarkerIcon(item.type!, item.qualityScore!);
-
+        pollutions.add(item);
         markers.add(Marker(
-          markerId: MarkerId(item.id!),
-          position: LatLng(item.lat!, item.lng!),
-          icon: icon,
-        ));
+            markerId: MarkerId(item.id!),
+            position: LatLng(item.lat!, item.lng!),
+            icon: icon,
+            onTap: () {
+              int index =
+                  pollutions.indexWhere((element) => element.id == item.id);
+              if (indexPollutionSelected.value != index) {
+                if (indexPollutionSelected.value != null)
+                  carouselController.value.animateToPage(index);
+                indexPollutionSelected.value = index;
+              } else {
+                indexPollutionSelected.value = null;
+              }
+            }));
       }
     }
   }
@@ -86,7 +102,7 @@ class MapController extends GetxController {
     final Radius radius = Radius.circular(size.width / 2);
 
     final Paint shadowPaint = Paint()..color = color;
-    final double shadowWidth = 20.0;
+    final double shadowWidth = 10.0;
 
     final Paint borderPaint = Paint()..color = Colors.white;
     final double borderWidth = 5.0;

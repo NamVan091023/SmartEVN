@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/screen/sign_up/sign_up_controller.dart';
 
@@ -18,16 +17,6 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Đăng ký tài khoản"),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.arrow_back_outlined),
-              onPressed: () {
-                Get.back();
-              },
-            );
-          },
-        ),
       ),
       body: Body(),
     );

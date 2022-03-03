@@ -1,11 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
+import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/notification_service.dart';
+import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-void main() {
+void main() async {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
     ..indicatorType = EasyLoadingIndicatorType.fadingCircle
@@ -19,8 +23,22 @@ void main() {
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = false
     ..dismissOnTap = false;
-
+  await init();
   runApp(MyApp());
+}
+
+Future init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: FirebaseOptions(
+  //       apiKey: "AIzaSyDZUra8Uh6Bgv3VuPqQMfVsC9gUIjbGf_4",
+  //       appId: "1:86534504753:web:ee8ddb5fc22d6f4cf3b010",
+  //       messagingSenderId: "86534504753",
+  //       projectId: "smartenviroment"),
+  // );
+  await Firebase.initializeApp();
+  NotificationService().init();
+  await PreferenceUtils.init();
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +55,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         theme: themeLight(),
         darkTheme: themeDark(),
-        themeMode: ThemeMode.system,
+        themeMode: getThemeMode(PreferenceUtils.getString(KEY_THEME_MODE)),
         initialRoute: Routes.INITIAL,
         getPages: AppPages.pages,
         // defaultTransition: Transition.cupertino,

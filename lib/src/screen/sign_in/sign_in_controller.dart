@@ -5,7 +5,7 @@ import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
-import 'package:pollution_environment/src/network/apis/users/user_api.dart';
+import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 
 class SignInController extends GetxController {
   RxString email = "".obs;
@@ -73,7 +73,7 @@ class SignInController extends GetxController {
 
   Future<void> loginUser(Function onSuccess, Function(String) onError) async {
     showLoading(text: "Đang đăng nhập");
-    UserApi().login(email.value, password.value).then((response) {
+    AuthApi().login(email.value, password.value).then((response) {
       hideLoading();
       debugPrint("Login success $response");
       UserModel? user = response.user;
@@ -88,6 +88,7 @@ class SignInController extends GetxController {
         }
 
         PreferenceUtils.setBool(KEY_REMEMBER_LOGIN, remember.value);
+        PreferenceUtils.setString(KEY_USER_ID, user.id!);
 
         if (remember.value == true) {
           PreferenceUtils.setString(KEY_EMAIL, email.value);
@@ -96,14 +97,14 @@ class SignInController extends GetxController {
           PreferenceUtils.remove(KEY_EMAIL);
           PreferenceUtils.remove(KEY_PASSWORD);
         }
+
+        if (user.role == 'admin') {
+          PreferenceUtils.setBool(KEY_IS_ADMIN, true);
+        }
         onSuccess();
       } else {
         onError("Không lấy được thông tin người dùng");
       }
-    }, onError: (exception) {
-      hideLoading();
-      debugPrint(exception.message);
-      onError(exception.message ?? "Đăng nhập không thành công");
     });
   }
 }

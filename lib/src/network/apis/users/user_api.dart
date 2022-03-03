@@ -1,88 +1,105 @@
-import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
-import 'package:pollution_environment/src/model/token_response.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 
 class UserAPIPath {
-  static String login = "/auth/login";
-  static String register = "/auth/register";
-  static String refreshToken = "/auth/refresh-tokens";
+  static String getUserById = "/users";
 }
 
-class UserApi {
+class UserAPI {
   late APIService apiService;
 
-  UserApi() {
+  UserAPI() {
     apiService = APIService();
   }
 
-  Future<UserResponse> login(String email, String password) async {
+  Future<UserModel> getUserById(String id) async {
     Response response;
     try {
       response = await apiService.request(
-          method: APIMethod.POST,
-          endPoint: UserAPIPath.login,
-          data: {"email": email, "password": password},
-          options: Options(headers: {"requiresToken": false}));
+        method: APIMethod.GET,
+        endPoint: "${UserAPIPath.getUserById}/$id",
+      );
 
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
       if (baseResponse.data == null) {
-        // Login khong thanh cong
         throw Exception(baseResponse.message);
       } else {
-        UserResponse userResponse = UserResponse.fromJson(baseResponse.data!);
-        return userResponse;
+        UserModel userModel = UserModel.fromJson(baseResponse.data!);
+        return userModel;
       }
     } on DioError catch (e) {
       throw (e);
     }
   }
 
-  Future<UserResponse> register(
-      String name, String email, String password) async {
+  Future<UserModel> updateNotificationReceived(
+      {required String id, required bool isReceived}) async {
     Response response;
+    Map<String, dynamic> data = {};
+    data["isNotificationReceived"] = isReceived;
+
+    FormData formData = FormData.fromMap(data);
+
     try {
-      response = await apiService.request(
-          method: APIMethod.POST,
-          endPoint: UserAPIPath.register,
-          data: {"name": name, "email": email, "password": password},
-          options: Options(headers: {"requiresToken": false}));
+      response = await apiService.requestFormData(
+        endPoint: "${UserAPIPath.getUserById}/$id",
+        data: formData,
+        method: APIMethod.PATCH,
+      );
 
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
       if (baseResponse.data == null) {
-        // Login khong thanh cong
         throw Exception(baseResponse.message);
       } else {
-        UserResponse userResponse = UserResponse.fromJson(baseResponse.data!);
-        return userResponse;
+        UserModel userModel = UserModel.fromJson(baseResponse.data!);
+        return userModel;
       }
     } on DioError catch (e) {
       throw (e);
     }
   }
 
-  Future<TokensResponse> refreshToken(String token) async {
+  Future<UserModel> updateUser(
+      {required String id,
+      String? name,
+      String? email,
+      String? password,
+      File? avatar}) async {
     Response response;
+    Map<String, dynamic> data = {};
+    if (name != null) data["name"] = name;
+    if (email != null) data["email"] = email;
+    if (password != null) data["password"] = password;
+    if (avatar != null) {
+      var pic = MultipartFile.fromFileSync(
+        avatar.path,
+        filename: avatar.uri.toString(),
+      );
+      data["image"] = pic;
+    }
+
+    FormData formData = FormData.fromMap(data);
+
     try {
-      response = await apiService.request(
-          method: APIMethod.POST,
-          endPoint: UserAPIPath.refreshToken,
-          data: {"refreshToken": token},
-          options: Options(headers: {"requiresToken": false}));
+      response = await apiService.requestFormData(
+        endPoint: "${UserAPIPath.getUserById}/$id",
+        data: formData,
+        method: APIMethod.PATCH,
+      );
 
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
       if (baseResponse.data == null) {
         throw Exception(baseResponse.message);
       } else {
-        TokensResponse tokenResponse =
-            TokensResponse.fromJson(baseResponse.data!["tokens"]);
-        return tokenResponse;
+        UserModel userModel = UserModel.fromJson(baseResponse.data!);
+        return userModel;
       }
     } on DioError catch (e) {
       throw (e);

@@ -23,7 +23,7 @@ class PreferenceUtils {
     return prefs.remove(key);
   }
 
-  static String? getString(String key, [String]) {
+  static String? getString(String key) {
     return _prefsInstance!.getString(key);
   }
 
