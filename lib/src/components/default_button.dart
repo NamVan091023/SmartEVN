@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/src/commons/size_config.dart';
 
 class DefaultButton extends StatelessWidget {
   const DefaultButton({
@@ -15,14 +14,11 @@ class DefaultButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: getProportionateScreenHeight(56),
+      height: 50,
       child: ElevatedButton(
         onPressed: press as void Function()?,
         child: Text(
           text!,
-          style: TextStyle(
-            fontSize: getProportionateScreenWidth(18),
-          ),
         ),
       ),
     );

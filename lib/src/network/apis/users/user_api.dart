@@ -7,6 +7,8 @@ import 'package:pollution_environment/src/network/api_service.dart';
 
 class UserAPIPath {
   static String getUserById = "/users";
+  static String getAllUser = "/users";
+  static String deleteUser = '/users';
 }
 
 class UserAPI {
@@ -14,6 +16,34 @@ class UserAPI {
 
   UserAPI() {
     apiService = APIService();
+  }
+  Future<UserListResponse> getAllUser(
+      {int? page, int? limit, String? searchText}) async {
+    Response response;
+    Map<String, String> data = {};
+    if (limit != null) data["limit"] = '$limit';
+    if (page != null) data["page"] = '$page';
+    if (searchText != null && searchText.isNotEmpty)
+      data["search"] = searchText;
+    try {
+      response = await apiService.request(
+        method: APIMethod.GET,
+        endPoint: UserAPIPath.getAllUser,
+        data: data,
+      );
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+      if (baseResponse.data == null) {
+        throw Exception(baseResponse.message);
+      } else {
+        UserListResponse listResponse =
+            UserListResponse.fromJson(baseResponse.data!);
+        return listResponse;
+      }
+    } on DioError catch (e) {
+      throw (e);
+    }
   }
 
   Future<UserModel> getUserById(String id) async {
@@ -101,6 +131,24 @@ class UserAPI {
         UserModel userModel = UserModel.fromJson(baseResponse.data!);
         return userModel;
       }
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<BaseResponse> deleteUser({required String id}) async {
+    Response response;
+
+    try {
+      response = await apiService.request(
+        endPoint: "${UserAPIPath.deleteUser}/$id",
+        method: APIMethod.DELETE,
+      );
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+
+      return baseResponse;
     } on DioError catch (e) {
       throw (e);
     }

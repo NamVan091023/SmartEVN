@@ -20,15 +20,13 @@ class _MainBoardState extends State<MainBoard> {
   List<Widget> _tabList = <Widget>[
     KeepAliveWrapper(child: MapScreen()),
   ];
+
   @override
   void initState() {
     super.initState();
 
     FCM().setNotifications();
-  }
 
-  @override
-  Widget build(BuildContext context) {
     _tabList.add(KeepAliveWrapper(child: NotificationScreen()));
     if (isAdmin) {
       _tabList.add(KeepAliveWrapper(child: ManageScreen()));
@@ -37,7 +35,10 @@ class _MainBoardState extends State<MainBoard> {
     }
 
     _tabList.add(KeepAliveWrapper(child: ProfileScreen()));
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         children: _tabList,

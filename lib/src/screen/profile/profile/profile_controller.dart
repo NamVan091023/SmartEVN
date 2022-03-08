@@ -6,7 +6,7 @@ import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 
 class ProfileController extends GetxController {
-  late String userId = Get.arguments ?? PreferenceUtils.getString(KEY_USER_ID);
+  String userId = Get.arguments ?? PreferenceUtils.getString(KEY_USER_ID);
   Rxn<UserModel> user = Rxn<UserModel>();
   Rx<String?> themeMode =
       (PreferenceUtils.getString(KEY_THEME_MODE) ?? "system").obs;

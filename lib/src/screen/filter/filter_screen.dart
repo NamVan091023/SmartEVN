@@ -8,7 +8,7 @@ import 'package:pollution_environment/src/screen/filter/filter_screen_controller
 import 'package:dropdown_search/dropdown_search.dart';
 
 class FilterMapScreen extends StatelessWidget {
-  final FilterMapController _controller = Get.put(FilterMapController());
+  late final FilterMapController _controller = Get.put(FilterMapController());
 
   @override
   Widget build(BuildContext context) {

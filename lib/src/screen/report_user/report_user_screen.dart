@@ -34,9 +34,7 @@ class _ReportUserState extends State<ReportUser>
       pollutions.addAll(data.results ?? []);
       total = data.totalResults ?? 0;
     });
-
-    nextPage++;
-
+    if (canLoadMore) nextPage++;
     if ((data.results ?? []).length < _itemsPerPage) {
       canLoadMore = false;
     }

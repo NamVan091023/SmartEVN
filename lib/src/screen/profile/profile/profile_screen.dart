@@ -4,7 +4,7 @@ import 'package:pollution_environment/src/screen/profile/components/body.dart';
 import 'package:pollution_environment/src/screen/profile/profile/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final ProfileController _controller = Get.put(ProfileController());
+  late final ProfileController _controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
 import 'package:pollution_environment/src/model/token_response.dart';
 
-class UserResponse {
+class AuthResponse {
   UserModel? user;
   TokensResponse? tokens;
 
-  UserResponse.fromJson(Map<String, dynamic> json) {
+  AuthResponse.fromJson(Map<String, dynamic> json) {
     user = UserModel.fromJson(json['user']);
     tokens = TokensResponse.fromJson(json['tokens']);
   }
@@ -13,6 +13,46 @@ class UserResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['user'] = this.user;
     data['tokens'] = this.tokens;
+    return data;
+  }
+}
+
+class UserListResponse {
+  List<UserModel>? results;
+  int? page;
+  int? limit;
+  int? totalPages;
+  int? totalResults;
+
+  UserListResponse(
+      {this.results,
+      this.page,
+      this.limit,
+      this.totalPages,
+      this.totalResults});
+
+  UserListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['results'] != null) {
+      results = <UserModel>[];
+      json['results'].forEach((v) {
+        results!.add(new UserModel.fromJson(v));
+      });
+    }
+    page = json['page'];
+    limit = json['limit'];
+    totalPages = json['totalPages'];
+    totalResults = json['totalResults'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.results != null) {
+      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    }
+    data['page'] = this.page;
+    data['limit'] = this.limit;
+    data['totalPages'] = this.totalPages;
+    data['totalResults'] = this.totalResults;
     return data;
   }
 }

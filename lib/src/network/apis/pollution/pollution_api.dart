@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
 import 'package:pollution_environment/src/model/pollution_quality_model.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
+import 'package:pollution_environment/src/model/pollution_stats.dart';
 import 'package:pollution_environment/src/model/pollution_type_model.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 
@@ -13,6 +14,8 @@ class PollutionAPIPath {
   static String getPollutionAuth = '/pollutions/me';
   static String getPollution = "/pollutions";
   static String updatePollution = "/pollutions";
+  static String deletePollution = "/pollutions";
+  static String getPollutionStats = "/pollutions/stats";
 }
 
 class PollutionApi {
@@ -77,6 +80,7 @@ class PollutionApi {
       String? wardName,
       int? status,
       List<String>? quality,
+      String? searchText,
       String? userId,
       int? limit,
       int? page}) async {
@@ -97,7 +101,8 @@ class PollutionApi {
     if (userId != null && userId != '') data["userId"] = userId;
     if (limit != null) data["limit"] = '$limit';
     if (page != null) data["page"] = '$page';
-
+    if (searchText != null && searchText.isNotEmpty)
+      data["search"] = searchText;
     try {
       response = await apiService.request(
         method: APIMethod.GET,
@@ -219,6 +224,9 @@ class PollutionApi {
       "specialAddress": specialAddress
     };
 
+    if (lat != null) data['lat'] = lat;
+    if (lng != null) data['lng'] = lng;
+
     if (files != null) {
       List<MultipartFile> multipartImageList = [];
       for (var i = 0; i < files.length; i++) {
@@ -250,6 +258,117 @@ class PollutionApi {
         PollutionModel pollutionModel =
             PollutionModel.fromJson(baseResponse.data!);
         return pollutionModel;
+      }
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<BaseResponse> deletePollution({required String id}) async {
+    Response response;
+
+    try {
+      response = await apiService.request(
+        endPoint: "${PollutionAPIPath.deletePollution}/$id",
+        method: APIMethod.DELETE,
+      );
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+
+      return baseResponse;
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<PollutionModel> updatePollution(
+      {required String id,
+      String? type,
+      String? provinceName,
+      String? provinceId,
+      String? districtId,
+      String? districtName,
+      String? wardName,
+      String? wardId,
+      String? quality,
+      String? desc,
+      String? specialAddress,
+      int? status,
+      double? lat,
+      double? lng,
+      List<File>? files,
+      Function(int, int)? onSendProgress}) async {
+    Response response;
+    Map<String, dynamic> data = {};
+    if (status != null) data['status'] = status;
+    if (type != null) data['type'] = type;
+    if (provinceName != null) data['provinceName'] = provinceName;
+    if (provinceId != null) data['provinceId'] = provinceId;
+    if (districtName != null) data['districtName'] = districtName;
+    if (districtId != null) data['districtId'] = districtId;
+    if (wardName != null) data['wardName'] = wardName;
+    if (wardId != null) data['wardId'] = wardId;
+
+    if (quality != null) data['quality'] = quality;
+    if (desc != null) data['desc'] = desc;
+    if (specialAddress != null) data['specialAddress'] = specialAddress;
+
+    if (lat != null) data['lat'] = lat;
+    if (lng != null) data['lng'] = lng;
+
+    if (files != null) {
+      List<MultipartFile> multipartImageList = [];
+      for (var i = 0; i < files.length; i++) {
+        var pic = MultipartFile.fromFileSync(
+          files[i].path,
+          filename: files[i].uri.toString(),
+        );
+        multipartImageList.add(pic);
+      }
+      if (multipartImageList.isNotEmpty) {
+        data["images"] = multipartImageList;
+      }
+    }
+
+    FormData formData = FormData.fromMap(data);
+
+    try {
+      response = await apiService.requestFormData(
+          endPoint: "${PollutionAPIPath.updatePollution}/$id",
+          data: formData,
+          onSendProgress: onSendProgress,
+          method: APIMethod.PATCH);
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+      if (baseResponse.data == null) {
+        throw Exception(baseResponse.message);
+      } else {
+        PollutionModel pollutionModel =
+            PollutionModel.fromJson(baseResponse.data!);
+        return pollutionModel;
+      }
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<PollutionStats> getPollutionStats() async {
+    Response response;
+
+    try {
+      response = await apiService.request(
+          endPoint: PollutionAPIPath.getPollutionStats, method: APIMethod.GET);
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+      if (baseResponse.data == null) {
+        throw Exception(baseResponse.message);
+      } else {
+        PollutionStats pollutionStats =
+            PollutionStats.fromJson(baseResponse.data!);
+        return pollutionStats;
       }
     } on DioError catch (e) {
       throw (e);

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
 import 'package:pollution_environment/src/network/apis/notification/notification_api.dart';
 
@@ -59,7 +61,7 @@ class FCM {
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
         if (notification != null && android != null) {
-          await _notificationService.showNotifications(message);
+          _notificationService.showNotifications(message);
         }
 
         if (message.data.containsKey('data')) {
@@ -81,7 +83,7 @@ class FCM {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
-        await _notificationService.showNotifications(message);
+        _notificationService.showNotifications(message);
       }
     });
 

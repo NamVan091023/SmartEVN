@@ -77,8 +77,7 @@ class _NotificationScreenState extends State<NotificationScreen>
     setState(() {
       list.addAll(data.results ?? []);
     });
-    nextPage++;
-
+    if (canLoadMore) nextPage++;
     if ((data.results ?? []).length < _itemsPerPage) {
       canLoadMore = false;
     }

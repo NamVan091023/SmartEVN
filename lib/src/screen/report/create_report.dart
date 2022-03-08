@@ -13,7 +13,8 @@ import 'package:pollution_environment/src/model/pollution_type_model.dart';
 import 'package:pollution_environment/src/screen/report/create_report_controller.dart';
 
 class CreateReport extends StatelessWidget {
-  final CreateReportController _controller = Get.put(CreateReportController());
+  late final CreateReportController _controller =
+      Get.put(CreateReportController());
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

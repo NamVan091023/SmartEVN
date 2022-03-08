@@ -6,10 +6,11 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:pollution_environment/src/routes/app_pages.dart';
+import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
 import 'package:pollution_environment/src/screen/map/map_controller.dart';
 
 class MapScreen extends StatelessWidget {
-  final MapController _controller = Get.put(MapController());
+  late final MapController _controller = Get.put(MapController());
 
   @override
   Widget build(BuildContext context) {
@@ -48,55 +49,64 @@ class MapScreen extends StatelessWidget {
                   (BuildContext context, int itemIndex, int pageViewIndex) {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 10),
-                  child: Card(
-                    semanticContainer: true,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    shadowColor: Colors.grey,
-                    elevation: 5,
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            getAssetPollution(
-                                _controller.pollutions[itemIndex].type!),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  getNamePollution(
-                                      _controller.pollutions[itemIndex].type!),
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  "${_controller.pollutions[itemIndex].specialAddress}, ${_controller.pollutions[itemIndex].wardName}, ${_controller.pollutions[itemIndex].districtName}, ${_controller.pollutions[itemIndex].provinceName}",
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  getQualityText(_controller
-                                          .pollutions[itemIndex].qualityScore ??
-                                      0),
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                )
-                              ],
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(() => DetailPollutionScreen(),
+                          arguments: _controller.pollutions[itemIndex].id);
+                    },
+                    child: Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shadowColor: Colors.grey,
+                      elevation: 5,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              getAssetPollution(
+                                  _controller.pollutions[itemIndex].type!),
                             ),
-                          )
-                        ],
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    getNamePollution(_controller
+                                        .pollutions[itemIndex].type!),
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    "${_controller.pollutions[itemIndex].specialAddress}, ${_controller.pollutions[itemIndex].wardName}, ${_controller.pollutions[itemIndex].districtName}, ${_controller.pollutions[itemIndex].provinceName}",
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    getQualityText(_controller
+                                            .pollutions[itemIndex]
+                                            .qualityScore ??
+                                        0),
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

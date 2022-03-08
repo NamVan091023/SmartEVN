@@ -3,6 +3,8 @@ import 'package:pollution_environment/src/screen/edit_profile/edit_profile_scree
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_screen.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
+import 'package:pollution_environment/src/screen/profile/other_profile/other_profile_screen.dart';
+import 'package:pollution_environment/src/screen/profile/profile/profile_screen.dart';
 import 'package:pollution_environment/src/screen/report/create_report.dart';
 import 'package:pollution_environment/src/screen/sign_in/sign_in_screen.dart';
 import 'package:pollution_environment/src/screen/sign_up/sign_up_screen.dart';
@@ -46,6 +48,14 @@ class AppPages {
     GetPage(
       name: Routes.EDIT_PROFILE_SCREEN,
       page: () => EditProfileScreen(),
-    )
+    ),
+    GetPage(
+      name: Routes.PROFILE_SCREEN,
+      page: () => ProfileScreen(),
+    ),
+    GetPage(
+      name: Routes.OTHER_PROFILE_SCREEN,
+      page: () => OtherProfileScreen(),
+    ),
   ];
 }

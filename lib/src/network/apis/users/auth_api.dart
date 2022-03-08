@@ -22,7 +22,7 @@ class AuthApi {
     apiService = APIService();
   }
 
-  Future<UserResponse> login(String email, String password) async {
+  Future<AuthResponse> login(String email, String password) async {
     Response response;
     try {
       response = await apiService.request(
@@ -37,15 +37,15 @@ class AuthApi {
         // Login khong thanh cong
         throw Exception(baseResponse.message);
       } else {
-        UserResponse userResponse = UserResponse.fromJson(baseResponse.data!);
-        return userResponse;
+        AuthResponse authResponse = AuthResponse.fromJson(baseResponse.data!);
+        return authResponse;
       }
     } catch (e) {
       throw (e);
     }
   }
 
-  Future<UserResponse> register(
+  Future<AuthResponse> register(
       String name, String email, String password) async {
     Response response;
     try {
@@ -61,8 +61,8 @@ class AuthApi {
         // Login khong thanh cong
         throw Exception(baseResponse.message);
       } else {
-        UserResponse userResponse = UserResponse.fromJson(baseResponse.data!);
-        return userResponse;
+        AuthResponse authResponse = AuthResponse.fromJson(baseResponse.data!);
+        return authResponse;
       }
     } on DioError catch (e) {
       throw (e);

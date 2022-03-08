@@ -11,7 +11,7 @@ import 'package:pollution_environment/src/screen/sign_up/sign_up_controller.dart
 class SignUpForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  final SignUpController controller = Get.put(SignUpController());
+  late final SignUpController controller = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {

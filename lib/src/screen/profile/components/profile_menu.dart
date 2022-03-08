@@ -1,48 +1,107 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:pollution_environment/src/model/user_response.dart';
+import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
+import 'package:pollution_environment/src/routes/app_pages.dart';
+import 'package:pollution_environment/src/screen/profile/profile/profile_controller.dart';
+
+import 'card_menu.dart';
 
 class ProfileMenu extends StatelessWidget {
-  const ProfileMenu({
-    Key? key,
-    required this.text,
-    required this.icon,
-    this.press,
-  }) : super(key: key);
+  ProfileMenu({Key? key, this.user}) : super(key: key);
 
-  final String text, icon;
-  final VoidCallback? press;
+  final UserModel? user;
 
+  late final ProfileController _profileController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: ElevatedButton(
-        // padding: EdgeInsets.all(20),
-
-        // style: ButtonStyle(
-        //     shape: MaterialStateProperty.all(RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(15))),
-        //     backgroundColor:
-        //         MaterialStateProperty.all(Theme.of(context).cardColor)),
-        onPressed: press,
-        child: Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 20),
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                icon,
-                color: Theme.of(context).primaryIconTheme.color,
-                width: 22,
-              ),
-              SizedBox(width: 20),
-              Expanded(child: Text(text)),
-              Icon(
-                Icons.arrow_forward_ios,
-              ),
-            ],
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Container(
+            child: Text(
+              "CÀI ĐẶT",
+              textAlign: TextAlign.left,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            width: double.infinity,
           ),
         ),
-      ),
+        Obx(
+          () => CardMenu(
+            text: "Giao diện",
+            leftIcon: Icon(Icons.dark_mode_rounded),
+            right: DropdownButton<String>(
+                // isExpanded: true,
+                underline: SizedBox(),
+                alignment: AlignmentDirectional.centerEnd,
+                value: _profileController.themeMode.value,
+                items: [
+                  DropdownMenuItem(
+                    child: Text("Sáng"),
+                    value: "light",
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Tối"),
+                    value: "dark",
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Hệ thống"),
+                    value: "system",
+                  ),
+                ],
+                onChanged: (value) {
+                  _profileController.changeThemeMode(value);
+                }),
+          ),
+        ),
+        CardMenu(
+          text: "Thông báo",
+          leftIcon: Icon(Icons.notifications_rounded),
+          right: Switch(
+              value: user?.isNotificationReceived ?? false,
+              onChanged: (value) {
+                _profileController.updateNotificationReceived(value);
+                user?.isNotificationReceived = value;
+              }),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Container(
+            child: Text(
+              "TÀI KHOẢN",
+              textAlign: TextAlign.left,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            width: double.infinity,
+          ),
+        ),
+        CardMenu(
+          text: "Chỉnh sửa",
+          leftIcon: Icon(Icons.edit_rounded),
+          right: Icon(Icons.chevron_right_sharp),
+          onTap: () {
+            Get.toNamed(Routes.EDIT_PROFILE_SCREEN, arguments: user)
+                ?.then((value) {
+              _profileController.getUser();
+            });
+          },
+        ),
+        CardMenu(
+          text: "Đăng xuất",
+          leftIcon: Icon(Icons.logout_rounded),
+          right: Icon(Icons.chevron_right_sharp),
+          onTap: () {
+            AuthApi().logout();
+            AuthApi().clearUserData();
+            Get.offAllNamed(Routes.LOGIN_SCREEN);
+          },
+        ),
+      ],
     );
   }
 }

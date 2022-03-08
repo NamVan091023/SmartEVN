@@ -1,21 +1,49 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/components/full_image_viewer.dart';
 import 'package:pollution_environment/src/components/username.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_controller.dart';
 
 class DetailPollutionScreen extends StatelessWidget {
-  final DetailPollutionController _controller =
+  late final DetailPollutionController _controller =
       Get.put(DetailPollutionController());
 
+  final choices = [
+    {'title': 'Duyệt', 'icon': const Icon(Icons.verified_rounded)},
+    {'title': 'Từ chối', 'icon': const Icon(Icons.cancel_rounded)},
+    {'title': 'Xóa', 'icon': const Icon(Icons.delete_rounded)},
+    {'title': 'Chỉnh sửa', 'icon': const Icon(Icons.edit)},
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Chi tiết ô nhiễm"),
+        actions: <Widget>[
+          if (PreferenceUtils.getBool(KEY_IS_ADMIN))
+            PopupMenuButton<String>(
+              onSelected: handleClickMenu,
+              itemBuilder: (BuildContext context) {
+                return choices.map((ch) {
+                  return PopupMenuItem<String>(
+                    value: ch['title'].toString(),
+                    child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        minLeadingWidth: 0,
+                        leading: ch['icon'] as Widget,
+                        title: Text(
+                          ch['title'].toString(),
+                        )),
+                  );
+                }).toList();
+              },
+            ),
+        ],
       ),
       body: Obx(
         () => Container(
@@ -41,6 +69,46 @@ class DetailPollutionScreen extends StatelessWidget {
                 ),
                 _buildTypeCard(context),
                 _buildUserCard(context),
+                SizedBox(
+                  height: 8,
+                ),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        (_controller.pollutionModel.value?.status == 1)
+                            ? Icons.verified_rounded
+                            : (_controller.pollutionModel.value?.status == 2)
+                                ? Icons.cancel_rounded
+                                : Icons.timer_rounded,
+                        color: (_controller.pollutionModel.value?.status == 1)
+                            ? Colors.green
+                            : (_controller.pollutionModel.value?.status == 2)
+                                ? Colors.red
+                                : Colors.orange,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        (_controller.pollutionModel.value?.status == 1)
+                            ? "Đã được duyệt"
+                            : (_controller.pollutionModel.value?.status == 2)
+                                ? "Từ chối duyệt"
+                                : "Đang chờ duyệt",
+                        style: TextStyle(
+                            color: (_controller.pollutionModel.value?.status ==
+                                    1)
+                                ? Colors.green
+                                : (_controller.pollutionModel.value?.status ==
+                                        2)
+                                    ? Colors.red
+                                    : Colors.orange),
+                      )
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -107,19 +175,22 @@ class DetailPollutionScreen extends StatelessWidget {
           padding: EdgeInsets.all(10),
           child: Row(
             children: [
-              CachedNetworkImage(
-                imageUrl: "$host/${_controller.user.value?.avatar}",
-                placeholder: (c, url) => Center(
-                  child: CircularProgressIndicator(),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10000.0),
+                child: CachedNetworkImage(
+                  imageUrl: "$host/${_controller.user.value?.avatar}",
+                  placeholder: (c, url) => Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (c, e, f) => Center(
+                      child: Icon(
+                    Icons.person,
+                    size: 50,
+                  )),
+                  fit: BoxFit.fill,
+                  width: 50,
+                  height: 50,
                 ),
-                errorWidget: (c, e, f) => Center(
-                    child: Icon(
-                  Icons.person,
-                  size: 50,
-                )),
-                fit: BoxFit.fill,
-                width: 50,
-                height: 50,
               ),
               SizedBox(
                 width: 10,
@@ -242,5 +313,21 @@ class DetailPollutionScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void handleClickMenu(String value) {
+    switch (value) {
+      case 'Duyệt':
+        _controller.changeStatus(status: 1);
+        break;
+      case 'Từ chối':
+        _controller.changeStatus(status: 2);
+        break;
+      case 'Xóa':
+        _controller.deletePollution();
+        break;
+      case 'Chỉnh sửa':
+        break;
+    }
   }
 }

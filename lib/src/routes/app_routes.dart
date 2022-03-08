@@ -14,4 +14,6 @@ abstract class Routes {
   static const CREATE_REPORT_SCREEN = '/create_report_screen';
 
   static const EDIT_PROFILE_SCREEN = '/edit_profile_screen';
+  static const PROFILE_SCREEN = '/profile_screen';
+  static const OTHER_PROFILE_SCREEN = '/other_profile_screen';
 }

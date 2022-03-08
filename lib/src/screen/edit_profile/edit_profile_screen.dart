@@ -10,7 +10,8 @@ import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_controller.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  final EditProfileController _controller = Get.put(EditProfileController());
+  late final EditProfileController _controller =
+      Get.put(EditProfileController());
 
   final nameController = new TextEditingController();
   final mailController = new TextEditingController();
@@ -92,7 +93,7 @@ class EditProfileScreen extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        height: getProportionateScreenHeight(56),
+                        height: 50,
                         child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
@@ -103,7 +104,6 @@ class EditProfileScreen extends StatelessWidget {
                           child: Text(
                             "Huỷ",
                             style: TextStyle(
-                              fontSize: getProportionateScreenWidth(18),
                               color: Colors.white,
                             ),
                           ),
@@ -112,7 +112,7 @@ class EditProfileScreen extends StatelessWidget {
                       Spacer(),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        height: getProportionateScreenHeight(56),
+                        height: 50,
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
@@ -123,10 +123,6 @@ class EditProfileScreen extends StatelessWidget {
                           },
                           child: Text(
                             "Cập nhật",
-                            style: TextStyle(
-                              fontSize: getProportionateScreenWidth(18),
-                              color: Colors.white,
-                            ),
                           ),
                         ),
                       ),

@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pollution_environment/src/network/api_service.dart';
+import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 class NotificationService {
@@ -57,7 +60,7 @@ class NotificationService {
 
   Future<void> showNotifications(RemoteMessage message) async {
     final String largeIconPath = await _downloadAndSaveFile(
-        'https://via.placeholder.com/48x48', 'largeIcon');
+        '$host/ic_pin_${message.data["type"]}.png', 'largeIcon');
 
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
@@ -74,12 +77,9 @@ class NotificationService {
     final NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      message.notification?.title,
-      message.notification?.body,
-      platformChannelSpecifics,
-    );
+    await flutterLocalNotificationsPlugin.show(0, message.notification?.title,
+        message.notification?.body, platformChannelSpecifics,
+        payload: message.data["id"]);
   }
 
   // Future<void> scheduleNotifications() async {
@@ -105,4 +105,6 @@ class NotificationService {
 
 Future selectNotification(String? payload) async {
   //handle your logic here
+  print(payload);
+  Get.to(() => DetailPollutionScreen(), arguments: payload);
 }
