@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/profile/components/profile_pic.dart';
 import 'package:pollution_environment/src/screen/profile/components/ui_two_text_line.dart';

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/size_config.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_controller.dart';

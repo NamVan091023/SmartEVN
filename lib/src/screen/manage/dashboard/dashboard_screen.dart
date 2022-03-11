@@ -81,6 +81,7 @@ class DashboardScreen extends StatelessWidget {
       options: CarouselOptions(
           autoPlay: true,
           aspectRatio: 0.9,
+          height: 400,
           viewportFraction: 1,
           enableInfiniteScroll: false,
           initialPage: 0,

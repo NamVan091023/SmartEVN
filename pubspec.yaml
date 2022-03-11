@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.1.0+1
 
 environment:
   sdk: '>=2.15.0 <3.0.0'
@@ -59,6 +59,7 @@ dependencies:
   flutter_svg: ^1.0.3
   fl_chart: ^0.45.1
   package_info_plus: ^1.4.0
+  google_maps_flutter_web: ^0.3.2+1
   # firebase_analytics: ^9.1.2
 
 dev_dependencies:
@@ -85,7 +86,6 @@ flutter:
      - assets/icons/ic_pin_land.png
      - assets/icons/ic_pin_sound.png
      - assets/icons/ic_pin_water.png
-    #  - assets/icons/content.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -107,17 +107,19 @@ flutter:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/logos/save_the_earth.png"
+  image_path: "assets/logos/logo.png"
   remove_alpha_ios: true
 
 flutter_native_splash:
-  color: "#1FCC79"
-  image: assets/logos/save_the_earth.png
+  color: "#FFFFFF"
+  color_dark: "#000000"
+  image: assets/logos/logo.png
   # branding: assets/logos/save_the_earth.png
-  branding_mode: bottom
+  # branding_mode: bottom
   android_gravity: center
   ios_content_mode: center
   web_image_mode: center
+  web: true
 
   # To hide the notification bar, use the fullscreen parameter.  Has no affect in web since web
   # has no notification bar.  Defaults to false.

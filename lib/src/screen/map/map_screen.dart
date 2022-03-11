@@ -95,12 +95,12 @@ class MapScreen extends StatelessWidget {
                                     height: 8,
                                   ),
                                   Text(
-                                    getQualityText(_controller
-                                            .pollutions[itemIndex]
-                                            .qualityScore ??
-                                        0),
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    "Chất lượng ${getQualityText(_controller.pollutions[itemIndex].qualityScore ?? 0)}",
+                                    style: TextStyle(
+                                        color: getQualityColor(_controller
+                                                .pollutions[itemIndex]
+                                                .qualityScore ??
+                                            0)),
                                   )
                                 ],
                               ),
@@ -113,7 +113,8 @@ class MapScreen extends StatelessWidget {
                 );
               },
               options: CarouselOptions(
-                aspectRatio: 2.0,
+                aspectRatio: 1,
+                height: 200,
                 enlargeCenterPage: true,
                 enableInfiniteScroll: false,
                 onPageChanged: (index, _) async {

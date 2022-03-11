@@ -6,7 +6,6 @@ import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
-import 'package:pollution_environment/src/components/form_error.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/sign_in/sign_in_controller.dart';
@@ -60,7 +59,6 @@ class _SignFormState extends State<SignForm> {
                 )
               ],
             ),
-            Obx(() => FormError(errors: controller.errors.toList())),
             SizedBox(height: getProportionateScreenHeight(20)),
             DefaultButton(
               text: "Đăng nhập",
@@ -90,11 +88,9 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: !_passwordVisible,
       onSaved: (newValue) => controller.onSavePassword(newValue!),
-      onChanged: (value) {
-        controller.onChangePassword(value);
-      },
       initialValue: PreferenceUtils.getString(KEY_PASSWORD),
       validator: (value) {
         return controller.onValidatorPassword(value!);
@@ -120,6 +116,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => controller.onSaveEmail(newValue!),
       initialValue: PreferenceUtils.getString(KEY_EMAIL),

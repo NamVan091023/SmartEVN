@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
 import 'package:pollution_environment/src/network/apis/notification/notification_api.dart';
 
@@ -12,12 +10,12 @@ Future<void> onBackgroundMessage(RemoteMessage message) async {
 
   if (message.data.containsKey('data')) {
     // Handle data message
-    final data = message.data['data'];
+    // final data = message.data['data'];
   }
 
   if (message.data.containsKey('notification')) {
     // Handle notification message
-    final notification = message.data['notification'];
+    // final notification = message.data['notification'];
   }
   // Or do other work.
 }
@@ -88,7 +86,7 @@ class FCM {
     });
 
     // With this token you can test it easily on your phone
-    final token = _firebaseMessaging.getToken().then((value) {
+    _firebaseMessaging.getToken().then((value) {
       if (value != null) NotificationApi().updateFCMToken(value);
     });
   }

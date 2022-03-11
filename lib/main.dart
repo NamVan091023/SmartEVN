@@ -8,6 +8,7 @@ import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() async {
   EasyLoading.instance
@@ -29,14 +30,18 @@ void main() async {
 
 Future init() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: FirebaseOptions(
-  //       apiKey: "AIzaSyDZUra8Uh6Bgv3VuPqQMfVsC9gUIjbGf_4",
-  //       appId: "1:86534504753:web:ee8ddb5fc22d6f4cf3b010",
-  //       messagingSenderId: "86534504753",
-  //       projectId: "smartenviroment"),
-  // );
-  await Firebase.initializeApp();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: "AIzaSyDZUra8Uh6Bgv3VuPqQMfVsC9gUIjbGf_4",
+          appId: "1:86534504753:web:ee8ddb5fc22d6f4cf3b010",
+          messagingSenderId: "86534504753",
+          projectId: "smartenviroment"),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+
   NotificationService().init();
   await PreferenceUtils.init();
 }
@@ -51,6 +56,7 @@ class MyApp extends StatelessWidget {
         statusBarBrightness: Brightness.dark,
       ),
     );
+
     return DismissKeyboard(
       child: GetMaterialApp(
         theme: themeLight(),

@@ -140,12 +140,9 @@ class MapController extends GetxController {
     canvas.clipPath(Path()..addOval(oval));
 
     // Add image
-    if (imagePath != null) {
-      ui.Image image = await getImageFromPath(
-          imagePath); // Alternatively use your own method to get the image
-      paintImage(
-          canvas: canvas, image: image, rect: oval, fit: BoxFit.fitWidth);
-    }
+    ui.Image image = await getImageFromPath(
+        imagePath); // Alternatively use your own method to get the image
+    paintImage(canvas: canvas, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     // Convert canvas to image
     final ui.Image markerAsImage = await pictureRecorder

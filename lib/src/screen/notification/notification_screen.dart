@@ -22,6 +22,7 @@ class _NotificationScreenState extends State<NotificationScreen>
   int nextPage = 1;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(

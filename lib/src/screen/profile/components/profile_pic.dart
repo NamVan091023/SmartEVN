@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
-import 'package:pollution_environment/src/routes/app_pages.dart';
-import 'package:pollution_environment/src/screen/profile/profile/profile_controller.dart';
 
 class ProfilePic extends StatelessWidget {
   late final UserModel? user;

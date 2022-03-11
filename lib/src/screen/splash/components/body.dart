@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/size_config.dart';
 import 'package:pollution_environment/src/screen/splash/splash_controller.dart';
 
 import '../../../components/default_button.dart';
