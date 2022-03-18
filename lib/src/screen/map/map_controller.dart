@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/commons/location_service.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/network/apis/pollution/pollution_api.dart';
 import 'package:pollution_environment/src/screen/filter/filter_storage_controller.dart';
@@ -36,8 +37,7 @@ class MapController extends GetxController {
   );
 
   void getPos() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position position = await LocationService().determinePosition();
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(position.latitude, position.longitude), zoom: 13)));
