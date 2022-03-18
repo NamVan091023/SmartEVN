@@ -73,6 +73,8 @@ class SignInController extends GetxController {
 
         if (user.role == 'admin') {
           PreferenceUtils.setBool(KEY_IS_ADMIN, true);
+        } else {
+          PreferenceUtils.setBool(KEY_IS_ADMIN, false);
         }
         onSuccess();
       } else {

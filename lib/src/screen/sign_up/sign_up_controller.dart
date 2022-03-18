@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 
@@ -88,11 +89,27 @@ class SignUpController extends GetxController {
       debugPrint("Register success $response");
       UserModel? user = response.user;
       if (user != null) {
-        // PreferenceUtils.setBool(
-        //     KEY_IS_ADMIN, user.role == 'admin' ? true : false);
-        // PreferenceUtils.setString(KEY_EMAIL, user.email!);
-        // PreferenceUtils.setBool(KEY_IS_LOGIN, true);
-        // PreferenceUtils.setString("user", user);
+        String? refreshToken = response.tokens?.refresh?.token;
+        String? accessToken = response.tokens?.access?.token;
+        if (refreshToken != null) {
+          PreferenceUtils.setString(KEY_REFRESH_TOKEN, refreshToken);
+        }
+        if (accessToken != null) {
+          PreferenceUtils.setString(KEY_ACCESS_TOKEN, accessToken);
+        }
+
+        PreferenceUtils.setBool(KEY_REMEMBER_LOGIN, true);
+        PreferenceUtils.setString(KEY_USER_ID, user.id!);
+
+        PreferenceUtils.setString(KEY_EMAIL, email.value);
+        PreferenceUtils.setString(KEY_PASSWORD, password.value);
+
+        if (user.role == 'admin') {
+          PreferenceUtils.setBool(KEY_IS_ADMIN, true);
+        } else {
+          PreferenceUtils.setBool(KEY_IS_ADMIN, false);
+        }
+
         onSuccess();
       } else {
         onError("Không lấy được thông tin người dùng");
