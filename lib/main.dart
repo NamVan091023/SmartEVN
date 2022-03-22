@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
         getPages: AppPages.pages,
         // defaultTransition: Transition.cupertino,
         debugShowCheckedModeBanner: false,
-        title: "Smart Enviroment",
+        title: "Smart Environment",
         builder: EasyLoading.init(),
         scrollBehavior: MyCustomScrollBehavior(),
       ),

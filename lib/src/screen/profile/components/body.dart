@@ -26,15 +26,16 @@ class Body extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           SizedBox(height: 20),
-          Row(
-            children: [
-              Spacer(),
-              TwoTextLine(textOne: "0", textTwo: "Số bài viết"),
-              Spacer(),
-              TwoTextLine(textOne: "32", textTwo: "Số điểm post"),
-              Spacer(),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Spacer(),
+          //     TwoTextLine(textOne: "0", textTwo: "Số bài viết"),
+          //     Spacer(),
+          //     TwoTextLine(textOne: "32", textTwo: "Số điểm post"),
+          //     Spacer(),
+          //   ],
+          // ),
+          Text(user?.email ?? ""),
           SizedBox(height: 20),
           Divider(
             height: 1,

@@ -74,7 +74,7 @@ class _ReportUserState extends State<ReportUser>
         // actions: [_buildFilter()],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
@@ -138,7 +138,7 @@ class _ReportUserState extends State<ReportUser>
             color: Theme.of(context).cardColor,
           ),
           child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(5),
             child: Row(
               children: [
                 Image.asset(

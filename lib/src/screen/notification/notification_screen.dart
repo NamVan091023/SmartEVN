@@ -37,7 +37,7 @@ class _NotificationScreenState extends State<NotificationScreen>
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
@@ -165,7 +165,7 @@ class _NotificationScreenState extends State<NotificationScreen>
                 color: Theme.of(context).cardColor,
               ),
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(5),
                 child: Row(
                   children: [
                     Image.asset(

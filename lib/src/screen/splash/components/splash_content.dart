@@ -15,7 +15,7 @@ class SplashContent extends StatelessWidget {
       children: <Widget>[
         Spacer(),
         Text(
-          "Smart Enviroment",
+          "Smart Environment",
           style: TextStyle(
             fontSize: getProportionateScreenWidth(36),
             color: Theme.of(context).primaryColor,

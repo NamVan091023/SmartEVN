@@ -1,66 +1,105 @@
-class DataFacebook {
-  List<Data>? data;
+class FBNewsResponse {
+  List<FBNews>? results;
+  int? page;
+  int? limit;
+  int? totalPages;
+  int? totalResults;
 
-  DataFacebook({this.data});
+  FBNewsResponse(
+      {this.results,
+      this.page,
+      this.limit,
+      this.totalPages,
+      this.totalResults});
 
-  DataFacebook.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+  FBNewsResponse.fromJson(Map<String, dynamic> json) {
+    if (json['results'] != null) {
+      results = <FBNews>[];
+      json['results'].forEach((v) {
+        results!.add(new FBNews.fromJson(v));
       });
     }
+    page = json['page'];
+    limit = json['limit'];
+    totalPages = json['totalPages'];
+    totalResults = json['totalResults'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    if (this.results != null) {
+      data['results'] = this.results!.map((v) => v.toJson()).toList();
     }
+    data['page'] = this.page;
+    data['limit'] = this.limit;
+    data['totalPages'] = this.totalPages;
+    data['totalResults'] = this.totalResults;
     return data;
   }
 }
 
-class Data {
+class FBNews {
   String? id;
-  String? description;
-  String? name;
+  String? permalinkUrl;
   String? message;
-  String? updatedTime;
-  String? link;
-  int? view = 0;
+  String? fullPicture;
+  From? from;
+  String? objectId;
+  String? createdTime;
+  String? type;
 
-  Data(
+  FBNews(
       {this.id,
-      this.description,
-      this.name,
+      this.permalinkUrl,
       this.message,
-      this.updatedTime,
-      this.link,
-      this.view});
+      this.fullPicture,
+      this.from,
+      this.objectId,
+      this.createdTime,
+      this.type});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  FBNews.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    description = json['description'];
-    name = json['name'];
+    permalinkUrl = json['permalink_url'];
     message = json['message'];
-    updatedTime = json['updated_time'];
-    link = json['link'];
-    if (json['view'] == null)
-      view = 0;
-    else
-      view = json['view'];
+    fullPicture = json['full_picture'];
+    from = json['from'] != null ? new From.fromJson(json['from']) : null;
+    objectId = json['object_id'];
+    createdTime = json['created_time'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['description'] = this.description;
-    data['name'] = this.name;
+    data['permalink_url'] = this.permalinkUrl;
     data['message'] = this.message;
-    data['updated_time'] = this.updatedTime;
-    data['link'] = this.link;
-    data['view'] = this.view;
+    data['full_picture'] = this.fullPicture;
+    if (this.from != null) {
+      data['from'] = this.from!.toJson();
+    }
+    data['object_id'] = this.objectId;
+    data['created_time'] = this.createdTime;
+    data['type'] = this.type;
+    return data;
+  }
+}
+
+class From {
+  String? name;
+  String? id;
+
+  From({this.name, this.id});
+
+  From.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['id'] = this.id;
     return data;
   }
 }

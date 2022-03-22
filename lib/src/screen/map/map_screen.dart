@@ -60,7 +60,7 @@ class MapScreen extends StatelessWidget {
                       shadowColor: Colors.grey,
                       elevation: 5,
                       child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(5),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -114,7 +114,7 @@ class MapScreen extends StatelessWidget {
               },
               options: CarouselOptions(
                 aspectRatio: 1,
-                height: 200,
+                height: 180,
                 enlargeCenterPage: true,
                 enableInfiniteScroll: false,
                 onPageChanged: (index, _) async {
@@ -160,7 +160,7 @@ class MapScreen extends StatelessWidget {
               IconButton(
                 focusColor: Colors.green,
                 icon: Icon(
-                  Icons.gps_fixed_outlined,
+                  Icons.gps_fixed_rounded,
                 ),
                 onPressed: () {
                   _controller.getPos();
@@ -171,7 +171,7 @@ class MapScreen extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.filter_alt_outlined,
+                  Icons.filter_alt_rounded,
                 ),
                 onPressed: () {
                   Get.toNamed(Routes.MAP_FILTER_SCREEN)
@@ -183,7 +183,7 @@ class MapScreen extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.info_outline,
+                  Icons.info_rounded,
                 ),
                 onPressed: () {
                   showInfo();

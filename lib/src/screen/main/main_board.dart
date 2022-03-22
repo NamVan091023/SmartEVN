@@ -5,6 +5,7 @@ import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/components/keep_alive_wrapper.dart';
 import 'package:pollution_environment/src/screen/manage//manage_screen.dart';
 import 'package:pollution_environment/src/screen/map/map_screen.dart';
+import 'package:pollution_environment/src/screen/news/news_screen.dart';
 import 'package:pollution_environment/src/screen/notification/notification_screen.dart';
 import 'package:pollution_environment/src/screen/profile/profile/profile_screen.dart';
 import 'package:pollution_environment/src/screen/report_user/report_user_screen.dart';
@@ -18,6 +19,7 @@ class _MainBoardState extends State<MainBoard> {
   bool isAdmin = PreferenceUtils.getBool(KEY_IS_ADMIN);
 
   List<Widget> _tabList = <Widget>[
+    KeepAliveWrapper(child: NewsScreen()),
     KeepAliveWrapper(child: MapScreen()),
   ];
 
@@ -54,7 +56,11 @@ class _MainBoardState extends State<MainBoard> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
+            icon: Icon(Icons.newspaper_rounded),
+            label: "Tin tức",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map_rounded),
             label: "Bản đồ",
           ),
           BottomNavigationBarItem(

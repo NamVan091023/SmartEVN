@@ -15,7 +15,7 @@ class PollutionManageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
@@ -119,7 +119,7 @@ class PollutionManageScreen extends StatelessWidget {
               color: Theme.of(context).cardColor,
             ),
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(5),
               child: Row(
                 children: [
                   Image.asset(

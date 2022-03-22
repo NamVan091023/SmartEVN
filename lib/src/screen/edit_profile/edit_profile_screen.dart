@@ -67,7 +67,7 @@ class EditProfileScreen extends StatelessWidget {
                                   loadAssets();
                                 },
                                 icon: Icon(
-                                  Icons.edit_outlined,
+                                  Icons.edit_rounded,
                                   size: 16,
                                 ),
                               ),

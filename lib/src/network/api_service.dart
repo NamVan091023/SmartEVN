@@ -15,8 +15,8 @@ enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
 // final host = "http://10.8.0.2:3000";
 // final host = "http://192.168.123.235:3000";
-// final host = "http://172.16.82.152:3000";
-final host = "https://hungs20.xyz";
+// final host = "http://172.16.122.158:3000";
+final host = "https://www.hungs20.xyz";
 final baseUrl = "$host/v1";
 
 class AuthInterceptor extends QueuedInterceptor {

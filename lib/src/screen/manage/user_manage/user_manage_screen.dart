@@ -15,7 +15,7 @@ class UserManageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
