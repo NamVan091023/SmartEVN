@@ -31,6 +31,8 @@ class ProvinceModel {
   String? id;
   String? name;
   String? type;
+  List<List<List<List<double>>>>? coordinates;
+  List<double>? bbox;
   List<DistrictModel>? districts;
 
   ProvinceModel({this.id, this.name, this.type, this.districts});
@@ -39,6 +41,27 @@ class ProvinceModel {
     id = json['level1_id'];
     name = json['name'];
     type = json['type'];
+    if (json['coordinates'] != null) {
+      if (type == "Polygon") {
+        var sub = (json['coordinates'] as List)
+            .map((e) => (e as List)
+                .map((e) => (e as List).map((e) => e as double).toList())
+                .toList())
+            .toList();
+        coordinates = [sub];
+      } else {
+        coordinates = (json['coordinates'] as List)
+            .map((e) => (e as List)
+                .map((e) => (e as List)
+                    .map((e) => (e as List).map((e) => e as double).toList())
+                    .toList())
+                .toList())
+            .toList();
+      }
+    }
+    if (json['bbox'] != null) {
+      bbox = (json['bbox'] as List).map((e) => e as double).toList();
+    }
     if (json['level2s'] != null) {
       districts = <DistrictModel>[];
       json['level2s'].forEach((v) {
@@ -55,6 +78,8 @@ class ProvinceModel {
     if (this.districts != null) {
       data['level2s'] = this.districts!.map((v) => v.toJson()).toList();
     }
+    data['coordinates'] = this.coordinates;
+    data['bbox'] = this.bbox;
     return data;
   }
 }
@@ -63,6 +88,8 @@ class DistrictModel {
   String? id;
   String? name;
   String? type;
+  List<List<List<List<double>>>>? coordinates;
+  List<double>? bbox;
   List<WardModel>? wards;
 
   DistrictModel({this.id, this.name, this.type, this.wards});
@@ -71,6 +98,27 @@ class DistrictModel {
     id = json['level2_id'];
     name = json['name'];
     type = json['type'];
+    if (json['coordinates'] != null) {
+      if (type == "Polygon") {
+        var sub = (json['coordinates'] as List)
+            .map((e) => (e as List)
+                .map((e) => (e as List).map((e) => e as double).toList())
+                .toList())
+            .toList();
+        coordinates = [sub];
+      } else {
+        coordinates = (json['coordinates'] as List)
+            .map((e) => (e as List)
+                .map((e) => (e as List)
+                    .map((e) => (e as List).map((e) => e as double).toList())
+                    .toList())
+                .toList())
+            .toList();
+      }
+    }
+    if (json['bbox'] != null) {
+      bbox = (json['bbox'] as List).map((e) => e as double).toList();
+    }
     if (json['level3s'] != null) {
       wards = <WardModel>[];
       json['level3s'].forEach((v) {
@@ -87,6 +135,8 @@ class DistrictModel {
     if (this.wards != null) {
       data['level3s'] = this.wards!.map((v) => v.toJson()).toList();
     }
+    data['coordinates'] = this.coordinates;
+    data['bbox'] = this.bbox;
     return data;
   }
 }
@@ -110,5 +160,21 @@ class WardModel {
     data['name'] = this.name;
     data['type'] = this.type;
     return data;
+  }
+}
+
+class ParseAddressResponse {
+  String? provinceId;
+  String? provinceName;
+  String? districtId;
+  String? districtName;
+
+  ParseAddressResponse(
+      {this.provinceId, this.provinceName, this.districtId, this.districtName});
+  ParseAddressResponse.fromJson(Map<String, dynamic> json) {
+    provinceId = json["provinceId"];
+    provinceName = json["provinceName"];
+    districtId = json["districtId"];
+    districtName = json["districtName"];
   }
 }

@@ -5,6 +5,8 @@ import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/components/full_image_viewer.dart';
+import 'package:pollution_environment/src/components/pollution_card.dart';
+import 'package:pollution_environment/src/components/pollution_user_card.dart';
 import 'package:pollution_environment/src/components/username.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
@@ -179,66 +181,9 @@ class DetailPollutionScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10),
       child: GestureDetector(
-        child: Card(
-          semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Padding(
-            padding: EdgeInsets.all(5),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10000.0),
-                  child: CachedNetworkImage(
-                    imageUrl: "$host/${_controller.user.value?.avatar}",
-                    placeholder: (c, url) => Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (c, e, f) => Center(
-                        child: Icon(
-                      Icons.person,
-                      size: 50,
-                    )),
-                    fit: BoxFit.fill,
-                    width: 50,
-                    height: 50,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Dữ liệu được cung cấp bởi",
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Obx(
-                        () => Row(
-                          children: [
-                            if (_controller.user.value != null)
-                              UserName(user: _controller.user.value!),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Lúc: ${convertDate(_controller.pollutionModel.value?.createdAt ?? "")}",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+        child: PollutionUserCard(
+          userModel: _controller.user.value,
+          createdAt: _controller.pollutionModel.value?.createdAt,
         ),
         onTap: () {
           Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
@@ -250,85 +195,10 @@ class DetailPollutionScreen extends StatelessWidget {
 
   Widget _buildTypeCard(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10),
-      child: Card(
-        child: Card(
-          semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Container(
-            height: 100,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    child: Image.asset(getAssetPollution(
-                        _controller.pollutionModel.value?.type)),
-                    color: getQualityColor(
-                        _controller.pollutionModel.value?.qualityScore),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: [
-                          0.1,
-                          0.4,
-                          0.6,
-                          0.9,
-                        ],
-                        colors: [
-                          getQualityColor(_controller
-                                  .pollutionModel.value?.qualityScore)
-                              .withAlpha(220),
-                          getQualityColor(_controller
-                                  .pollutionModel.value?.qualityScore)
-                              .withAlpha(170),
-                          getQualityColor(_controller
-                                  .pollutionModel.value?.qualityScore)
-                              .withAlpha(250),
-                          getQualityColor(_controller
-                                  .pollutionModel.value?.qualityScore)
-                              .withAlpha(100),
-                        ],
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Chất lượng",
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          getQualityText(
-                              _controller.pollutionModel.value?.qualityScore),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          elevation: 5,
-          margin: EdgeInsets.all(5),
-        ),
-      ),
-    );
+        padding: EdgeInsets.only(left: 10, right: 10),
+        child: _controller.pollutionModel.value != null
+            ? PollutionCard(pollutionModel: _controller.pollutionModel.value!)
+            : Container());
   }
 
   void handleClickMenu(String value) {

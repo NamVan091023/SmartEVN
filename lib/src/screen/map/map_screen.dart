@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:pollution_environment/src/model/pollution_type_model.dart';
 
-import 'package:pollution_environment/src/routes/app_pages.dart';
-import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
+import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/map/map_controller.dart';
+
+import 'components/filter_action.dart';
+import 'components/view_aqi_selected.dart';
+import 'components/view_pollution_selected.dart';
 
 class MapScreen extends StatelessWidget {
   late final MapController _controller = Get.put(MapController());
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     _controller.getPos();
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: Drawer(child: FilterMapScreen()),
+      onEndDrawerChanged: (isOpen) {
+        if (!isOpen) {
+          _controller.getPollutionPosition();
+        }
+      },
       body: Stack(
         children: [
-          Obx(() => GoogleMap(
+          Obx(
+            () => GoogleMap(
                 mapType: MapType.normal,
                 myLocationEnabled: true,
                 zoomGesturesEnabled: true,
@@ -27,300 +38,198 @@ class MapScreen extends StatelessWidget {
                 initialCameraPosition: _controller.kGooglePlex,
                 onMapCreated: (GoogleMapController controller) {
                   _controller.mapController.complete(controller);
+                  for (int i = 0; i < 6; i++) {
+                    _controller.managers.toList()[i].setMapId(controller.mapId);
+                    _controller.aqiManagers
+                        .toList()[i]
+                        .setMapId(controller.mapId);
+                  }
                 },
-                markers: _controller.markers.toSet(),
-              )),
-          Obx(() => _buildListViewPollution()),
+                onCameraMove: (position) {
+                  for (int i = 0; i < 6; i++) {
+                    _controller.managers.toList()[i].onCameraMove(position);
+                    _controller.aqiManagers.toList()[i].onCameraMove(position);
+                  }
+                  _controller.getAQIMap();
+                },
+                onCameraIdle: () {
+                  for (int i = 0; i < 6; i++) {
+                    _controller.managers.toList()[i].updateMap();
+                    _controller.aqiManagers.toList()[i].updateMap();
+                  }
+                },
+                onTap: (latlng) {
+                  if (_controller.pollutionSelected.value?.lat !=
+                          latlng.latitude &&
+                      _controller.pollutionSelected.value?.lng !=
+                          latlng.longitude &&
+                      _controller.aqiMarkerSelected.value?.location.latitude !=
+                          latlng.latitude &&
+                      _controller.aqiMarkerSelected.value?.location.longitude !=
+                          latlng.longitude) {
+                    _controller.animationController.forward();
+                    _controller.pollutionSelected.value = null;
+                  }
+                },
+                polygons: _controller.polygons.toSet(),
+                markers: <Marker>{}
+                  ..addAll(_controller.markers.toList()[0])
+                  ..addAll(_controller.markers.toList()[1])
+                  ..addAll(_controller.markers.toList()[2])
+                  ..addAll(_controller.markers.toList()[3])
+                  ..addAll(_controller.markers.toList()[4])
+                  ..addAll(_controller.markers.toList()[5])
+                  ..addAll(_controller.aqiMarkers.toList()[0])
+                  ..addAll(_controller.aqiMarkers.toList()[1])
+                  ..addAll(_controller.aqiMarkers.toList()[2])
+                  ..addAll(_controller.aqiMarkers.toList()[3])
+                  ..addAll(_controller.aqiMarkers.toList()[4])
+                  ..addAll(_controller.aqiMarkers.toList()[5])),
+          ),
+          _buildSearchView(context),
           _buildFilterActionView(context),
+          Obx(() => _controller.pollutionSelected.value != null
+              ? _buildViewPollutionSelected(context)
+              : Container()),
+          Obx(() => _controller.aqiMarkerSelected.value != null
+              ? _buildViewAQISelected(context)
+              : Container())
         ],
       ),
     );
   }
 
-  Widget _buildListViewPollution() {
-    return _controller.pollutions.isNotEmpty &&
-            _controller.indexPollutionSelected.value != null
-        ? Align(
-            alignment: Alignment.bottomCenter,
-            child: CarouselSlider.builder(
-              carouselController: _controller.carouselController.value,
-              itemCount: _controller.pollutions.length,
-              itemBuilder:
-                  (BuildContext context, int itemIndex, int pageViewIndex) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(() => DetailPollutionScreen(),
-                          arguments: _controller.pollutions[itemIndex].id);
-                    },
-                    child: Card(
-                      semanticContainer: true,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      shadowColor: Colors.grey,
-                      elevation: 5,
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              getAssetPollution(
-                                  _controller.pollutions[itemIndex].type!),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    getNamePollution(_controller
-                                        .pollutions[itemIndex].type!),
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    "${_controller.pollutions[itemIndex].specialAddress}, ${_controller.pollutions[itemIndex].wardName}, ${_controller.pollutions[itemIndex].districtName}, ${_controller.pollutions[itemIndex].provinceName}",
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    "Chất lượng ${getQualityText(_controller.pollutions[itemIndex].qualityScore ?? 0)}",
-                                    style: TextStyle(
-                                        color: getQualityColor(_controller
-                                                .pollutions[itemIndex]
-                                                .qualityScore ??
-                                            0)),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+  Widget _buildSearchView(context) {
+    return Container(
+      margin: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top, right: 5, left: 0),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 50,
+                child: ListView(
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Obx(
+                      () => FilterChip(
+                        label: Text("Chất lượng không khí"),
+                        avatar: Icon(
+                          Icons.air,
+                          color: Colors.blue,
                         ),
+                        showCheckmark: false,
+                        selected: _controller
+                            .filterStorageController.isFilterAQI.value,
+                        elevation: 3,
+                        onSelected: (bool value) async {
+                          _controller.filterStorageController.isFilterAQI
+                              .value = value;
+
+                          await _controller.getAQIMap();
+                        },
                       ),
                     ),
-                  ),
-                );
-              },
-              options: CarouselOptions(
-                aspectRatio: 1,
-                height: 180,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: false,
-                onPageChanged: (index, _) async {
-                  var mapController = await _controller.mapController.future;
-                  mapController.animateCamera(
-                    CameraUpdate.newCameraPosition(
-                      CameraPosition(
-                        zoom: 13.0,
-                        target: LatLng(_controller.pollutions[index].lat!,
-                            _controller.pollutions[index].lng!),
-                      ),
+                    SizedBox(
+                      width: 8,
                     ),
-                  );
-                },
-                initialPage: _controller.indexPollutionSelected.value ?? 0,
+                    Obx(() => _buildFilterChip("land")),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Obx(() => _buildFilterChip("water")),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Obx(() => _buildFilterChip("air")),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Obx(() => _buildFilterChip("sound")),
+                  ],
+                ),
               ),
             ),
-          )
-        : Container();
+            SizedBox(
+              width: 8,
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                _scaffoldKey.currentState!.openEndDrawer();
+              },
+              clipBehavior: Clip.antiAlias,
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                minimumSize: Size(0, 0),
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              icon: Icon(Icons.filter_alt_outlined),
+              label: Text(
+                "Lọc",
+                style: TextStyle(fontSize: 13),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildViewPollutionSelected(BuildContext context) {
+    if (_controller.pollutionSelected.value != null)
+      _controller.animationController..reverse();
+    else
+      _controller.animationController..forward();
+    return ViewPollutionSelected(controller: _controller);
+  }
+
+  Widget _buildViewAQISelected(BuildContext context) {
+    if (_controller.aqiMarkerSelected.value != null)
+      _controller.animationController..reverse();
+    else
+      _controller.animationController..forward();
+    return ViewAQISelected(controller: _controller);
   }
 
   Widget _buildFilterActionView(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 60, right: 10),
-      child: Align(
-        alignment: Alignment.topRight,
-        child: Container(
-          width: 44,
-          decoration: new BoxDecoration(
-              color: Theme.of(context).cardColor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 2), // changes position of shadow
-                ),
-              ],
-              borderRadius: new BorderRadius.all(const Radius.circular(11.0))),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconButton(
-                focusColor: Colors.green,
-                icon: Icon(
-                  Icons.gps_fixed_rounded,
-                ),
-                onPressed: () {
-                  _controller.getPos();
-                },
-              ),
-              Divider(
-                height: 1,
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.filter_alt_rounded,
-                ),
-                onPressed: () {
-                  Get.toNamed(Routes.MAP_FILTER_SCREEN)
-                      ?.then((value) => _controller.getPollutionPosition());
-                },
-              ),
-              Divider(
-                height: 1,
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.info_rounded,
-                ),
-                onPressed: () {
-                  showInfo();
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return FilterAction(controller: _controller);
   }
 
-  void showInfo() {
-    Get.defaultDialog(
-      title: "Các loại ô nhiễm",
-      titleStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-      content: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Row(
-            children: <Widget>[
-              Image.asset(
-                Assets.iconPinAir,
-                height: 25,
-                width: 25,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: new Text("Ô nhiễm không khí"),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: <Widget>[
-              Image.asset(
-                Assets.iconPinLand,
-                height: 25,
-                width: 25,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: new Text("Ô nhiễm đất"),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: <Widget>[
-              Image.asset(
-                Assets.iconPinWater,
-                height: 25,
-                width: 25,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: new Text("Ô nhiễm nước"),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: <Widget>[
-              Image.asset(
-                Assets.iconPinSound,
-                height: 25,
-                width: 25,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: new Text("Ô nhiễm tiếng ồn"),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Mức độ ô nhiễm",
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          _buildQualityScore(6),
-          SizedBox(
-            height: 8,
-          ),
-          _buildQualityScore(5),
-          SizedBox(
-            height: 8,
-          ),
-          _buildQualityScore(4),
-          SizedBox(
-            height: 8,
-          ),
-          _buildQualityScore(3),
-          SizedBox(
-            height: 8,
-          ),
-          _buildQualityScore(2),
-          SizedBox(
-            height: 8,
-          ),
-          _buildQualityScore(1),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQualityScore(int score) {
-    return Row(
-      children: <Widget>[
-        Container(
-          width: 25,
-          height: 25,
-          color: getQualityColor(score),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Text(getQualityText(score)),
-      ],
+  Widget _buildFilterChip(String type) {
+    return FilterChip(
+      label: Text(getNamePollution(type)),
+      avatar: Image.asset(getAssetPollution(type)),
+      showCheckmark: false,
+      selected: _controller.filterStorageController.selectedType
+              .toList()
+              .firstWhereOrNull((element) => element.key == type) !=
+          null,
+      elevation: _controller.filterStorageController.selectedType
+                  .toList()
+                  .firstWhereOrNull((element) => element.key == type) !=
+              null
+          ? 5
+          : 0,
+      onSelected: (bool value) {
+        if (value) {
+          _controller.filterStorageController.selectedType
+              .add(PollutionType(key: type, name: getShortNamePollution(type)));
+          _controller.getPollutionPosition();
+        } else {
+          _controller.filterStorageController.selectedType
+              .removeWhere((element) => element.key == type);
+          _controller.getPollutionPosition();
+        }
+      },
     );
   }
 }

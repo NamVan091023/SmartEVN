@@ -87,15 +87,24 @@ class PollutionApi {
     Response response;
     Map<String, String> data = {};
 
-    if (type != null && type.isNotEmpty) {
-      for (int i = 0; i < type.length; i++) data["type[$i]"] = type[i];
+    if (type != null) {
+      if (type.isNotEmpty) {
+        for (int i = 0; i < type.length; i++) data["type[$i]"] = type[i];
+      } else {
+        data["type[0]"] = "";
+      }
     }
     if (provinceName != null && provinceName != '')
       data["provinceName"] = provinceName;
     if (districtName != null && districtName != '')
       data["districtName"] = districtName;
-    if (quality != null && quality.isNotEmpty) {
-      for (int i = 0; i < quality.length; i++) data["quality[$i]"] = quality[i];
+    if (quality != null) {
+      if (quality.isNotEmpty) {
+        for (int i = 0; i < quality.length; i++)
+          data["quality[$i]"] = quality[i];
+      } else {
+        data["quality[0]"] = "";
+      }
     }
     if (status != null) data["status"] = '$status';
     if (userId != null && userId != '') data["userId"] = userId;

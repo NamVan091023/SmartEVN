@@ -34,3 +34,48 @@ class AreaForestModel {
     return data;
   }
 }
+
+class IQAirRankVN {
+  String? title;
+  List<RankData>? rankData;
+
+  IQAirRankVN({this.title, this.rankData});
+
+  IQAirRankVN.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    if (json['rankData'] != null) {
+      rankData = <RankData>[];
+      json['rankData'].forEach((v) {
+        rankData!.add(new RankData.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
+    if (this.rankData != null) {
+      data['rankData'] = this.rankData!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class RankData {
+  String? name;
+  String? score;
+
+  RankData({this.name, this.score});
+
+  RankData.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    score = json['score'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['score'] = this.score;
+    return data;
+  }
+}

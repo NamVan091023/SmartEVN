@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:ui';
 
+import 'package:background_locator/background_locator.dart';
 import 'package:dio/dio.dart';
+import 'package:pollution_environment/src/commons/background_location/location_service_repository.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
@@ -115,6 +118,8 @@ class AuthApi {
     PreferenceUtils.remove(KEY_REFRESH_TOKEN);
     PreferenceUtils.remove(KEY_USER_ID);
     PreferenceUtils.remove(KEY_IS_ADMIN);
-    PreferenceUtils.remove(KEY_USER_ID);
+    IsolateNameServer.removePortNameMapping(
+        LocationServiceRepository.isolateName);
+    BackgroundLocator.unRegisterLocationUpdate();
   }
 }

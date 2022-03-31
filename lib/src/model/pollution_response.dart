@@ -1,4 +1,7 @@
-class PollutionModel {
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+
+class PollutionModel with ClusterItem {
   List<String>? images;
   int? qualityScore;
   String? provinceName;
@@ -85,6 +88,9 @@ class PollutionModel {
     data['status'] = this.status;
     return data;
   }
+
+  @override
+  LatLng get location => LatLng(lat ?? 0, lng ?? 0);
 }
 
 class PollutionsResponse {

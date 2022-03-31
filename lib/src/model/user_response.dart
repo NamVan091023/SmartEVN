@@ -68,6 +68,8 @@ class UserModel {
   bool? isNotificationReceived;
   int post = 0;
 
+  UserModel({this.name});
+
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     role = json['role'];

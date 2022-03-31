@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/commons/location_service.dart';
 import 'package:pollution_environment/src/model/address_model.dart';
 import 'package:pollution_environment/src/model/pollution_quality_model.dart';
 import 'package:pollution_environment/src/model/pollution_type_model.dart';
@@ -24,6 +25,29 @@ class CreateReportController extends GetxController {
 
   @override
   void onInit() {
+    showLoading();
+    LocationService().determinePosition().then((value) {
+      double lat = value.latitude;
+      double lng = value.longitude;
+      AddressApi().parseAddress(lat, lng).then((value) {
+        getDataProvince().then((provinces) {
+          var province =
+              provinces.firstWhere((element) => element.id == value.provinceId);
+          selectedProvince.value = province;
+          selectedDistrict.value = province.districts
+              ?.firstWhere((element) => element.id == value.districtId);
+
+          hideLoading();
+        }).catchError((e) {
+          hideLoading();
+        });
+      }).catchError((e) {
+        hideLoading();
+      });
+    }).catchError((e) {
+      hideLoading();
+    });
+
     super.onInit();
   }
 
@@ -97,6 +121,18 @@ class CreateReportController extends GetxController {
     try {
       List<Location> locations = await locationFromAddress(
           "$specialAddress, ${selectedWard.value?.name}, ${selectedDistrict.value?.name}, ${selectedProvince.value?.name}");
+      if (locations.isEmpty) {
+        locations = await locationFromAddress(
+            "${selectedWard.value?.name}, ${selectedDistrict.value?.name}, ${selectedProvince.value?.name}");
+      }
+      if (locations.isEmpty) {
+        locations = await locationFromAddress(
+            "${selectedDistrict.value?.name}, ${selectedProvince.value?.name}");
+      }
+      if (locations.isEmpty) {
+        locations =
+            await locationFromAddress("${selectedProvince.value?.name}");
+      }
       if (locations.isNotEmpty) {
         lat = locations.first.latitude;
         lng = locations.first.longitude;

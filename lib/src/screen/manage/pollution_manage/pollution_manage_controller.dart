@@ -36,6 +36,7 @@ class PollutionManageController extends GetxController {
 
   @override
   void onInit() {
+    filterSelected.value = 0;
     getAllPollution();
     super.onInit();
   }

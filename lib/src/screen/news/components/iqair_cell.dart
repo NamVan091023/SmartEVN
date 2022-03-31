@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/area_forest_model.dart';
 
 class IQAirCell extends StatelessWidget {
@@ -22,7 +21,7 @@ class IQAirCell extends StatelessWidget {
               Expanded(
                   flex: 3,
                   child: Card(
-                    color: _getColorRank(),
+                    color: getColorRank(int.parse(areaForestModel.rank ?? "0")),
                     child: Center(
                       child: Text(
                         areaForestModel.rank ?? "",
@@ -82,24 +81,5 @@ class IQAirCell extends StatelessWidget {
       ),
       onTap: onTap,
     );
-  }
-
-  Color _getColorRank() {
-    if (areaForestModel.rank != null) {
-      int rank = int.parse(areaForestModel.rank!);
-
-      if (rank <= 10)
-        return Colors.green;
-      else if (rank <= 20)
-        return Colors.cyan;
-      else if (rank <= 50)
-        return Colors.yellow;
-      else if (rank <= 100)
-        return Colors.orange;
-      else
-        return Colors.red;
-    } else {
-      return Colors.red;
-    }
   }
 }

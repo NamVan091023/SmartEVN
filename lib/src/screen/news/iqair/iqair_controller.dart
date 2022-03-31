@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/model/area_forest_model.dart';
 import 'package:pollution_environment/src/network/apis/area_forest/area_forest_api.dart';
@@ -7,10 +8,12 @@ class IQAirController extends GetxController {
   Rx<RefreshController> refreshController = RefreshController().obs;
 
   RxList<AreaForestModel> areaForests = RxList<AreaForestModel>();
+  RxList<IQAirRankVN> iqAirRankVN = RxList<IQAirRankVN>();
 
   @override
   void onInit() {
     getAreaForest();
+    getRankVN();
     super.onInit();
   }
 
@@ -25,9 +28,17 @@ class IQAirController extends GetxController {
     });
   }
 
+  Future<void> getRankVN() async {
+    AreaForestAPI().getRankVN().then((value) {
+      iqAirRankVN.addAll(value);
+    });
+  }
+
   Future<void> refresh() async {
     areaForests.value = [];
-    await getAreaForest();
+    iqAirRankVN.value = [];
+    getAreaForest();
+    getRankVN();
   }
 
   void onRefresh() async {

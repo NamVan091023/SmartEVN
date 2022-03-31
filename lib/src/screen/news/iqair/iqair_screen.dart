@@ -1,6 +1,9 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/components/empty_view.dart';
+import 'package:pollution_environment/src/model/area_forest_model.dart';
 import 'package:pollution_environment/src/screen/news/iqair/iqair_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -8,6 +11,7 @@ import '../components/iqair_cell.dart';
 
 class IQAirScreen extends StatelessWidget {
   final IQAirController _controller = Get.put(IQAirController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,23 +31,163 @@ class IQAirScreen extends StatelessWidget {
           controller: _controller.refreshController.value,
           onRefresh: _controller.onRefresh,
           child: Obx(
-            () => _controller.areaForests.toList().isEmpty
-                ? EmptyView()
-                : ListView.builder(
-                    itemBuilder: (ctx, index) {
-                      return IQAirCell(
-                        areaForestModel:
-                            _controller.areaForests.toList()[index],
-                        onTap: () {},
-                      );
-                    },
-                    itemCount: _controller.areaForests.toList().length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                  ),
+            () => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListView.builder(
+                  itemBuilder: (ctx, index) {
+                    return _buildVNRank(
+                        ctx, _controller.iqAirRankVN.toList()[index]);
+                  },
+                  itemCount: _controller.iqAirRankVN.toList().length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
+                _buildAreaRank(context),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildVNRank(BuildContext context, IQAirRankVN iqAirRankVN) {
+    return ExpandableNotifier(
+        child: Padding(
+      padding: const EdgeInsets.all(5),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        color: Theme.of(context).cardColor.withOpacity(0.5),
+        child: ScrollOnExpand(
+          scrollOnExpand: true,
+          scrollOnCollapse: false,
+          child: ExpandablePanel(
+            theme: const ExpandableThemeData(
+              headerAlignment: ExpandablePanelHeaderAlignment.center,
+              tapBodyToCollapse: true,
+            ),
+            header: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  iqAirRankVN.title ?? "",
+                  style: Theme.of(context).textTheme.titleMedium,
+                )),
+            collapsed: Container(),
+            expanded: (iqAirRankVN.rankData ?? []).isEmpty
+                ? EmptyView()
+                : ListView.separated(
+                    itemBuilder: (ctx, index) {
+                      return index == 0
+                          ? ListTile(
+                              leading: Text(
+                                "#",
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              title: Text("Thành phố",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              trailing: Text("AQI",
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                            )
+                          : ListTile(
+                              leading: Text("${index}"),
+                              title: Text(
+                                  iqAirRankVN.rankData?[index - 1].name ?? ""),
+                              trailing: Container(
+                                width: 60,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: getColorRank(int.parse(iqAirRankVN
+                                            .rankData?[index - 1].score ??
+                                        "0"))),
+                                child: Center(
+                                  child: Text(
+                                    iqAirRankVN.rankData?[index - 1].score ??
+                                        "",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            );
+                    },
+                    itemCount: (iqAirRankVN.rankData?.length ?? 0) + 1,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider();
+                    },
+                  ),
+            builder: (_, collapsed, expanded) {
+              return Padding(
+                padding: EdgeInsets.only(left: 2, right: 2, bottom: 5),
+                child: Expandable(
+                  collapsed: collapsed,
+                  expanded: expanded,
+                  theme: const ExpandableThemeData(crossFadePoint: 0),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    ));
+  }
+
+  Widget _buildAreaRank(BuildContext context) {
+    return ExpandableNotifier(
+        child: Padding(
+      padding: const EdgeInsets.all(5),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        color: Theme.of(context).cardColor.withOpacity(0.5),
+        child: ScrollOnExpand(
+          scrollOnExpand: true,
+          scrollOnCollapse: false,
+          child: ExpandablePanel(
+            theme: const ExpandableThemeData(
+              headerAlignment: ExpandablePanelHeaderAlignment.center,
+              tapBodyToCollapse: true,
+            ),
+            header: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  "Bảng xếp hạng diện tích rừng",
+                  style: Theme.of(context).textTheme.titleMedium,
+                )),
+            collapsed: Container(),
+            expanded: Obx(
+              () => _controller.areaForests.toList().isEmpty
+                  ? EmptyView()
+                  : ListView.builder(
+                      itemBuilder: (ctx, index) {
+                        return IQAirCell(
+                          areaForestModel:
+                              _controller.areaForests.toList()[index],
+                          onTap: () {},
+                        );
+                      },
+                      itemCount: _controller.areaForests.toList().length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                    ),
+            ),
+            builder: (_, collapsed, expanded) {
+              return Padding(
+                padding: EdgeInsets.only(left: 2, right: 2, bottom: 5),
+                child: Expandable(
+                  collapsed: collapsed,
+                  expanded: expanded,
+                  theme: const ExpandableThemeData(crossFadePoint: 0),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    ));
   }
 }

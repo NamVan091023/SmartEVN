@@ -19,21 +19,21 @@ class _NewsScreenState extends State<NewsScreen>
 
   @override
   void initState() {
-    _scrollController.addListener(() {
-      //scroll listener
-      double showoffset =
-          10.0; //Back to top botton will show on scroll offset 10.0
+    // _scrollController.addListener(() {
+    //   //scroll listener
+    //   double showoffset =
+    //       10.0; //Back to top botton will show on scroll offset 10.0
 
-      if (_scrollController.offset > showoffset) {
-        setState(() {
-          _showBackToTopButton = true;
-        });
-      } else {
-        setState(() {
-          _showBackToTopButton = false;
-        });
-      }
-    });
+    //   if (_scrollController.offset > showoffset) {
+    //     setState(() {
+    //       _showBackToTopButton = true;
+    //     });
+    //   } else {
+    //     setState(() {
+    //       _showBackToTopButton = false;
+    //     });
+    //   }
+    // });
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
@@ -85,7 +85,7 @@ class _NewsScreenState extends State<NewsScreen>
                   ),
                   Tab(
                     icon: Icon(Icons.air_rounded),
-                    text: "AQAir",
+                    text: "IQAir",
                   ),
                 ],
                 controller: _tabController,

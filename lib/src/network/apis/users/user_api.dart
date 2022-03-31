@@ -100,12 +100,24 @@ class UserAPI {
       String? name,
       String? email,
       String? password,
+      double? lat,
+      double? lng,
+      String? role,
+      List<String>? provinceManage,
       File? avatar}) async {
     Response response;
     Map<String, dynamic> data = {};
     if (name != null) data["name"] = name;
     if (email != null) data["email"] = email;
     if (password != null) data["password"] = password;
+    if (lat != null) data["lat"] = lat;
+    if (lng != null) data["lng"] = lng;
+    if (role != null) data["role"] = role;
+    if (provinceManage != null) {
+      for (int i = 0; i < provinceManage.length; i++) {
+        data["provinceManage[$i]"] = provinceManage[i];
+      }
+    }
     if (avatar != null) {
       var pic = MultipartFile.fromFileSync(
         avatar.path,

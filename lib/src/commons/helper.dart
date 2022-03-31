@@ -38,7 +38,7 @@ Color getQualityColor(int? quality) {
     case 6:
       return Colors.green;
     case 5:
-      return Colors.lime;
+      return Colors.yellow;
     case 4:
       return Colors.orange;
     case 3:
@@ -46,7 +46,7 @@ Color getQualityColor(int? quality) {
     case 2:
       return Colors.purple;
     case 1:
-      return Colors.brown;
+      return Colors.brown.shade900;
     default:
       return Colors.green;
   }
@@ -86,6 +86,25 @@ String getAssetPollution(String? pollution) {
   }
 }
 
+String getAssetAQI(int quality) {
+  switch (quality) {
+    case 1:
+      return Assets.iconAQI1;
+    case 2:
+      return Assets.iconAQI2;
+    case 3:
+      return Assets.iconAQI3;
+    case 4:
+      return Assets.iconAQI4;
+    case 5:
+      return Assets.iconAQI5;
+    case 6:
+      return Assets.iconAQI6;
+    default:
+      return Assets.iconAQI6;
+  }
+}
+
 String getNamePollution(String? pollution) {
   switch (pollution) {
     case "air":
@@ -96,6 +115,21 @@ String getNamePollution(String? pollution) {
       return "Ô nhiễm tiếng ồn";
     case "water":
       return "Ô nhiễm nước";
+    default:
+      return "";
+  }
+}
+
+String getShortNamePollution(String? pollution) {
+  switch (pollution) {
+    case "air":
+      return "Không khí";
+    case "land":
+      return "Đất";
+    case "sound":
+      return "Tiếng ồn";
+    case "water":
+      return "Nước";
     default:
       return "";
   }
@@ -198,4 +232,27 @@ Future<String> getDeviceIdentifier() async {
     }
   }
   return deviceIdentifier;
+}
+
+Color getColorRank(int rank) {
+  if (rank <= 10)
+    return Colors.green;
+  else if (rank <= 20)
+    return Colors.cyan;
+  else if (rank <= 50)
+    return Colors.yellow;
+  else if (rank <= 100)
+    return Colors.orange;
+  else
+    return Colors.red;
+}
+
+int getAQIRank(double aqi) {
+  if (aqi >= 0 && aqi <= 50) return 6;
+  if (aqi >= 51 && aqi <= 100) return 5;
+  if (aqi >= 101 && aqi <= 150) return 4;
+  if (aqi >= 151 && aqi <= 200) return 3;
+  if (aqi >= 201 && aqi <= 300) return 2;
+  if (aqi >= 301) return 1;
+  return 1;
 }

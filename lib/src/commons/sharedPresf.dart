@@ -24,7 +24,7 @@ class PreferenceUtils {
   }
 
   static String? getString(String key) {
-    return _prefsInstance!.getString(key);
+    return _prefsInstance?.getString(key);
   }
 
   static Future<bool> setString(String key, String value) async {
@@ -33,7 +33,7 @@ class PreferenceUtils {
   }
 
   static bool getBool(String key) {
-    return _prefsInstance!.getBool(key) ?? false;
+    return _prefsInstance?.getBool(key) ?? false;
   }
 
   static Future<bool> setBool(String key, bool value) async {
@@ -42,7 +42,7 @@ class PreferenceUtils {
   }
 
   static int? getInt(String key) {
-    return _prefsInstance!.getInt(key);
+    return _prefsInstance?.getInt(key);
   }
 
   static Future<bool> setInt(String key, int value) async {

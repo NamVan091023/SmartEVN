@@ -43,9 +43,8 @@ class FilterMapScreen extends StatelessWidget {
             ),
             DefaultButton(
                 text: 'Hoàn tất',
-                press: () {
-                  _controller.saveFilter();
-                  Get.back();
+                press: () async {
+                  await _controller.saveFilter();
                 }),
           ],
         ),

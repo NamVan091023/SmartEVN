@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/address_model.dart';
 import 'package:pollution_environment/src/model/pollution_quality_model.dart';
 import 'package:pollution_environment/src/model/pollution_type_model.dart';
@@ -92,12 +93,44 @@ class FilterMapController extends GetxController {
     return wards;
   }
 
-  void saveFilter() {
+  Future<void> saveFilter() async {
     final FilterStorageController filterStorageController = Get.find();
     filterStorageController.selectedDistrict.value = selectedDistrict.value;
     filterStorageController.selectedProvince.value = selectedProvince.value;
     filterStorageController.selectedWard.value = selectedWard.value;
     filterStorageController.selectedQuality.value = selectedQuality.toList();
     filterStorageController.selectedType.value = selectedType.toList();
+
+    String? provinceId = selectedProvince.value?.id;
+    String? districtId = selectedDistrict.value?.id;
+    if (provinceId != null && provinceId != "-1") {
+      showLoading();
+      AddressApi().getAddressById(provinceId).then((provinceDetail) {
+        List<List<double>> polygon =
+            provinceDetail.coordinates?.first.first ?? [];
+        List<double> bbox = provinceDetail.bbox ?? [];
+        if (districtId != null && districtId != "-1") {
+          var districtDetail = provinceDetail.districts
+              ?.firstWhere((element) => element.id == districtId);
+          if (districtDetail != null) {
+            polygon = districtDetail.coordinates?.first.first ?? [];
+            bbox = districtDetail.bbox ?? [];
+          }
+        }
+        filterStorageController.polygon.value = polygon;
+        filterStorageController.bbox.value = bbox;
+        hideLoading();
+        Get.back();
+      }).catchError((error) {
+        filterStorageController.polygon.value = [];
+        filterStorageController.bbox.value = [];
+        hideLoading();
+        Get.back();
+      });
+    } else {
+      filterStorageController.polygon.clear();
+      filterStorageController.bbox.clear();
+      Get.back();
+    }
   }
 }

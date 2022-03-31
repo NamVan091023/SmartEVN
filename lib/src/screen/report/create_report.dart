@@ -35,23 +35,6 @@ class CreateReport extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: _buildTypeSelection(),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: _buildQualitySelection(),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
                 _buildProvinceSelection(),
                 SizedBox(
                   height: 20,
@@ -74,6 +57,23 @@ class CreateReport extends StatelessWidget {
                   height: 20,
                 ),
                 _buildSpecialAddressInput(),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: _buildTypeSelection(),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: _buildQualitySelection(),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 20,
                 ),
