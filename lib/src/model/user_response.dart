@@ -66,6 +66,9 @@ class UserModel {
   String? createdAt;
   String? avatar;
   bool? isNotificationReceived;
+  double? lat;
+  double? lng;
+  List<String> provinceManage = [];
   int post = 0;
 
   UserModel({this.name});
@@ -79,6 +82,14 @@ class UserModel {
     name = json['name'];
     avatar = json['avatar'];
     createdAt = json['createdAt'];
+    lat = json['lat'];
+    lng = json['lng'];
+    if (json['provinceManage'] != null) {
+      provinceManage = <String>[];
+      json['provinceManage'].forEach((v) {
+        provinceManage.add(v);
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -91,6 +102,9 @@ class UserModel {
     data['name'] = this.name;
     data['createdAt'] = this.createdAt;
     data['avatar'] = this.avatar;
+    data['lat'] = this.lat;
+    data['lng'] = this.lng;
+    data['provinceManage'] = provinceManage;
     return data;
   }
 }

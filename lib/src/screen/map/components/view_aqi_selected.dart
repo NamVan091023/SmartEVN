@@ -21,6 +21,7 @@ class ViewAQISelected extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: Card(
           // width: 200,
+          elevation: 5,
           margin: EdgeInsets.only(
               bottom: MediaQuery.of(context).padding.bottom + 10,
               right: 5,
