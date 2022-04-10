@@ -7,11 +7,17 @@ import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 class OtherProfileController extends GetxController {
   String userId = Get.arguments;
   Rxn<UserModel> user = Rxn<UserModel>();
+  Rxn<UserModel> currentUser = Rxn<UserModel>();
 
   @override
   void onInit() {
     super.onInit();
+    getCurrentUser();
     getUser();
+  }
+
+  void getCurrentUser() async {
+    UserStore().getAuth().then((value) => currentUser.value = value?.user);
   }
 
   void getUser() async {

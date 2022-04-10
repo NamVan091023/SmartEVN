@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
@@ -57,18 +58,20 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    return DismissKeyboard(
-      child: GetMaterialApp(
-        theme: themeLight(),
-        darkTheme: themeDark(),
-        themeMode: getThemeMode(PreferenceUtils.getString(KEY_THEME_MODE)),
-        initialRoute: Routes.INITIAL,
-        getPages: AppPages.pages,
-        // defaultTransition: Transition.cupertino,
-        debugShowCheckedModeBanner: false,
-        title: "Smart Environment",
-        builder: EasyLoading.init(),
-        scrollBehavior: MyCustomScrollBehavior(),
+    return OverlaySupport.global(
+      child: DismissKeyboard(
+        child: GetMaterialApp(
+          theme: themeLight(),
+          darkTheme: themeDark(),
+          themeMode: getThemeMode(PreferenceUtils.getString(KEY_THEME_MODE)),
+          initialRoute: Routes.INITIAL,
+          getPages: AppPages.pages,
+          // defaultTransition: Transition.cupertino,
+          debugShowCheckedModeBanner: false,
+          title: "Smart Environment",
+          builder: EasyLoading.init(),
+          scrollBehavior: MyCustomScrollBehavior(),
+        ),
       ),
     );
   }

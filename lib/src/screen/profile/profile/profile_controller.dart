@@ -6,13 +6,19 @@ import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 
 class ProfileController extends GetxController {
-  String userId = Get.arguments ?? PreferenceUtils.getString(KEY_USER_ID);
+  late String userId;
   Rxn<UserModel> user = Rxn<UserModel>();
   Rx<String?> themeMode =
       (PreferenceUtils.getString(KEY_THEME_MODE) ?? "system").obs;
   @override
   void onInit() {
     super.onInit();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    AuthResponse? auth = await UserStore().getAuth();
+    userId = auth?.user?.id ?? "";
     getUser();
   }
 

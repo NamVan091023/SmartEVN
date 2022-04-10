@@ -1,11 +1,12 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -49,37 +50,55 @@ class NotificationService {
         onSelectNotification: selectNotification);
   }
 
-  Future<String> _downloadAndSaveFile(String url, String fileName) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String filePath = '${directory.path}/$fileName';
+  Future<Uint8List> _getByteArrayFromUrl(String url) async {
     final http.Response response = await http.get(Uri.parse(url));
-    final File file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
-    return filePath;
+    return response.bodyBytes;
   }
 
   Future<void> showNotifications(RemoteMessage message) async {
-    final String largeIconPath = await _downloadAndSaveFile(
-        '$host/ic_pin_${message.data["type"]}.png', 'largeIcon');
-
+    final jsonData = json.decode(message.data["data"]);
+    PollutionModel pollution = PollutionModel.fromJson(jsonData);
+    final ByteArrayAndroidBitmap largeIcon = ByteArrayAndroidBitmap(
+        await _getByteArrayFromUrl('$host/ic_pin_${pollution.type ?? ""}.png'));
+    // final String largeIconPath = await _downloadAndSaveFile(
+    //     '$host/ic_pin_${message.data["type"]}.png', 'largeIcon');
+    final ByteArrayAndroidBitmap bigPicture = ByteArrayAndroidBitmap(
+        (pollution.images ?? []).isNotEmpty
+            ? await _getByteArrayFromUrl('$host/${pollution.images?.first}')
+            : await _getByteArrayFromUrl(
+                '$host/ic_pin_${pollution.type ?? ""}.png'));
+    final Int64List vibrationPattern = Int64List(4);
+    vibrationPattern[0] = 0;
+    vibrationPattern[1] = 1000;
+    vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000;
+    final BigPictureStyleInformation bigPictureStyleInformation =
+        BigPictureStyleInformation(bigPicture,
+            largeIcon: largeIcon,
+            contentTitle:
+                "Tại ${pollution.specialAddress}, ${pollution.wardName}, ${pollution.districtName}, ${pollution.provinceName}",
+            htmlFormatContentTitle: true,
+            summaryText: pollution.desc,
+            htmlFormatSummaryText: true);
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'media channel id',
-      'media channel name',
-      channelDescription: 'media channel description',
-      largeIcon: FilePathAndroidBitmap(largeIconPath),
-      playSound: true,
-      priority: Priority.high,
-      importance: Importance.high,
-      color: Colors.green,
-      styleInformation: const MediaStyleInformation(),
-    );
+        AndroidNotificationDetails('12', 'Thông báo ô nhiễm',
+            channelDescription: 'Thông báo thông tin ô nhiễm môi trường',
+            vibrationPattern: vibrationPattern,
+            priority: Priority.high,
+            importance: Importance.high,
+            enableLights: true,
+            color: const Color.fromARGB(255, 255, 0, 0),
+            ledColor: const Color.fromARGB(255, 255, 0, 0),
+            ledOnMs: 1000,
+            ledOffMs: 500,
+            styleInformation: bigPictureStyleInformation);
+
     final NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.show(0, message.notification?.title,
         message.notification?.body, platformChannelSpecifics,
-        payload: message.data["id"]);
+        payload: pollution.id);
   }
 
   // Future<void> scheduleNotifications() async {

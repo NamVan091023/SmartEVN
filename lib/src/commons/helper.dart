@@ -46,7 +46,7 @@ Color getQualityColor(int? quality) {
     case 2:
       return Colors.purple;
     case 1:
-      return Colors.brown.shade900;
+      return Color.fromARGB(255, 128, 0, 0);
     default:
       return Colors.green;
   }
@@ -169,6 +169,19 @@ String? convertDate(String date) {
         new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(date);
     var inputDate = DateTime.parse(parseDate.toString());
     var outputFormat = DateFormat('dd/MM/yyyy hh:mm a');
+    var outputDate = outputFormat.format(inputDate);
+    return outputDate;
+  } catch (e) {
+    return "";
+  }
+}
+
+String? convertDateFormat(String date, String format) {
+  try {
+    DateTime parseDate =
+        new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(date);
+    var inputDate = DateTime.parse(parseDate.toString());
+    var outputFormat = DateFormat(format);
     var outputDate = outputFormat.format(inputDate);
     return outputDate;
   } catch (e) {

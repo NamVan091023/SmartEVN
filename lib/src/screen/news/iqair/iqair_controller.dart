@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/model/area_forest_model.dart';
 import 'package:pollution_environment/src/network/apis/area_forest/area_forest_api.dart';

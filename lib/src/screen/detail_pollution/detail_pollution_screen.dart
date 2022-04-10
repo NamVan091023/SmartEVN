@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/components/full_image_viewer.dart';
 import 'package:pollution_environment/src/components/pollution_card.dart';
 import 'package:pollution_environment/src/components/pollution_user_card.dart';
-import 'package:pollution_environment/src/components/username.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
+import 'package:pollution_environment/src/screen/detail_pollution/components/history_chart.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_controller.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -21,42 +20,40 @@ class DetailPollutionScreen extends StatelessWidget {
     {'title': 'Duyệt', 'icon': const Icon(Icons.verified_rounded)},
     {'title': 'Từ chối', 'icon': const Icon(Icons.cancel_rounded)},
     {'title': 'Xóa', 'icon': const Icon(Icons.delete_rounded)},
-    {'title': 'Chỉnh sửa', 'icon': const Icon(Icons.edit)},
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Chi tiết ô nhiễm"),
-        actions: PreferenceUtils.getBool(KEY_IS_ADMIN) == true
-            ? <Widget>[
-                PopupMenuButton<String>(
-                  onSelected: handleClickMenu,
-                  itemBuilder: (BuildContext context) {
-                    return choices.map((ch) {
-                      return PopupMenuItem<String>(
-                        value: ch['title'].toString(),
-                        child: ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            minLeadingWidth: 0,
-                            leading: ch['icon'] as Widget,
-                            title: Text(
-                              ch['title'].toString(),
-                            )),
-                      );
-                    }).toList();
-                  },
-                ),
-              ]
-            : [
-                IconButton(
-                    onPressed: () {
-                      Share.share(
-                          "Chất lượng không khí tại ${_controller.pollutionModel.value?.wardName ?? ""}, ${_controller.pollutionModel.value?.districtName ?? ""}, ${_controller.pollutionModel.value?.provinceName ?? ""} đang ${getQualityText(_controller.pollutionModel.value?.qualityScore)}. Xem chi tiết tại ứng dụng Smart Environment");
-                    },
-                    icon: Icon(Icons.share_rounded))
-              ],
-      ),
+      appBar: AppBar(title: Text("Chi tiết ô nhiễm"), actions: <Widget>[
+        Obx(() => (_controller.currentUser.value?.role == "admin" ||
+                (_controller.currentUser.value?.role == "mod" &&
+                    _controller.currentUser.value?.provinceManage.contains(
+                            _controller.pollutionModel.value?.provinceId) ==
+                        true))
+            ? PopupMenuButton<String>(
+                onSelected: handleClickMenu,
+                itemBuilder: (BuildContext context) {
+                  return choices.map((ch) {
+                    return PopupMenuItem<String>(
+                      value: ch['title'].toString(),
+                      child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          minLeadingWidth: 0,
+                          leading: ch['icon'] as Widget,
+                          title: Text(
+                            ch['title'].toString(),
+                          )),
+                    );
+                  }).toList();
+                },
+              )
+            : IconButton(
+                onPressed: () {
+                  Share.share(
+                      "Chất lượng không khí tại ${_controller.pollutionModel.value?.wardName ?? ""}, ${_controller.pollutionModel.value?.districtName ?? ""}, ${_controller.pollutionModel.value?.provinceName ?? ""} đang ${getQualityText(_controller.pollutionModel.value?.qualityScore)}. Xem chi tiết tại ứng dụng Smart Environment");
+                },
+                icon: Icon(Icons.share_rounded))),
+      ]),
       body: Obx(
         () => Container(
           child: Padding(
@@ -139,6 +136,64 @@ class DetailPollutionScreen extends StatelessWidget {
                 if (_controller.pollutionModel.value?.images?.isNotEmpty ==
                     true)
                   _buildImageView(),
+                SizedBox(
+                  height: 8,
+                ),
+                Obx(
+                  () => HistoryChart(
+                    pollutions: _controller.historyPollutions.toList(),
+                  ),
+                ),
+                Card(
+                  child: Container(
+                    child: Obx(
+                      () => GoogleMap(
+                          mapType: MapType.normal,
+                          myLocationEnabled: true,
+                          zoomGesturesEnabled: true,
+                          zoomControlsEnabled: true,
+                          myLocationButtonEnabled: true,
+                          initialCameraPosition: CameraPosition(
+                              target: LatLng(
+                                  _controller.pollutionModel.value?.lat ?? 0.0,
+                                  _controller.pollutionModel.value?.lng ?? 0.0),
+                              zoom: 13),
+                          onMapCreated: (GoogleMapController controller) {
+                            if (!_controller.mapController.isCompleted) {
+                              _controller.mapController.complete(controller);
+                            }
+                            for (int i = 0; i < 6; i++) {
+                              _controller.managers
+                                  .toList()[i]
+                                  .setMapId(controller.mapId);
+                            }
+                          },
+                          onCameraMove: (position) {
+                            for (int i = 0; i < 6; i++) {
+                              _controller.managers
+                                  .toList()[i]
+                                  .onCameraMove(position);
+                            }
+                          },
+                          onCameraIdle: () {
+                            for (int i = 0; i < 6; i++) {
+                              _controller.managers.toList()[i].updateMap();
+                            }
+                          },
+                          markers: <Marker>{}
+                            ..addAll(_controller.markers.toList()[0])
+                            ..addAll(_controller.markers.toList()[1])
+                            ..addAll(_controller.markers.toList()[2])
+                            ..addAll(_controller.markers.toList()[3])
+                            ..addAll(_controller.markers.toList()[4])
+                            ..addAll(_controller.markers.toList()[5])),
+                    ),
+                    height: 250,
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
               ],
             ),
           ),
@@ -173,7 +228,7 @@ class DetailPollutionScreen extends StatelessWidget {
       physics:
           NeverScrollableScrollPhysics(), // to disable GridView's scrolling
       shrinkWrap: true,
-      itemCount: _controller.pollutionModel.value?.images?.length,
+      itemCount: _controller.pollutionModel.value?.images?.length ?? 0,
     );
   }
 
@@ -211,8 +266,6 @@ class DetailPollutionScreen extends StatelessWidget {
         break;
       case 'Xóa':
         _controller.deletePollution();
-        break;
-      case 'Chỉnh sửa':
         break;
     }
   }

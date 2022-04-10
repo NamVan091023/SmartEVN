@@ -50,6 +50,7 @@ class MapScreen extends StatelessWidget {
                     _controller.managers.toList()[i].onCameraMove(position);
                     _controller.aqiManagers.toList()[i].onCameraMove(position);
                   }
+                  _controller.getPollutionPosition();
                   _controller.getAQIMap();
                 },
                 onCameraIdle: () {
@@ -189,7 +190,11 @@ class MapScreen extends StatelessWidget {
       _controller.animationController..reverse();
     else
       _controller.animationController..forward();
-    return ViewPollutionSelected(controller: _controller);
+    return ViewPollutionSelected(
+      offset: _controller.offset,
+      pollutionSelected: _controller.pollutionSelected.value,
+      currentUser: _controller.currentUser.value?.user,
+    );
   }
 
   Widget _buildViewAQISelected(BuildContext context) {

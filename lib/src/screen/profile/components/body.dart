@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/screen/profile/components/profile_menu.dart';
-import 'package:pollution_environment/src/screen/profile/components/ui_two_text_line.dart';
 
 import 'profile_pic.dart';
 

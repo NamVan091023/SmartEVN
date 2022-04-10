@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
+import 'package:pollution_environment/src/model/address_model.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_controller.dart';
 
@@ -84,6 +86,26 @@ class EditProfileScreen extends StatelessWidget {
                   SizedBox(height: 20),
                   buildEmailFormField(),
                   SizedBox(height: 20),
+                  Obx(() => _controller.currentUser.value?.user?.role == "admin"
+                      ? Column(children: [
+                          buildRole(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ])
+                      : Container()),
+                  Obx(() =>
+                      _controller.currentUser.value?.user?.role == "admin" &&
+                              _controller.role.value == "mod"
+                          ? Column(
+                              children: [
+                                _buildProvinceSelection(),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            )
+                          : Container()),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
                   buildRePasswordFormField(),
@@ -228,6 +250,70 @@ class EditProfileScreen extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
+  }
+
+  Widget buildRole() {
+    return DropdownSearch<String>(
+      mode: Mode.MENU,
+      onChanged: (item) => _controller.role.value = item,
+      clearButtonSplashRadius: 20,
+      showSelectedItems: true,
+      compareFn: (item, selectedItem) => item == selectedItem,
+      selectedItem: _controller.role.value,
+      showSearchBox: false,
+      dropdownSearchDecoration: InputDecoration(
+        labelText: "Chức vụ",
+        hintText: "Chọn chức vụ",
+        contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+      ),
+      itemAsString: (item) {
+        if (item == "mod")
+          return "Người kiểm duyệt";
+        else if (item == "admin")
+          return "Quản trị viên";
+        else
+          return "Thành viên";
+      },
+      items: ["user", "mod", "admin"],
+      // maxHeight: 300,
+      popupShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
+  }
+
+  Widget _buildProvinceSelection() {
+    return Obx(() => DropdownSearch<ProvinceModel>.multiSelection(
+          mode: Mode.MENU,
+          onChanged: (item) => _controller.provinceManage.value = item,
+          clearButtonSplashRadius: 20,
+          showSelectedItems: true,
+          compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
+          selectedItems: _controller.provinceManage.toList(),
+          showSearchBox: true,
+          dropdownSearchDecoration: InputDecoration(
+            labelText: "Tỉnh/Thành phố kiểm duyệt",
+            hintText: "Chọn tỉnh/thành phố kiểm duyệt",
+            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+          ),
+          itemAsString: (item) => item?.name ?? "",
+          items: _controller.allProvince.toList(),
+          maxHeight: 300,
+          searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Nhập để tìm kiếm",
+                  hintStyle: TextStyle(color: Colors.grey))),
+          popupShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ));
   }
 
   Future<void> loadAssets() async {

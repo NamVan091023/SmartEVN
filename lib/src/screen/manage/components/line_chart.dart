@@ -40,13 +40,11 @@ class _LineChart extends StatelessWidget {
       );
 
   FlTitlesData get titlesData => FlTitlesData(
-        bottomTitles: bottomTitles,
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        leftTitles: leftTitles(
-          getTitles: (value) {
-            return "${value.toInt()}";
-          },
+        bottomTitles: AxisTitles(sideTitles: bottomTitles),
+        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
         ),
       );
 
@@ -56,49 +54,65 @@ class _LineChart extends StatelessWidget {
         lineChartBarLand,
         lineChartBarSound,
       ];
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Color(0xff75729e),
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
 
-  SideTitles leftTitles({required GetTitleFunction getTitles}) => SideTitles(
-        getTitles: getTitles,
+    return Text("${value.toInt()}", style: style, textAlign: TextAlign.center);
+  }
+
+  SideTitles leftTitles() => SideTitles(
+        getTitlesWidget: leftTitleWidgets,
         showTitles: true,
-        margin: 8,
         interval: 50,
         reservedSize: 30,
-        getTextStyles: (context, value) => const TextStyle(
-          color: Colors.grey,
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
       );
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Color(0xff72719b),
+      fontWeight: FontWeight.bold,
+      fontSize: 16,
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 1:
+        text = const Text('T2', style: style);
+        break;
+      case 2:
+        text = const Text('T3', style: style);
+        break;
+      case 3:
+        text = const Text('T4', style: style);
+        break;
+      case 4:
+        text = const Text('T5', style: style);
+        break;
+      case 5:
+        text = const Text('T6', style: style);
+        break;
+      case 6:
+        text = const Text('T7', style: style);
+        break;
+      case 7:
+        text = const Text('CN', style: style);
+        break;
+
+      default:
+        text = const Text('');
+        break;
+    }
+
+    return Padding(child: text, padding: const EdgeInsets.only(top: 10.0));
+  }
 
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
-        reservedSize: 20,
-        margin: 10,
+        reservedSize: 40,
         interval: 1,
-        getTextStyles: (context, value) => const TextStyle(
-          color: Color(0xff72719b),
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
-        getTitles: (value) {
-          switch (value.toInt()) {
-            case 1:
-              return "T2";
-            case 2:
-              return "T3";
-            case 3:
-              return 'T4';
-            case 4:
-              return "T5";
-            case 5:
-              return "T6";
-            case 6:
-              return "T7";
-            case 7:
-              return 'CN';
-          }
-          return '';
-        },
+        getTitlesWidget: bottomTitleWidgets,
       );
 
   FlGridData get gridData => FlGridData(show: false);
@@ -115,7 +129,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarWater => LineChartBarData(
         isCurved: true,
-        colors: [const Color(0xff0293ee)],
+        color: Color(0xff0293ee),
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),
@@ -131,7 +145,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarLand => LineChartBarData(
       isCurved: true,
-      colors: [const Color(0xfff8b250)],
+      color: Color(0xfff8b250),
       barWidth: 4,
       isStrokeCapRound: true,
       dotData: FlDotData(show: true),
@@ -146,7 +160,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarSound => LineChartBarData(
       isCurved: true,
-      colors: const [Color(0xff845bef)],
+      color: Color(0xff845bef),
       barWidth: 4,
       isStrokeCapRound: true,
       dotData: FlDotData(show: true),
@@ -160,7 +174,7 @@ class _LineChart extends StatelessWidget {
           .toList());
   LineChartBarData get lineChartBarAir => LineChartBarData(
       isCurved: true,
-      colors: const [Color(0xff13d38e)],
+      color: Color(0xff13d38e),
       barWidth: 4,
       isStrokeCapRound: true,
       dotData: FlDotData(show: true),

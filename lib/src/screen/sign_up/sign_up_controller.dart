@@ -89,26 +89,12 @@ class SignUpController extends GetxController {
       debugPrint("Register success $response");
       UserModel? user = response.user;
       if (user != null) {
-        String? refreshToken = response.tokens?.refresh?.token;
-        String? accessToken = response.tokens?.access?.token;
-        if (refreshToken != null) {
-          PreferenceUtils.setString(KEY_REFRESH_TOKEN, refreshToken);
-        }
-        if (accessToken != null) {
-          PreferenceUtils.setString(KEY_ACCESS_TOKEN, accessToken);
-        }
-
         PreferenceUtils.setBool(KEY_REMEMBER_LOGIN, true);
-        PreferenceUtils.setString(KEY_USER_ID, user.id!);
 
         PreferenceUtils.setString(KEY_EMAIL, email.value);
         PreferenceUtils.setString(KEY_PASSWORD, password.value);
 
-        if (user.role == 'admin') {
-          PreferenceUtils.setBool(KEY_IS_ADMIN, true);
-        } else {
-          PreferenceUtils.setBool(KEY_IS_ADMIN, false);
-        }
+        UserStore().saveAuth(response);
 
         onSuccess();
       } else {

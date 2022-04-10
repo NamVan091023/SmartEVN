@@ -128,8 +128,8 @@ class _ReportUserState extends State<ReportUser>
       child: GestureDetector(
         onTap: () {
           // Vào màn xem chi tiết
-          Get.to(() => DetailPollutionScreen(),
-              arguments: pollutions[index].id);
+          Get.to(() => DetailPollutionScreen(), arguments: pollutions[index].id)
+              ?.then((value) => refresh());
         },
         child: Container(
           width: double.infinity,

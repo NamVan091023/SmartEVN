@@ -3,20 +3,19 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as GetX;
-import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
+import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
 // final host = "http://10.0.0.1:3000";
-final host = "http://192.168.123.235:3000";
-// final host = "http://172.16.82.178:3000";
-// final host = "https://www.hungs20.xyz";
+// final host = "http://192.168.123.235:3000";
+// final host = "http://172.16.122.128:3000";
+final host = "https://www.hungs20.xyz";
 final baseUrl = "$host/v1";
 
 class AuthInterceptor extends QueuedInterceptor {
@@ -34,8 +33,9 @@ class AuthInterceptor extends QueuedInterceptor {
     }
 
     // get tokens from local storage
-    final accessToken = PreferenceUtils.getString(KEY_ACCESS_TOKEN);
-    final refreshToken = PreferenceUtils.getString(KEY_REFRESH_TOKEN);
+    AuthResponse? currentAuth = await UserStore().getAuth();
+    final accessToken = currentAuth?.tokens?.access?.token;
+    final refreshToken = currentAuth?.tokens?.refresh?.token;
 
     if (accessToken == null || refreshToken == null) {
       _performLogout(_dio);
@@ -108,7 +108,7 @@ class AuthInterceptor extends QueuedInterceptor {
   }
 
   void _performLogout(Dio dio) {
-    PreferenceUtils.remove(KEY_ACCESS_TOKEN); // remove token from local storage
+    UserStore().removeAuth(); // remove token from local storage
     // back to login page without using context
     Fluttertoast.showToast(
         msg: "Phiên làm việc đã hết hạn, vui lòng đăng nhập lại");
@@ -122,7 +122,8 @@ class AuthInterceptor extends QueuedInterceptor {
           Dio(); // should create new dio instance because the request interceptor is being locked
 
       // get refresh token from local storage
-      final refreshToken = PreferenceUtils.remove(KEY_REFRESH_TOKEN);
+      AuthResponse? currentAuth = await UserStore().getAuth();
+      final refreshToken = currentAuth?.tokens?.refresh?.token;
 
       // make request to server to get the new access token from server using refresh token
       final response = await dio.post("$baseUrl/auth/refresh-tokens",
@@ -140,10 +141,15 @@ class AuthInterceptor extends QueuedInterceptor {
           String? accessToken = tokenResponse.access?.token;
           String? refreshToken = tokenResponse.refresh?.token;
           if (accessToken != null && refreshToken != null) {
-            PreferenceUtils.setString(KEY_ACCESS_TOKEN, accessToken);
-            PreferenceUtils.setString(KEY_REFRESH_TOKEN, refreshToken);
-
-            return true;
+            AuthResponse? currentAuth = await UserStore().getAuth();
+            if (currentAuth != null) {
+              currentAuth.tokens = tokenResponse;
+              UserStore().saveAuth(currentAuth);
+              return true;
+            } else {
+              _performLogout(_dio);
+              return false;
+            }
           } else {
             _performLogout(_dio);
             return false;

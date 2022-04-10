@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:background_locator/background_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:pollution_environment/src/commons/background_location/location_service_repository.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
@@ -98,11 +96,12 @@ class AuthApi {
   Future<BaseResponse> logout() async {
     Response response;
     try {
+      AuthResponse? auth = await UserStore().getAuth();
       response = await apiService.request(
           method: APIMethod.POST,
           endPoint: AuthAPIPath.logout,
           data: {
-            "refreshToken": PreferenceUtils.getString(KEY_REFRESH_TOKEN),
+            "refreshToken": auth?.tokens?.refresh?.token,
           },
           options: Options(headers: {"requiresToken": false}));
 
@@ -114,10 +113,7 @@ class AuthApi {
   }
 
   void clearUserData() {
-    PreferenceUtils.remove(KEY_ACCESS_TOKEN);
-    PreferenceUtils.remove(KEY_REFRESH_TOKEN);
-    PreferenceUtils.remove(KEY_USER_ID);
-    PreferenceUtils.remove(KEY_IS_ADMIN);
+    UserStore().removeAuth();
     IsolateNameServer.removePortNameMapping(
         LocationServiceRepository.isolateName);
     BackgroundLocator.unRegisterLocationUpdate();

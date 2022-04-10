@@ -57,7 +57,7 @@ dependencies:
   carousel_slider: ^4.0.0
   device_info_plus: ^3.2.2
   flutter_svg: ^1.0.3
-  fl_chart: ^0.45.1
+  fl_chart: ^0.50.1
   package_info_plus: ^1.4.0
   google_maps_flutter_web: ^0.3.2+1
   share_plus: ^4.0.2
@@ -65,6 +65,8 @@ dependencies:
   google_maps_cluster_manager: ^3.0.0+1
   background_locator: ^1.6.12
   permission_handler: ^9.2.0
+  overlay_support: ^1.2.1
+  audioplayers: ^0.20.1
   # firebase_analytics: ^9.1.2
 dependency_overrides:
   background_locator:
@@ -95,6 +97,7 @@ flutter:
      - assets/icons/ic_pin_land.png
      - assets/icons/ic_pin_sound.png
      - assets/icons/ic_pin_water.png
+     - assets/sound_alert.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

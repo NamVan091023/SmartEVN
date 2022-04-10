@@ -16,4 +16,6 @@ abstract class Routes {
   static const EDIT_PROFILE_SCREEN = '/edit_profile_screen';
   static const PROFILE_SCREEN = '/profile_screen';
   static const OTHER_PROFILE_SCREEN = '/other_profile_screen';
+
+  static const DETAIL_POLLUTION_SCREEN = '/detail_pollution_screen';
 }

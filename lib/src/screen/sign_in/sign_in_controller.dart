@@ -51,17 +51,7 @@ class SignInController extends GetxController {
       debugPrint("Login success $response");
       UserModel? user = response.user;
       if (user != null) {
-        String? refreshToken = response.tokens?.refresh?.token;
-        String? accessToken = response.tokens?.access?.token;
-        if (refreshToken != null) {
-          PreferenceUtils.setString(KEY_REFRESH_TOKEN, refreshToken);
-        }
-        if (accessToken != null) {
-          PreferenceUtils.setString(KEY_ACCESS_TOKEN, accessToken);
-        }
-
         PreferenceUtils.setBool(KEY_REMEMBER_LOGIN, remember.value);
-        PreferenceUtils.setString(KEY_USER_ID, user.id!);
 
         if (remember.value == true) {
           PreferenceUtils.setString(KEY_EMAIL, email.value);
@@ -71,11 +61,7 @@ class SignInController extends GetxController {
           PreferenceUtils.remove(KEY_PASSWORD);
         }
 
-        if (user.role == 'admin') {
-          PreferenceUtils.setBool(KEY_IS_ADMIN, true);
-        } else {
-          PreferenceUtils.setBool(KEY_IS_ADMIN, false);
-        }
+        UserStore().saveAuth(response);
         onSuccess();
       } else {
         onError("Không lấy được thông tin người dùng");

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/profile/components/profile_pic.dart';
-import 'package:pollution_environment/src/screen/profile/components/ui_two_text_line.dart';
 import 'package:pollution_environment/src/screen/profile/other_profile/other_profile_controller.dart';
 
 class OtherProfileScreen extends StatelessWidget {
@@ -14,24 +11,21 @@ class OtherProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Hồ sơ thành viên"),
-        actions: PreferenceUtils.getBool(KEY_IS_ADMIN) == true
-            ? <Widget>[
-                PopupMenuButton<String>(
-                  onSelected: handleClickMenu,
-                  itemBuilder: (BuildContext context) {
-                    return {'Xóa', 'Chỉnh sửa'}.map((String choice) {
-                      return PopupMenuItem<String>(
-                        value: choice,
-                        child: Text(choice),
-                      );
-                    }).toList();
-                  },
-                ),
-              ]
-            : null,
-      ),
+      appBar: AppBar(title: Text("Hồ sơ thành viên"), actions: <Widget>[
+        Obx(() => _controller.currentUser.value?.role == "admin"
+            ? PopupMenuButton<String>(
+                onSelected: handleClickMenu,
+                itemBuilder: (BuildContext context) {
+                  return {'Xóa', 'Chỉnh sửa'}.map((String choice) {
+                    return PopupMenuItem<String>(
+                      value: choice,
+                      child: Text(choice),
+                    );
+                  }).toList();
+                },
+              )
+            : Container())
+      ]),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         child: Column(

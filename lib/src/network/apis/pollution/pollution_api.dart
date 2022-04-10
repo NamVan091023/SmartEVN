@@ -16,6 +16,7 @@ class PollutionAPIPath {
   static String updatePollution = "/pollutions";
   static String deletePollution = "/pollutions";
   static String getPollutionStats = "/pollutions/stats";
+  static String getPollutionHistory = "/pollutions/history";
 }
 
 class PollutionApi {
@@ -83,6 +84,8 @@ class PollutionApi {
       String? searchText,
       String? userId,
       int? limit,
+      String? startDate,
+      String? endDate,
       int? page}) async {
     Response response;
     Map<String, String> data = {};
@@ -110,6 +113,9 @@ class PollutionApi {
     if (userId != null && userId != '') data["userId"] = userId;
     if (limit != null) data["limit"] = '$limit';
     if (page != null) data["page"] = '$page';
+    if (startDate != null) data['startDate'] = startDate;
+    if (endDate != null) data['endDate'] = endDate;
+
     if (searchText != null && searchText.isNotEmpty)
       data["search"] = searchText;
     try {
@@ -378,6 +384,29 @@ class PollutionApi {
         PollutionStats pollutionStats =
             PollutionStats.fromJson(baseResponse.data!);
         return pollutionStats;
+      }
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<List<PollutionModel>> getPollutionHistory(String? districtId) async {
+    Response response;
+    try {
+      response = await apiService.request(
+          method: APIMethod.GET,
+          endPoint: PollutionAPIPath.getPollutionHistory,
+          data: {"districtId": districtId ?? ""});
+      BaseArrayResponse baseArrayResponse;
+      baseArrayResponse = BaseArrayResponse.fromJson(response.data);
+      if (baseArrayResponse.data == null) {
+        throw Exception(baseArrayResponse.message);
+      } else {
+        List<PollutionModel> data = [];
+        baseArrayResponse.data?.forEach((element) {
+          data.add(PollutionModel.fromJson(element));
+        });
+        return data;
       }
     } on DioError catch (e) {
       throw (e);

@@ -4,8 +4,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:background_locator/location_dto.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
+import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 
 class LocationServiceRepository {
@@ -31,8 +30,8 @@ class LocationServiceRepository {
   }
 
   Future<void> callback(LocationDto locationDto) async {
-    var pref = await PreferenceUtils.init();
-    String? userId = pref?.getString(KEY_USER_ID);
+    AuthResponse? currentAuth = await UserStore().getAuth();
+    String? userId = currentAuth?.user?.id;
     if (userId != null) {
       UserAPI().updateUser(
           id: userId, lat: locationDto.latitude, lng: locationDto.longitude);

@@ -2,24 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/components/pollution_card.dart';
+import 'package:pollution_environment/src/model/pollution_response.dart';
+import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../map_controller.dart';
-
 class ViewPollutionSelected extends StatelessWidget {
-  const ViewPollutionSelected({
-    Key? key,
-    required MapController controller,
-  })  : _controller = controller,
-        super(key: key);
-
-  final MapController _controller;
+  const ViewPollutionSelected(
+      {Key? key,
+      required this.offset,
+      required this.pollutionSelected,
+      required this.currentUser})
+      : super(key: key);
+  final Animation<Offset> offset;
+  final PollutionModel? pollutionSelected;
+  final UserModel? currentUser;
 
   @override
   Widget build(BuildContext context) {
+    String status = "";
+    if (currentUser?.role == "admin" || currentUser?.role == "mod") {
+      if (pollutionSelected?.status == 0)
+        status = "\nĐang chờ duyệt";
+      else if (pollutionSelected?.status == 1)
+        status = "\nĐã được duyệt";
+      else if (pollutionSelected?.status == 2) status = "\nTừ chối duyệt";
+    }
     return SlideTransition(
-        position: _controller.offset,
+        position: offset,
         child: Align(
           alignment: Alignment.bottomCenter,
           child: GestureDetector(
@@ -35,24 +45,36 @@ class ViewPollutionSelected extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    title: Text(
-                      "${_controller.pollutionSelected.value?.wardName ?? ""}, ${_controller.pollutionSelected.value?.districtName ?? ""}, ${_controller.pollutionSelected.value?.provinceName ?? ""}",
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    subtitle: Text(
-                      "Lúc: ${convertDate(_controller.pollutionSelected.value?.createdAt ?? "")}",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    trailing: IconButton(
+                      title: Text(
+                        "${pollutionSelected?.specialAddress ?? ""}, ${pollutionSelected?.wardName ?? ""}, ${pollutionSelected?.districtName ?? ""}, ${pollutionSelected?.provinceName ?? ""}",
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      subtitle: RichText(
+                        text: TextSpan(
+                            text:
+                                "Lúc: ${convertDate(pollutionSelected?.createdAt ?? "")}",
+                            style: Theme.of(context).textTheme.caption,
+                            children: [
+                              TextSpan(
+                                  text: status,
+                                  style: TextStyle(
+                                      color: pollutionSelected?.status == 0
+                                          ? Colors.orange
+                                          : pollutionSelected?.status == 1
+                                              ? Colors.green
+                                              : Colors.red))
+                            ]),
+                      ),
+                      trailing: IconButton(
                         onPressed: () {
                           Share.share(
-                              "Chất lượng ${getShortNamePollution(_controller.pollutionSelected.value?.type)} tại ${_controller.pollutionSelected.value?.wardName ?? ""}, ${_controller.pollutionSelected.value?.districtName ?? ""}, ${_controller.pollutionSelected.value?.provinceName ?? ""} đang ${getQualityText(_controller.pollutionSelected.value?.qualityScore)}. Xem chi tiết tại ứng dụng Smart Environment");
+                              "Chất lượng ${getShortNamePollution(pollutionSelected?.type)} tại ${pollutionSelected?.wardName ?? ""}, ${pollutionSelected?.districtName ?? ""}, ${pollutionSelected?.provinceName ?? ""} đang ${getQualityText(pollutionSelected?.qualityScore)}. Xem chi tiết tại ứng dụng Smart Environment");
                         },
-                        icon: Icon(Icons.share_rounded)),
-                  ),
-                  _controller.pollutionSelected.value != null
+                        icon: Icon(Icons.share_rounded),
+                      )),
+                  pollutionSelected != null
                       ? PollutionCard(
-                          pollutionModel: _controller.pollutionSelected.value!,
+                          pollutionModel: pollutionSelected!,
                         )
                       : Container(),
                 ],
@@ -60,7 +82,7 @@ class ViewPollutionSelected extends StatelessWidget {
             ),
             onTap: () {
               Get.to(() => DetailPollutionScreen(),
-                  arguments: _controller.pollutionSelected.value?.id);
+                  arguments: pollutionSelected?.id);
             },
           ),
         ));

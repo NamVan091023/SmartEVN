@@ -5,6 +5,7 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/location_service.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
+import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 
@@ -48,7 +49,8 @@ class SplashController extends GetxController {
   void checkAccessPermission() async {
     bool isRememberLogin = PreferenceUtils.getBool(KEY_REMEMBER_LOGIN);
     if (isRememberLogin) {
-      String? refreshToken = PreferenceUtils.getString(KEY_REFRESH_TOKEN);
+      AuthResponse? currentUser = await UserStore().getAuth();
+      String? refreshToken = currentUser?.tokens?.refresh?.token;
       if (refreshToken == null) {
         Get.offAllNamed(Routes.LOGIN_SCREEN);
       } else {
@@ -61,8 +63,10 @@ class SplashController extends GetxController {
 
           hideLoading();
           if (newAccessToken != null && newRefreshToken != null) {
-            PreferenceUtils.setString(KEY_ACCESS_TOKEN, newAccessToken);
-            PreferenceUtils.setString(KEY_REFRESH_TOKEN, newRefreshToken);
+            currentUser?.tokens = tokenResponse;
+            if (currentUser != null) {
+              UserStore().saveAuth(currentUser);
+            }
             Get.offAllNamed(Routes.HOME_SCREEN);
           } else {
             Get.offAllNamed(Routes.LOGIN_SCREEN);

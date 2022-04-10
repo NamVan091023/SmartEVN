@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_screen.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_screen.dart';
@@ -57,5 +58,8 @@ class AppPages {
       name: Routes.OTHER_PROFILE_SCREEN,
       page: () => OtherProfileScreen(),
     ),
+    GetPage(
+        name: Routes.DETAIL_POLLUTION_SCREEN,
+        page: () => DetailPollutionScreen())
   ];
 }
