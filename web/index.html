@@ -43,13 +43,13 @@
     <img class="center" aria-hidden="true" src="splash/img/light-1x.png" />
   </picture>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <!-- <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
 
   <!-- TODO: Add SDKs for Firebase products that you want to use
       https://firebase.google.com/docs/web/setup#available-libraries -->
-  <!-- <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-analytics.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-analytics.js"></script>
 
-  <!-- <script>
+  <script>
     var firebaseConfig = {
       apiKey: "AIzaSyDZUra8Uh6Bgv3VuPqQMfVsC9gUIjbGf_4",
       authDomain: "smartenviroment.firebaseapp.com",
@@ -61,7 +61,7 @@
     };
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
-  </script> -->
+  </script>
 
 <script src="main.dart.js" type="application/javascript"></script>
 
@@ -90,7 +90,7 @@
         // Otherwise, the browser will load the script multiple times,
         // potentially different versions.
         var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
-        navigator.serviceWorker.register(serviceWorkerUrl)
+        navigator.serviceWorker.register("/firebase-messaging-sw.js")
           .then((reg) => {
             function waitForActivation(serviceWorker) {
               serviceWorker.addEventListener('statechange', () => {

@@ -60,8 +60,6 @@ class NotificationService {
     PollutionModel pollution = PollutionModel.fromJson(jsonData);
     final ByteArrayAndroidBitmap largeIcon = ByteArrayAndroidBitmap(
         await _getByteArrayFromUrl('$host/ic_pin_${pollution.type ?? ""}.png'));
-    // final String largeIconPath = await _downloadAndSaveFile(
-    //     '$host/ic_pin_${message.data["type"]}.png', 'largeIcon');
     final ByteArrayAndroidBitmap bigPicture = ByteArrayAndroidBitmap(
         (pollution.images ?? []).isNotEmpty
             ? await _getByteArrayFromUrl('$host/${pollution.images?.first}')

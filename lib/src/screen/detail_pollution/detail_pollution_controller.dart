@@ -73,9 +73,8 @@ class DetailPollutionController extends GetxController {
                   "Chất lượng ${getShortNamePollution(firstPollution.type)}: ${getQualityText(firstPollution.qualityScore)}",
               onTap: () {
                 if (firstPollution.id != null) {
-                  pollutionId = firstPollution.id!;
                   Get.offNamed(Routes.DETAIL_POLLUTION_SCREEN,
-                      arguments: firstPollution.id);
+                      arguments: firstPollution.id, preventDuplicates: false);
                 }
               }),
           onTap: () async {

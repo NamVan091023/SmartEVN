@@ -74,12 +74,6 @@ class FCM {
         PollutionModel pollution = PollutionModel.fromJson(jsonData);
         playSoundAlert();
 
-        // Get.defaultDialog(
-        //     title: "Thông báo",
-        //     content: Card(
-        //       child: PollutionCard(pollutionModel: pollution),
-        //     ));
-
         showOverlayNotification(
           (ctx) {
             return SafeArea(
