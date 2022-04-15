@@ -1,12 +1,9 @@
+import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
-
-import 'package:background_locator/background_locator.dart';
-import 'package:background_locator/settings/android_settings.dart';
-import 'package:background_locator/settings/ios_settings.dart';
-import 'package:background_locator/settings/locator_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/src/commons/background_location/location_callback_handler.dart';
+import 'package:pollution_environment/main.dart';
+import 'package:pollution_environment/src/commons/background_location/location_background.dart';
 import 'package:pollution_environment/src/commons/background_location/location_service_repository.dart';
 import 'package:pollution_environment/src/commons/notification.dart';
 import 'package:pollution_environment/src/components/keep_alive_wrapper.dart';
@@ -17,7 +14,7 @@ import 'package:pollution_environment/src/screen/news/news_screen.dart';
 import 'package:pollution_environment/src/screen/notification/notification_screen.dart';
 import 'package:pollution_environment/src/screen/profile/profile/profile_screen.dart';
 import 'package:pollution_environment/src/screen/report_user/report_user_screen.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:workmanager/workmanager.dart';
 
 class MainBoard extends StatefulWidget {
   _MainBoardState createState() => _MainBoardState();
@@ -120,75 +117,47 @@ class _MainBoardState extends State<MainBoard> {
     IsolateNameServer.registerPortWithName(
         port.sendPort, LocationServiceRepository.isolateName);
 
-    // port.listen(
-    //   (dynamic data) async {
-    //     await BackgroundLocator.updateNotificationText(
-    //         title: "new location received",
-    //         msg: "${DateTime.now()}",
-    //         bigMsg: "${data.latitude}, ${data.longitude}");
-    //   },
-    // );
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    print('Initializing...');
-    await BackgroundLocator.initialize();
-    print('Initialization done');
-    final _isRunning = await BackgroundLocator.isServiceRunning();
-    print('Running ${_isRunning.toString()}');
-    _onStart();
-  }
-
-  void _onStart() async {
-    if (await _checkLocationPermission()) {
-      await _startLocator();
-    } else {
-      // show error
+    port.listen(
+      (dynamic data) async {
+        // await BackgroundLocator.updateNotificationText(
+        //     title: "new location received",
+        //     msg: "${DateTime.now()}",
+        //     bigMsg: "${data.latitude}, ${data.longitude}");
+      },
+    );
+    LocationBackground.initPlatformState();
+    Workmanager().cancelAll();
+    Workmanager().initialize(
+      callbackDispatcher,
+      isInDebugMode: false,
+    );
+    if (Platform.isAndroid) {
+      Workmanager().registerPeriodicTask(
+        fetchAQIBackground,
+        fetchAQIBackground,
+        existingWorkPolicy: ExistingWorkPolicy.keep,
+        frequency: Duration(minutes: 60),
+      );
+      Workmanager().registerPeriodicTask(
+        fetchLocationBackground,
+        fetchLocationBackground,
+        existingWorkPolicy: ExistingWorkPolicy.keep,
+        // frequency: Duration(minutes: 15),
+      );
     }
-  }
 
-  Future<bool> _checkLocationPermission() async {
-    final access = await Permission.location.status;
-    switch (access) {
-      case PermissionStatus.denied:
-      case PermissionStatus.restricted:
-        final permission = await Permission.location.request();
-        if (permission == PermissionStatus.granted) {
-          return true;
-        } else {
-          return false;
-        }
-      case PermissionStatus.granted:
-        return true;
-      default:
-        return false;
+    if (Platform.isIOS) {
+      Workmanager().registerOneOffTask(
+        fetchAQIBackground,
+        fetchAQIBackground,
+        // frequency: Duration(minutes: 15),
+      );
+      Workmanager().registerOneOffTask(
+        fetchLocationBackground,
+        fetchLocationBackground,
+        // frequency: Duration(minutes: 15),
+      );
     }
-  }
-
-  Future<void> _startLocator() async {
-    return await BackgroundLocator.registerLocationUpdate(
-        LocationCallbackHandler.callback,
-        initCallback: LocationCallbackHandler.initCallback,
-        disposeCallback: LocationCallbackHandler.disposeCallback,
-        iosSettings: IOSSettings(
-            accuracy: LocationAccuracy.POWERSAVE, distanceFilter: 100),
-        autoStop: false,
-        androidSettings: AndroidSettings(
-            accuracy: LocationAccuracy.POWERSAVE,
-            interval: 600,
-            distanceFilter: 100,
-            client: LocationClient.google,
-            androidNotificationSettings: AndroidNotificationSettings(
-                notificationChannelName: 'Location tracking',
-                notificationTitle:
-                    'Sử dụng GPS để nhận thông tin ô nhiễm gần bạn',
-                notificationMsg: 'Track location in background',
-                notificationBigMsg:
-                    'Vị trí nền được bật để giữ cho ứng dụng cập nhật chính xác thông tin ô nhiễm gần vị trí của bạn.',
-                notificationIconColor: Colors.grey,
-                notificationTapCallback:
-                    LocationCallbackHandler.notificationCallback)));
   }
 
   @override

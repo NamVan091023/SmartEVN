@@ -3,13 +3,52 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:pollution_environment/src/commons/background_location/location_background.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
 import 'package:pollution_environment/src/commons/sharedPresf.dart';
+import 'package:pollution_environment/src/model/aqi_current_model.dart';
+import 'package:pollution_environment/src/network/apis/area_forest/area_forest_api.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:workmanager/workmanager.dart';
+
+const fetchLocationBackground = "fetchLocationBackground";
+const fetchAQIBackground = "fetchAQIBackground";
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    switch (task) {
+      case Workmanager.iOSBackgroundTask:
+        print("The iOS background fetch was triggered");
+        try {
+          AQICurentResponse aqiCurentResponse =
+              await AreaForestAPI().getAQIByIP();
+
+          NotificationService notificationService = NotificationService();
+          await notificationService.showCurrentAQI(aqiCurentResponse);
+        } catch (e) {
+          print(e);
+        }
+        break;
+      case fetchAQIBackground:
+        try {
+          AQICurentResponse aqiCurentResponse =
+              await AreaForestAPI().getAQIByIP();
+
+          NotificationService notificationService = NotificationService();
+          await notificationService.showCurrentAQI(aqiCurentResponse);
+        } catch (e) {
+          print(e);
+        }
+        break;
+      case fetchLocationBackground:
+        LocationBackground.onStart();
+    }
+    return Future.value(true);
+  });
+}
 
 void main() async {
   EasyLoading.instance
@@ -26,6 +65,7 @@ void main() async {
     ..userInteractions = false
     ..dismissOnTap = false;
   await init();
+
   runApp(MyApp());
 }
 

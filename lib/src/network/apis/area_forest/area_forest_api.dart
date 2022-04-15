@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:pollution_environment/src/model/aqi_current_model.dart';
 import 'package:pollution_environment/src/model/aqi_map_model.dart';
 import 'package:pollution_environment/src/model/area_forest_model.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
@@ -85,6 +86,25 @@ class AreaForestAPI {
       });
       AQIMapResponse aqiMapResponse = AQIMapResponse.fromJson(response.data);
       return aqiMapResponse;
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<AQICurentResponse> getAQIByIP() async {
+    Response response;
+    try {
+      response = await Dio(BaseOptions(
+              baseUrl: "http://api.airvisual.com/v2",
+              connectTimeout: 8000,
+              receiveTimeout: 8000,
+              sendTimeout: 8000))
+          .request("/nearest_city", queryParameters: {
+        "key": "b6e09f2b-ef9f-47d8-99ec-39805e410057",
+      });
+      AQICurentResponse aqiCurentResponse =
+          AQICurentResponse.fromJson(response.data);
+      return aqiCurentResponse;
     } on DioError catch (e) {
       throw (e);
     }

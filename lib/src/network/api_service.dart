@@ -7,6 +7,7 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
+import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -14,7 +15,7 @@ enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
 // final host = "http://10.0.0.1:3000";
 // final host = "http://192.168.123.235:3000";
-// final host = "http://172.16.122.128:3000";
+// final host = "http://172.16.122.113:3000";
 final host = "https://www.hungs20.xyz";
 final baseUrl = "$host/v1";
 
@@ -34,8 +35,8 @@ class AuthInterceptor extends QueuedInterceptor {
 
     // get tokens from local storage
     AuthResponse? currentAuth = await UserStore().getAuth();
-    final accessToken = currentAuth?.tokens?.access?.token;
-    final refreshToken = currentAuth?.tokens?.refresh?.token;
+    String? accessToken = currentAuth?.tokens?.access?.token;
+    String? refreshToken = currentAuth?.tokens?.refresh?.token;
 
     if (accessToken == null || refreshToken == null) {
       _performLogout(_dio);
@@ -65,6 +66,11 @@ class AuthInterceptor extends QueuedInterceptor {
     } else if (accessTokenHasExpired) {
       // regenerate access token
       _refreshed = await _regenerateAccessToken();
+      if (_refreshed) {
+        AuthResponse? currentAuth = await UserStore().getAuth();
+        accessToken = currentAuth?.tokens?.access?.token;
+        refreshToken = currentAuth?.tokens?.refresh?.token;
+      }
     }
 
     if (_refreshed) {
@@ -126,8 +132,10 @@ class AuthInterceptor extends QueuedInterceptor {
       final refreshToken = currentAuth?.tokens?.refresh?.token;
 
       // make request to server to get the new access token from server using refresh token
-      final response = await dio.post("$baseUrl/auth/refresh-tokens",
-          data: jsonEncode({"refreshToken": refreshToken}));
+      final response = await dio.post(
+        "$baseUrl${AuthAPIPath.refreshToken}",
+        data: {"refreshToken": refreshToken},
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         BaseResponse baseResponse;

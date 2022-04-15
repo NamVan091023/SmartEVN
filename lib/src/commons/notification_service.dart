@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -6,6 +7,8 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/model/aqi_current_model.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
@@ -111,6 +114,53 @@ class NotificationService {
   //           UILocalNotificationDateInterpretation.absoluteTime);
   // }
 
+  Future showNotificationWithoutSound(Position position) async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        '1', 'location-bg',
+        channelDescription: 'fetch location in background',
+        playSound: false,
+        importance: Importance.max,
+        priority: Priority.high);
+    var iOSPlatformChannelSpecifics =
+        new IOSNotificationDetails(presentSound: false);
+    var platformChannelSpecifics = new NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      1,
+      'Location fetched',
+      position.toString(),
+      platformChannelSpecifics,
+      payload: '',
+    );
+  }
+
+  Future showCurrentAQI(AQICurentResponse aqiCurentResponse) async {
+    final ByteArrayAndroidBitmap largeIcon = ByteArrayAndroidBitmap(
+        await _getByteArrayFromUrl(
+            'http://openweathermap.org/img/wn/${aqiCurentResponse.data?.current?.weather?.ic ?? ''}@2x.png'));
+
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      '2',
+      'Thông tin thời tiết',
+      channelDescription: 'Cập nhật thông tin thời tiết',
+      largeIcon: largeIcon,
+      enableVibration: true,
+      channelShowBadge: false,
+      priority: Priority.high,
+      importance: Importance.max,
+      color: const Color.fromARGB(255, 0, 255, 0),
+    );
+    final NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        2,
+        'Dự báo tại · ${aqiCurentResponse.data?.city ?? ''}',
+        "${aqiCurentResponse.data?.current?.weather?.tp ?? 0}°/${aqiCurentResponse.data?.current?.weather?.hu ?? 0}% · Chỉ số AQI: ${aqiCurentResponse.data?.current?.pollution?.aqius ?? 0} · ${getQualityText(getAQIRank(aqiCurentResponse.data?.current?.pollution?.aqius?.toDouble() ?? 0))}",
+        platformChannelSpecifics);
+  }
+
   Future<void> cancelNotifications(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);
   }
@@ -121,7 +171,7 @@ class NotificationService {
 }
 
 Future selectNotification(String? payload) async {
-  //handle your logic here
-  print(payload);
-  Get.to(() => DetailPollutionScreen(), arguments: payload);
+  if ((payload ?? "").isNotEmpty) {
+    Get.to(() => DetailPollutionScreen(), arguments: payload);
+  }
 }

@@ -30,8 +30,8 @@ dependencies:
   animations: ^2.0.2
   dio: ^4.0.4
   google_maps_flutter: ^2.1.1
-  geolocator: ^8.0.3
-  geocoding: ^2.0.2
+  geolocator: ^8.2.0
+  geocoding: ^2.0.4
   shared_preferences: ^2.0.12
   url_launcher: ^6.0.20
   webview_flutter: ^3.0.0
@@ -67,6 +67,7 @@ dependencies:
   permission_handler: ^9.2.0
   overlay_support: ^1.2.1
   audioplayers: ^0.20.1
+  workmanager: ^0.4.1
   # firebase_analytics: ^9.1.2
 dependency_overrides:
   background_locator:
