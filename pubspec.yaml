@@ -63,17 +63,17 @@ dependencies:
   share_plus: ^4.0.2
   expandable: ^5.0.1
   google_maps_cluster_manager: ^3.0.0+1
-  background_locator: ^1.6.12
+  # background_locator: ^1.6.12
+  background_locator:
+    git:
+      url: http://github.com/Hungs20/background_locator.git
+      ref: master
   permission_handler: ^9.2.0
   overlay_support: ^1.2.1
   audioplayers: ^0.20.1
   workmanager: ^0.4.1
+  modal_bottom_sheet: ^2.0.1
   # firebase_analytics: ^9.1.2
-dependency_overrides:
-  background_locator:
-    git:
-      url: https://github.com/frankvollebregt/background_locator.git
-      ref: location-dto-null-fix
 dev_dependencies:
   flutter_test:
     sdk: flutter

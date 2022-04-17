@@ -44,7 +44,8 @@ void callbackDispatcher() {
         }
         break;
       case fetchLocationBackground:
-        LocationBackground.onStart();
+        await PreferenceUtils.init();
+        await LocationBackground.initPlatformState();
     }
     return Future.value(true);
   });

@@ -48,7 +48,9 @@ class EditProfileController extends GetxController {
               email: email.value,
               name: name.value,
               password: password.value,
-              role: role.value,
+              role: currentUser.value?.user?.role == role.value
+                  ? null
+                  : role.value,
               provinceManage: provinces,
               avatar: image.value)
           .then((value) {

@@ -40,9 +40,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: location-dto-null-fix
-      resolved-ref: "06ae8510fa890393dd813a9ba72233a662b20eef"
-      url: "https://github.com/frankvollebregt/background_locator.git"
+      ref: master
+      resolved-ref: "505109164cc4ce99aa652544d9f899e311614425"
+      url: "http://github.com/Hungs20/background_locator.git"
     source: git
     version: "1.6.12"
   boolean_selector:
@@ -620,6 +620,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  modal_bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: modal_bottom_sheet
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   octo_image:
     dependency: transitive
     description:

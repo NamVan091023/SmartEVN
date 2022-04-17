@@ -205,10 +205,8 @@ class EditProfileScreen extends StatelessWidget {
   Widget buildPasswordFormField() {
     return TextFormField(
       keyboardType: TextInputType.visiblePassword,
-      onSaved: (newValue) {
-        if (newValue != null && newValue.isNotEmpty) {
-          _controller.password.value = newValue;
-        }
+      onChanged: (newValue) {
+        _controller.password.value = newValue;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
@@ -230,10 +228,8 @@ class EditProfileScreen extends StatelessWidget {
   Widget buildRePasswordFormField() {
     return TextFormField(
       keyboardType: TextInputType.visiblePassword,
-      onSaved: (newValue) {
-        if (newValue != null && newValue.isNotEmpty) {
-          _controller.rePassword.value = newValue;
-        }
+      onChanged: (newValue) {
+        _controller.rePassword.value = newValue;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {

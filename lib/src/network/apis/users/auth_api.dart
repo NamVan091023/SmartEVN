@@ -14,6 +14,8 @@ class AuthAPIPath {
   static String register = "/auth/register";
   static String refreshToken = "/auth/refresh-tokens";
   static String logout = "/auth/logout";
+  static String forgotPassword = "/auth/forgot-password";
+  static String resetPassword = "/auth/reset-password";
 }
 
 class AuthApi {
@@ -102,6 +104,42 @@ class AuthApi {
           endPoint: AuthAPIPath.logout,
           data: {
             "refreshToken": auth?.tokens?.refresh?.token,
+          },
+          options: Options(headers: {"requiresToken": false}));
+
+      BaseResponse baseResponse = BaseResponse.fromJson(response.data);
+      return baseResponse;
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<BaseResponse> forgotPassword(String email) async {
+    Response response;
+    try {
+      response = await apiService.request(
+          method: APIMethod.POST,
+          endPoint: AuthAPIPath.forgotPassword,
+          data: {
+            "email": email,
+          },
+          options: Options(headers: {"requiresToken": false}));
+
+      BaseResponse baseResponse = BaseResponse.fromJson(response.data);
+      return baseResponse;
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<BaseResponse> resetPassword(String password) async {
+    Response response;
+    try {
+      response = await apiService.request(
+          method: APIMethod.POST,
+          endPoint: AuthAPIPath.resetPassword,
+          data: {
+            "password": password,
           },
           options: Options(headers: {"requiresToken": false}));
 

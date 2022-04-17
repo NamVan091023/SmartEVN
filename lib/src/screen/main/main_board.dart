@@ -136,7 +136,7 @@ class _MainBoardState extends State<MainBoard> {
         fetchAQIBackground,
         fetchAQIBackground,
         existingWorkPolicy: ExistingWorkPolicy.keep,
-        frequency: Duration(minutes: 60),
+        frequency: Duration(minutes: 120),
       );
       Workmanager().registerPeriodicTask(
         fetchLocationBackground,
