@@ -10,39 +10,39 @@ jobs:
     name: Build APK
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1.5.3
-        with:
-          channel: 'stable'
+      - uses: actions/checkout@v2
+        - uses: subosito/flutter-action@v1.5.3
+          with:
+            channel: 'stable'
 
-      - name: Install Dependencies
-        run: flutter packages get
+        - name: Install Dependencies
+          run: flutter packages get
 
-      - name: Analyze
-        run: flutter analyze lib test
+        - name: Analyze
+          run: flutter analyze lib test
 
-      # - name: Run tests
-      #   run: flutter test --no-pub --coverage --test-randomize-ordering-seed random packages test
+        # - name: Run tests
+        #   run: flutter test --no-pub --coverage --test-randomize-ordering-seed random packages test
 
-      - name: Build Android App
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: flutter build apk
-      
-      - name: Build iOS App
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-            flutter build ios --no-codesign
-            cd build/ios/iphoneos
-            mkdir Payload
-            cd Payload
-            ln -s ../Runner.app
-            cd ..
-            zip -r app.ipa Payload
+        - name: Build Android App
+          if: startsWith(github.ref, 'refs/tags/v')
+          run: flutter build apk
+        
+        - name: Build iOS App
+          if: startsWith(github.ref, 'refs/tags/v')
+          run: |
+              flutter build ios --no-codesign
+              cd build/ios/iphoneos
+              mkdir Payload
+              cd Payload
+              ln -s ../Runner.app
+              cd ..
+              zip -r app.ipa Payload
 
-      - name: Release Apps
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: ncipollo/release-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: 'build/app/outputs/**/*.apk,build/ios/iphoneos/app.ipa,build/web/web-app.zip'
-          
+        - name: Release Apps
+          if: startsWith(github.ref, 'refs/tags/v')
+          uses: ncipollo/release-action@v1
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            artifacts: 'build/app/outputs/**/*.apk,build/ios/iphoneos/app.ipa,build/web/web-app.zip'
+            
