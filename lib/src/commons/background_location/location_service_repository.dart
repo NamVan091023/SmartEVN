@@ -4,6 +4,10 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:background_locator/location_dto.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 
@@ -31,6 +35,8 @@ class LocationServiceRepository {
 
   Future<void> callback(LocationDto locationDto) async {
     print("========= Callback ====== ${locationDto}");
+    await Hive.initFlutter();
+    await Hive.openBox(HIVEBOX);
     AuthResponse? currentAuth = await UserStore().getAuth();
     String? userId = currentAuth?.user?.id;
     if (userId != null) {

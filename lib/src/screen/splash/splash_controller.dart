@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/location_service.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
@@ -13,7 +13,7 @@ class SplashController extends GetxController {
   late Timer _timer;
   int _start = 3;
   var currentPage = 0.obs;
-
+  final Box box = Hive.box(HIVEBOX);
   @override
   void onInit() {
     super.onInit();
@@ -47,7 +47,7 @@ class SplashController extends GetxController {
   }
 
   void checkAccessPermission() async {
-    bool isRememberLogin = PreferenceUtils.getBool(KEY_REMEMBER_LOGIN);
+    bool isRememberLogin = box.get(KEY_REMEMBER_LOGIN, defaultValue: false);
     if (isRememberLogin) {
       AuthResponse? currentUser = await UserStore().getAuth();
       String? refreshToken = currentUser?.tokens?.refresh?.token;

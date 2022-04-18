@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
+import 'package:hive/hive.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
 
 import '../commons/constants.dart';
@@ -123,13 +123,15 @@ class UserStore {
 
   UserStore._internal();
 
-  void saveAuth(AuthResponse authResponse) async {
+  void saveAuth(AuthResponse authResponse) {
     String user = jsonEncode(authResponse);
-    PreferenceUtils.setString(KEY_CURRENT_USER, user);
+    Box box = Hive.box(HIVEBOX);
+    box.put(KEY_CURRENT_USER, user);
   }
 
-  Future<AuthResponse?> getAuth() async {
-    String? userData = await PreferenceUtils.getString(KEY_CURRENT_USER);
+  AuthResponse? getAuth() {
+    Box box = Hive.box(HIVEBOX);
+    String? userData = box.get(KEY_CURRENT_USER);
     if (userData != null) {
       Map<String, dynamic> userMap = jsonDecode(userData);
       var user = AuthResponse.fromJson(userMap);
@@ -139,7 +141,8 @@ class UserStore {
     }
   }
 
-  void removeAuth() async {
-    await PreferenceUtils.remove(KEY_CURRENT_USER);
+  void removeAuth() {
+    var box = Hive.box(HIVEBOX);
+    box.delete(KEY_CURRENT_USER);
   }
 }

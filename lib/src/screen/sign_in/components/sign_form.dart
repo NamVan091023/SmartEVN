@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/commons/size_config.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
@@ -20,6 +20,7 @@ class SignForm extends StatefulWidget {
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   final SignInController controller = Get.find();
+  final Box box = Hive.box(HIVEBOX);
   bool _passwordVisible = false;
   @override
   void initState() {
@@ -91,7 +92,7 @@ class _SignFormState extends State<SignForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: !_passwordVisible,
       onSaved: (newValue) => controller.onSavePassword(newValue!),
-      initialValue: PreferenceUtils.getString(KEY_PASSWORD),
+      initialValue: box.get(KEY_PASSWORD),
       validator: (value) {
         return controller.onValidatorPassword(value!);
       },
@@ -119,7 +120,7 @@ class _SignFormState extends State<SignForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => controller.onSaveEmail(newValue!),
-      initialValue: PreferenceUtils.getString(KEY_EMAIL),
+      initialValue: box.get(KEY_EMAIL),
       onChanged: (value) {
         controller.onChangeEmail(value);
       },

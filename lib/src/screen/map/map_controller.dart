@@ -56,7 +56,7 @@ class MapController extends GetxController
     Set<Marker>(),
     Set<Marker>()
   ].obs;
-  Rxn<AuthResponse> currentUser = Rxn<AuthResponse>();
+  Rx<AuthResponse?> currentUser = UserStore().getAuth().obs;
   Timer? _debounce;
   Timer? _debouncePollution;
 
@@ -64,10 +64,7 @@ class MapController extends GetxController
   void onInit() {
     offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 1.0))
         .animate(animationController);
-    UserStore().getAuth().then((value) {
-      currentUser.value = value;
-      getPollutionPosition();
-    });
+    getPollutionPosition();
     getAQIMap();
     _initClusterManager();
     super.onInit();

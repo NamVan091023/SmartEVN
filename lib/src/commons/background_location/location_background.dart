@@ -53,8 +53,8 @@ class LocationBackground {
         autoStop: false,
         androidSettings: AndroidSettings(
             accuracy: LocationAccuracy.NAVIGATION,
-            interval: 5,
-            distanceFilter: 0,
+            interval: 15 * 60,
+            distanceFilter: 20,
             client: LocationClient.google,
             androidNotificationSettings: AndroidNotificationSettings(
                 notificationChannelName: 'Location tracking',

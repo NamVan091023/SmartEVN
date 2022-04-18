@@ -4,18 +4,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:pollution_environment/src/commons/background_location/location_background.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/aqi_current_model.dart';
 import 'package:pollution_environment/src/network/apis/area_forest/area_forest_api.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 const fetchLocationBackground = "fetchLocationBackground";
@@ -68,7 +67,8 @@ void main() async {
     ..userInteractions = false
     ..dismissOnTap = false;
   await init();
-
+  await Hive.initFlutter();
+  await Hive.openBox(HIVEBOX);
   runApp(MyApp());
 }
 
@@ -87,8 +87,6 @@ Future init() async {
   }
 
   NotificationService().init();
-
-  await PreferenceUtils.init();
 }
 
 class MyApp extends StatefulWidget {
@@ -99,28 +97,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    super.initState();
-
-    // if (IsolateNameServer.lookupPortByName(
-    //           LocationServiceRepository.isolateName) !=
-    //       null) {
-    //     IsolateNameServer.removePortNameMapping(
-    //         LocationServiceRepository.isolateName);
-    //   }
-
-    //   IsolateNameServer.registerPortWithName(
-    //       port.sendPort, LocationServiceRepository.isolateName);
-
-    //   port.listen(
-    //     (dynamic data) async {
-    //       // await BackgroundLocator.updateNotificationText(
-    //       //     title: "new location received",
-    //       //     msg: "${DateTime.now()}",
-    //       //     bigMsg: "${data.latitude}, ${data.longitude}");
-    //     },
-    //   );
-    LocationBackground.initPlatformState();
-    Workmanager().cancelAll();
+    // LocationBackground.initPlatformState();
+    // Workmanager().cancelAll();
     Workmanager().initialize(
       callbackDispatcher,
       isInDebugMode: false,
@@ -152,12 +130,34 @@ class _MyAppState extends State<MyApp> {
         // frequency: Duration(minutes: 15),
       );
     }
+    super.initState();
   }
 
   @override
   void dispose() {
+    // Closes all Hive boxes
+    Hive.close();
     super.dispose();
   }
+
+  // if (IsolateNameServer.lookupPortByName(
+  //           LocationServiceRepository.isolateName) !=
+  //       null) {
+  //     IsolateNameServer.removePortNameMapping(
+  //         LocationServiceRepository.isolateName);
+  //   }
+
+  //   IsolateNameServer.registerPortWithName(
+  //       port.sendPort, LocationServiceRepository.isolateName);
+
+  //   port.listen(
+  //     (dynamic data) async {
+  //       // await BackgroundLocator.updateNotificationText(
+  //       //     title: "new location received",
+  //       //     msg: "${DateTime.now()}",
+  //       //     bigMsg: "${data.latitude}, ${data.longitude}");
+  //     },
+  //   );
 
   @override
   Widget build(BuildContext context) {
@@ -171,18 +171,23 @@ class _MyAppState extends State<MyApp> {
 
     return OverlaySupport.global(
       child: DismissKeyboard(
-        child: GetMaterialApp(
-          theme: themeLight(),
-          darkTheme: themeDark(),
-          themeMode: getThemeMode(PreferenceUtils.getString(KEY_THEME_MODE)),
-          initialRoute: Routes.INITIAL,
-          getPages: AppPages.pages,
-          // defaultTransition: Transition.cupertino,
-          debugShowCheckedModeBanner: false,
-          title: "Smart Environment",
-          builder: EasyLoading.init(),
-          scrollBehavior: MyCustomScrollBehavior(),
-        ),
+        child: ValueListenableBuilder(
+            valueListenable: Hive.box(HIVEBOX).listenable(),
+            builder: (context, box, widget) {
+              var themeMode = getThemeMode((box as Box).get(KEY_THEME_MODE));
+              return GetMaterialApp(
+                theme: themeLight(),
+                darkTheme: themeDark(),
+                themeMode: themeMode,
+                initialRoute: Routes.INITIAL,
+                getPages: AppPages.pages,
+                // defaultTransition: Transition.cupertino,
+                debugShowCheckedModeBanner: false,
+                title: "Smart Environment",
+                builder: EasyLoading.init(),
+                scrollBehavior: MyCustomScrollBehavior(),
+              );
+            }),
       ),
     );
   }

@@ -97,9 +97,7 @@ class _MainBoardState extends State<MainBoard> {
   @override
   void initState() {
     super.initState();
-    UserStore().getAuth().then((value) => setState(() {
-          isAdmin = value?.user?.role == "admin";
-        }));
+    isAdmin = UserStore().getAuth()?.user?.role == "admin";
     FCM().setNotifications();
   }
 

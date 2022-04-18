@@ -1,17 +1,18 @@
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 
 class ProfileController extends GetxController {
   late String userId;
+  Box box = Hive.box(HIVEBOX);
   Rxn<UserModel> user = Rxn<UserModel>();
-  Rx<String?> themeMode =
-      (PreferenceUtils.getString(KEY_THEME_MODE) ?? "system").obs;
+  Rx<String?> themeMode = "system".obs;
   @override
   void onInit() {
+    themeMode.value = box.get(KEY_THEME_MODE, defaultValue: "system");
     super.onInit();
     getCurrentUser();
   }
@@ -34,7 +35,6 @@ class ProfileController extends GetxController {
   void changeThemeMode(value) {
     themeMode.value = value;
     Get.changeThemeMode(getThemeMode(value));
-
-    PreferenceUtils.setString(KEY_THEME_MODE, value ?? "system");
+    box.put(KEY_THEME_MODE, value ?? "system");
   }
 }

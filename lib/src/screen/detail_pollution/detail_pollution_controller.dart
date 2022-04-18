@@ -124,7 +124,7 @@ class DetailPollutionController extends GetxController {
   }
 
   void getCurrentUser() async {
-    UserStore().getAuth().then((value) => currentUser.value = value?.user);
+    currentUser.value = UserStore().getAuth()?.user;
   }
 
   void getPollution() async {

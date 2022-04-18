@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:hive/hive.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
-import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 
@@ -13,7 +13,7 @@ class SignUpController extends GetxController {
   RxString password = "".obs;
   RxString conformPassword = "".obs;
   RxBool remember = false.obs;
-
+  final Box box = Hive.box(HIVEBOX);
   void saveConformPass(String value) {
     conformPassword.value = value;
   }
@@ -89,10 +89,10 @@ class SignUpController extends GetxController {
       debugPrint("Register success $response");
       UserModel? user = response.user;
       if (user != null) {
-        PreferenceUtils.setBool(KEY_REMEMBER_LOGIN, true);
+        box.put(KEY_REMEMBER_LOGIN, true);
 
-        PreferenceUtils.setString(KEY_EMAIL, email.value);
-        PreferenceUtils.setString(KEY_PASSWORD, password.value);
+        box.put(KEY_EMAIL, email.value);
+        box.put(KEY_PASSWORD, password.value);
 
         UserStore().saveAuth(response);
 

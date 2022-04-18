@@ -5,7 +5,7 @@ import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 
 class OtherProfileController extends GetxController {
-  String userId = Get.arguments;
+  String? userId = Get.arguments;
   Rxn<UserModel> user = Rxn<UserModel>();
   Rxn<UserModel> currentUser = Rxn<UserModel>();
 
@@ -17,22 +17,27 @@ class OtherProfileController extends GetxController {
   }
 
   void getCurrentUser() async {
-    UserStore().getAuth().then((value) => currentUser.value = value?.user);
+    currentUser.value = UserStore().getAuth()?.user;
   }
 
   void getUser() async {
-    user.value = await UserAPI().getUserById(userId);
+    if (userId != null) {
+      user.value = await UserAPI().getUserById(userId!);
+    }
   }
 
   void deleteUser() async {
-    showLoading();
-    UserAPI().deleteUser(id: userId).then((value) {
-      hideLoading();
-      Fluttertoast.showToast(msg: value.message ?? "Xóa người dùng thành công");
+    if (userId != null) {
+      showLoading();
+      UserAPI().deleteUser(id: userId!).then((value) {
+        hideLoading();
+        Fluttertoast.showToast(
+            msg: value.message ?? "Xóa người dùng thành công");
 
-      Get.back();
-    }).onError((error, stackTrace) {
-      hideLoading();
-    });
+        Get.back();
+      }).onError((error, stackTrace) {
+        hideLoading();
+      });
+    }
   }
 }
