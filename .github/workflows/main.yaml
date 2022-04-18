@@ -1,21 +1,46 @@
-on: push
+on: push:
+    branches:
+      - master
+    tags:
+      - v*
 name: Test, Build and Release apk
 jobs:
   build:
     name: Build APK
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
-    - uses: subosito/flutter-action@v1
-      with:
-        flutter-version: '1.7.8+hotfix.4'
-    - run: flutter pub get
-    - run: flutter build apk --debug --split-per-abi
-    - name: Create a Release APK
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/apk/debug/*.apk"
-        token: ${{ secrets.TOKEN }}
+    - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1.5.3
+        with:
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      # - name: Run tests
+      #   run: flutter test --no-pub --coverage --test-randomize-ordering-seed random packages test
+
+      - name: Build Android App
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: flutter build apk
+      
+      - name: Build iOS App
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+            flutter build ios --no-codesign
+            cd build/ios/iphoneos
+            mkdir Payload
+            cd Payload
+            ln -s ../Runner.app
+            cd ..
+            zip -r app.ipa Payload
+            
+      - name: Release Apps
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: 'build/app/outputs/**/*.apk,build/ios/iphoneos/app.ipa,build/web/web-app.zip'
