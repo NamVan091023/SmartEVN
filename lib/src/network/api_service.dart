@@ -12,9 +12,9 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
 // final host = "http://10.0.0.1:3000";
-final host = "http://192.168.123.235:3000";
+// final host = "http://192.168.123.235:3000";
 // final host = "http://172.16.122.113:3000";
-// final host = "https://www.hungs20.xyz";
+final host = "https://www.hungs20.xyz";
 final baseUrl = "$host/v1";
 
 class AuthInterceptor extends QueuedInterceptor {
