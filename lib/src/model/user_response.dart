@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:pollution_environment/src/commons/sharedPresf.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../commons/constants.dart';
 
@@ -124,14 +124,12 @@ class UserStore {
   UserStore._internal();
 
   void saveAuth(AuthResponse authResponse) async {
-    SharedPreferences shared_User = await SharedPreferences.getInstance();
     String user = jsonEncode(authResponse);
-    shared_User.setString(KEY_CURRENT_USER, user);
+    PreferenceUtils.setString(KEY_CURRENT_USER, user);
   }
 
   Future<AuthResponse?> getAuth() async {
-    SharedPreferences shared_User = await SharedPreferences.getInstance();
-    String? userData = shared_User.getString(KEY_CURRENT_USER);
+    String? userData = await PreferenceUtils.getString(KEY_CURRENT_USER);
     if (userData != null) {
       Map<String, dynamic> userMap = jsonDecode(userData);
       var user = AuthResponse.fromJson(userMap);
@@ -142,7 +140,6 @@ class UserStore {
   }
 
   void removeAuth() async {
-    SharedPreferences shared_User = await SharedPreferences.getInstance();
-    await shared_User.remove(KEY_CURRENT_USER);
+    await PreferenceUtils.remove(KEY_CURRENT_USER);
   }
 }

@@ -1,10 +1,5 @@
-import 'dart:io';
-import 'dart:isolate';
-import 'dart:ui';
+// import 'dart:isolate';
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/main.dart';
-import 'package:pollution_environment/src/commons/background_location/location_background.dart';
-import 'package:pollution_environment/src/commons/background_location/location_service_repository.dart';
 import 'package:pollution_environment/src/commons/notification.dart';
 import 'package:pollution_environment/src/components/keep_alive_wrapper.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
@@ -14,7 +9,6 @@ import 'package:pollution_environment/src/screen/news/news_screen.dart';
 import 'package:pollution_environment/src/screen/notification/notification_screen.dart';
 import 'package:pollution_environment/src/screen/profile/profile/profile_screen.dart';
 import 'package:pollution_environment/src/screen/report_user/report_user_screen.dart';
-import 'package:workmanager/workmanager.dart';
 
 class MainBoard extends StatefulWidget {
   _MainBoardState createState() => _MainBoardState();
@@ -23,7 +17,7 @@ class MainBoard extends StatefulWidget {
 class _MainBoardState extends State<MainBoard> {
   int indexPage = 1;
   bool isAdmin = false;
-  ReceivePort port = ReceivePort();
+  // ReceivePort port = ReceivePort();
   final Widget map = KeepAliveWrapper(child: MapScreen());
   final Widget news = KeepAliveWrapper(child: NewsScreen());
   final Widget noti = KeepAliveWrapper(child: NotificationScreen());
@@ -107,57 +101,6 @@ class _MainBoardState extends State<MainBoard> {
           isAdmin = value?.user?.role == "admin";
         }));
     FCM().setNotifications();
-    if (IsolateNameServer.lookupPortByName(
-            LocationServiceRepository.isolateName) !=
-        null) {
-      IsolateNameServer.removePortNameMapping(
-          LocationServiceRepository.isolateName);
-    }
-
-    IsolateNameServer.registerPortWithName(
-        port.sendPort, LocationServiceRepository.isolateName);
-
-    port.listen(
-      (dynamic data) async {
-        // await BackgroundLocator.updateNotificationText(
-        //     title: "new location received",
-        //     msg: "${DateTime.now()}",
-        //     bigMsg: "${data.latitude}, ${data.longitude}");
-      },
-    );
-    LocationBackground.initPlatformState();
-    Workmanager().cancelAll();
-    Workmanager().initialize(
-      callbackDispatcher,
-      isInDebugMode: false,
-    );
-    if (Platform.isAndroid) {
-      Workmanager().registerPeriodicTask(
-        fetchAQIBackground,
-        fetchAQIBackground,
-        existingWorkPolicy: ExistingWorkPolicy.keep,
-        frequency: Duration(minutes: 120),
-      );
-      Workmanager().registerPeriodicTask(
-        fetchLocationBackground,
-        fetchLocationBackground,
-        existingWorkPolicy: ExistingWorkPolicy.keep,
-        // frequency: Duration(minutes: 15),
-      );
-    }
-
-    if (Platform.isIOS) {
-      Workmanager().registerOneOffTask(
-        fetchAQIBackground,
-        fetchAQIBackground,
-        // frequency: Duration(minutes: 15),
-      );
-      Workmanager().registerOneOffTask(
-        fetchLocationBackground,
-        fetchLocationBackground,
-        // frequency: Duration(minutes: 15),
-      );
-    }
   }
 
   @override

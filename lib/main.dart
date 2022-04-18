@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +15,7 @@ import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 const fetchLocationBackground = "fetchLocationBackground";
@@ -44,7 +47,6 @@ void callbackDispatcher() {
         }
         break;
       case fetchLocationBackground:
-        await PreferenceUtils.init();
         await LocationBackground.initPlatformState();
     }
     return Future.value(true);
@@ -85,10 +87,78 @@ Future init() async {
   }
 
   NotificationService().init();
+
   await PreferenceUtils.init();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    // if (IsolateNameServer.lookupPortByName(
+    //           LocationServiceRepository.isolateName) !=
+    //       null) {
+    //     IsolateNameServer.removePortNameMapping(
+    //         LocationServiceRepository.isolateName);
+    //   }
+
+    //   IsolateNameServer.registerPortWithName(
+    //       port.sendPort, LocationServiceRepository.isolateName);
+
+    //   port.listen(
+    //     (dynamic data) async {
+    //       // await BackgroundLocator.updateNotificationText(
+    //       //     title: "new location received",
+    //       //     msg: "${DateTime.now()}",
+    //       //     bigMsg: "${data.latitude}, ${data.longitude}");
+    //     },
+    //   );
+    LocationBackground.initPlatformState();
+    Workmanager().cancelAll();
+    Workmanager().initialize(
+      callbackDispatcher,
+      isInDebugMode: false,
+    );
+    if (Platform.isAndroid) {
+      Workmanager().registerPeriodicTask(
+        fetchAQIBackground,
+        fetchAQIBackground,
+        existingWorkPolicy: ExistingWorkPolicy.keep,
+        frequency: Duration(minutes: 120),
+      );
+      Workmanager().registerPeriodicTask(
+        fetchLocationBackground,
+        fetchLocationBackground,
+        existingWorkPolicy: ExistingWorkPolicy.keep,
+        // frequency: Duration(minutes: 15),
+      );
+    }
+
+    if (Platform.isIOS) {
+      Workmanager().registerOneOffTask(
+        fetchAQIBackground,
+        fetchAQIBackground,
+        // frequency: Duration(minutes: 15),
+      );
+      Workmanager().registerOneOffTask(
+        fetchLocationBackground,
+        fetchLocationBackground,
+        // frequency: Duration(minutes: 15),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

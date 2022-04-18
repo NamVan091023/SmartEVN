@@ -19,25 +19,32 @@ class LocationServiceRepository {
   static const String isolateName = 'LocatorIsolate';
 
   Future<void> init(Map<dynamic, dynamic> params) async {
-    final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(null);
+    // final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
+    // send?.send(null);
   }
 
   Future<void> dispose() async {
     print("***********Dispose callback handler");
-    final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(null);
+    // final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
+    // send?.send(null);
   }
 
   Future<void> callback(LocationDto locationDto) async {
+    print("========= Callback ====== ${locationDto}");
     AuthResponse? currentAuth = await UserStore().getAuth();
     String? userId = currentAuth?.user?.id;
     if (userId != null) {
-      UserAPI().updateUser(
-          id: userId, lat: locationDto.latitude, lng: locationDto.longitude);
+      UserAPI()
+          .updateUser(
+              id: userId, lat: locationDto.latitude, lng: locationDto.longitude)
+          .then((value) {
+        print("==== Update user track location done ======");
+      }, onError: (e) {
+        print("===== Update track location error $e");
+      });
     }
-    final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(locationDto);
+    // final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
+    // send?.send(locationDto);
   }
 
   static double dp(double val, int places) {
