@@ -44,6 +44,8 @@ class LocationBackground {
   }
 
   static Future<void> startLocator() async {
+    await BackgroundLocator.unRegisterLocationUpdate();
+
     return await BackgroundLocator.registerLocationUpdate(
         LocationCallbackHandler.callback,
         initCallback: LocationCallbackHandler.initCallback,

@@ -41,8 +41,8 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "505109164cc4ce99aa652544d9f899e311614425"
-      url: "http://github.com/Hungs20/background_locator.git"
+      resolved-ref: "57b9809d8cb40c49cc0ca8f8b6e03e0c561a17dc"
+      url: "https://github.com/frankvollebregt/background_locator.git"
     source: git
     version: "1.6.12"
   boolean_selector:
