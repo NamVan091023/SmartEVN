@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/components/aqi_weather_card.dart';
 import 'package:pollution_environment/src/components/full_image_viewer.dart';
 import 'package:pollution_environment/src/components/pollution_card.dart';
 import 'package:pollution_environment/src/components/pollution_user_card.dart';
@@ -10,6 +14,7 @@ import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/components/history_chart.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_controller.dart';
+import 'package:pollution_environment/src/screen/home/components/pollution_aqi_items.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DetailPollutionScreen extends StatelessWidget {
@@ -25,8 +30,8 @@ class DetailPollutionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Chi tiết ô nhiễm"), actions: <Widget>[
-        Obx(() => (_controller.currentUser.value?.role == "admin" ||
-                (_controller.currentUser.value?.role == "mod" &&
+        Obx(() => (_controller.currentUser.value?.role == ROLE_ADMIN ||
+                (_controller.currentUser.value?.role == ROLE_MOD &&
                     _controller.currentUser.value?.provinceManage.contains(
                             _controller.pollutionModel.value?.provinceId) ==
                         true))
@@ -76,8 +81,8 @@ class DetailPollutionScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                _buildTypeCard(context),
-                _buildUserCard(context),
+                _buildTypeCard(),
+                _buildUserCard(),
                 SizedBox(
                   height: 8,
                 ),
@@ -121,10 +126,76 @@ class DetailPollutionScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
+                if (_controller.aqiGPS.value != null)
+                  ExpandableNotifier(
+                    child: Column(
+                      children: [
+                        Expandable(
+                          collapsed: ExpandableButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Xem thêm chất lượng không khí",
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.blue,
+                                ),
+                              ],
+                            ),
+                          ),
+                          expanded: Column(
+                            children: [
+                              Divider(),
+                              AQIWeatherCard(aqi: _controller.aqiGPS.value!),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Divider(),
+                              PollutionAqiItems(aqi: _controller.aqiGPS.value!),
+                              Divider(),
+                              _buildRecommend(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ExpandableButton(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Thu gọn",
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_up,
+                                      color: Colors.blue,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          theme: ExpandableThemeData(
+                              iconColor: Colors.red,
+                              animationDuration:
+                                  const Duration(milliseconds: 500)),
+                        ),
+                      ],
+                    ),
+                  ),
+                Divider(),
                 Text(
                   "Mô tả",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   height: 8,
@@ -232,28 +303,171 @@ class DetailPollutionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUserCard(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10),
-      child: GestureDetector(
-        child: PollutionUserCard(
-          userModel: _controller.user.value,
-          createdAt: _controller.pollutionModel.value?.createdAt,
-        ),
-        onTap: () {
-          Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
-              arguments: _controller.user.value?.id);
-        },
+  Widget _buildUserCard() {
+    return GestureDetector(
+      child: PollutionUserCard(
+        userModel: _controller.user.value,
+        createdAt: _controller.pollutionModel.value?.createdAt,
       ),
+      onTap: () {
+        Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
+            arguments: _controller.user.value?.id);
+      },
     );
   }
 
-  Widget _buildTypeCard(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 10, right: 10),
-        child: _controller.pollutionModel.value != null
-            ? PollutionCard(pollutionModel: _controller.pollutionModel.value!)
-            : Container());
+  Widget _buildTypeCard() {
+    return _controller.pollutionModel.value != null
+        ? PollutionCard(pollutionModel: _controller.pollutionModel.value!)
+        : Container();
+  }
+
+  Widget _buildRecommend() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Khuyến nghị",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          height: 80,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  _controller.recommentType.value = 0;
+                  _controller.changeRecommed();
+                },
+                child: Card(
+                  elevation: 3,
+                  color: _controller.recommentType.value == 0
+                      ? getQualityColor(getAQIRank(
+                          (_controller.aqiGPS.value?.data?.aqi ?? 0)
+                              .toDouble()))
+                      : null,
+                  child: Container(
+                    width: 100,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            Assets.healthy,
+                            height: 32,
+                            width: 32,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Sức khỏe",
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _controller.recommentType.value = 1;
+                  _controller.changeRecommed();
+                },
+                child: Card(
+                  color: _controller.recommentType.value == 1
+                      ? getQualityColor(getAQIRank(
+                          (_controller.aqiGPS.value?.data?.aqi ?? 0)
+                              .toDouble()))
+                      : null,
+                  elevation: 3,
+                  child: Container(
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            Assets.normalPeople,
+                            height: 32,
+                            width: 32,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Người bình thường",
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _controller.recommentType.value = 2;
+                  _controller.changeRecommed();
+                },
+                child: Card(
+                  color: _controller.recommentType.value == 2
+                      ? getQualityColor(getAQIRank(
+                          (_controller.aqiGPS.value?.data?.aqi ?? 0)
+                              .toDouble()))
+                      : null,
+                  elevation: 3,
+                  child: Container(
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            Assets.sensitivePeople,
+                            height: 32,
+                            width: 32,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Người nhạy cảm",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Card(
+          elevation: 3,
+          color: getQualityColor(getAQIRank(
+              (_controller.aqiGPS.value?.data?.aqi ?? 0).toDouble())),
+          child: SizedBox(
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                _controller.recommend.value,
+                style: TextStyle(
+                    color: getTextColorRank(getAQIRank(
+                        (_controller.aqiGPS.value?.data?.aqi ?? 0)
+                            .toDouble()))),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void handleClickMenu(String value) {

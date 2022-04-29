@@ -48,7 +48,7 @@ Color getQualityColor(int? quality) {
     case 1:
       return Color.fromARGB(255, 128, 0, 0);
     default:
-      return Colors.green;
+      return Colors.grey;
   }
 }
 
@@ -71,6 +71,44 @@ String getQualityText(int? quality) {
   }
 }
 
+String getQualityAQIText(int? quality) {
+  switch (quality) {
+    case 6:
+      return "Tốt";
+    case 5:
+      return "Trung bình";
+    case 4:
+      return "Không tốt cho người nhạy cảm";
+    case 3:
+      return "Có hại cho sức khỏe";
+    case 2:
+      return "Rất có hại cho sức khỏe";
+    case 1:
+      return "Nguy hiểm";
+    default:
+      return "";
+  }
+}
+
+String getAqiFromQuality(int? quality) {
+  switch (quality) {
+    case 6:
+      return "0 - 50";
+    case 5:
+      return "51 - 100";
+    case 4:
+      return "101 - 150";
+    case 3:
+      return "151 - 200";
+    case 2:
+      return "201 - 300";
+    case 1:
+      return "300+";
+    default:
+      return "";
+  }
+}
+
 String getAssetPollution(String? pollution) {
   switch (pollution) {
     case "air":
@@ -86,7 +124,7 @@ String getAssetPollution(String? pollution) {
   }
 }
 
-String getAssetAQI(int quality) {
+String getAssetAQI(int? quality) {
   switch (quality) {
     case 1:
       return Assets.iconAQI1;
@@ -165,9 +203,7 @@ void hideLoading() {
 
 String? convertDate(String date) {
   try {
-    DateTime parseDate =
-        new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(date);
-    var inputDate = DateTime.parse(parseDate.toString());
+    var inputDate = DateTime.parse(date);
     var outputFormat = DateFormat('dd/MM/yyyy hh:mm a');
     var outputDate = outputFormat.format(inputDate);
     return outputDate;
@@ -178,9 +214,7 @@ String? convertDate(String date) {
 
 String? convertDateFormat(String date, String format) {
   try {
-    DateTime parseDate =
-        new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(date);
-    var inputDate = DateTime.parse(parseDate.toString());
+    var inputDate = DateTime.parse(date);
     var outputFormat = DateFormat(format);
     var outputDate = outputFormat.format(inputDate);
     return outputDate;
@@ -190,7 +224,8 @@ String? convertDateFormat(String date, String format) {
 }
 
 String timeAgoSinceDate({bool numericDates = true, required String dateStr}) {
-  DateTime date = new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dateStr);
+  DateTime? date = DateTime.tryParse(dateStr)?.toLocal();
+  if (date == null) return "";
   final date2 = DateTime.now().toLocal();
   final difference = date2.difference(date);
 
@@ -247,7 +282,8 @@ Future<String> getDeviceIdentifier() async {
   return deviceIdentifier;
 }
 
-Color getColorRank(int rank) {
+Color getColorRank(int? rank) {
+  if (rank == null) return Colors.grey;
   if (rank <= 10)
     return Colors.green;
   else if (rank <= 20)
@@ -260,12 +296,21 @@ Color getColorRank(int rank) {
     return Colors.red;
 }
 
-int getAQIRank(double aqi) {
+Color getTextColorRank(int? quality) {
+  if (quality == null) return Colors.white;
+  if (quality >= 5)
+    return Colors.black;
+  else
+    return Colors.white;
+}
+
+int? getAQIRank(double? aqi) {
+  if (aqi == null) return null;
   if (aqi >= 0 && aqi <= 50) return 6;
   if (aqi >= 51 && aqi <= 100) return 5;
   if (aqi >= 101 && aqi <= 150) return 4;
   if (aqi >= 151 && aqi <= 200) return 3;
   if (aqi >= 201 && aqi <= 300) return 2;
   if (aqi >= 301) return 1;
-  return 1;
+  return 6;
 }

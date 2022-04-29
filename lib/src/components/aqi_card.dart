@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
-import 'package:pollution_environment/src/model/aqi_map_model.dart';
+import 'package:pollution_environment/src/model/waqi/waqi_map_model.dart';
 
 class AQICard extends StatelessWidget {
   AQICard({Key? key, required this.aqiModel}) : super(key: key);
 
-  final Markers aqiModel;
+  final WAQIMapData aqiModel;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class AQICard extends StatelessWidget {
       semanticContainer: true,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Container(
-        height: 80,
+        height: 90,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -25,12 +25,13 @@ class AQICard extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(5),
                   child: SvgPicture.asset(
-                    getAssetAQI(getAQIRank((aqiModel.aqi ?? 0).toDouble())),
+                    getAssetAQI(
+                        getAQIRank(double.tryParse(aqiModel.aqi ?? "-"))),
                     color: Colors.black,
                   ),
                 ),
-                color:
-                    getQualityColor(getAQIRank((aqiModel.aqi ?? 0).toDouble())),
+                color: getQualityColor(
+                    getAQIRank(double.tryParse(aqiModel.aqi ?? "-"))),
               ),
             ),
             Expanded(
@@ -48,16 +49,16 @@ class AQICard extends StatelessWidget {
                     ],
                     colors: [
                       getQualityColor(
-                              getAQIRank((aqiModel.aqi ?? 0).toDouble()))
+                              getAQIRank(double.tryParse(aqiModel.aqi ?? "-")))
                           .withAlpha(220),
                       getQualityColor(
-                              getAQIRank((aqiModel.aqi ?? 0).toDouble()))
+                              getAQIRank(double.tryParse(aqiModel.aqi ?? "-")))
                           .withAlpha(170),
                       getQualityColor(
-                              getAQIRank((aqiModel.aqi ?? 0).toDouble()))
+                              getAQIRank(double.tryParse(aqiModel.aqi ?? "-")))
                           .withAlpha(250),
                       getQualityColor(
-                              getAQIRank((aqiModel.aqi ?? 0).toDouble()))
+                              getAQIRank(double.tryParse(aqiModel.aqi ?? "-")))
                           .withAlpha(100),
                     ],
                   ),
@@ -70,7 +71,7 @@ class AQICard extends StatelessWidget {
                       child: Center(
                         child: ListTile(
                           title: Text(
-                            (aqiModel.aqi ?? 0).toStringAsFixed(1),
+                            aqiModel.aqi ?? "-",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.headline5,
                           ),
@@ -85,11 +86,20 @@ class AQICard extends StatelessWidget {
                       height: 5,
                     ),
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          getQualityText(
-                              getAQIRank((aqiModel.aqi ?? 0).toDouble())),
-                          style: Theme.of(context).textTheme.headline6,
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Center(
+                          child: Text(
+                            getQualityAQIText(getAQIRank(
+                                double.tryParse(aqiModel.aqi ?? "-"))),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                    color: getTextColorRank(getAQIRank(
+                                        double.tryParse(aqiModel.aqi ?? "-")))),
+                          ),
                         ),
                       ),
                     ),

@@ -82,8 +82,8 @@ class _NewsDetailState extends State<NewsDetailScreen> {
                       leading: Icon(Icons.login_rounded),
                       title: Text("Mở bằng trình duyệt"),
                       onTap: () {
-                        launch(
-                          widget.url ?? "",
+                        launchUrl(
+                          Uri.parse(widget.url ?? ""),
                         ).onError((error, stackTrace) {
                           showAlertError(
                               desc:

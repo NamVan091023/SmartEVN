@@ -5,6 +5,8 @@ import 'package:pollution_environment/src/model/pollution_type_model.dart';
 import 'package:pollution_environment/src/network/apis/pollution/pollution_api.dart';
 import 'package:pollution_environment/src/screen/map/map_controller.dart';
 
+import '../map/components/map_filter_model.dart';
+
 class FilterStorageBindings extends Bindings {
   @override
   void dependencies() {
@@ -25,6 +27,8 @@ class FilterStorageController extends GetxController {
 
   RxList<double> bbox = RxList<double>();
   Rx<bool> isFilterAQI = true.obs;
+
+  RxSet<MapFilterModel> mapLayer = RxSet<MapFilterModel>();
 
   @override
   void onInit() async {

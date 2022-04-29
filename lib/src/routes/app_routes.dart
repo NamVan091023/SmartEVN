@@ -18,4 +18,10 @@ abstract class Routes {
   static const OTHER_PROFILE_SCREEN = '/other_profile_screen';
 
   static const DETAIL_POLLUTION_SCREEN = '/detail_pollution_screen';
+
+  static const NOTIFICATION_SCREEN = '/notification_screen';
+
+  static const MANAGE_SCREEN = '/manage_screen';
+
+  static const FAVORITE_SCREEN = '/favorite_screen';
 }

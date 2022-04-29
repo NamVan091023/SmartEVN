@@ -51,8 +51,9 @@ class ViewPollutionSelected extends StatelessWidget {
                       ),
                       subtitle: RichText(
                         text: TextSpan(
-                            text:
-                                "Lúc: ${convertDate(pollutionSelected?.createdAt ?? "")}",
+                            text: "Cập nhật lần cuối: ${timeAgoSinceDate(
+                              dateStr: pollutionSelected?.createdAt ?? "",
+                            )}",
                             style: Theme.of(context).textTheme.caption,
                             children: [
                               TextSpan(

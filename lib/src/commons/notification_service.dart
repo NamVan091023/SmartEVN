@@ -8,8 +8,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
-import 'package:pollution_environment/src/model/aqi_current_model.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
+import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -135,17 +135,17 @@ class NotificationService {
     );
   }
 
-  Future showCurrentAQI(AQICurentResponse aqiCurentResponse) async {
-    final ByteArrayAndroidBitmap largeIcon = ByteArrayAndroidBitmap(
-        await _getByteArrayFromUrl(
-            'http://openweathermap.org/img/wn/${aqiCurentResponse.data?.current?.weather?.ic ?? ''}@2x.png'));
+  Future showCurrentAQI(WAQIIpResponse aqiCurentResponse) async {
+    // final ByteArrayAndroidBitmap largeIcon = ByteArrayAndroidBitmap(
+    //     await _getByteArrayFromUrl(
+    //         'http://openweathermap.org/img/wn/${aqiCurentResponse.data?.current?.weather?.ic ?? ''}@2x.png'));
 
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       '2',
       'Thông tin thời tiết',
       channelDescription: 'Cập nhật thông tin thời tiết',
-      largeIcon: largeIcon,
+      // largeIcon: largeIcon,
       enableVibration: true,
       channelShowBadge: false,
       priority: Priority.high,
@@ -156,8 +156,8 @@ class NotificationService {
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         2,
-        'Dự báo tại · ${aqiCurentResponse.data?.city ?? ''}',
-        "${aqiCurentResponse.data?.current?.weather?.tp ?? 0}°/${aqiCurentResponse.data?.current?.weather?.hu ?? 0}% · Chỉ số AQI: ${aqiCurentResponse.data?.current?.pollution?.aqius ?? 0} · ${getQualityText(getAQIRank(aqiCurentResponse.data?.current?.pollution?.aqius?.toDouble() ?? 0))}",
+        'Dự báo từ · ${aqiCurentResponse.data?.city?.name ?? ''}',
+        "${aqiCurentResponse.data?.iaqi?.t?.v ?? 0}°/${aqiCurentResponse.data?.iaqi?.h?.v ?? 0}% · Chỉ số AQI: ${aqiCurentResponse.data?.aqi ?? 0} · ${getQualityAQIText(getAQIRank((aqiCurentResponse.data?.aqi ?? 0).toDouble()))}",
         platformChannelSpecifics);
   }
 

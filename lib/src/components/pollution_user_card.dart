@@ -22,7 +22,7 @@ class PollutionUserCard extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(10000.0),
+              borderRadius: BorderRadius.circular(25.0),
               child: CachedNetworkImage(
                 imageUrl: "$host/${userModel?.avatar}",
                 placeholder: (c, url) => Center(
@@ -52,7 +52,7 @@ class PollutionUserCard extends StatelessWidget {
                   ),
                   UserName(user: userModel ?? UserModel(name: "Người nào đó")),
                   Text(
-                    "Lúc: ${convertDate(createdAt ?? "")}",
+                    "Cập nhật lần cuối: ${timeAgoSinceDate(dateStr: createdAt ?? "")}",
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ],

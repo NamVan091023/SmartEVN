@@ -54,7 +54,9 @@ class PollutionCard extends StatelessWidget {
                   children: [
                     Text(
                       "Chất lượng",
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: getTextColorRank(
+                              pollutionModel.qualityScore ?? 0)),
                     ),
                     SizedBox(
                       height: 5,
@@ -62,7 +64,9 @@ class PollutionCard extends StatelessWidget {
                     Text(
                       getQualityText(pollutionModel.qualityScore),
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: getTextColorRank(
+                              pollutionModel.qualityScore ?? 0)),
                     ),
                   ],
                 ),

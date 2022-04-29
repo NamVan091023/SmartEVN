@@ -20,11 +20,12 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           CircleAvatar(
-            backgroundImage: (user?.avatar == null
-                ? AssetImage("assets/images/profile_image.png")
-                : NetworkImage(
-                    "$host/${user?.avatar}",
-                  )) as ImageProvider<Object>?,
+            backgroundImage:
+                ((user?.avatar == null || user?.avatar?.isEmpty == true)
+                    ? AssetImage("assets/images/profile_image.png")
+                    : NetworkImage(
+                        "$host/${user?.avatar}",
+                      )) as ImageProvider<Object>?,
           ),
         ],
       ),

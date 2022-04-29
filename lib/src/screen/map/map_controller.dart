@@ -11,11 +11,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/location_service.dart';
-import 'package:pollution_environment/src/model/aqi_map_model.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
-import 'package:pollution_environment/src/network/apis/area_forest/area_forest_api.dart';
+import 'package:pollution_environment/src/model/waqi/waqi_map_model.dart';
 import 'package:pollution_environment/src/network/apis/pollution/pollution_api.dart';
+import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
 import 'package:pollution_environment/src/screen/filter/filter_storage_controller.dart';
 
 class MapController extends GetxController
@@ -44,9 +44,9 @@ class MapController extends GetxController
   RxList<List<PollutionModel>> pollutions = RxList<List<PollutionModel>>();
 
   Rxn<PollutionModel> pollutionSelected = Rxn<PollutionModel>();
-  Rxn<Markers> aqiMarkerSelected = Rxn<Markers>();
+  Rxn<WAQIMapData> aqiMarkerSelected = Rxn<WAQIMapData>();
 
-  RxList<List<Markers>> aqiPointMarkers = RxList<List<Markers>>();
+  RxList<List<WAQIMapData>> aqiPointMarkers = RxList<List<WAQIMapData>>();
   RxList<ClusterManager> aqiManagers = RxList<ClusterManager>();
   RxList<Set<Marker>> aqiMarkers = [
     Set<Marker>(),
@@ -56,6 +56,7 @@ class MapController extends GetxController
     Set<Marker>(),
     Set<Marker>()
   ].obs;
+
   Rx<AuthResponse?> currentUser = UserStore().getAuth().obs;
   Timer? _debounce;
   Timer? _debouncePollution;
@@ -65,6 +66,7 @@ class MapController extends GetxController
     offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 1.0))
         .animate(animationController);
     getPollutionPosition();
+    setPolygon();
     getAQIMap();
     _initClusterManager();
     super.onInit();
@@ -82,7 +84,7 @@ class MapController extends GetxController
     }
     for (int i = 0; i < 6; i++) {
       aqiPointMarkers.add([]);
-      aqiManagers.add(ClusterManager<Markers>(aqiPointMarkers[i].toList(),
+      aqiManagers.add(ClusterManager<WAQIMapData>(aqiPointMarkers[i].toList(),
           (Set<Marker> markers) {
         this.aqiMarkers.toList()[i].clear();
         this.aqiMarkers.toList()[i].addAll(markers);
@@ -122,18 +124,14 @@ class MapController extends GetxController
         );
       };
 
-  Future<Marker> Function(Cluster<Markers>) _getAQIMarkerBuilder(Color color) =>
+  Future<Marker> Function(Cluster<WAQIMapData>) _getAQIMarkerBuilder(
+          Color color) =>
       (cluster) async {
-        double avg = 0;
-        cluster.items.forEach((element) {
-          avg += element.aqi ?? 0;
-        });
-        avg /= cluster.items.length;
+        var firstAQI = cluster.items.first;
         return Marker(
           markerId: MarkerId(cluster.getId()),
           position: cluster.location,
           onTap: () async {
-            var firstAQI = cluster.items.first;
             aqiMarkerSelected.value = firstAQI;
             pollutionSelected.value = null;
             if (cluster.isMultiple) {
@@ -141,15 +139,16 @@ class MapController extends GetxController
 
               controller.animateCamera(CameraUpdate.newCameraPosition(
                   CameraPosition(
-                      target: LatLng(firstAQI.coordinates!.latitude!,
-                          firstAQI.coordinates!.longitude!),
-                      zoom: 13)));
+                      target: LatLng(firstAQI.lat!, firstAQI.lon!), zoom: 13)));
             }
           },
-          icon: await _getAQIMarkerBitmap(cluster.isMultiple ? 125 : 100, color,
-              text: cluster.isMultiple
-                  ? "${avg.toStringAsFixed(1)}+"
-                  : "${avg.toStringAsFixed(1)}"),
+          icon: await _getAQIMarkerBitmap(cluster.isMultiple ? 125 : 100,
+              firstAQI.aqi == "-" ? Color(0x80808080) : color,
+              text: firstAQI.aqi == "-"
+                  ? "-"
+                  : cluster.isMultiple
+                      ? "${firstAQI.aqi ?? "-"}+"
+                      : "${firstAQI.aqi ?? "-"}"),
         );
       };
 
@@ -303,14 +302,18 @@ class MapController extends GetxController
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 300), () async {
       if (filterStorageController.isFilterAQI.value) {
-        GoogleMapController map = await mapController.future;
-        double zoomLevel = await map.getZoomLevel();
-        var aqiResponse = await AreaForestAPI().getAQIMap(zoomLevel);
+        var map = await mapController.future;
+        var bounds = await map.getVisibleRegion();
+        var aqiResponse = await WaqiAPI().getAQIMap(
+            bounds.northeast.latitude,
+            bounds.northeast.longitude,
+            bounds.southwest.latitude,
+            bounds.southwest.longitude);
         for (int i = 0; i < 6; i++) {
           aqiPointMarkers.toList()[i].clear();
         }
-        aqiResponse.markers?.forEach((element) {
-          num aqi = element.aqi ?? 0;
+        aqiResponse.data?.forEach((element) {
+          num aqi = int.tryParse(element.aqi ?? "0") ?? 0;
           if (aqi >= 0 && aqi <= 50) aqiPointMarkers.toList()[5].add(element);
           if (aqi >= 51 && aqi <= 100) aqiPointMarkers.toList()[4].add(element);
           if (aqi >= 101 && aqi <= 150)
@@ -347,44 +350,49 @@ class MapController extends GetxController
       final intl.DateFormat formatter = intl.DateFormat('yyyy-MM-dd');
       final String sevenDayAgoStr = formatter.format(sevenDayAgo);
 
-      PollutionsResponse? pollutionsResponse =
-          await PollutionApi()
-              .getAllPollution(
-                  limit: 1000,
-                  provinceName: filterStorageController
-                              .selectedProvince.value?.id ==
-                          "-1"
-                      ? null
-                      : filterStorageController.selectedProvince.value?.name,
-                  districtName:
-                      filterStorageController.selectedDistrict.value?.id == "-1"
-                          ? null
-                          : filterStorageController
-                              .selectedDistrict.value?.name,
-                  wardName:
-                      filterStorageController.selectedWard.value?.id == "-1"
-                          ? null
-                          : filterStorageController.selectedWard.value?.name,
-                  type: filterStorageController.selectedType
-                      .toList()
-                      .map((e) => e.key ?? "")
-                      .toList(),
-                  quality: filterStorageController.selectedQuality
-                      .toList()
-                      .map((e) => e.key ?? "")
-                      .toList(),
-                  status: (currentUser.value?.user?.role == "admin" ||
-                          currentUser.value?.user?.role == "mod")
-                      ? null
-                      : 1,
-                  startDate: sevenDayAgoStr);
-      var list = pollutionsResponse.results ?? [];
+      PollutionsResponse? pollutionsResponse;
+      if (filterStorageController.selectedType
+          .toList()
+          .map((e) => e.key ?? "")
+          .toList()
+          .isNotEmpty) {
+        pollutionsResponse = await PollutionApi().getAllPollution(
+            limit: 1000,
+            provinceName:
+                filterStorageController.selectedProvince.value?.id == "-1"
+                    ? null
+                    : filterStorageController.selectedProvince.value?.name,
+            districtName:
+                filterStorageController.selectedDistrict.value?.id == "-1"
+                    ? null
+                    : filterStorageController.selectedDistrict.value?.name,
+            wardName: filterStorageController.selectedWard.value?.id == "-1"
+                ? null
+                : filterStorageController.selectedWard.value?.name,
+            type: filterStorageController.selectedType
+                .toList()
+                .map((e) => e.key ?? "")
+                .toList(),
+            quality: filterStorageController.selectedQuality
+                .toList()
+                .map((e) => e.key ?? "")
+                .toList(),
+            status: (currentUser.value?.user?.role == "admin" ||
+                    currentUser.value?.user?.role == "mod")
+                ? null
+                : 1,
+            startDate: sevenDayAgoStr);
+      }
+      var list = pollutionsResponse?.results ?? [];
 
       _addMarker(list);
-      String id =
-          "${filterStorageController.selectedProvince.value?.id}${filterStorageController.selectedDistrict.value?.id}";
-      await _setPolygon(id);
     });
+  }
+
+  void setPolygon() async {
+    String id =
+        "${filterStorageController.selectedProvince.value?.id}${filterStorageController.selectedDistrict.value?.id}";
+    await _setPolygon(id);
   }
 
 // Draw Polygon to the map

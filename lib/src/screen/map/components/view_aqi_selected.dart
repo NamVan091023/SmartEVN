@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/components/aqi_card.dart';
+import 'package:pollution_environment/src/screen/detail_aqi/detail_aqi_screen.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../map_controller.dart';
@@ -19,35 +22,46 @@ class ViewAQISelected extends StatelessWidget {
       position: _controller.offset,
       child: Align(
         alignment: Alignment.bottomCenter,
-        child: Card(
-          // width: 200,
-          elevation: 5,
-          margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom + 10,
-              right: 5,
-              left: 5),
-          child: ListView(
-            padding: EdgeInsets.all(5),
-            shrinkWrap: true,
-            children: [
-              ListTile(
-                title: Text(
-                  _controller.aqiMarkerSelected.value?.name ?? "Chỉ số AQI",
-                  style: Theme.of(context).textTheme.subtitle1,
+        child: GestureDetector(
+          onTap: () {
+            Get.to(
+              () => DetailAQIScreen(),
+              arguments: _controller.aqiMarkerSelected.value?.uid,
+            );
+          },
+          child: Card(
+            // width: 200,
+            elevation: 5,
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom + 10,
+                right: 5,
+                left: 5),
+            child: ListView(
+              padding: EdgeInsets.all(5),
+              shrinkWrap: true,
+              children: [
+                ListTile(
+                  title: Text(
+                    _controller.aqiMarkerSelected.value?.station?.name ??
+                        "Chỉ số AQI",
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  subtitle: Text(
+                      "Cập nhật lần cuối: ${timeAgoSinceDate(dateStr: _controller.aqiMarkerSelected.value?.station?.time ?? "")}"),
+                  trailing: IconButton(
+                      onPressed: () {
+                        Share.share(
+                            "Chỉ số không khí tại ${_controller.aqiMarkerSelected.value?.station?.name ?? ""} là ${_controller.aqiMarkerSelected.value?.aqi ?? 0}. Xem chi tiết tại ứng dụng Smart Environment");
+                      },
+                      icon: Icon(Icons.share_rounded)),
                 ),
-                trailing: IconButton(
-                    onPressed: () {
-                      Share.share(
-                          "Chỉ số không khí tại ${_controller.aqiMarkerSelected.value?.name ?? ""} là ${_controller.aqiMarkerSelected.value?.aqi ?? 0}. Xem chi tiết tại ứng dụng Smart Environment");
-                    },
-                    icon: Icon(Icons.share_rounded)),
-              ),
-              _controller.aqiMarkerSelected.value != null
-                  ? AQICard(
-                      aqiModel: _controller.aqiMarkerSelected.value!,
-                    )
-                  : Container(),
-            ],
+                _controller.aqiMarkerSelected.value != null
+                    ? AQICard(
+                        aqiModel: _controller.aqiMarkerSelected.value!,
+                      )
+                    : Container(),
+              ],
+            ),
           ),
         ),
       ),

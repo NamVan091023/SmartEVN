@@ -16,5 +16,20 @@ class Assets {
 
   static const String iconLogo = 'assets/logos/logo.png';
 
+  static const String profileAvatar = 'assets/images/profile_image.png';
+
   static const String iconContent = 'assets/icons/content.svg';
+
+  static const String raindrop = 'assets/icons/raindrop.svg';
+  static const String water = 'assets/icons/ios-water.svg';
+  static const String cloudy = 'assets/icons/md-cloudy.svg';
+  static const String thermometer = 'assets/icons/ios-thermometer.svg';
+
+  static const String normalPeople = 'assets/icons/apathy.png';
+  static const String sensitivePeople = 'assets/icons/sadness.png';
+  static const String healthy = 'assets/icons/healthy.png';
+
+  static const String raining = 'assets/icons/raining.svg';
+  static const String bell = 'assets/icons/bell.svg';
+  static const String dashboard = 'assets/icons/dashboard.svg';
 }

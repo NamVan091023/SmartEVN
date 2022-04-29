@@ -252,7 +252,6 @@ class EditProfileScreen extends StatelessWidget {
     return DropdownSearch<String>(
       mode: Mode.MENU,
       onChanged: (item) => _controller.role.value = item,
-      clearButtonSplashRadius: 20,
       showSelectedItems: true,
       compareFn: (item, selectedItem) => item == selectedItem,
       selectedItem: _controller.role.value,
@@ -282,7 +281,6 @@ class EditProfileScreen extends StatelessWidget {
     return Obx(() => DropdownSearch<ProvinceModel>.multiSelection(
           mode: Mode.MENU,
           onChanged: (item) => _controller.provinceManage.value = item,
-          clearButtonSplashRadius: 20,
           showSelectedItems: true,
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItems: _controller.provinceManage.toList(),

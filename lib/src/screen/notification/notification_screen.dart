@@ -33,7 +33,10 @@ class _NotificationScreenState extends State<NotificationScreen>
               onPressed: () {
                 _clearAll();
               },
-              icon: Icon(Icons.clear_all))
+              icon: Icon(
+                Icons.delete_forever,
+                size: 30,
+              ))
         ],
       ),
       body: Padding(
@@ -102,15 +105,19 @@ class _NotificationScreenState extends State<NotificationScreen>
   }
 
   void _clearAll() async {
-    showLoading();
-    NotificationApi().deleteAllNotification().then((value) {
-      setState(() {
-        list = [];
-      });
-      hideLoading();
-      Fluttertoast.showToast(
-          msg: value.message ?? "Xóa tất cả thông báo thành công");
-    });
+    showAlertError(
+        desc: "Bạn có chắc chắn muốn xóa tất cả thông báo không ?",
+        onConfirm: () {
+          showLoading();
+          NotificationApi().deleteAllNotification().then((value) {
+            setState(() {
+              list = [];
+            });
+            hideLoading();
+            Fluttertoast.showToast(
+                msg: value.message ?? "Xóa tất cả thông báo thành công");
+          });
+        });
   }
 
   void _deleteById(String id) {

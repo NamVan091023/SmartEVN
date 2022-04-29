@@ -15,5 +15,9 @@ const String KEY_EMAIL = "KEY_EMAIL";
 const String KEY_PASSWORD = "KEY_PASSWORD";
 const String KEY_CURRENT_USER = "KEY_CURRENT_USER";
 const String KEY_THEME_MODE = "KEY_THEME_MODE";
+const String KEY_FAVORITE = "KEY_FAVORITE";
 
 const String HIVEBOX = "smartenvironment";
+
+const String ROLE_ADMIN = "admin";
+const String ROLE_MOD = "mod";

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/pollution_type_model.dart';
 
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
+import 'package:pollution_environment/src/screen/map/components/map_filter_model.dart';
 import 'package:pollution_environment/src/screen/map/map_controller.dart';
 
 import 'components/filter_action.dart';
+import 'components/get_map.dart';
+import 'components/map_remote_data.dart';
 import 'components/view_aqi_selected.dart';
 import 'components/view_pollution_selected.dart';
 
@@ -20,12 +26,179 @@ class MapScreen extends StatelessWidget {
     _controller.getPos();
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: Drawer(child: FilterMapScreen()),
-      onEndDrawerChanged: (isOpen) {
-        if (!isOpen) {
-          _controller.getPollutionPosition();
-        }
-      },
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: Obx(
+        () => (_controller.pollutionSelected.value == null &&
+                _controller.aqiMarkerSelected.value == null)
+            ? SpeedDial(
+                icon: Icons.filter_list_outlined, activeIcon: Icons.close,
+                spacing: 3,
+                direction: SpeedDialDirection.up,
+                childPadding: const EdgeInsets.all(5),
+                spaceBetweenChildren: 4,
+                tooltip: 'Bộ lọc',
+                heroTag: 'speed-dial-hero-tag',
+                elevation: 8.0,
+                isOpenOnStart: false,
+                animationSpeed: 200,
+                shape: const StadiumBorder(),
+                // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                children: [
+                  SpeedDialChild(
+                    child: const Icon(Icons.speed),
+                    backgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.wind)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    labelBackgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.wind)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    foregroundColor: Colors.orange,
+                    label: 'Tốc độ gió',
+                    onTap: () {
+                      _controller.filterStorageController.mapLayer
+                              .contains(MapLayerFilterValue.wind)
+                          ? _controller.filterStorageController.mapLayer
+                              .remove(MapLayerFilterValue.wind)
+                          : _controller.filterStorageController.mapLayer
+                              .add(MapLayerFilterValue.wind);
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: SvgPicture.asset(
+                      Assets.thermometer,
+                      height: 30,
+                      width: 30,
+                      color: Colors.red,
+                    ),
+                    backgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.temperature)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    labelBackgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.temperature)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    foregroundColor: Colors.red,
+                    label: 'Nhiệt độ',
+                    onTap: () {
+                      _controller.filterStorageController.mapLayer
+                              .contains(MapLayerFilterValue.temperature)
+                          ? _controller.filterStorageController.mapLayer
+                              .remove(MapLayerFilterValue.temperature)
+                          : _controller.filterStorageController.mapLayer
+                              .add(MapLayerFilterValue.temperature);
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: SvgPicture.asset(
+                      Assets.raining,
+                      height: 30,
+                      width: 30,
+                      color: Colors.grey,
+                    ),
+                    backgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.accumulated)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    labelBackgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.accumulated)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    foregroundColor: Colors.orange,
+                    label: 'Lượng mưa',
+                    visible: true,
+                    onTap: () {
+                      _controller.filterStorageController.mapLayer
+                              .contains(MapLayerFilterValue.accumulated)
+                          ? _controller.filterStorageController.mapLayer
+                              .remove(MapLayerFilterValue.accumulated)
+                          : _controller.filterStorageController.mapLayer
+                              .add(MapLayerFilterValue.accumulated);
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: SvgPicture.asset(
+                      Assets.water,
+                      height: 30,
+                      width: 30,
+                      color: Colors.blue,
+                    ),
+                    backgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.humidity)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    labelBackgroundColor: _controller
+                            .filterStorageController.mapLayer
+                            .contains(MapLayerFilterValue.humidity)
+                        ? Colors.lightBlue.shade300
+                        : null,
+                    foregroundColor: Colors.blue,
+                    label: 'Độ ẩm',
+                    visible: true,
+                    onTap: () {
+                      _controller.filterStorageController.mapLayer
+                              .contains(MapLayerFilterValue.humidity)
+                          ? _controller.filterStorageController.mapLayer
+                              .remove(MapLayerFilterValue.humidity)
+                          : _controller.filterStorageController.mapLayer
+                              .add(MapLayerFilterValue.humidity);
+                    },
+                  ),
+                  SpeedDialChild(
+                    child: SvgPicture.asset(
+                      Assets.cloudy,
+                      height: 30,
+                      width: 30,
+                      color: Colors.green,
+                    ),
+                    backgroundColor:
+                        _controller.filterStorageController.isFilterAQI.value
+                            ? Colors.lightBlue.shade300
+                            : null,
+                    labelBackgroundColor:
+                        _controller.filterStorageController.isFilterAQI.value
+                            ? Colors.lightBlue.shade300
+                            : null,
+                    label: 'Chất lượng không khí',
+                    foregroundColor: Colors.green,
+                    visible: true,
+                    onTap: () async {
+                      _controller.filterStorageController.isFilterAQI.value =
+                          !_controller
+                              .filterStorageController.isFilterAQI.value;
+                      await _controller.getAQIMap();
+                    },
+                  ),
+                  _buildFilterPollutionButton("land"),
+                  _buildFilterPollutionButton("water"),
+                  _buildFilterPollutionButton("air"),
+                  _buildFilterPollutionButton("sound"),
+                  SpeedDialChild(
+                    child: const Icon(Icons.read_more_rounded),
+                    label: 'Nhiều hơn',
+                    backgroundColor: Colors.green,
+                    labelBackgroundColor: Colors.green,
+                    visible: true,
+                    onTap: () {
+                      Get.to(FilterMapScreen())?.then((value) {
+                        _controller.getPollutionPosition();
+                        _controller.setPolygon();
+                      });
+                    },
+                  ),
+                ],
+              )
+            : Container(),
+      ),
       body: Stack(
         children: [
           Obx(
@@ -70,8 +243,15 @@ class MapScreen extends StatelessWidget {
                           latlng.longitude) {
                     _controller.animationController.forward();
                     _controller.pollutionSelected.value = null;
+                    _controller.aqiMarkerSelected.value = null;
                   }
                 },
+                tileOverlays: _controller.filterStorageController.mapLayer
+                    .toSet()
+                    .map((e) => TileOverlay(
+                        tileOverlayId: TileOverlayId(e.value),
+                        tileProvider: tileProvider(e.value)))
+                    .toSet(),
                 polygons: _controller.polygons.toSet(),
                 markers: <Marker>{}
                   ..addAll(_controller.markers.toList()[0])
@@ -87,105 +267,19 @@ class MapScreen extends StatelessWidget {
                   ..addAll(_controller.aqiMarkers.toList()[4])
                   ..addAll(_controller.aqiMarkers.toList()[5])),
           ),
-          _buildSearchView(context),
-          _buildFilterActionView(context),
+          _buildStatusView(),
           Obx(() => _controller.pollutionSelected.value != null
-              ? _buildViewPollutionSelected(context)
+              ? _buildViewPollutionSelected()
               : Container()),
           Obx(() => _controller.aqiMarkerSelected.value != null
-              ? _buildViewAQISelected(context)
+              ? _buildViewAQISelected()
               : Container())
         ],
       ),
     );
   }
 
-  Widget _buildSearchView(context) {
-    return Container(
-      margin: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top, right: 5, left: 0),
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 50,
-                child: ListView(
-                  padding: EdgeInsets.only(left: 5, right: 5),
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Obx(
-                      () => FilterChip(
-                        label: Text("Chất lượng không khí"),
-                        avatar: Icon(
-                          Icons.air,
-                          color: Colors.blue,
-                        ),
-                        showCheckmark: false,
-                        selected: _controller
-                            .filterStorageController.isFilterAQI.value,
-                        elevation: 3,
-                        onSelected: (bool value) async {
-                          _controller.filterStorageController.isFilterAQI
-                              .value = value;
-
-                          await _controller.getAQIMap();
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Obx(() => _buildFilterChip("land")),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Obx(() => _buildFilterChip("water")),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Obx(() => _buildFilterChip("air")),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Obx(() => _buildFilterChip("sound")),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 8,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                _scaffoldKey.currentState!.openEndDrawer();
-              },
-              clipBehavior: Clip.antiAlias,
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
-                minimumSize: Size(0, 0),
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              icon: Icon(Icons.filter_alt_outlined),
-              label: Text(
-                "Lọc",
-                style: TextStyle(fontSize: 13),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildViewPollutionSelected(BuildContext context) {
+  Widget _buildViewPollutionSelected() {
     if (_controller.pollutionSelected.value != null)
       _controller.animationController..reverse();
     else
@@ -197,7 +291,7 @@ class MapScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildViewAQISelected(BuildContext context) {
+  Widget _buildViewAQISelected() {
     if (_controller.aqiMarkerSelected.value != null)
       _controller.animationController..reverse();
     else
@@ -205,36 +299,51 @@ class MapScreen extends StatelessWidget {
     return ViewAQISelected(controller: _controller);
   }
 
-  Widget _buildFilterActionView(BuildContext context) {
-    return FilterAction(controller: _controller);
+  Widget _buildStatusView() {
+    return Padding(
+        padding: EdgeInsets.only(right: 70),
+        child: FilterAction(controller: _controller));
   }
 
-  Widget _buildFilterChip(String type) {
-    return FilterChip(
-      label: Text(getNamePollution(type)),
-      avatar: Image.asset(getAssetPollution(type)),
-      showCheckmark: false,
-      selected: _controller.filterStorageController.selectedType
-              .toList()
-              .firstWhereOrNull((element) => element.key == type) !=
-          null,
-      elevation: _controller.filterStorageController.selectedType
+  SpeedDialChild _buildFilterPollutionButton(String type) {
+    return SpeedDialChild(
+      child: Image.asset(
+        getAssetPollution(type),
+        height: 30,
+        width: 30,
+      ),
+      backgroundColor: _controller.filterStorageController.selectedType
                   .toList()
                   .firstWhereOrNull((element) => element.key == type) !=
               null
-          ? 5
-          : 0,
-      onSelected: (bool value) {
-        if (value) {
-          _controller.filterStorageController.selectedType
-              .add(PollutionType(key: type, name: getShortNamePollution(type)));
-          _controller.getPollutionPosition();
-        } else {
-          _controller.filterStorageController.selectedType
-              .removeWhere((element) => element.key == type);
-          _controller.getPollutionPosition();
-        }
+          ? Colors.lightBlue.shade300
+          : null,
+      labelBackgroundColor: _controller.filterStorageController.selectedType
+                  .toList()
+                  .firstWhereOrNull((element) => element.key == type) !=
+              null
+          ? Colors.lightBlue.shade300
+          : null,
+      label: getNamePollution(type),
+      visible: true,
+      onTap: () {
+        _controller.filterStorageController.selectedType
+                    .toList()
+                    .firstWhereOrNull((element) => element.key == type) !=
+                null
+            ? _controller.filterStorageController.selectedType
+                .removeWhere((element) => element.key == type)
+            : _controller.filterStorageController.selectedType.add(
+                PollutionType(key: type, name: getShortNamePollution(type)));
+        _controller.getPollutionPosition();
       },
+    );
+  }
+
+  TileProvider tileProvider(String mapType) {
+    return GetMap(
+      mapType: mapType,
+      mapRemoteDataSource: MapRemoteDataSourceImpl(),
     );
   }
 }

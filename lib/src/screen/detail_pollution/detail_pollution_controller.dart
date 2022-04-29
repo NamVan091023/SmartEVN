@@ -8,10 +8,13 @@ import 'package:get/get.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/commons/recommend.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
+import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
 import 'package:pollution_environment/src/network/apis/pollution/pollution_api.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
+import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 
 class DetailPollutionController extends GetxController {
@@ -22,6 +25,8 @@ class DetailPollutionController extends GetxController {
   RxList<PollutionModel> historyPollutions = RxList<PollutionModel>();
 
   RxList<List<PollutionModel>> pollutions = RxList<List<PollutionModel>>();
+
+  Rxn<WAQIIpResponse> aqiGPS = Rxn<WAQIIpResponse>();
   // MAP
 
   Completer<GoogleMapController> mapController = Completer();
@@ -35,6 +40,9 @@ class DetailPollutionController extends GetxController {
     Set<Marker>(),
     Set<Marker>()
   ].obs;
+
+  RxInt recommentType = 0.obs;
+  RxString recommend = "".obs;
 
   @override
   void onInit() {
@@ -132,6 +140,10 @@ class DetailPollutionController extends GetxController {
         await PollutionApi().getOnePollution(id: pollutionId);
     if (pollutionModel.value?.lat != null &&
         pollutionModel.value?.lng != null) {
+      aqiGPS.value = await WaqiAPI()
+          .getAQIByGPS(pollutionModel.value!.lat!, pollutionModel.value!.lng!);
+      recommend.value =
+          RecommendAQI.effectHealthy(aqiGPS.value?.data?.aqi ?? 0);
       final GoogleMapController controller = await mapController.future;
 
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -195,5 +207,20 @@ class DetailPollutionController extends GetxController {
           msg: value.message ?? "Xóa thông tin ô nhiễm thành công");
       Get.back(result: "deleted");
     });
+  }
+
+  void changeRecommed() {
+    if (recommentType.value == 0) {
+      // Sức khỏe
+      recommend.value =
+          RecommendAQI.effectHealthy(aqiGPS.value?.data?.aqi ?? 0);
+    } else if (recommentType.value == 1) {
+      // Người bình thường
+      recommend.value =
+          RecommendAQI.actionNormalPeople(aqiGPS.value?.data?.aqi ?? 0);
+    } else {
+      recommend.value =
+          RecommendAQI.actionSensitivePeople(aqiGPS.value?.data?.aqi ?? 0);
+    }
   }
 }

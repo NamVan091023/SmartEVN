@@ -66,7 +66,7 @@ class _NewsScreenState extends State<NewsScreen>
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              title: Text('Smart Environment'),
+              title: Text('Tin tức'),
               pinned: true,
               floating: true,
               forceElevated: innerBoxIsScrolled,
@@ -84,8 +84,8 @@ class _NewsScreenState extends State<NewsScreen>
                     text: "Mạng xã hội",
                   ),
                   Tab(
-                    icon: Icon(Icons.air_rounded),
-                    text: "IQAir",
+                    icon: Icon(Icons.stacked_line_chart_rounded),
+                    text: "Xếp hạng",
                   ),
                 ],
                 controller: _tabController,

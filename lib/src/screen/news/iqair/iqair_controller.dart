@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/model/area_forest_model.dart';
-import 'package:pollution_environment/src/network/apis/area_forest/area_forest_api.dart';
+import 'package:pollution_environment/src/network/apis/airvisual/airvisual.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class IQAirController extends GetxController {

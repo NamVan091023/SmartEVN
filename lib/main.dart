@@ -9,8 +9,9 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:pollution_environment/src/commons/background_location/location_background.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
-import 'package:pollution_environment/src/model/aqi_current_model.dart';
-import 'package:pollution_environment/src/network/apis/area_forest/area_forest_api.dart';
+import 'package:pollution_environment/src/model/favorite_model.dart';
+import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
+import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -25,8 +26,7 @@ void callbackDispatcher() {
       case Workmanager.iOSBackgroundTask:
         print("The iOS background fetch was triggered");
         try {
-          AQICurentResponse aqiCurentResponse =
-              await AreaForestAPI().getAQIByIP();
+          WAQIIpResponse aqiCurentResponse = await WaqiAPI().getAQIByIP();
 
           NotificationService notificationService = NotificationService();
           await notificationService.showCurrentAQI(aqiCurentResponse);
@@ -36,8 +36,7 @@ void callbackDispatcher() {
         break;
       case fetchAQIBackground:
         try {
-          AQICurentResponse aqiCurentResponse =
-              await AreaForestAPI().getAQIByIP();
+          WAQIIpResponse aqiCurentResponse = await WaqiAPI().getAQIByIP();
 
           NotificationService notificationService = NotificationService();
           await notificationService.showCurrentAQI(aqiCurentResponse);
@@ -69,6 +68,7 @@ void main() async {
   await init();
   await Hive.initFlutter();
   await Hive.openBox(HIVEBOX);
+  Hive.registerAdapter(FavoriteAdapter());
   runApp(MyApp());
 }
 
@@ -107,27 +107,20 @@ class _MyAppState extends State<MyApp> {
       Workmanager().registerPeriodicTask(
         fetchAQIBackground,
         fetchAQIBackground,
-        existingWorkPolicy: ExistingWorkPolicy.keep,
         frequency: Duration(minutes: 120),
       );
       Workmanager().registerPeriodicTask(
         fetchLocationBackground,
         fetchLocationBackground,
-        existingWorkPolicy: ExistingWorkPolicy.keep,
-        // frequency: Duration(minutes: 15),
+        frequency: Duration(minutes: 15),
       );
     }
 
     if (Platform.isIOS) {
+      LocationBackground.initPlatformState();
       Workmanager().registerOneOffTask(
         fetchAQIBackground,
         fetchAQIBackground,
-        // frequency: Duration(minutes: 15),
-      );
-      Workmanager().registerOneOffTask(
-        fetchLocationBackground,
-        fetchLocationBackground,
-        // frequency: Duration(minutes: 15),
       );
     }
     super.initState();

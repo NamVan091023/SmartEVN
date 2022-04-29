@@ -3,7 +3,10 @@ import 'package:pollution_environment/src/screen/detail_pollution/detail_polluti
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_screen.dart';
 import 'package:pollution_environment/src/screen/filter/filter_screen.dart';
 import 'package:pollution_environment/src/screen/forgot_password/forgot_password_screen.dart';
+import 'package:pollution_environment/src/screen/home/favorite/favorite_screen.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
+import 'package:pollution_environment/src/screen/manage/manage_screen.dart';
+import 'package:pollution_environment/src/screen/notification/notification_screen.dart';
 import 'package:pollution_environment/src/screen/profile/other_profile/other_profile_screen.dart';
 import 'package:pollution_environment/src/screen/profile/profile/profile_screen.dart';
 import 'package:pollution_environment/src/screen/report/create_report.dart';
@@ -59,7 +62,20 @@ class AppPages {
       page: () => OtherProfileScreen(),
     ),
     GetPage(
-        name: Routes.DETAIL_POLLUTION_SCREEN,
-        page: () => DetailPollutionScreen())
+      name: Routes.DETAIL_POLLUTION_SCREEN,
+      page: () => DetailPollutionScreen(),
+    ),
+    GetPage(
+      name: Routes.NOTIFICATION_SCREEN,
+      page: () => NotificationScreen(),
+    ),
+    GetPage(
+      name: Routes.MANAGE_SCREEN,
+      page: () => ManageScreen(),
+    ),
+    GetPage(
+      name: Routes.FAVORITE_SCREEN,
+      page: () => FavoriteScreen(),
+    ),
   ];
 }

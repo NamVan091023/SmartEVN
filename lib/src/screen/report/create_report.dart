@@ -197,7 +197,6 @@ class CreateReport extends StatelessWidget {
     return Obx(() => DropdownSearch<ProvinceModel>(
           mode: Mode.MENU,
           onChanged: (item) => _controller.saveProvince(item),
-          clearButtonSplashRadius: 20,
           showSelectedItems: true,
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedProvince.value,
@@ -238,7 +237,6 @@ class CreateReport extends StatelessWidget {
     return Obx(() => DropdownSearch<DistrictModel>(
           mode: Mode.MENU,
           onChanged: (item) => _controller.saveDistrict(item),
-          clearButtonSplashRadius: 20,
           showSelectedItems: true,
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedDistrict.value,
@@ -279,7 +277,6 @@ class CreateReport extends StatelessWidget {
     return Obx(() => DropdownSearch<WardModel>(
           mode: Mode.MENU,
           onChanged: (item) => _controller.saveWard(item),
-          clearButtonSplashRadius: 20,
           showSelectedItems: true,
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedWard.value,
@@ -320,7 +317,6 @@ class CreateReport extends StatelessWidget {
     return Obx(() => DropdownSearch<PollutionType>(
           mode: Mode.MENU,
           onChanged: (item) => _controller.saveType(item),
-          clearButtonSplashRadius: 20,
           showSelectedItems: true,
           compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
           selectedItem: _controller.selectedType.value,
@@ -361,7 +357,6 @@ class CreateReport extends StatelessWidget {
     return Obx(() => DropdownSearch<PollutionQuality>(
           mode: Mode.MENU,
           onChanged: (item) => _controller.saveQuality(item),
-          clearButtonSplashRadius: 20,
           showSelectedItems: true,
           compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
           selectedItem: _controller.selectedQuality.value,

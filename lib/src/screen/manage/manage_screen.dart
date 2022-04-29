@@ -13,6 +13,7 @@ class ManageScreen extends StatefulWidget {
 }
 
 class ManageScreenState extends State<ManageScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   List<Widget> _listScreen = [
     DashboardScreen(),
@@ -48,8 +49,16 @@ class ManageScreenState extends State<ManageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(getTitle(_selectedIndex)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          iconSize: 25.0,
+          onPressed: () {
+            Get.back();
+          },
+        ),
         actions: [
           if (_selectedIndex == 1)
             IconButton(
@@ -58,10 +67,15 @@ class ManageScreenState extends State<ManageScreen> {
                 _pollutionManager.isShowFilter.toggle();
               },
               icon: Icon(Icons.filter_alt_rounded),
-            )
+            ),
+          IconButton(
+              onPressed: () {
+                _scaffoldKey.currentState!.openEndDrawer();
+              },
+              icon: Icon(Icons.menu))
         ],
       ),
-      drawer: Drawer(
+      endDrawer: Drawer(
         backgroundColor: Theme.of(context).backgroundColor.withOpacity(0.8),
         child: ListView(
           // padding: EdgeInsets.zero,
