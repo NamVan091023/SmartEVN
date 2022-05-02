@@ -4,6 +4,7 @@ import GoogleMaps
 import Firebase
 import background_locator
 import workmanager
+import path_provider_ios
 
 func registerPlugins(registry: FlutterPluginRegistry) -> () {
     if (!registry.hasPlugin("BackgroundLocatorPlugin")) {
@@ -13,9 +14,6 @@ func registerPlugins(registry: FlutterPluginRegistry) -> () {
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
-
-
-
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -35,13 +33,21 @@ func registerPlugins(registry: FlutterPluginRegistry) -> () {
 
     BackgroundLocatorPlugin.setPluginRegistrantCallback(registerPlugins)
     UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(60*15))
+
+    registerOtherPlugins()
+
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-    
-    override func userNotificationCenter(
-            _ center: UNUserNotificationCenter,
-            willPresent notification: UNNotification,
-            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-             completionHandler(.alert) // shows banner even if app is in foreground
-         }
+  func registerOtherPlugins() {
+    if !hasPlugin("io.flutter.plugins.pathprovider") {
+        FLTPathProviderPlugin
+            .register(with: registrar(forPlugin: "io.flutter.plugins.pathprovider"))
+    }
+  }
+  override func userNotificationCenter(
+          _ center: UNUserNotificationCenter,
+          willPresent notification: UNNotification,
+          withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    completionHandler(.alert) // shows banner even if app is in foreground
+  }
 }

@@ -9,6 +9,7 @@ import 'location_callback_handler.dart';
 
 class LocationBackground {
   static Future<void> initPlatformState() async {
+    WidgetsFlutterBinding.ensureInitialized();
     print('Initializing...');
     await BackgroundLocator.initialize();
     print('Initialization done');
@@ -55,8 +56,8 @@ class LocationBackground {
         autoStop: false,
         androidSettings: AndroidSettings(
             accuracy: LocationAccuracy.NAVIGATION,
-            interval: 15 * 60,
-            distanceFilter: 20,
+            // interval: 15 * 60,
+            // distanceFilter: 20,
             client: LocationClient.google,
             androidNotificationSettings: AndroidNotificationSettings(
                 notificationChannelName: 'Location tracking',

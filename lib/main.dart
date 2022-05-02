@@ -1,12 +1,18 @@
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
+import 'package:background_locator/background_locator.dart';
+import 'package:background_locator/location_dto.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:pollution_environment/src/commons/background_location/location_background.dart';
+import 'package:pollution_environment/src/commons/background_location/location_service_repository.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
 import 'package:pollution_environment/src/model/favorite_model.dart';
@@ -15,7 +21,7 @@ import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:workmanager/workmanager.dart';
 
 const fetchLocationBackground = "fetchLocationBackground";
@@ -69,6 +75,9 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox(HIVEBOX);
   Hive.registerAdapter(FavoriteAdapter());
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
   runApp(MyApp());
 }
 
@@ -86,7 +95,7 @@ Future init() async {
     await Firebase.initializeApp();
   }
 
-  NotificationService().init();
+  await NotificationService().init();
 }
 
 class MyApp extends StatefulWidget {
@@ -95,9 +104,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // ReceivePort port = ReceivePort();
+
   @override
   void initState() {
-    // LocationBackground.initPlatformState();
+    super.initState();
+
+    // if (IsolateNameServer.lookupPortByName(
+    //         LocationServiceRepository.isolateName) !=
+    //     null) {
+    //   IsolateNameServer.removePortNameMapping(
+    //       LocationServiceRepository.isolateName);
+    // }
+
+    // IsolateNameServer.registerPortWithName(
+    //     port.sendPort, LocationServiceRepository.isolateName);
+
+    // port.listen(
+    //   (dynamic data) async {
+    //     await BackgroundLocator.updateNotificationText(
+    //         title: "new location received",
+    //         msg: "${DateTime.now()}",
+    //         bigMsg: "${data.latitude}, ${data.longitude}");
+    //   },
+    // );
+
+    LocationBackground.initPlatformState();
     // Workmanager().cancelAll();
     Workmanager().initialize(
       callbackDispatcher,
@@ -123,7 +155,6 @@ class _MyAppState extends State<MyApp> {
         fetchAQIBackground,
       );
     }
-    super.initState();
   }
 
   @override

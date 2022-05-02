@@ -2,14 +2,15 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:math';
 import 'dart:ui';
-
+import 'dart:io';
 import 'package:background_locator/location_dto.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
-import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
+
+import 'package:shared_preferences_ios/shared_preferences_ios.dart';
+import 'package:shared_preferences_android/shared_preferences_android.dart';
 
 class LocationServiceRepository {
   static LocationServiceRepository _instance = LocationServiceRepository._();
@@ -35,15 +36,43 @@ class LocationServiceRepository {
 
   Future<void> callback(LocationDto locationDto) async {
     print("========= Callback ====== ${locationDto}");
-    await Hive.initFlutter();
-    await Hive.openBox(HIVEBOX);
-    AuthResponse? currentAuth = await UserStore().getAuth();
-    String? userId = currentAuth?.user?.id;
+    WidgetsFlutterBinding.ensureInitialized();
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      '123',
+      'Update user',
+      channelDescription: 'Cập nhật thông tin người dùng',
+      priority: Priority.high,
+      importance: Importance.high,
+      enableLights: true,
+      playSound: false,
+      color: const Color.fromARGB(255, 255, 0, 0),
+      ledColor: const Color.fromARGB(255, 255, 0, 0),
+      ledOnMs: 1000,
+      ledOffMs: 500,
+    );
+    final NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      "location: ${locationDto.latitude} ${locationDto.longitude}",
+      "ok",
+      platformChannelSpecifics,
+    );
+
+    if (Platform.isAndroid) {
+      SharedPreferencesAndroid.registerWith();
+    } else if (Platform.isIOS) {
+      SharedPreferencesIOS.registerWith();
+    }
+    String? userId = await UserStore().getUserId();
     if (userId != null) {
       UserAPI()
-          .updateUser(
+          .updateLocation(
               id: userId, lat: locationDto.latitude, lng: locationDto.longitude)
-          .then((value) {
+          .then((value) async {
         print("==== Update user track location done ======");
       }, onError: (e) {
         print("===== Update track location error $e");

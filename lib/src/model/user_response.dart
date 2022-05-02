@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../commons/constants.dart';
 
@@ -116,14 +117,22 @@ class UserModel {
 
 class UserStore {
   static final UserStore _singleton = UserStore._internal();
-
+  final String KEY_UID = "KEY_UID";
   factory UserStore() {
     return _singleton;
   }
 
   UserStore._internal();
 
-  void saveAuth(AuthResponse authResponse) {
+  void saveAuth(AuthResponse authResponse) async {
+    // Lưu uid vào pref để sử dụng tracking location
+    String? uid = authResponse.user?.id;
+    if (uid != null) {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(KEY_UID, uid);
+    }
+
+    ///
     String user = jsonEncode(authResponse);
     Box box = Hive.box(HIVEBOX);
     box.put(KEY_CURRENT_USER, user);
@@ -141,7 +150,16 @@ class UserStore {
     }
   }
 
-  void removeAuth() {
+  Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? uid = prefs.getString(KEY_UID);
+    return uid;
+  }
+
+  void removeAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(KEY_UID);
+
     var box = Hive.box(HIVEBOX);
     box.delete(KEY_CURRENT_USER);
   }

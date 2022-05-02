@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Divider(),
-              // favoriteWidget(),
+              favoriteWidget(),
             ],
           ),
         ),
@@ -131,19 +131,57 @@ class HomeScreen extends StatelessWidget {
 
   Widget favoriteWidget() {
     return Obx(
-      () => ListView.builder(
+      () => ListView.separated(
         shrinkWrap: true,
-        itemCount: _controller.favoriteAqis.toList().length,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: _controller.favoriteAqis.values.toList().length,
         itemBuilder: (ctx, index) {
-          return GestureDetector(
+          return ListTile(
+            contentPadding: EdgeInsets.all(8),
+            title: Text(_controller.favoriteAqis.keys.toList()[index]),
+            subtitle: Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: [
+                Column(children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  AQIWeatherCard(
+                      aqi: _controller.favoriteAqis.values.toList()[index]),
+                ]),
+                Positioned(
+                  right: -5,
+                  child: IconButton(
+                    onPressed: () {
+                      _controller.removeFavorite(index);
+                    },
+                    icon: Container(
+                      height: 26,
+                      width: 26,
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(13)),
+                      child: Icon(
+                        Icons.clear,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             onTap: () {
               Get.to(() => DetailAQIScreen(),
-                  arguments:
-                      _controller.favoriteAqis.toList()[index].data?.idx);
+                  arguments: _controller.favoriteAqis.values
+                      .toList()[index]
+                      .data
+                      ?.idx);
             },
-            child:
-                AQIWeatherCard(aqi: _controller.favoriteAqis.toList()[index]),
           );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider();
         },
       ),
     );

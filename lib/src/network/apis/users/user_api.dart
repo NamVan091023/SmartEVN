@@ -95,6 +95,34 @@ class UserAPI {
     }
   }
 
+  Future<UserModel> updateLocation(
+      {required String id, required double lat, required double lng}) async {
+    Response response;
+    Map<String, dynamic> data = {};
+    data["lat"] = lat;
+    data["lng"] = lng;
+
+    try {
+      response = await apiService.request(
+        endPoint: "${UserAPIPath.getUserById}/$id",
+        data: data,
+        options: Options(headers: {"requiresToken": false}),
+        method: APIMethod.PUT,
+      );
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+      if (baseResponse.data == null) {
+        throw Exception(baseResponse.message);
+      } else {
+        UserModel userModel = UserModel.fromJson(baseResponse.data!);
+        return userModel;
+      }
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
   Future<UserModel> updateUser(
       {required String id,
       String? name,

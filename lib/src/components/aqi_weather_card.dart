@@ -196,6 +196,7 @@ class AQIWeatherCard extends StatelessWidget {
                                     child: Icon(
                                       Icons.navigation_rounded,
                                       size: 20,
+                                      color: Colors.blue,
                                     ),
                                   ),
                                   SizedBox(

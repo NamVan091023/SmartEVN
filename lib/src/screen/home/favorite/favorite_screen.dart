@@ -143,7 +143,7 @@ class AddFavoriteScreen extends StatelessWidget {
                       child: SizedBox(
                         width: 200,
                         child: OutlinedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             Favorite favorite = Favorite(
                               province:
                                   _controller.selectedProvince.value!.name!,
@@ -153,11 +153,10 @@ class AddFavoriteScreen extends StatelessWidget {
                               lat: _controller.lat.value!,
                               lng: _controller.lng.value!,
                             );
-                            Box box = Hive.box(HIVEBOX);
-                            List<Favorite> favorites =
-                                box.get(KEY_FAVORITE, defaultValue: []);
-                            favorites.add(favorite);
-                            box.put(KEY_FAVORITE, favorites);
+
+                            await Hive.openBox<Favorite>(KEY_FAVORITE);
+                            Box box = Hive.box<Favorite>(KEY_FAVORITE);
+                            box.add(favorite);
                             _homeController.getFavorite();
                             Get.offAllNamed(Routes.HOME_SCREEN);
                           },

@@ -32,4 +32,5 @@ class Assets {
   static const String raining = 'assets/icons/raining.svg';
   static const String bell = 'assets/icons/bell.svg';
   static const String dashboard = 'assets/icons/dashboard.svg';
+  static const String remove = 'assets/icons/remove.svg';
 }

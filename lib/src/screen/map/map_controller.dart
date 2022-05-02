@@ -63,6 +63,7 @@ class MapController extends GetxController
 
   @override
   void onInit() {
+    getPos();
     offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 1.0))
         .animate(animationController);
     getPollutionPosition();
