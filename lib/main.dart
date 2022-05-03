@@ -1,9 +1,4 @@
 import 'dart:io';
-import 'dart:isolate';
-import 'dart:ui';
-
-import 'package:background_locator/background_locator.dart';
-import 'package:background_locator/location_dto.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:pollution_environment/src/commons/background_location/location_background.dart';
-import 'package:pollution_environment/src/commons/background_location/location_service_repository.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
 import 'package:pollution_environment/src/model/favorite_model.dart';
@@ -24,6 +18,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:workmanager/workmanager.dart';
 
+import 'package:home_widget/home_widget.dart';
+
 const fetchLocationBackground = "fetchLocationBackground";
 const fetchAQIBackground = "fetchAQIBackground";
 void callbackDispatcher() {
@@ -31,6 +27,7 @@ void callbackDispatcher() {
     switch (task) {
       case Workmanager.iOSBackgroundTask:
         print("The iOS background fetch was triggered");
+        await LocationBackground.initPlatformState();
         try {
           WAQIIpResponse aqiCurentResponse = await WaqiAPI().getAQIByIP();
 
@@ -78,7 +75,23 @@ void main() async {
   if (defaultTargetPlatform == TargetPlatform.android) {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
+  HomeWidget.registerBackgroundCallback(backgroundCallback);
   runApp(MyApp());
+}
+
+// Called when Doing Background Work initiated from Widget
+Future<void> backgroundCallback(Uri? uri) async {
+  if (uri?.host == 'updatecounter') {
+    int? _counter;
+    await HomeWidget.getWidgetData<int>('_counter', defaultValue: 0)
+        .then((value) {
+      _counter = value ?? 0;
+      _counter = (_counter ?? 0) + 1;
+    });
+    await HomeWidget.saveWidgetData<int>('_counter', _counter);
+    await HomeWidget.updateWidget(
+        name: 'AppWidgetProvider', iOSName: 'AppWidgetProvider');
+  }
 }
 
 Future init() async {
@@ -104,30 +117,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // ReceivePort port = ReceivePort();
-
   @override
   void initState() {
     super.initState();
-
-    // if (IsolateNameServer.lookupPortByName(
-    //         LocationServiceRepository.isolateName) !=
-    //     null) {
-    //   IsolateNameServer.removePortNameMapping(
-    //       LocationServiceRepository.isolateName);
-    // }
-
-    // IsolateNameServer.registerPortWithName(
-    //     port.sendPort, LocationServiceRepository.isolateName);
-
-    // port.listen(
-    //   (dynamic data) async {
-    //     await BackgroundLocator.updateNotificationText(
-    //         title: "new location received",
-    //         msg: "${DateTime.now()}",
-    //         bigMsg: "${data.latitude}, ${data.longitude}");
-    //   },
-    // );
 
     LocationBackground.initPlatformState();
     // Workmanager().cancelAll();
@@ -147,14 +139,6 @@ class _MyAppState extends State<MyApp> {
         frequency: Duration(minutes: 15),
       );
     }
-
-    if (Platform.isIOS) {
-      LocationBackground.initPlatformState();
-      Workmanager().registerOneOffTask(
-        fetchAQIBackground,
-        fetchAQIBackground,
-      );
-    }
   }
 
   @override
@@ -163,25 +147,6 @@ class _MyAppState extends State<MyApp> {
     Hive.close();
     super.dispose();
   }
-
-  // if (IsolateNameServer.lookupPortByName(
-  //           LocationServiceRepository.isolateName) !=
-  //       null) {
-  //     IsolateNameServer.removePortNameMapping(
-  //         LocationServiceRepository.isolateName);
-  //   }
-
-  //   IsolateNameServer.registerPortWithName(
-  //       port.sendPort, LocationServiceRepository.isolateName);
-
-  //   port.listen(
-  //     (dynamic data) async {
-  //       // await BackgroundLocator.updateNotificationText(
-  //       //     title: "new location received",
-  //       //     msg: "${DateTime.now()}",
-  //       //     bigMsg: "${data.latitude}, ${data.longitude}");
-  //     },
-  //   );
 
   @override
   Widget build(BuildContext context) {

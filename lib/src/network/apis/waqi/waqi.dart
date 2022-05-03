@@ -5,10 +5,11 @@ import 'package:pollution_environment/src/network/api_service.dart';
 
 class WaqiAPIPath {
   static String getAqiMap = "/v2/map/bounds";
+
+  static String TOKEN = "969cd16cfb9b40580a41aba8a4a0e9339f0f197a";
 }
 
 class WaqiAPI {
-  final String TOKEN = "969cd16cfb9b40580a41aba8a4a0e9339f0f197a";
   late APIService apiService;
 
   WaqiAPI() {
@@ -26,7 +27,7 @@ class WaqiAPI {
               sendTimeout: 16000))
           .request(WaqiAPIPath.getAqiMap, queryParameters: {
         "networks": "all",
-        "token": TOKEN,
+        "token": WaqiAPIPath.TOKEN,
         "latlng": "$lat1,$lng1,$lat2,$lng2",
       });
       WAQIMapResponse aqiMapResponse = WAQIMapResponse.fromJson(response.data);
@@ -45,7 +46,7 @@ class WaqiAPI {
               receiveTimeout: 16000,
               sendTimeout: 16000))
           .request("/feed/here/", queryParameters: {
-        "token": TOKEN,
+        "token": WaqiAPIPath.TOKEN,
       });
       WAQIIpResponse aqiCurentResponse = WAQIIpResponse.fromJson(response.data);
       return aqiCurentResponse;
@@ -63,7 +64,7 @@ class WaqiAPI {
               receiveTimeout: 16000,
               sendTimeout: 16000))
           .request("/feed/geo:${lat};${lng}", queryParameters: {
-        "token": TOKEN,
+        "token": WaqiAPIPath.TOKEN,
       });
       WAQIIpResponse aqiCurentResponse = WAQIIpResponse.fromJson(response.data);
       return aqiCurentResponse;
@@ -81,7 +82,7 @@ class WaqiAPI {
               receiveTimeout: 16000,
               sendTimeout: 16000))
           .request("/feed/@$id", queryParameters: {
-        "token": TOKEN,
+        "token": WaqiAPIPath.TOKEN,
       });
       WAQIIpResponse aqiCurentResponse = WAQIIpResponse.fromJson(response.data);
       return aqiCurentResponse;

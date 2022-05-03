@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:isolate';
 import 'dart:math';
-import 'dart:ui';
 import 'dart:io';
 import 'package:background_locator/location_dto.dart';
 import 'package:flutter/material.dart';
@@ -37,30 +35,30 @@ class LocationServiceRepository {
   Future<void> callback(LocationDto locationDto) async {
     print("========= Callback ====== ${locationDto}");
     WidgetsFlutterBinding.ensureInitialized();
-    final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      '123',
-      'Update user',
-      channelDescription: 'Cập nhật thông tin người dùng',
-      priority: Priority.high,
-      importance: Importance.high,
-      enableLights: true,
-      playSound: false,
-      color: const Color.fromARGB(255, 255, 0, 0),
-      ledColor: const Color.fromARGB(255, 255, 0, 0),
-      ledOnMs: 1000,
-      ledOffMs: 500,
-    );
-    final NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      "location: ${locationDto.latitude} ${locationDto.longitude}",
-      "ok",
-      platformChannelSpecifics,
-    );
+    // final AndroidNotificationDetails androidPlatformChannelSpecifics =
+    //     AndroidNotificationDetails(
+    //   '123',
+    //   'Update user',
+    //   channelDescription: 'Cập nhật thông tin người dùng',
+    //   priority: Priority.high,
+    //   importance: Importance.high,
+    //   enableLights: true,
+    //   playSound: false,
+    //   color: const Color.fromARGB(255, 255, 0, 0),
+    //   ledColor: const Color.fromARGB(255, 255, 0, 0),
+    //   ledOnMs: 1000,
+    //   ledOffMs: 500,
+    // );
+    // final NotificationDetails platformChannelSpecifics =
+    //     NotificationDetails(android: androidPlatformChannelSpecifics);
+    // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    //     FlutterLocalNotificationsPlugin();
+    // await flutterLocalNotificationsPlugin.show(
+    //   0,
+    //   "location: ${locationDto.latitude} ${locationDto.longitude}",
+    //   "ok",
+    //   platformChannelSpecifics,
+    // );
 
     if (Platform.isAndroid) {
       SharedPreferencesAndroid.registerWith();

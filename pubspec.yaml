@@ -69,7 +69,6 @@ dependencies:
       url: https://github.com/Yukams/background_locator_fixed 
       #  https://github.com/caiobraga/background_locator.git
       ref: master
-  permission_handler: ^9.2.0
   overlay_support: ^1.2.1
   audioplayers: ^0.20.1
   workmanager: ^0.4.1
@@ -80,6 +79,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_speed_dial: ^5.1.0
   shared_preferences: ^2.0.13
+  home_widget: ^0.1.5
   # firebase_analytics: ^9.1.2
 dev_dependencies:
   flutter_test:

@@ -39,10 +39,10 @@ func registerPlugins(registry: FlutterPluginRegistry) -> () {
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
   func registerOtherPlugins() {
-    if !hasPlugin("io.flutter.plugins.pathprovider") {
-        FLTPathProviderPlugin
-            .register(with: registrar(forPlugin: "io.flutter.plugins.pathprovider"))
-    }
+      if !hasPlugin("io.flutter.plugins.pathprovider") {
+          FLTPathProviderPlugin
+              .register(with: registrar(forPlugin: "io.flutter.plugins.pathprovider")!)
+      }
   }
   override func userNotificationCenter(
           _ center: UNUserNotificationCenter,

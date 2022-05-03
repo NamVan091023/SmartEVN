@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
+import 'package:pollution_environment/src/components/empty_view.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
 
@@ -109,62 +111,62 @@ class FilterAction extends StatelessWidget {
                 itemCount: 6,
               )),
             ),
-            // SizedBox(
-            //   width: 8,
-            // ),
-            // Container(
-            //   child: IconButton(
-            //     icon: Icon(
-            //       Icons.list_rounded,
-            //     ),
-            //     onPressed: () {
-            //       showBarModalBottomSheet(
-            //         backgroundColor: Colors.red,
-            //         context: context,
-            //         builder: (ctx) {
-            //           var list = _controller.pollutions
-            //               .toList()
-            //               .expand((element) => element)
-            //               .toList();
-            //           return Container(
-            //             height: MediaQuery.of(context).size.height * 0.75,
-            //             child: Scaffold(
-            //               appBar: AppBar(
-            //                 title: Text("Danh sách ô nhiễm"),
-            //                 automaticallyImplyLeading: false,
-            //                 centerTitle: true,
-            //               ),
-            //               body: Padding(
-            //                 padding: EdgeInsets.all(10),
-            //                 child: ListView.builder(
-            //                   itemBuilder: (c, i) {
-            //                     if (list.length == 0) {
-            //                       return EmptyView();
-            //                     } else
-            //                       return buildRow(c, list[i]);
-            //                   },
-            //                   itemCount: list.length == 0 ? 1 : list.length,
-            //                 ),
-            //               ),
-            //             ),
-            //           );
-            //         },
-            //       );
-            //     },
-            //   ),
-            //   decoration: new BoxDecoration(
-            //       color: Theme.of(context).cardColor,
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.grey.withOpacity(0.5),
-            //           spreadRadius: 5,
-            //           blurRadius: 7,
-            //           offset: Offset(0, 2), // changes position of shadow
-            //         ),
-            //       ],
-            //       borderRadius:
-            //           new BorderRadius.all(const Radius.circular(8.0))),
-            // ),
+            SizedBox(
+              width: 8,
+            ),
+            Container(
+              child: IconButton(
+                icon: Icon(
+                  Icons.list_rounded,
+                ),
+                onPressed: () {
+                  showBarModalBottomSheet(
+                    backgroundColor: Colors.red,
+                    context: context,
+                    builder: (ctx) {
+                      var list = _controller.pollutions
+                          .toList()
+                          .expand((element) => element)
+                          .toList();
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.75,
+                        child: Scaffold(
+                          appBar: AppBar(
+                            title: Text("Danh sách ô nhiễm"),
+                            automaticallyImplyLeading: false,
+                            centerTitle: true,
+                          ),
+                          body: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: ListView.builder(
+                              itemBuilder: (c, i) {
+                                if (list.length == 0) {
+                                  return EmptyView();
+                                } else
+                                  return buildRow(c, list[i]);
+                              },
+                              itemCount: list.length == 0 ? 1 : list.length,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              decoration: new BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 2), // changes position of shadow
+                    ),
+                  ],
+                  borderRadius:
+                      new BorderRadius.all(const Radius.circular(8.0))),
+            ),
           ],
         ),
       ),

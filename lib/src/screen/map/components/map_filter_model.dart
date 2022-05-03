@@ -75,4 +75,45 @@ class MapLayerFilterValue {
     },
     MapFilterType.layer,
   );
+
+  /// Marker
+  static MapFilterModel pm25 = MapFilterModel(
+    "PM2.5",
+    "usepa-pm25",
+    {},
+    MapFilterType.marker,
+  );
+
+  static MapFilterModel pm10 = MapFilterModel(
+    "PM10",
+    "usepa-10",
+    {},
+    MapFilterType.marker,
+  );
+
+  static MapFilterModel o3 = MapFilterModel(
+    "O3",
+    "usepa-o3",
+    {},
+    MapFilterType.marker,
+  );
+  static MapFilterModel no2 = MapFilterModel(
+    "NO2",
+    "usepa-no2",
+    {},
+    MapFilterType.marker,
+  );
+  static MapFilterModel so2 = MapFilterModel(
+    "SO2",
+    "usepa-so2",
+    {},
+    MapFilterType.marker,
+  );
+
+  static MapFilterModel co = MapFilterModel(
+    "CO",
+    "usepa-co",
+    {},
+    MapFilterType.marker,
+  );
 }

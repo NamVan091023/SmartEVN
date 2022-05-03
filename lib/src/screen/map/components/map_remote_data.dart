@@ -1,21 +1,30 @@
 import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
+import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
 import 'package:pollution_environment/src/network/apis/weather/weather.dart';
 
+import 'map_filter_model.dart';
+
 abstract class MapRemoteDataSource {
-  Future<MapModel> getMaps(String mapType, int x, int y, int zoom);
+  Future<MapModel> getMaps(MapFilterModel mapType, int x, int y, int zoom);
 }
 
 class MapRemoteDataSourceImpl extends MapRemoteDataSource {
   @override
-  Future<MapModel> getMaps(String mapType, int x, int y, int zoom) async {
+  Future<MapModel> getMaps(
+      MapFilterModel mapType, int x, int y, int zoom) async {
     try {
       // final uri = Uri.parse(
       //     "https://tile.openweathermap.org/map/$mapType/$zoom/$x/$y.png?appid=${WeatherPath.KEY_WEATHER}");
-
-      final uri = Uri.parse(
-          "https://maps.openweathermap.org/maps/2.0/weather/$mapType/$zoom/$x/$y?fill_bound=true&use_norm=true&arrow_step=16&appid=${WeatherPath.KEY_WEATHER_EDU}");
+      late Uri uri;
+      if (mapType.type == MapFilterType.layer) {
+        uri = Uri.parse(
+            "https://maps.openweathermap.org/maps/2.0/weather/${mapType.value}/$zoom/$x/$y?fill_bound=true&use_norm=true&arrow_step=16&appid=${WeatherPath.KEY_WEATHER_EDU}");
+      } else {
+        uri = Uri.parse(
+            "https://tiles.aqicn.org/tiles/${mapType.value}/$zoom/$x/$y.png?token=${WaqiAPIPath.TOKEN}");
+      }
 
       final ByteData imageData = await NetworkAssetBundle(uri).load("");
       return MapModel.fromByteData(imageData);
