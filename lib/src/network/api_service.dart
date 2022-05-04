@@ -17,7 +17,7 @@ enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 final host = "https://www.hungs20.xyz";
 final baseUrl = "$host/v1";
 
-class AuthInterceptor extends QueuedInterceptor {
+class AuthInterceptor extends QueuedInterceptorsWrapper {
   final Dio _dio;
 
   AuthInterceptor(this._dio);
@@ -64,15 +64,13 @@ class AuthInterceptor extends QueuedInterceptor {
     } else if (accessTokenHasExpired) {
       // regenerate access token
       _refreshed = await _regenerateAccessToken();
-      if (_refreshed) {
-        AuthResponse? currentAuth = await UserStore().getAuth();
-        accessToken = currentAuth?.tokens?.access?.token;
-        refreshToken = currentAuth?.tokens?.refresh?.token;
-      }
     }
 
     if (_refreshed) {
       // add access token to the request header
+      AuthResponse? currentAuth = await UserStore().getAuth();
+      accessToken = currentAuth?.tokens?.access?.token;
+      refreshToken = currentAuth?.tokens?.refresh?.token;
       options.headers["Authorization"] = "Bearer $accessToken";
       return handler.next(options);
     } else {
