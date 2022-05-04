@@ -8,22 +8,25 @@ class EmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Container(
-      height: 300,
-      padding: const EdgeInsets.all(0.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            Assets.iconContent,
-            color: Colors.red,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text("Không có dữ liệu nào")
-        ],
+      child: Container(
+        height: 300,
+        padding: const EdgeInsets.all(0.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              Assets.iconContent,
+              color: Colors.red,
+              height: 100,
+              width: 100,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text("Không có dữ liệu nào")
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

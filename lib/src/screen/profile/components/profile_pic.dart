@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/api_service.dart';
 
@@ -19,13 +21,22 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
-          CircleAvatar(
-            backgroundImage:
-                ((user?.avatar == null || user?.avatar?.isEmpty == true)
-                    ? AssetImage("assets/images/profile_image.png")
-                    : NetworkImage(
-                        "$host/${user?.avatar}",
-                      )) as ImageProvider<Object>?,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10000.0),
+            child: user?.avatar == null
+                ? Image.asset(Assets.profileAvatar)
+                : CachedNetworkImage(
+                    imageUrl: '$host/${user?.avatar}',
+                    height: 30,
+                    width: 30,
+                    fit: BoxFit.fill,
+                    placeholder: (ctx, str) {
+                      return Image.asset(Assets.profileAvatar);
+                    },
+                    errorWidget: (ctx, str, _) {
+                      return Image.asset(Assets.profileAvatar);
+                    },
+                  ),
           ),
         ],
       ),

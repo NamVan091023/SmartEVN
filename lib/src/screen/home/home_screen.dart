@@ -53,6 +53,9 @@ class HomeScreen extends StatelessWidget {
                 placeholder: (ctx, str) {
                   return Image.asset(Assets.profileAvatar);
                 },
+                errorWidget: (ctx, str, _) {
+                  return Image.asset(Assets.profileAvatar);
+                },
               ),
             ),
           ),

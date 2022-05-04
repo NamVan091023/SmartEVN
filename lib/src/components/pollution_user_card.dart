@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/components/username.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
@@ -23,20 +24,27 @@ class PollutionUserCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(25.0),
-              child: CachedNetworkImage(
-                imageUrl: "$host/${userModel?.avatar}",
-                placeholder: (c, url) => Center(
-                  child: CircularProgressIndicator(),
-                ),
-                errorWidget: (c, e, f) => Center(
-                    child: Icon(
-                  Icons.person,
-                  size: 50,
-                )),
-                fit: BoxFit.fill,
-                width: 50,
-                height: 50,
-              ),
+              child: userModel?.avatar == null
+                  ? Image.asset(
+                      Assets.profileAvatar,
+                      width: 50,
+                      height: 50,
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: "$host/${userModel?.avatar}",
+                      placeholder: (c, url) => Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (c, e, f) => Center(
+                          child: Image.asset(
+                        Assets.profileAvatar,
+                        width: 50,
+                        height: 50,
+                      )),
+                      fit: BoxFit.fill,
+                      width: 50,
+                      height: 50,
+                    ),
             ),
             SizedBox(
               width: 10,
