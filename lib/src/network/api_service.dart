@@ -13,8 +13,8 @@ enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
 // final host = "http://10.0.0.1:3000";
 // final host = "http://192.168.123.235:3000";
-// final host = "http://172.16.122.113:3000";
-final host = "https://www.hungs20.xyz";
+final host = "http://172.16.134.191:3000";
+// final host = "https://www.hungs20.xyz";
 final baseUrl = "$host/v1";
 
 class AuthInterceptor extends QueuedInterceptorsWrapper {
@@ -32,7 +32,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
     }
 
     // get tokens from local storage
-    AuthResponse? currentAuth = await UserStore().getAuth();
+    AuthResponse? currentAuth = UserStore().getAuth();
     String? accessToken = currentAuth?.tokens?.access?.token;
     String? refreshToken = currentAuth?.tokens?.refresh?.token;
 
@@ -68,10 +68,9 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
 
     if (_refreshed) {
       // add access token to the request header
-      AuthResponse? currentAuth = await UserStore().getAuth();
-      accessToken = currentAuth?.tokens?.access?.token;
-      refreshToken = currentAuth?.tokens?.refresh?.token;
-      options.headers["Authorization"] = "Bearer $accessToken";
+      AuthResponse? newAuth = await UserStore().getAuth();
+      String? newAccessToken = newAuth?.tokens?.access?.token;
+      options.headers["Authorization"] = "Bearer $newAccessToken";
       return handler.next(options);
     } else {
       // create custom dio error
@@ -109,8 +108,8 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
     return handler.next(response);
   }
 
-  void _performLogout(Dio dio) {
-    UserStore().removeAuth(); // remove token from local storage
+  void _performLogout(Dio dio) async {
+    await UserStore().removeAuth(); // remove token from local storage
     // back to login page without using context
     Fluttertoast.showToast(
         msg: "Phiên làm việc đã hết hạn, vui lòng đăng nhập lại");
@@ -148,7 +147,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
             AuthResponse? currentAuth = await UserStore().getAuth();
             if (currentAuth != null) {
               currentAuth.tokens = tokenResponse;
-              UserStore().saveAuth(currentAuth);
+              await UserStore().saveAuth(currentAuth);
               return true;
             } else {
               _performLogout(_dio);

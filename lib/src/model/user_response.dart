@@ -124,18 +124,18 @@ class UserStore {
 
   UserStore._internal();
 
-  void saveAuth(AuthResponse authResponse) async {
+  Future<void> saveAuth(AuthResponse authResponse) async {
     // Lưu uid vào pref để sử dụng tracking location
     String? uid = authResponse.user?.id;
     if (uid != null) {
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString(KEY_UID, uid);
+      await prefs.setString(KEY_UID, uid);
     }
 
     ///
     String user = jsonEncode(authResponse);
     Box box = Hive.box(HIVEBOX);
-    box.put(KEY_CURRENT_USER, user);
+    await box.put(KEY_CURRENT_USER, user);
   }
 
   AuthResponse? getAuth() {
@@ -156,11 +156,11 @@ class UserStore {
     return uid;
   }
 
-  void removeAuth() async {
+  Future<void> removeAuth() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(KEY_UID);
 
     var box = Hive.box(HIVEBOX);
-    box.delete(KEY_CURRENT_USER);
+    await box.delete(KEY_CURRENT_USER);
   }
 }
