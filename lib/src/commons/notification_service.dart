@@ -65,7 +65,7 @@ class NotificationService {
         await _getByteArrayFromUrl('$host/ic_pin_${pollution.type ?? ""}.png'));
     final ByteArrayAndroidBitmap bigPicture = ByteArrayAndroidBitmap(
         (pollution.images ?? []).isNotEmpty
-            ? await _getByteArrayFromUrl('$host/${pollution.images?.first}')
+            ? await _getByteArrayFromUrl(pollution.images!.first)
             : await _getByteArrayFromUrl(
                 '$host/ic_pin_${pollution.type ?? ""}.png'));
     final Int64List vibrationPattern = Int64List(4);

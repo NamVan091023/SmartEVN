@@ -4,7 +4,6 @@ import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/components/username.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
-import 'package:pollution_environment/src/network/api_service.dart';
 
 class PollutionUserCard extends StatelessWidget {
   PollutionUserCard({Key? key, required this.userModel, this.createdAt})
@@ -31,7 +30,7 @@ class PollutionUserCard extends StatelessWidget {
                       height: 50,
                     )
                   : CachedNetworkImage(
-                      imageUrl: "$host/${userModel?.avatar}",
+                      imageUrl: userModel!.avatar!,
                       placeholder: (c, url) => Center(
                         child: CircularProgressIndicator(),
                       ),

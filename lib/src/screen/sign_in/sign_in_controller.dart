@@ -53,7 +53,7 @@ class SignInController extends GetxController {
 
   Future<void> loginUser(Function onSuccess, Function(String) onError) async {
     showLoading(text: "Đang đăng nhập");
-    AuthApi().login(email.value, password.value).then((response) {
+    AuthApi().login(email.value, password.value).then((response) async {
       hideLoading();
       debugPrint("Login success $response");
       UserModel? user = response.user;
@@ -68,7 +68,7 @@ class SignInController extends GetxController {
           box.delete(KEY_PASSWORD);
         }
 
-        UserStore().saveAuth(response);
+        await UserStore().saveAuth(response);
         onSuccess();
       } else {
         onError("Không lấy được thông tin người dùng");

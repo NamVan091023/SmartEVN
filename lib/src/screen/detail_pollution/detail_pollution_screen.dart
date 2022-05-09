@@ -10,7 +10,6 @@ import 'package:pollution_environment/src/components/aqi_weather_card.dart';
 import 'package:pollution_environment/src/components/full_image_viewer.dart';
 import 'package:pollution_environment/src/components/pollution_card.dart';
 import 'package:pollution_environment/src/components/pollution_user_card.dart';
-import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/components/history_chart.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_controller.dart';
@@ -282,7 +281,7 @@ class DetailPollutionScreen extends StatelessWidget {
       ),
       itemBuilder: (BuildContext context, int index) => GestureDetector(
         child: CachedNetworkImage(
-          imageUrl: "$host/${_controller.pollutionModel.value?.images![index]}",
+          imageUrl: _controller.pollutionModel.value?.images![index] ?? "",
           placeholder: (c, url) => Center(
             child: CircularProgressIndicator(),
           ),
@@ -291,8 +290,7 @@ class DetailPollutionScreen extends StatelessWidget {
         ),
         onTap: () {
           Get.to(() => FullImageViewer(
-                url:
-                    "$host/${_controller.pollutionModel.value?.images![index]}",
+                url: _controller.pollutionModel.value?.images![index] ?? "",
               ));
         },
       ),
@@ -311,7 +309,7 @@ class DetailPollutionScreen extends StatelessWidget {
       ),
       onTap: () {
         Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
-            arguments: _controller.user.value?.id);
+            arguments: _controller.user.value?.id, preventDuplicates: false);
       },
     );
   }

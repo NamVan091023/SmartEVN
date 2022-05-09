@@ -27,8 +27,8 @@ void callbackDispatcher() {
     switch (task) {
       case Workmanager.iOSBackgroundTask:
         print("The iOS background fetch was triggered");
-        await LocationBackground.initPlatformState();
         try {
+          await LocationBackground.initPlatformState();
           WAQIIpResponse aqiCurentResponse = await WaqiAPI().getAQIByIP();
 
           NotificationService notificationService = NotificationService();

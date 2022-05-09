@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
@@ -19,12 +20,15 @@ class ProfileController extends GetxController {
 
   void getCurrentUser() async {
     AuthResponse? auth = await UserStore().getAuth();
+    user.value = auth?.user;
     userId = auth?.user?.id ?? "";
     getUser();
   }
 
   void getUser() async {
+    showLoading();
     user.value = await UserAPI().getUserById(userId);
+    hideLoading();
   }
 
   void updateNotificationReceived(bool isReceived) async {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/components/empty_view.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
-import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/manage/user_manage/user_manage_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -80,7 +79,7 @@ class UserManageScreen extends StatelessWidget {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(10000.0),
           child: CachedNetworkImage(
-            imageUrl: "$host/${userModel?.avatar}",
+            imageUrl: userModel?.avatar ?? "",
             placeholder: (c, url) => Center(
               child: CircularProgressIndicator(),
             ),
@@ -98,7 +97,8 @@ class UserManageScreen extends StatelessWidget {
         subtitle: Text(userModel?.email ?? ""),
         trailing: Icon(Icons.chevron_right_rounded),
         onTap: () {
-          Get.toNamed(Routes.OTHER_PROFILE_SCREEN, arguments: userModel?.id)
+          Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
+                  arguments: userModel?.id, preventDuplicates: false)
               ?.then((value) {
             _controller.refresh();
           });

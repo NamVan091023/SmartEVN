@@ -13,27 +13,32 @@ class AppWidgetProvider : HomeWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray, widgetData: SharedPreferences) {
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_layout).apply {
-
                 // Open App on Widget Click
-                val pendingIntent = HomeWidgetLaunchIntent.getActivity(context,
+                val pendingIntent = HomeWidgetLaunchIntent.getActivity(
+                        context,
                         MainActivity::class.java)
-                setOnClickPendingIntent(R.id.widget_root, pendingIntent)
+                setOnClickPendingIntent(R.id.widget_container, pendingIntent)
 
-                val counter = widgetData.getInt("_counter", 0)
+                // Swap Title Text by calling Dart Code in the Background
+                setTextViewText(R.id.widget_title, widgetData.getString("title", null)
+                        ?: "No Title Set")
+                val backgroundIntent = HomeWidgetBackgroundIntent.getBroadcast(
+                        context,
+                        Uri.parse("homeWidgetExample://titleClicked")
+                )
+                setOnClickPendingIntent(R.id.widget_title, backgroundIntent)
 
-                var counterText = "Your counter value is: $counter"
-
-                if (counter == 0) {
-                    counterText = "You have not pressed the counter button"
-                }
-
-                setTextViewText(R.id.tv_counter, counterText)
-
-                // Pending intent to update counter on button click
-                val backgroundIntent = HomeWidgetBackgroundIntent.getBroadcast(context,
-                        Uri.parse("myAppWidget://updatecounter"))
-                setOnClickPendingIntent(R.id.bt_update, backgroundIntent)
+                val message = widgetData.getString("message", null)
+                setTextViewText(R.id.widget_message, message
+                        ?: "No Message Set")
+                // Detect App opened via Click inside Flutter
+                val pendingIntentWithData = HomeWidgetLaunchIntent.getActivity(
+                        context,
+                        MainActivity::class.java,
+                        Uri.parse("homeWidgetExample://message?message=$message"))
+                setOnClickPendingIntent(R.id.widget_message, pendingIntentWithData)
             }
+
             appWidgetManager.updateAppWidget(widgetId, views)
         }
     }

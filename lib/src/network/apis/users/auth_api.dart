@@ -150,10 +150,10 @@ class AuthApi {
     }
   }
 
-  void clearUserData() {
-    UserStore().removeAuth();
+  void clearUserData() async {
+    await UserStore().removeAuth();
     IsolateNameServer.removePortNameMapping(
         LocationServiceRepository.isolateName);
-    BackgroundLocator.unRegisterLocationUpdate();
+    await BackgroundLocator.unRegisterLocationUpdate();
   }
 }

@@ -17,6 +17,7 @@ class PollutionAPIPath {
   static String deletePollution = "/pollutions";
   static String getPollutionStats = "/pollutions/stats";
   static String getPollutionHistory = "/pollutions/history";
+  static String getPollutionByUser = "/pollutions/user";
 }
 
 class PollutionApi {
@@ -171,6 +172,37 @@ class PollutionApi {
       response = await apiService.request(
         method: APIMethod.GET,
         endPoint: PollutionAPIPath.getPollutionAuth,
+        data: data,
+      );
+
+      BaseResponse baseResponse;
+      baseResponse = BaseResponse.fromJson(response.data);
+      if (baseResponse.data == null) {
+        throw Exception(baseResponse.message);
+      } else {
+        PollutionsResponse pollutionsResponse =
+            PollutionsResponse.fromJson(baseResponse.data!);
+        return pollutionsResponse;
+      }
+    } on DioError catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<PollutionsResponse> getPollutionByUser(
+      {required String userId, int? limit, String? sortBy, int? page}) async {
+    Response response;
+    Map<String, String> data = {};
+
+    data["user"] = userId;
+    if (limit != null) data["limit"] = '$limit';
+    if (page != null) data["page"] = '$page';
+    if (sortBy != null) data["sortBy"] = sortBy;
+
+    try {
+      response = await apiService.request(
+        method: APIMethod.GET,
+        endPoint: PollutionAPIPath.getPollutionByUser,
         data: data,
       );
 

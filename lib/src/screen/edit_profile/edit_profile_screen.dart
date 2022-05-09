@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/components/keyboard.dart';
 import 'package:pollution_environment/src/model/address_model.dart';
-import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_controller.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -45,7 +44,7 @@ class EditProfileScreen extends StatelessWidget {
                                       ? AssetImage(
                                           "assets/images/profile_image.png")
                                       : NetworkImage(
-                                          "$host/${_controller.userModel.value.avatar!}",
+                                          _controller.userModel.value.avatar!,
                                         ))
                                   : FileImage(_controller
                                       .image.value!)) as ImageProvider<Object>?,

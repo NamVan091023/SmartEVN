@@ -121,7 +121,7 @@ class FilterAction extends StatelessWidget {
                 ),
                 onPressed: () {
                   showBarModalBottomSheet(
-                    backgroundColor: Colors.red,
+                    barrierColor: Colors.black54,
                     context: context,
                     builder: (ctx) {
                       var list = _controller.pollutions
@@ -129,7 +129,7 @@ class FilterAction extends StatelessWidget {
                           .expand((element) => element)
                           .toList();
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.75,
+                        height: MediaQuery.of(context).size.height * 0.8,
                         child: Scaffold(
                           appBar: AppBar(
                             title: Text("Danh sách ô nhiễm"),

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/components/aqi_weather_card.dart';
-import 'package:pollution_environment/src/network/api_service.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/detail_aqi/detail_aqi_screen.dart';
 import 'package:pollution_environment/src/screen/home/home_controller.dart';
@@ -46,7 +45,7 @@ class HomeScreen extends StatelessWidget {
             icon: ClipRRect(
               borderRadius: BorderRadius.circular(10000.0),
               child: CachedNetworkImage(
-                imageUrl: '$host/${_controller.currentUser?.value.avatar}',
+                imageUrl: _controller.currentUser?.value.avatar ?? "",
                 height: 30,
                 width: 30,
                 fit: BoxFit.fill,

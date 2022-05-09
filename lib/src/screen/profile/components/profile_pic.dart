@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
-import 'package:pollution_environment/src/network/api_service.dart';
 
 class ProfilePic extends StatelessWidget {
   late final UserModel? user;
@@ -26,7 +25,7 @@ class ProfilePic extends StatelessWidget {
             child: user?.avatar == null
                 ? Image.asset(Assets.profileAvatar)
                 : CachedNetworkImage(
-                    imageUrl: '$host/${user?.avatar}',
+                    imageUrl: user?.avatar ?? "",
                     height: 30,
                     width: 30,
                     fit: BoxFit.fill,

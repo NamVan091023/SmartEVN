@@ -47,8 +47,10 @@ class DetailPollutionController extends GetxController {
   @override
   void onInit() {
     _initClusterManager();
-    getCurrentUser();
-    getPollution();
+    showLoading();
+    Future.wait([getCurrentUser(), getPollution()]).then(
+      (value) => hideLoading(),
+    );
     super.onInit();
   }
 
@@ -131,11 +133,11 @@ class DetailPollutionController extends GetxController {
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
 
-  void getCurrentUser() async {
+  Future<void> getCurrentUser() async {
     currentUser.value = UserStore().getAuth()?.user;
   }
 
-  void getPollution() async {
+  Future<void> getPollution() async {
     pollutionModel.value =
         await PollutionApi().getOnePollution(id: pollutionId);
     if (pollutionModel.value?.lat != null &&

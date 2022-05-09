@@ -53,7 +53,10 @@ class EditProfileController extends GetxController {
                   : role.value,
               provinceManage: provinces,
               avatar: image.value)
-          .then((value) {
+          .then((value) async {
+        currentUser.value?.user = value;
+        if (currentUser.value != null)
+          await UserStore().saveAuth(currentUser.value!);
         hideLoading();
         Get.back();
         Fluttertoast.showToast(msg: "Cập nhật hồ sơ thành công");

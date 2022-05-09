@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
+import 'package:pollution_environment/src/screen/profile/components/history_pollution.dart';
 import 'package:pollution_environment/src/screen/profile/components/profile_pic.dart';
+import 'package:pollution_environment/src/screen/profile/components/ui_two_text_line.dart';
 import 'package:pollution_environment/src/screen/profile/other_profile/other_profile_controller.dart';
 
 class OtherProfileScreen extends StatelessWidget {
@@ -41,20 +44,42 @@ class OtherProfileScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            // Row(
-            //   children: [
-            //     Spacer(),
-            //     TwoTextLine(textOne: "0", textTwo: "Số bài viết"),
-            //     Spacer(),
-            //     TwoTextLine(textOne: "32", textTwo: "Số điểm post"),
-            //     Spacer(),
-            //   ],
-            // ),
-            Text(_controller.user.value?.email ?? ""),
+            Obx(() => Text(_controller.user.value?.email ?? "")),
+            SizedBox(height: 20),
+            Obx(
+              () => Row(
+                children: [
+                  Spacer(),
+                  TwoTextLine(
+                      textOne:
+                          "${_controller.pollution.value?.totalResults ?? 0}",
+                      textTwo: "Số báo cáo"),
+                  Spacer(),
+                  TwoTextLine(
+                      textOne: _controller.currentUser.value?.role == ROLE_ADMIN
+                          ? "Quản trị viên"
+                          : _controller.currentUser.value?.role == ROLE_MOD
+                              ? "Kiểm duyệt"
+                              : "Thành viên",
+                      textTwo: "Chức vụ"),
+                  Spacer(),
+                ],
+              ),
+            ),
             SizedBox(height: 20),
             Divider(
               height: 1,
             ),
+            SizedBox(height: 20),
+            Text(
+              "Lịch sử báo cáo",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 20),
+            Obx(() =>
+                HistoryPollution(_controller.pollution.value?.results ?? []))
           ],
         ),
       ),

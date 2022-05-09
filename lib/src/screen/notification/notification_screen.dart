@@ -131,7 +131,8 @@ class _NotificationScreenState extends State<NotificationScreen>
   void initState() {
     super.initState();
     list = [];
-    getData();
+    showLoading();
+    getData().then((value) => hideLoading());
   }
 
   @override
