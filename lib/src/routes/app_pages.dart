@@ -30,7 +30,6 @@ class AppPages {
       name: Routes.SIGNUP_SCREEN,
       page: () => SignUpScreen(),
       binding: SignUpBindings(),
-      transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.FORGOT_PASSWORD_SCREEN,

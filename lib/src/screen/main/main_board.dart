@@ -32,25 +32,6 @@ class _MainBoardState extends State<MainBoard> {
     ];
   }
 
-  List<BottomNavigationBarItem> _tabItem = [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.home_rounded),
-      label: "Trang chủ",
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.map_rounded),
-      label: "Bản đồ",
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.newspaper_rounded),
-      label: "Tin tức",
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.report_problem_rounded),
-      label: "Báo cáo",
-    ),
-  ];
-
   @override
   void initState() {
     super.initState();

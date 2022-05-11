@@ -43,7 +43,7 @@ class SignUpForm extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       fontSize: 16.0);
-                  Get.toNamed(Routes.HOME_SCREEN);
+                  Get.offAllNamed(Routes.HOME_SCREEN);
                 }, (err) {
                   showAlertError(desc: err);
                 });

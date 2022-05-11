@@ -1,5 +1,5 @@
 name: pollution_environment
-description: A new Flutter application.
+description: Ứng dụng môi trường thông minh.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -32,7 +32,6 @@ dependencies:
   google_maps_flutter: ^2.1.4
   geolocator: ^8.2.0
   geocoding: ^2.0.4
-  # shared_preferences: ^2.0.12
   url_launcher: ^6.0.20
   webview_flutter: ^3.0.0
   image_picker: ^0.8.4+9
@@ -121,11 +120,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-      - family: Lexend
-        fonts:
-         - asset: assets/fonts/lexend_regular.ttf
-         - asset: assets/fonts/lexend_bold.ttf
+  # fonts:
+  #     - family: Lexend
+  #       fonts:
+  #        - asset: assets/fonts/lexend_regular.ttf
+  #        - asset: assets/fonts/lexend_bold.ttf
 
 flutter_icons:
   android: "launcher_icon"

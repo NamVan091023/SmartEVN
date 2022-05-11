@@ -132,12 +132,12 @@ class AuthApi {
     }
   }
 
-  Future<BaseResponse> resetPassword(String password) async {
+  Future<BaseResponse> resetPassword(String password, String token) async {
     Response response;
     try {
       response = await apiService.request(
           method: APIMethod.POST,
-          endPoint: AuthAPIPath.resetPassword,
+          endPoint: "${AuthAPIPath.resetPassword}?token=$token",
           data: {
             "password": password,
           },
