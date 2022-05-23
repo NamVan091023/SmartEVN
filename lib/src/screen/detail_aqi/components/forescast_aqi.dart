@@ -37,18 +37,22 @@ class ForescastAqiState extends State<ForescastAqi>
             height: 50,
             child: TabBar(
               unselectedLabelColor: Colors.grey,
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+              labelColor: Theme.of(context).primaryColor,
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              indicatorColor: Theme.of(context).primaryColor,
               indicatorPadding: EdgeInsets.all(8),
               indicatorWeight: 3,
               tabs: [
                 Tab(
-                  text: "O3",
+                  text: "O₃",
                 ),
                 Tab(
-                  text: "Pm10",
+                  text: "PM¹⁰",
                 ),
                 Tab(
-                  text: "Pm25",
+                  text: "PM²⁵",
                 ),
                 Tab(
                   text: "UVI",

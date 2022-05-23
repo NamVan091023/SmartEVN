@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
+import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/pollution/pollution_api.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -24,6 +26,8 @@ class PollutionManageController extends GetxController {
     "Từ chối"
   ];
 
+  UserModel? currentUser;
+
   RxList<String> filterTypes = ["land", "air", "sound", "water"].obs;
   List<String> listPollutionType = ["land", "air", "sound", "water"];
 
@@ -37,11 +41,13 @@ class PollutionManageController extends GetxController {
   @override
   void onInit() {
     filterSelected.value = 0;
-    getAllPollution();
+    showLoading();
+    getAllPollution().then((value) => hideLoading());
     super.onInit();
   }
 
   Future<void> getAllPollution() async {
+    currentUser = await UserStore().getAuth()?.user;
     PollutionApi()
         .getAllPollution(
       page: nextPage,
@@ -49,6 +55,8 @@ class PollutionManageController extends GetxController {
       searchText: searchText,
       status: filterSelected.value,
       type: filterTypes.toList(),
+      provinceIds:
+          currentUser?.role == ROLE_ADMIN ? null : currentUser?.provinceManage,
     )
         .then((value) {
       pollutionList.addAll(value.results ?? []);

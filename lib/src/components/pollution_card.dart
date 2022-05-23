@@ -20,7 +20,9 @@ class PollutionCard extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                child: Image.asset(getAssetPollution(pollutionModel.type)),
+                child: Image.asset(
+                  getAssetPollution(pollutionModel.type),
+                ),
                 color: getQualityColor(pollutionModel.qualityScore),
               ),
             ),

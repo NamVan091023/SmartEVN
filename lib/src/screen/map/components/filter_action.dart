@@ -193,6 +193,8 @@ class FilterAction extends StatelessWidget {
               children: [
                 Image.asset(
                   getAssetPollution(pollution.type),
+                  width: 50,
+                  height: 50,
                 ),
                 SizedBox(
                   width: 10,

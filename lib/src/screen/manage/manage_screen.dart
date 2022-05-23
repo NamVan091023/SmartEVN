@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:pollution_environment/src/commons/constants.dart';
+import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/screen/manage/dashboard/dashboard_screen.dart';
 import 'package:pollution_environment/src/screen/manage/pollution_manage/pollution_manage_controller.dart';
 import 'package:pollution_environment/src/screen/manage/pollution_manage/pollution_manage_screen.dart';
 import 'package:pollution_environment/src/screen/manage/user_manage/user_manage_screen.dart';
+
+import 'special_alert/special_alert_screen.dart';
 
 class ManageScreen extends StatefulWidget {
   @override
@@ -15,18 +21,47 @@ class ManageScreen extends StatefulWidget {
 class ManageScreenState extends State<ManageScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
+  UserModel? currentUser;
   List<Widget> _listScreen = [
     DashboardScreen(),
-    PollutionManageScreen(),
-    UserManageScreen()
+    // PollutionManageScreen(),
+    // UserManageScreen()
   ];
+
+  @override
+  void initState() {
+    getCurrentUser();
+    super.initState();
+  }
+
+  void getCurrentUser() async {
+    currentUser = await UserStore().getAuth()?.user;
+    if (currentUser?.role == ROLE_ADMIN) {
+      _listScreen = [
+        DashboardScreen(),
+        SpecialAlertScreen(),
+        PollutionManageScreen(),
+        UserManageScreen(),
+      ];
+    } else if (currentUser?.role == ROLE_MOD) {
+      _listScreen = [
+        DashboardScreen(),
+        SpecialAlertScreen(),
+        PollutionManageScreen(),
+      ];
+    }
+    setState(() {});
+  }
+
   String getTitle(int index) {
     switch (index) {
       case 0:
         return "Tổng quan";
       case 1:
-        return "Quản lý ô nhiễm";
+        return "Thông báo khẩn cấp";
       case 2:
+        return "Quản lý ô nhiễm";
+      case 3:
         return "Quản lý người dùng";
       default:
         return "Tổng quan";
@@ -36,18 +71,21 @@ class ManageScreenState extends State<ManageScreen> {
   Icon getIconLeading(int index) {
     switch (index) {
       case 0:
-        return Icon(Icons.bar_chart_rounded);
+        return LineIcon(LineIcons.barChart);
       case 1:
-        return Icon(Icons.list_alt_rounded);
+        return LineIcon(LineIcons.bullhorn);
       case 2:
-        return Icon(Icons.people_alt_rounded);
+        return LineIcon(LineIcons.alternateList);
+      case 3:
+        return LineIcon(LineIcons.users);
       default:
-        return Icon(Icons.dashboard_rounded);
+        return LineIcon(LineIcons.barChart);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    getCurrentUser();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -60,7 +98,7 @@ class ManageScreenState extends State<ManageScreen> {
           },
         ),
         actions: [
-          if (_selectedIndex == 1)
+          if (_selectedIndex == 2)
             IconButton(
               onPressed: () {
                 PollutionManageController _pollutionManager = Get.find();
@@ -84,6 +122,7 @@ class ManageScreenState extends State<ManageScreen> {
               selected: e.key == _selectedIndex,
               title: Text(getTitle(e.key)),
               leading: getIconLeading(e.key),
+              minLeadingWidth: 20,
               onTap: () {
                 setState(() {
                   _selectedIndex = e.key;

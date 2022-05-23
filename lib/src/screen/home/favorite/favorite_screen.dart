@@ -19,7 +19,7 @@ class FavoriteScreen extends StatelessWidget {
         title: Text("Chọn tỉnh/thành phố"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         child: Obx(
           () => ListView.separated(
             itemBuilder: (ctx, index) {
@@ -53,7 +53,7 @@ class ChooseDistrictScreen extends StatelessWidget {
         title: Text("Chọn quận/huyện"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         child: Obx(
           () => ListView.separated(
             itemBuilder: (ctx, index) {
@@ -87,7 +87,7 @@ class ChooseWardScreen extends StatelessWidget {
         title: Text("Chọn phường/xã"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         child: Obx(
           () => ListView.separated(
             itemBuilder: (ctx, index) {

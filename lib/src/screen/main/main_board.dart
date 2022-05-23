@@ -1,6 +1,7 @@
 // import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:pollution_environment/src/commons/notification.dart';
 import 'package:pollution_environment/src/components/keep_alive_wrapper.dart';
 import 'package:pollution_environment/src/screen/home/home_screen.dart';
@@ -13,9 +14,6 @@ class MainBoard extends StatefulWidget {
 }
 
 class _MainBoardState extends State<MainBoard> {
-  final padding = EdgeInsets.symmetric(horizontal: 18, vertical: 12);
-  double gap = 10;
-
   int indexPage = 0;
   // ReceivePort port = ReceivePort();
   final Widget map = KeepAliveWrapper(child: MapScreen());
@@ -45,54 +43,56 @@ class _MainBoardState extends State<MainBoard> {
         children: listWidgets(),
         index: indexPage,
       ),
-      bottomNavigationBar: SafeArea(
-        child: Card(
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          boxShadow: [
+            BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(0.15)),
+          ],
+        ),
+        height: 75 + MediaQuery.of(context).padding.bottom,
+        child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
             child: GNav(
+              curve: Curves.easeOutExpo,
+              gap: 5,
+              activeColor: Colors.white,
+              iconSize: 26,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: Duration(milliseconds: 500),
+              tabBackgroundColor: Colors.grey.shade800,
               tabs: [
                 GButton(
-                  gap: gap,
                   iconActiveColor: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).primaryColor,
                   backgroundColor:
                       Theme.of(context).primaryColor.withOpacity(.2),
-                  iconSize: 24,
-                  padding: padding,
-                  icon: Icons.home,
+                  icon: LineIcons.home,
                   text: 'Trang chủ',
                 ),
                 GButton(
-                  gap: gap,
                   iconActiveColor: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).primaryColor,
                   backgroundColor:
                       Theme.of(context).primaryColor.withOpacity(.2),
-                  iconSize: 24,
-                  padding: padding,
-                  icon: Icons.map_outlined,
+                  icon: LineIcons.map,
                   text: 'Bản đồ',
                 ),
                 GButton(
-                  gap: gap,
                   iconActiveColor: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).primaryColor,
                   backgroundColor:
                       Theme.of(context).primaryColor.withOpacity(.2),
-                  iconSize: 24,
-                  padding: padding,
-                  icon: Icons.newspaper_outlined,
+                  icon: LineIcons.newspaper,
                   text: 'Tin tức',
                 ),
                 GButton(
-                  gap: gap,
                   iconActiveColor: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).primaryColor,
                   backgroundColor:
                       Theme.of(context).primaryColor.withOpacity(.2),
-                  iconSize: 24,
-                  padding: padding,
-                  icon: Icons.report_problem_outlined,
+                  icon: LineIcons.history,
                   text: 'Báo cáo',
                 )
               ],

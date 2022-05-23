@@ -94,6 +94,7 @@ class _NewsScreenState extends State<NewsScreen>
           ];
         },
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
             NewsWebScreen(),

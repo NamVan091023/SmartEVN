@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
@@ -20,7 +22,7 @@ class HistoryPollution extends StatelessWidget {
         } else
           return buildRow(c, i);
       },
-      itemCount: pollutions.length == 0 ? 1 : pollutions.length,
+      itemCount: pollutions.length == 0 ? 1 : min(10, pollutions.length),
     );
   }
 
@@ -30,8 +32,10 @@ class HistoryPollution extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           // Vào màn xem chi tiết
-          Get.toNamed(Routes.DETAIL_POLLUTION_SCREEN,
-              arguments: pollutions[index].id, preventDuplicates: false);
+          Get.offNamed(Routes.DETAIL_POLLUTION_SCREEN,
+              arguments: pollutions[index].id);
+          // Get.offAllNamed(Routes.DETAIL_POLLUTION_SCREEN,
+          //     arguments: pollutions[index].id);
         },
         child: Container(
           width: double.infinity,
@@ -45,6 +49,8 @@ class HistoryPollution extends StatelessWidget {
               children: [
                 Image.asset(
                   getAssetPollution(pollutions[index].type),
+                  width: 50,
+                  height: 50,
                 ),
                 SizedBox(
                   width: 10,

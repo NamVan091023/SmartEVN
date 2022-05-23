@@ -551,7 +551,7 @@ packages:
     source: hosted
     version: "8.2.0"
   geolocator_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: geolocator_android
       url: "https://pub.dartlang.org"
@@ -792,6 +792,13 @@ packages:
     dependency: "direct main"
     description:
       name: jwt_decoder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  line_icons:
+    dependency: "direct main"
+    description:
+      name: line_icons
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
@@ -1192,6 +1199,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
+  spritewidget:
+    dependency: "direct main"
+    description:
+      name: spritewidget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   sqflite:
     dependency: transitive
     description:
@@ -1360,6 +1374,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  wave:
+    dependency: "direct main"
+    description:
+      name: wave
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   web_socket_channel:
     dependency: transitive
     description:

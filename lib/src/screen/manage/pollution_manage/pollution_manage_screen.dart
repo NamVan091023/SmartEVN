@@ -124,6 +124,8 @@ class PollutionManageScreen extends StatelessWidget {
                 children: [
                   Image.asset(
                     getAssetPollution(_controller.pollutionList[index].type),
+                    width: 50,
+                    height: 50,
                   ),
                   SizedBox(
                     width: 10,

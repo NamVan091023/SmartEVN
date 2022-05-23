@@ -9,6 +9,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:pollution_environment/src/commons/background_location/location_background.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
+import 'package:pollution_environment/src/components/custom_loading.dart';
 import 'package:pollution_environment/src/model/favorite_model.dart';
 import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
 import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
@@ -58,14 +59,15 @@ void main() async {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
     ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-    ..loadingStyle = EasyLoadingStyle.dark
+    ..customAnimation = CustomAnimation()
+    ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
-    ..radius = 10.0
-    ..progressColor = Colors.yellow
+    ..maskType = EasyLoadingMaskType.black
+    ..animationStyle = EasyLoadingAnimationStyle.scale
+    ..progressColor = Colors.white
     ..backgroundColor = Colors.green
-    ..indicatorColor = Colors.yellow
-    ..textColor = Colors.yellow
-    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..indicatorColor = Colors.white
+    ..textColor = Colors.white
     ..userInteractions = false
     ..dismissOnTap = false;
   await init();

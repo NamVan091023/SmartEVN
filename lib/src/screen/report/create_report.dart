@@ -204,7 +204,7 @@ class CreateReport extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Tỉnh/Thành phố",
             hintText: "Chọn tỉnh/thành phố",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           onFind: (String? filter) => _controller.getDataProvince(),
@@ -244,7 +244,7 @@ class CreateReport extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Quận/Huyện",
             hintText: "Chọn quận/huyện",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           items: _controller.getDistricts(),
@@ -284,7 +284,7 @@ class CreateReport extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Phường/Xã",
             hintText: "Chọn phường/xã",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           items: _controller.getWards(),
@@ -324,7 +324,7 @@ class CreateReport extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Loại ô nhiễm",
             hintText: "Chọn loại ô nhiễm",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           onFind: (String? filter) => _controller.getPollutionTypes(),
@@ -364,7 +364,7 @@ class CreateReport extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Mức độ ô nhiễm",
             hintText: "Chọn mức độ",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           onFind: (String? filter) => _controller.getPollutionQualities(),
@@ -413,7 +413,7 @@ class CreateReport extends StatelessWidget {
       decoration: InputDecoration(
         labelText: "Địa chỉ chi tiết",
         hintText: "Nhập địa chỉ chi tiết",
-        contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 20),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(),
       ),
     );
@@ -439,7 +439,7 @@ class CreateReport extends StatelessWidget {
       decoration: InputDecoration(
         labelText: "Mô tả",
         hintText: "Nhập mô tả thông tin ô nhiễm",
-        contentPadding: EdgeInsets.fromLTRB(12, 20, 12, 20),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(),
       ),
     );

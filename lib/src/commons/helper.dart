@@ -143,6 +143,25 @@ String getAssetAQI(int? quality) {
   }
 }
 
+String getAssetBgAir(int? quality) {
+  switch (quality) {
+    case 1:
+      return Assets.hazardousAirBgCard;
+    case 2:
+      return Assets.severeAirBgCard;
+    case 3:
+      return Assets.unhealthyAirBgCard;
+    case 4:
+      return Assets.poorAirBgCard;
+    case 5:
+      return Assets.moderateAirBgCard;
+    case 6:
+      return Assets.goodAirBgCard;
+    default:
+      return Assets.goodAirBgCard;
+  }
+}
+
 String getNamePollution(String? pollution) {
   switch (pollution) {
     case "air":
@@ -184,7 +203,7 @@ void showAlertError(
     titlePadding: EdgeInsets.all(10),
     contentPadding: EdgeInsets.all(10),
     radius: 10,
-    onConfirm: () => onConfirm ?? Get.back(),
+    onConfirm: () => onConfirm == null ? Get.back() : onConfirm(),
     textConfirm: "Đồng ý",
   );
 }

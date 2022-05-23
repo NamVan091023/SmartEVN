@@ -6,11 +6,12 @@ import 'package:pollution_environment/src/model/favorite_model.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
 import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeController extends GetxController {
   Rx<UserModel>? currentUser = UserStore().getAuth()?.user?.obs;
   Rxn<WAQIIpResponse> currentAQI = Rxn<WAQIIpResponse>();
-
+  Rx<RefreshController> refreshController = RefreshController().obs;
   RxMap<String, WAQIIpResponse> favoriteAqis = RxMap<String, WAQIIpResponse>();
   @override
   void onInit() {
@@ -50,5 +51,16 @@ class HomeController extends GetxController {
     box.deleteAt(idx);
     favoriteAqis.remove(favoriteAqis.keys.toList()[index]);
     favoriteAqis.refresh();
+  }
+
+  void onRefreshData() async {
+    Future.wait([
+      getCurrentAQI(),
+      getFavorite(),
+    ]).then((value) {
+      refreshController.value.refreshCompleted();
+    }, onError: (e) {
+      refreshController.value.refreshCompleted();
+    });
   }
 }

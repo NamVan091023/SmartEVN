@@ -8,6 +8,7 @@ import 'package:pollution_environment/src/components/aqi_weather_card.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/detail_aqi/detail_aqi_screen.dart';
 import 'package:pollution_environment/src/screen/home/home_controller.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeController _controller = Get.put(HomeController());
@@ -18,17 +19,16 @@ class HomeScreen extends StatelessWidget {
         title: Text("Smart Environment"),
         actions: [
           IconButton(
-            onPressed: () {
-              Get.toNamed(Routes.NOTIFICATION_SCREEN);
-            },
-            icon: SvgPicture.asset(
-              Assets.bell,
-              height: 26,
-              width: 26,
-              color: Colors.yellow,
-            ),
-          ),
-          if (_controller.currentUser?.value.role == ROLE_ADMIN)
+              onPressed: () {
+                Get.toNamed(Routes.NOTIFICATION_SCREEN);
+              },
+              icon: Icon(
+                Icons.notifications_active,
+                size: 30,
+                color: Colors.yellow,
+              )),
+          if (_controller.currentUser?.value.role == ROLE_ADMIN ||
+              _controller.currentUser?.value.role == ROLE_MOD)
             IconButton(
               onPressed: () {
                 Get.toNamed(Routes.MANAGE_SCREEN);
@@ -63,55 +63,70 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         child: Padding(
           padding: EdgeInsets.all(10),
-          child: ListView(
-            children: [
-              Column(
-                children: [
-                  Obx(
-                    () => Text(
-                      _controller.currentAQI.value?.data?.city?.name ?? "",
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Obx(
-                    () => Text(
-                      _controller.currentAQI.value?.data?.city?.location ?? "",
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              _buildAQICard(),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                child: Align(
-                  child: SizedBox(
-                    width: 200,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Get.toNamed(Routes.FAVORITE_SCREEN);
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0))),
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: false,
+            header: ClassicHeader(
+              idleText: "Kéo để làm mới",
+              refreshingText: "Đang tải...",
+              releaseText: "Kéo để làm mới",
+              completeText: "Lấy dữ liệu thành công",
+              refreshStyle: RefreshStyle.Follow,
+            ),
+            controller: _controller.refreshController.value,
+            onRefresh: _controller.onRefreshData,
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    Obx(
+                      () => Text(
+                        _controller.currentAQI.value?.data?.city?.name ?? "",
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center,
                       ),
-                      child: const Text("THÊM MỘT NƠI MỚI"),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Obx(
+                      () => Text(
+                        _controller.currentAQI.value?.data?.city?.location ??
+                            "",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                _buildAQICard(),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  child: Align(
+                    child: SizedBox(
+                      width: 200,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.FAVORITE_SCREEN);
+                        },
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0))),
+                        ),
+                        child: const Text("THÊM MỘT NƠI MỚI"),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Divider(),
-              favoriteWidget(),
-            ],
+                Divider(),
+                favoriteWidget(),
+              ],
+            ),
           ),
         ),
       ),

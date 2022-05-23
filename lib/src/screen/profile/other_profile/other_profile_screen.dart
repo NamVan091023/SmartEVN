@@ -30,7 +30,7 @@ class OtherProfileScreen extends StatelessWidget {
             : Container())
       ]),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
         child: Column(
           children: [
             Obx(() => ProfilePic(
@@ -72,7 +72,7 @@ class OtherProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              "Lịch sử báo cáo",
+              "Lịch sử báo cáo gần nhất",
               style: TextStyle(
                 fontSize: 18,
               ),

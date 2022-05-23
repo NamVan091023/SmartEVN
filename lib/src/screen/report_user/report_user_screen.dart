@@ -144,6 +144,8 @@ class _ReportUserState extends State<ReportUser>
               children: [
                 Image.asset(
                   getAssetPollution(pollutions[index].type),
+                  width: 50,
+                  height: 50,
                 ),
                 SizedBox(
                   width: 10,

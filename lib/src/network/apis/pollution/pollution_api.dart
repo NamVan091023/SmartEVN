@@ -80,6 +80,9 @@ class PollutionApi {
       String? provinceName,
       String? districtName,
       String? wardName,
+      List<String>? provinceIds,
+      List<String>? districtIds,
+      List<String>? wardIds,
       int? status,
       List<String>? quality,
       String? searchText,
@@ -98,6 +101,20 @@ class PollutionApi {
         data["type[0]"] = "";
       }
     }
+    if (provinceIds != null && provinceIds.isNotEmpty) {
+      for (int i = 0; i < provinceIds.length; i++)
+        data["provinceId[$i]"] = provinceIds[i];
+    }
+
+    if (districtIds != null && districtIds.isNotEmpty) {
+      for (int i = 0; i < districtIds.length; i++)
+        data["districtId[$i]"] = districtIds[i];
+    }
+
+    if (wardIds != null && wardIds.isNotEmpty) {
+      for (int i = 0; i < wardIds.length; i++) data["wardId[$i]"] = wardIds[i];
+    }
+
     if (provinceName != null && provinceName != '')
       data["provinceName"] = provinceName;
     if (districtName != null && districtName != '')

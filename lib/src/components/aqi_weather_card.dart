@@ -6,6 +6,8 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'dart:math' as math;
 
 import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 class AQIWeatherCard extends StatelessWidget {
   final WAQIIpResponse aqi;
@@ -163,6 +165,15 @@ class AQIWeatherCard extends StatelessWidget {
                         // SizedBox(
                         //   width: 10,
                         // ),
+                        SvgPicture.asset(
+                          Assets.thermometer,
+                          color: Colors.blue,
+                          width: 20,
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
                         Text(
                           "${aqi.data?.iaqi?.t?.v ?? 0}°",
                           style: Theme.of(context).textTheme.headline5,
@@ -253,28 +264,76 @@ class AQIWeatherCard extends StatelessWidget {
             Divider(
               height: 1,
             ),
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: ListTile(
-                leading: CachedNetworkImage(
-                  imageUrl:
-                      "https://aqicn.org/air/images/feeds/${aqi.data?.attributions?.first.logo}",
-                  errorWidget: (ctx, str, data) => Icon(
-                    Icons.house_outlined,
-                    size: 30,
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                // Image.asset(
+                //   getAssetBgAir(getAQIRank(aqi.data?.aqi?.toDouble())),
+                // ),
+                WaveWidget(
+                  config: CustomConfig(
+                    gradients: [
+                      [
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.2),
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.1),
+                      ],
+                      [
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.2),
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.3)
+                      ],
+                      [
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.3),
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.1)
+                      ],
+                      [
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.1),
+                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble()))
+                            .withOpacity(0.2)
+                      ],
+                    ],
+                    durations: [18000, 8000, 5000, 12000],
+                    heightPercentages: [0.85, 0.86, 0.88, 0.90],
+                    blur: MaskFilter.blur(BlurStyle.solid, 10),
+                    gradientBegin: Alignment.topLeft,
+                    gradientEnd: Alignment.bottomRight,
                   ),
-                  height: 30,
-                  width: 30,
+                  waveAmplitude: 0,
+                  size: Size(
+                    double.infinity,
+                    40,
+                  ),
                 ),
-                title: Text(
-                  aqi.data?.attributions?.first.name ?? "",
-                  maxLines: 2,
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: ListTile(
+                    leading: CachedNetworkImage(
+                      imageUrl:
+                          "https://aqicn.org/air/images/feeds/${aqi.data?.attributions?.first.logo}",
+                      errorWidget: (ctx, str, data) => Icon(
+                        Icons.house_outlined,
+                        size: 30,
+                      ),
+                      height: 30,
+                      width: 30,
+                    ),
+                    title: Text(
+                      aqi.data?.attributions?.first.name ?? "",
+                      maxLines: 2,
+                    ),
+                    subtitle: Text(
+                      "Cập nhật lần cuối: ${timeAgoSinceDate(dateStr: aqi.data?.time?.s ?? "", numericDates: true)}",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
                 ),
-                subtitle: Text(
-                  "Cập nhật lần cuối: ${timeAgoSinceDate(dateStr: aqi.data?.time?.s ?? "", numericDates: true)}",
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ),
+              ],
             ),
           ],
         ),

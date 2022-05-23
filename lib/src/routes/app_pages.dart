@@ -6,7 +6,7 @@ import 'package:pollution_environment/src/screen/forgot_password/forgot_password
 import 'package:pollution_environment/src/screen/home/favorite/favorite_screen.dart';
 import 'package:pollution_environment/src/screen/main/main_board.dart';
 import 'package:pollution_environment/src/screen/manage/manage_screen.dart';
-import 'package:pollution_environment/src/screen/notification/notification_screen.dart';
+import 'package:pollution_environment/src/screen/notification/main_notification_screen.dart';
 import 'package:pollution_environment/src/screen/profile/other_profile/other_profile_screen.dart';
 import 'package:pollution_environment/src/screen/profile/profile/profile_screen.dart';
 import 'package:pollution_environment/src/screen/report/create_report.dart';

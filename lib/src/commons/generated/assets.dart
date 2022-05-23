@@ -33,4 +33,17 @@ class Assets {
   static const String bell = 'assets/icons/bell.svg';
   static const String dashboard = 'assets/icons/dashboard.svg';
   static const String remove = 'assets/icons/remove.svg';
+
+  static const String goodAirBgCard =
+      'assets/images/good-air-quality-background-image.webp';
+  static const String moderateAirBgCard =
+      'assets/images/moderate-air-quality-background-image.webp';
+  static const String hazardousAirBgCard =
+      'assets/images/hazardous-air-quality-background-image.webp';
+  static const String poorAirBgCard =
+      'assets/images/poor-air-quality-background-image.webp';
+  static const String severeAirBgCard =
+      'assets/images/severe-air-quality-background-image.webp';
+  static const String unhealthyAirBgCard =
+      'assets/images/unhealthy-air-quality-background-image.webp';
 }

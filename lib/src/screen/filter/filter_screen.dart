@@ -63,7 +63,7 @@ class FilterMapScreen extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Tỉnh/Thành phố",
             hintText: "Chọn tỉnh/thành phố",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           onFind: (String? filter) => _controller.getData(),
@@ -97,7 +97,7 @@ class FilterMapScreen extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Quận/huyện",
             hintText: "Chọn quận/huyện",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           items: _controller.getDistricts(),
@@ -130,7 +130,7 @@ class FilterMapScreen extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Phường/Xã",
             hintText: "Chọn phường/xã",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           items: _controller.getWards(),
@@ -163,7 +163,7 @@ class FilterMapScreen extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Loại ô nhiễm",
             hintText: "Chọn loại ô nhiễm",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           onFind: (String? filter) => _controller.getPollutionTypes(),
@@ -196,7 +196,7 @@ class FilterMapScreen extends StatelessWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: "Mức độ ô nhiễm",
             hintText: "Chọn mức độ ô nhiễm",
-            contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
           itemAsString: (item) => item?.name ?? "",
           onFind: (String? filter) => _controller.getPollutionQualities(),

@@ -38,6 +38,7 @@ class NewsWebScreen extends StatelessWidget {
           onLoading: _controller.onLoading,
           child: SingleChildScrollView(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 _buildFilter(),
                 Obx(
@@ -73,9 +74,11 @@ class NewsWebScreen extends StatelessWidget {
   }
 
   Widget _buildFilter() {
-    return Container(
+    return SizedBox(
       height: 50,
       child: ListView.builder(
+        // physics: ClampingScrollPhysics(),
+        // shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
