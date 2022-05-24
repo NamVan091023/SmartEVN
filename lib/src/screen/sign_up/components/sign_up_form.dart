@@ -45,7 +45,7 @@ class SignUpForm extends StatelessWidget {
                       fontSize: 16.0);
                   Get.offAllNamed(Routes.HOME_SCREEN);
                 }, (err) {
-                  showAlertError(desc: err);
+                  showAlert(desc: err);
                 });
               }
             },

@@ -76,7 +76,7 @@ class _SignFormState extends State<SignForm> {
                       Get.offAllNamed(Routes.HOME_SCREEN);
                     }
                   }, (err) {
-                    showAlertError(desc: err);
+                    showAlert(desc: err);
                   });
                 }
               },

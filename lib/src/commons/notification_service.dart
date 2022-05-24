@@ -60,7 +60,16 @@ class NotificationService {
 
   Future<void> showNotifications(RemoteMessage message) async {
     final jsonData = json.decode(message.data["data"]);
-    PollutionModel pollution = PollutionModel.fromJson(jsonData);
+    if (jsonData["userCreated"] != null) {
+      // Thông báo khẩn cấp
+    } else {
+      PollutionModel pollution = PollutionModel.fromJson(jsonData);
+      await showLocalNotificationPollution(pollution, message);
+    }
+  }
+
+  Future<void> showLocalNotificationPollution(
+      PollutionModel pollution, RemoteMessage message) async {
     final ByteArrayAndroidBitmap largeIcon = ByteArrayAndroidBitmap(
         await _getByteArrayFromUrl('$host/ic_pin_${pollution.type ?? ""}.png'));
     final ByteArrayAndroidBitmap bigPicture = ByteArrayAndroidBitmap(
@@ -101,18 +110,6 @@ class NotificationService {
         message.notification?.body, platformChannelSpecifics,
         payload: pollution.id);
   }
-
-  // Future<void> scheduleNotifications() async {
-  //   await flutterLocalNotificationsPlugin.zonedSchedule(
-  //       0,
-  //       "Notification Title",
-  //       "This is the Notification Body!",
-  //       tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-  //       NotificationDetails(android: androidPlatformChannelSpecifics),
-  //       androidAllowWhileIdle: true,
-  //       uiLocalNotificationDateInterpretation:
-  //           UILocalNotificationDateInterpretation.absoluteTime);
-  // }
 
   Future showNotificationWithoutSound(Position position) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(

@@ -40,7 +40,7 @@ class UserManageController extends GetxController {
         canLoadMore = false;
       }
     }).onError((error, stackTrace) {
-      showAlertError(desc: "Không lấy được danh sách người dùng");
+      showAlert(desc: "Không lấy được danh sách người dùng");
     });
   }
 

@@ -85,7 +85,7 @@ class _NewsDetailState extends State<NewsDetailScreen> {
                         launchUrl(
                           Uri.parse(widget.url ?? ""),
                         ).onError((error, stackTrace) {
-                          showAlertError(
+                          showAlert(
                               desc:
                                   "Không thể mở bằng trình duyệt, vui lòng thử lại sau!");
                           throw ('Can not open url');

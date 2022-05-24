@@ -56,20 +56,6 @@ void callbackDispatcher() {
 }
 
 void main() async {
-  EasyLoading.instance
-    ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-    ..customAnimation = CustomAnimation()
-    ..loadingStyle = EasyLoadingStyle.custom
-    ..indicatorSize = 45.0
-    ..maskType = EasyLoadingMaskType.black
-    ..animationStyle = EasyLoadingAnimationStyle.scale
-    ..progressColor = Colors.white
-    ..backgroundColor = Colors.green
-    ..indicatorColor = Colors.white
-    ..textColor = Colors.white
-    ..userInteractions = false
-    ..dismissOnTap = false;
   await init();
   await Hive.initFlutter();
   await Hive.openBox(HIVEBOX);
@@ -122,7 +108,19 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+      ..customAnimation = CustomAnimation()
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorSize = 45.0
+      ..maskType = EasyLoadingMaskType.black
+      ..animationStyle = EasyLoadingAnimationStyle.scale
+      ..progressColor = Colors.white
+      ..backgroundColor = Theme.of(context).primaryColor
+      ..indicatorColor = Colors.white
+      ..textColor = Colors.white
+      ..userInteractions = false
+      ..dismissOnTap = false;
     LocationBackground.initPlatformState();
     // Workmanager().cancelAll();
     Workmanager().initialize(

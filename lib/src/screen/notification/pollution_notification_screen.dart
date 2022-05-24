@@ -126,7 +126,7 @@ class _NotificationPollutionState extends State<NotificationPollutionScreen>
   }
 
   void _clearAll() async {
-    showAlertError(
+    showAlert(
         desc: "Bạn có chắc chắn muốn xóa tất cả thông báo không ?",
         onConfirm: () {
           Get.back();

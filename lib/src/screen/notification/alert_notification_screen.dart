@@ -129,7 +129,7 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
   }
 
   void _clearAll() async {
-    showAlertError(
+    showAlert(
       desc: "Bạn có chắc chắn muốn xóa tất cả thông báo không?",
       onConfirm: () {
         Get.back();
@@ -194,7 +194,7 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
                     alert: list[index].alert!,
                   ));
             } else {
-              showAlertError(desc: "Cảnh báo không tồn tại!");
+              showAlert(desc: "Cảnh báo không tồn tại!");
             }
           },
           leading: SizedBox(

@@ -27,7 +27,7 @@ class NewsFBController extends GetxController {
         canLoadMore = false;
       }
     }).onError((error, stackTrace) {
-      showAlertError(desc: "Không lấy được danh sách tin tức");
+      showAlert(desc: "Không lấy được danh sách tin tức");
     });
   }
 

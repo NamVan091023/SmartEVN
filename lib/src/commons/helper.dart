@@ -11,6 +11,7 @@ import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:pollution_environment/src/components/custom_dialog.dart';
 
 Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
   print('--- Parse json from: $assetsPath');
@@ -192,19 +193,43 @@ String getShortNamePollution(String? pollution) {
   }
 }
 
-void showAlertError(
-    {String title = "Thông báo", required String desc, Function? onConfirm}) {
-  Get.defaultDialog(
-    title: title,
-    content: Text(
-      desc,
-      textAlign: TextAlign.center,
-    ),
-    titlePadding: EdgeInsets.all(10),
-    contentPadding: EdgeInsets.all(10),
-    radius: 10,
-    onConfirm: () => onConfirm == null ? Get.back() : onConfirm(),
-    textConfirm: "Đồng ý",
+void showAlert({
+  String title = "Thông báo",
+  required String desc,
+  Function? onConfirm,
+  String? textConfirm,
+  String? textCancel,
+  Function? onCancel,
+}) {
+  Get.generalDialog(
+    pageBuilder: (ctx, ani1, ani2) {
+      return CustomDialog(
+        title: title,
+        content: desc,
+        confirmText: textConfirm,
+        cancelText: textCancel,
+        onConfirm: onConfirm,
+        onCancel: onCancel,
+      );
+    },
+    transitionBuilder: (context, a1, a2, widget) {
+      return Transform.scale(
+        scale: a1.value,
+        child: Opacity(
+            opacity: a1.value,
+            child: CustomDialog(
+              title: title,
+              content: desc,
+              confirmText: textConfirm,
+              cancelText: textCancel,
+              onConfirm: onConfirm,
+              onCancel: onCancel,
+            )),
+      );
+    },
+    transitionDuration: Duration(milliseconds: 200),
+    barrierDismissible: true,
+    barrierLabel: '',
   );
 }
 

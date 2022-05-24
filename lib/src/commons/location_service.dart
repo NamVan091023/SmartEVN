@@ -22,19 +22,16 @@ class LocationService {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      Get.defaultDialog(
-          title: "Thông báo",
-          content: Text(
-              "Dịch vụ truy cập vị trí đang tắt, các chức năng hoạt động sẽ bị giới hạn"),
+      showAlert(
+          desc:
+              "Dịch vụ truy cập vị trí đang tắt, các chức năng hoạt động sẽ bị giới hạn",
           textConfirm: "Mở cài đặt",
           onConfirm: () {
             Geolocator.openLocationSettings();
             Get.back();
-          });
+          },
+          textCancel: "Hủy");
 
-      // showAlertError(
-      //     desc:
-      //         "Dịch vụ truy cập vị trí đang tắt, các chức năng hoạt động sẽ bị giới hạn");
       return Future.error('Location services are disabled.');
     }
 
@@ -47,7 +44,7 @@ class LocationService {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        showAlertError(
+        showAlert(
             desc:
                 "Quyền truy cập vị trí đã bị từ chối, các chức năng hoạt động sẽ bị giới hạn");
         return Future.error('Location permissions are denied');
@@ -56,7 +53,7 @@ class LocationService {
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      showAlertError(
+      showAlert(
           desc:
               "Quyền truy cập vị trí đã bị từ chối, các chức năng hoạt động sẽ bị giới hạn");
 

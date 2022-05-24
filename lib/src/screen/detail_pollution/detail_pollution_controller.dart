@@ -199,7 +199,7 @@ class DetailPollutionController extends GetxController {
       pollutionModel.value = value;
       Fluttertoast.showToast(msg: "Cập nhật thông tin ô nhiễm thành công");
     }, onError: (e) {
-      showAlertError(desc: e.message);
+      showAlert(desc: e.message);
     });
   }
 

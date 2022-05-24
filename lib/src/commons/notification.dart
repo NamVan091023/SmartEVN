@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/commons/notification_service.dart';
+import 'package:pollution_environment/src/components/custom_alert_dialog.dart';
+import 'package:pollution_environment/src/model/alert_model.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/network/apis/notification/notification_api.dart';
 import 'package:pollution_environment/src/screen/detail_pollution/detail_pollution_screen.dart';
@@ -71,57 +73,35 @@ class FCM {
           _notificationService.showNotifications(message);
         }
         final jsonData = json.decode(message.data["data"]);
-        PollutionModel pollution = PollutionModel.fromJson(jsonData);
-        playSoundAlert();
+        if (jsonData["userCreated"] != null) {
+          // Thông báo khẩn cấp
+          Alert alert = Alert.fromJson(jsonData);
+          Get.generalDialog(
+            pageBuilder: (ctx, ani1, ani2) {
+              return CustomAlertDialog(
+                alert: alert,
+              );
+            },
+            transitionBuilder: (context, a1, a2, widget) {
+              return Transform.scale(
+                scale: a1.value,
+                child: Opacity(
+                    opacity: a1.value,
+                    child: CustomAlertDialog(
+                      alert: alert,
+                    )),
+              );
+            },
+            transitionDuration: Duration(milliseconds: 200),
+            barrierDismissible: true,
+            barrierLabel: '',
+          );
+        } else {
+          PollutionModel pollution = PollutionModel.fromJson(jsonData);
+          playSoundAlert();
 
-        showOverlayNotification(
-          (ctx) {
-            return SafeArea(
-              child: Card(
-                color: getQualityColor(pollution.qualityScore),
-                elevation: 15,
-                child: ListTile(
-                  leading: SizedBox.fromSize(
-                      size: const Size(40, 40),
-                      child: ClipOval(
-                          child:
-                              Image.asset(getAssetPollution(pollution.type)))),
-                  title: Text(
-                    notification?.title ?? "Thông báo",
-                    style: TextStyle(
-                        color: (pollution.qualityScore ?? 0) <= 3
-                            ? Colors.white
-                            : Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    notification?.body ?? "",
-                    style: TextStyle(
-                        color: (pollution.qualityScore ?? 0) <= 3
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {
-                      OverlaySupportEntry.of(ctx)?.dismiss();
-                    },
-                    icon: Icon(
-                      Icons.cancel_rounded,
-                      color: Colors.red,
-                    ),
-                  ),
-                  onTap: () {
-                    OverlaySupportEntry.of(ctx)?.dismiss();
-                    Get.to(() => DetailPollutionScreen(),
-                        arguments: pollution.id);
-                  },
-                ),
-              ),
-            );
-          },
-          duration: Duration(seconds: 20),
-          position: NotificationPosition.top,
-        );
+          showOverlayNotificationPollution(pollution, notification);
+        }
       },
     );
     //Message for Background
@@ -138,5 +118,55 @@ class FCM {
     _firebaseMessaging.getToken().then((value) {
       if (value != null) NotificationApi().updateFCMToken(value);
     });
+  }
+
+  OverlaySupportEntry showOverlayNotificationPollution(
+      PollutionModel pollution, RemoteNotification? notification) {
+    return showOverlayNotification(
+      (ctx) {
+        return SafeArea(
+          child: Card(
+            color: getQualityColor(pollution.qualityScore),
+            elevation: 15,
+            child: ListTile(
+              leading: SizedBox.fromSize(
+                  size: const Size(40, 40),
+                  child: ClipOval(
+                      child: Image.asset(getAssetPollution(pollution.type)))),
+              title: Text(
+                notification?.title ?? "Thông báo",
+                style: TextStyle(
+                    color: (pollution.qualityScore ?? 0) <= 3
+                        ? Colors.white
+                        : Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                notification?.body ?? "",
+                style: TextStyle(
+                    color: (pollution.qualityScore ?? 0) <= 3
+                        ? Colors.white
+                        : Colors.black),
+              ),
+              trailing: IconButton(
+                onPressed: () {
+                  OverlaySupportEntry.of(ctx)?.dismiss();
+                },
+                icon: Icon(
+                  Icons.cancel_rounded,
+                  color: Colors.red,
+                ),
+              ),
+              onTap: () {
+                OverlaySupportEntry.of(ctx)?.dismiss();
+                Get.to(() => DetailPollutionScreen(), arguments: pollution.id);
+              },
+            ),
+          ),
+        );
+      },
+      duration: Duration(seconds: 20),
+      position: NotificationPosition.top,
+    );
   }
 }

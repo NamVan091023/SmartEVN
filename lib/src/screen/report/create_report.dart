@@ -466,7 +466,7 @@ class CreateReport extends StatelessWidget {
   Future<void> createReport(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       _controller.createReport((error) {
-        showAlertError(desc: error);
+        showAlert(desc: error);
       });
     }
   }

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/constants.dart';
 import 'package:pollution_environment/src/commons/generated/assets.dart';
+import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/components/aqi_weather_card.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/screen/detail_aqi/detail_aqi_screen.dart';
@@ -169,7 +170,12 @@ class HomeScreen extends StatelessWidget {
                   right: -5,
                   child: IconButton(
                     onPressed: () {
-                      _controller.removeFavorite(index);
+                      showAlert(
+                        desc: "Bạn có chắc muốn xóa địa điểm này?",
+                        onConfirm: () {
+                          _controller.removeFavorite(index);
+                        },
+                      );
                     },
                     icon: Container(
                       height: 26,

@@ -66,7 +66,7 @@ class PollutionManageController extends GetxController {
         canLoadMore = false;
       }
     }).onError((error, stackTrace) {
-      showAlertError(desc: "Không lấy được danh sách ô nhiễm");
+      showAlert(desc: "Không lấy được danh sách ô nhiễm");
     });
   }
 

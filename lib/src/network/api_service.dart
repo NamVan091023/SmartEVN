@@ -13,7 +13,7 @@ enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 
 // final host = "https://smartenvironment.up.railway.app";
 // final host = "http://192.168.123.235:3000";
-// final host = "http://172.16.134.191:3000";
+// final host = "http://172.16.133.35:3000";
 final host = "https://www.hungs20.xyz";
 final baseUrl = "$host/v1";
 
@@ -221,11 +221,11 @@ class APIService {
         baseResponse = BaseResponse.fromJson(e.response?.data);
       }
       hideLoading();
-      showAlertError(desc: baseResponse?.message ?? e.message);
+      showAlert(desc: baseResponse?.message ?? e.message);
       throw Exception(baseResponse?.message ?? e.message);
     } catch (e) {
       hideLoading();
-      showAlertError(desc: "Đã có lỗi xảy ra, vui lòng thử lại");
+      showAlert(desc: "Đã có lỗi xảy ra, vui lòng thử lại");
       throw Exception("Đã có lỗi xảy ra, vui lòng thử lại.");
     }
     return response;

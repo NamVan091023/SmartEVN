@@ -62,7 +62,7 @@ class EditProfileController extends GetxController {
         Fluttertoast.showToast(msg: "Cập nhật hồ sơ thành công");
       }, onError: (e) {
         hideLoading();
-        showAlertError(desc: e.message);
+        showAlert(desc: e.message);
       });
     }
   }
