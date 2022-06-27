@@ -55,12 +55,10 @@ class _MainBoardState extends State<MainBoard> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
             child: GNav(
-              curve: Curves.easeOutExpo,
-              gap: 5,
               activeColor: Colors.white,
               iconSize: 26,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 400),
               tabBackgroundColor: Colors.grey.shade800,
               tabs: [
                 GButton(
