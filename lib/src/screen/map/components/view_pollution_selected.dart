@@ -22,11 +22,13 @@ class ViewPollutionSelected extends StatelessWidget {
   Widget build(BuildContext context) {
     String status = "";
     if (currentUser?.role == "admin" || currentUser?.role == "mod") {
-      if (pollutionSelected?.status == 0)
+      if (pollutionSelected?.status == 0) {
         status = "\nĐang chờ duyệt";
-      else if (pollutionSelected?.status == 1)
+      } else if (pollutionSelected?.status == 1) {
         status = "\nĐã được duyệt";
-      else if (pollutionSelected?.status == 2) status = "\nTừ chối duyệt";
+      } else if (pollutionSelected?.status == 2) {
+        status = "\nTừ chối duyệt";
+      }
     }
     return SlideTransition(
         position: offset,
@@ -41,7 +43,7 @@ class ViewPollutionSelected extends StatelessWidget {
                   right: 5,
                   left: 5),
               child: ListView(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 shrinkWrap: true,
                 children: [
                   ListTile(
@@ -71,7 +73,7 @@ class ViewPollutionSelected extends StatelessWidget {
                           Share.share(
                               "Chất lượng ${getShortNamePollution(pollutionSelected?.type)} tại ${pollutionSelected?.wardName ?? ""}, ${pollutionSelected?.districtName ?? ""}, ${pollutionSelected?.provinceName ?? ""} đang ${getQualityText(pollutionSelected?.qualityScore)}. Xem chi tiết tại ứng dụng Smart Environment");
                         },
-                        icon: Icon(Icons.share_rounded),
+                        icon: const Icon(Icons.share_rounded),
                       )),
                   pollutionSelected != null
                       ? PollutionCard(

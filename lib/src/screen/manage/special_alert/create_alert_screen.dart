@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,8 @@ import 'package:pollution_environment/src/network/apis/address/address_api.dart'
 import 'package:pollution_environment/src/network/apis/alert/alert_api.dart';
 
 class CreateAlertScreen extends StatefulWidget {
+  const CreateAlertScreen({Key? key}) : super(key: key);
+
   @override
   State<CreateAlertScreen> createState() {
     return CreateAlertState();
@@ -38,10 +41,10 @@ class CreateAlertState extends State<CreateAlertScreen> {
   }
 
   void getData() async {
-    currentUser = await UserStore().getAuth()?.user;
+    currentUser = UserStore().getAuth()?.user;
     var response = await AddressApi().getAllAddress();
     final data = response.data;
-    if (currentUser?.role == ROLE_ADMIN) {
+    if (currentUser?.role == kRoleAdmin) {
       provinces = data ?? [];
     } else {
       provinces = [];
@@ -58,38 +61,38 @@ class CreateAlertState extends State<CreateAlertScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tạo thông báo"),
+        title: const Text("Tạo thông báo"),
       ),
       body: ListView(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
                   _buildFormTitle(),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   _buildFormContent(),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   _buildProvinceSelection(),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   DottedBorder(
                     borderType: BorderType.RRect,
                     color: Theme.of(context).primaryColor,
                     strokeWidth: 2,
-                    dashPattern: [5, 5],
-                    radius: Radius.circular(20),
-                    padding: EdgeInsets.all(6),
+                    dashPattern: const [5, 5],
+                    radius: const Radius.circular(20),
+                    padding: const EdgeInsets.all(6),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +107,7 @@ class CreateAlertState extends State<CreateAlertScreen> {
                                     size: 50,
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                  Text(
+                                  const Text(
                                     "Tải ảnh lên",
                                     textAlign: TextAlign.center,
                                   ),
@@ -112,7 +115,7 @@ class CreateAlertState extends State<CreateAlertScreen> {
                               )),
                           TextButton(
                               onPressed: () => loadAssets(isCamera: false),
-                              child: Text(
+                              child: const Text(
                                 "Chọn ảnh từ thư viện",
                                 textAlign: TextAlign.center,
                               ))
@@ -120,14 +123,14 @@ class CreateAlertState extends State<CreateAlertScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   DefaultButton(
                     text: 'Hoàn thành',
                     press: () => createReport(),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                 ],
@@ -150,7 +153,7 @@ class CreateAlertState extends State<CreateAlertScreen> {
       compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
       selectedItems: provinceIds,
       showSearchBox: true,
-      dropdownSearchDecoration: InputDecoration(
+      dropdownSearchDecoration: const InputDecoration(
         labelText: "Phạm vi",
         hintText: "Chọn tỉnh/thành phố nhận thông báo",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -165,9 +168,9 @@ class CreateAlertState extends State<CreateAlertScreen> {
                 borderSide: const BorderSide(color: Colors.grey, width: 0.5),
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              prefixIcon: Icon(Icons.search),
+              prefixIcon: const Icon(Icons.search),
               hintText: "Nhập để tìm kiếm",
-              hintStyle: TextStyle(color: Colors.grey))),
+              hintStyle: const TextStyle(color: Colors.grey))),
       popupShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -176,11 +179,11 @@ class CreateAlertState extends State<CreateAlertScreen> {
 
   Widget _buildImageList(BuildContext context) {
     return images.isNotEmpty
-        ? new Column(
+        ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.all(5.0),
+                margin: const EdgeInsets.all(5.0),
                 height: 150.0,
                 child: ListView.builder(
                     itemCount: images.length,
@@ -192,13 +195,13 @@ class CreateAlertState extends State<CreateAlertScreen> {
               ),
             ],
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   Widget _buildItemImage(int index) {
     return Container(
       width: 150,
-      padding: EdgeInsets.all(1),
+      padding: const EdgeInsets.all(1),
       child: Stack(
         children: <Widget>[
           ClipRRect(
@@ -218,11 +221,11 @@ class CreateAlertState extends State<CreateAlertScreen> {
                 setState(() {});
               },
               child: Container(
-                margin: EdgeInsets.all(2),
-                padding: EdgeInsets.all(1),
-                decoration:
-                    BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                child: Icon(Icons.close, size: 16, color: Colors.red),
+                margin: const EdgeInsets.all(2),
+                padding: const EdgeInsets.all(1),
+                decoration: const BoxDecoration(
+                    color: Colors.white, shape: BoxShape.circle),
+                child: const Icon(Icons.close, size: 16, color: Colors.red),
               ),
             ),
           ),
@@ -247,7 +250,9 @@ class CreateAlertState extends State<CreateAlertScreen> {
         setState(() {});
       }
     } on Exception catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -256,12 +261,12 @@ class CreateAlertState extends State<CreateAlertScreen> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (newValue) {
         setState(() {
-          this.title = newValue;
+          title = newValue;
         });
       },
       onChanged: (value) {
         setState(() {
-          this.title = value;
+          title = value;
         });
       },
       validator: (value) {
@@ -271,7 +276,7 @@ class CreateAlertState extends State<CreateAlertScreen> {
         return null;
       },
       maxLines: 3,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Tiêu đề",
         hintText: "Nhập tiêu đề",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -284,12 +289,12 @@ class CreateAlertState extends State<CreateAlertScreen> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onSaved: (newValue) {
         setState(() {
-          this.content = newValue;
+          content = newValue;
         });
       },
       onChanged: (value) {
         setState(() {
-          this.content = value;
+          content = value;
         });
       },
       validator: (value) {
@@ -299,7 +304,7 @@ class CreateAlertState extends State<CreateAlertScreen> {
         return null;
       },
       maxLines: 5,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Nội dung",
         hintText: "Nhập nội dung thông báo",
         floatingLabelBehavior: FloatingLabelBehavior.always,

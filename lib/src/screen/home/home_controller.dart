@@ -32,18 +32,18 @@ class HomeController extends GetxController {
   }
 
   Future<void> getFavorite() async {
-    await Hive.openBox<Favorite>(KEY_FAVORITE);
-    Box box = Hive.box<Favorite>(KEY_FAVORITE);
+    await Hive.openBox<Favorite>(kFavorite);
+    Box box = Hive.box<Favorite>(kFavorite);
     List<Favorite> favorites = box.values.cast<Favorite>().toList();
-    favorites.forEach((fav) {
+    for (var fav in favorites) {
       WaqiAPI().getAQIByGPS(fav.lat, fav.lng).then((value) => favoriteAqis
           .addAll({"${fav.ward}, ${fav.district}, ${fav.province}": value}));
-    });
+    }
   }
 
   void removeFavorite(int index) async {
-    await Hive.openBox<Favorite>(KEY_FAVORITE);
-    Box box = Hive.box<Favorite>(KEY_FAVORITE);
+    await Hive.openBox<Favorite>(kFavorite);
+    Box box = Hive.box<Favorite>(kFavorite);
     List<Favorite> favorites = box.values.cast<Favorite>().toList();
     var idx = favorites.indexWhere((fav) =>
         favoriteAqis.keys.toList()[index] ==

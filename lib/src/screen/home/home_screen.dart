@@ -13,23 +13,25 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeController _controller = Get.put(HomeController());
+
+  HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Smart Environment"),
+        title: const Text("Smart Environment"),
         actions: [
           IconButton(
               onPressed: () {
                 Get.toNamed(Routes.NOTIFICATION_SCREEN);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.notifications_active,
                 size: 30,
                 color: Colors.yellow,
               )),
-          if (_controller.currentUser?.value.role == ROLE_ADMIN ||
-              _controller.currentUser?.value.role == ROLE_MOD)
+          if (_controller.currentUser?.value.role == kRoleAdmin ||
+              _controller.currentUser?.value.role == kRoleMod)
             IconButton(
               onPressed: () {
                 Get.toNamed(Routes.MANAGE_SCREEN);
@@ -61,73 +63,67 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: false,
-            header: ClassicHeader(
-              idleText: "Kéo để làm mới",
-              refreshingText: "Đang tải...",
-              releaseText: "Kéo để làm mới",
-              completeText: "Lấy dữ liệu thành công",
-              refreshStyle: RefreshStyle.Follow,
-            ),
-            controller: _controller.refreshController.value,
-            onRefresh: _controller.onRefreshData,
-            child: ListView(
-              children: [
-                Column(
-                  children: [
-                    Obx(
-                      () => Text(
-                        _controller.currentAQI.value?.data?.city?.name ?? "",
-                        style: Theme.of(context).textTheme.titleMedium,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Obx(
-                      () => Text(
-                        _controller.currentAQI.value?.data?.city?.location ??
-                            "",
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                _buildAQICard(),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  child: Align(
-                    child: SizedBox(
-                      width: 200,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Get.toNamed(Routes.FAVORITE_SCREEN);
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0))),
-                        ),
-                        child: const Text("THÊM MỘT NƠI MỚI"),
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: false,
+          header: const ClassicHeader(
+            idleText: "Kéo để làm mới",
+            refreshingText: "Đang tải...",
+            releaseText: "Kéo để làm mới",
+            completeText: "Lấy dữ liệu thành công",
+            refreshStyle: RefreshStyle.Follow,
+          ),
+          controller: _controller.refreshController.value,
+          onRefresh: _controller.onRefreshData,
+          child: ListView(
+            children: [
+              Column(
+                children: [
+                  Obx(
+                    () => Text(
+                      _controller.currentAQI.value?.data?.city?.name ?? "",
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Obx(
+                    () => Text(
+                      _controller.currentAQI.value?.data?.city?.location ?? "",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              _buildAQICard(),
+              const SizedBox(
+                height: 10,
+              ),
+              Align(
+                child: SizedBox(
+                  width: 200,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Get.toNamed(Routes.FAVORITE_SCREEN);
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0))),
+                    ),
+                    child: const Text("THÊM MỘT NƠI MỚI"),
+                  ),
                 ),
-                Divider(),
-                favoriteWidget(),
-              ],
-            ),
+              ),
+              const Divider(),
+              favoriteWidget(),
+            ],
           ),
         ),
       ),
@@ -150,17 +146,17 @@ class HomeScreen extends StatelessWidget {
     return Obx(
       () => ListView.separated(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: _controller.favoriteAqis.values.toList().length,
         itemBuilder: (ctx, index) {
           return ListTile(
-            contentPadding: EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(8),
             title: Text(_controller.favoriteAqis.keys.toList()[index]),
             subtitle: Stack(
               alignment: AlignmentDirectional.topEnd,
               children: [
                 Column(children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   AQIWeatherCard(
@@ -183,7 +179,7 @@ class HomeScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(13)),
-                      child: Icon(
+                      child: const Icon(
                         Icons.clear,
                         color: Colors.white,
                         size: 20,
@@ -203,7 +199,7 @@ class HomeScreen extends StatelessWidget {
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Divider();
+          return const Divider();
         },
       ),
     );

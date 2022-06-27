@@ -10,11 +10,13 @@ import 'package:pollution_environment/src/network/apis/users/auth_api.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 
 class ResetPassword extends StatelessWidget {
+  const ResetPassword({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Khôi phục mật khẩu"),
+        title: const Text("Khôi phục mật khẩu"),
       ),
       body: SizedBox(
         width: double.infinity,
@@ -25,12 +27,12 @@ class ResetPassword extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04),
-                Text(
+                const Text(
                   "Vui lòng nhập mã bí mật nhận được từ email",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.1),
-                ForgotTokenForm(),
+                const ForgotTokenForm(),
               ],
             ),
           ),
@@ -41,6 +43,8 @@ class ResetPassword extends StatelessWidget {
 }
 
 class ForgotTokenForm extends StatefulWidget {
+  const ForgotTokenForm({Key? key}) : super(key: key);
+
   @override
   State<ForgotTokenForm> createState() {
     return ForgotTokenFormState();
@@ -52,7 +56,6 @@ class ForgotTokenFormState extends State<ForgotTokenForm> {
 
   String? _token;
   String? _password;
-  String? _rePassword;
 
   @override
   void initState() {
@@ -97,7 +100,7 @@ class ForgotTokenFormState extends State<ForgotTokenForm> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => setState(() {
-        this._token = newValue;
+        _token = newValue;
       }),
       onChanged: (value) {
         setState(() {
@@ -106,12 +109,13 @@ class ForgotTokenFormState extends State<ForgotTokenForm> {
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null || value.isEmpty)
+        if (value == null || value.isEmpty) {
           return "Trường này không được để trống";
-        else
+        } else {
           return null;
+        }
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Mã bí mật",
         hintText: "Nhập mã bí mật",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -123,13 +127,9 @@ class ForgotTokenFormState extends State<ForgotTokenForm> {
   TextFormField buildConformPassFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => setState(() {
-        this._rePassword = newValue;
-      }),
+      onSaved: (newValue) => setState(() {}),
       onChanged: (value) {
-        setState(() {
-          this._rePassword = value;
-        });
+        setState(() {});
       },
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -140,7 +140,7 @@ class ForgotTokenFormState extends State<ForgotTokenForm> {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Xác nhận mật khẩu",
         hintText: "Nhập lại mật khẩu",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -153,11 +153,11 @@ class ForgotTokenFormState extends State<ForgotTokenForm> {
     return TextFormField(
       obscureText: true,
       onSaved: (newValue) => setState(() {
-        this._password = newValue;
+        _password = newValue;
       }),
       onChanged: (value) {
         setState(() {
-          this._password = value;
+          _password = value;
         });
       },
       validator: (value) {
@@ -169,7 +169,7 @@ class ForgotTokenFormState extends State<ForgotTokenForm> {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Mật khẩu",
         hintText: "Nhập mật khẩu",
         floatingLabelBehavior: FloatingLabelBehavior.always,

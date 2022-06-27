@@ -12,13 +12,15 @@ class ForgotPasswordBindings extends Bindings {
 }
 
 class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quên mật khẩu"),
+        title: const Text("Quên mật khẩu"),
       ),
-      body: Body(),
+      body: const Body(),
     );
   }
 }

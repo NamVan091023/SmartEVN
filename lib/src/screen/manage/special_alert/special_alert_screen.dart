@@ -14,6 +14,8 @@ import 'package:pollution_environment/src/screen/manage/special_alert/create_ale
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SpecialAlertScreen extends StatefulWidget {
+  const SpecialAlertScreen({Key? key}) : super(key: key);
+
   @override
   State<SpecialAlertScreen> createState() {
     return SpecialAlertState();
@@ -36,7 +38,7 @@ class SpecialAlertState extends State<SpecialAlertScreen> {
   }
 
   void getData() async {
-    currentUser = await UserStore().getAuth()?.user;
+    currentUser = UserStore().getAuth()?.user;
     showLoading();
     AlertApi().getAlerts().then((value) {
       setState(() {
@@ -94,21 +96,21 @@ class SpecialAlertState extends State<SpecialAlertScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() => CreateAlertScreen());
+          Get.to(() => const CreateAlertScreen());
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
-        header: ClassicHeader(
+        header: const ClassicHeader(
           idleText: "Kéo để làm mới",
           refreshingText: "Đang tải...",
           releaseText: "Kéo để làm mới",
           completeText: "Lấy dữ liệu thành công",
           refreshStyle: RefreshStyle.Follow,
         ),
-        footer: ClassicFooter(
+        footer: const ClassicFooter(
           idleText: "Kéo để tải thêm",
           loadingText: "Đang tải...",
           failedText: "Tải thêm dữ liệu thất bại",
@@ -131,10 +133,10 @@ class SpecialAlertState extends State<SpecialAlertScreen> {
                     _alerts[index].content ?? "",
                     maxLines: 3,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: Text(
                       timeAgoSinceDate(dateStr: _alerts[index].createdAt!),
@@ -161,7 +163,8 @@ class SpecialAlertState extends State<SpecialAlertScreen> {
                           return LineIcon(LineIcons.bullhorn,
                               size: 30, color: Colors.red);
                         },
-                        progressIndicatorBuilder: (ctx, str, _) => SizedBox(
+                        progressIndicatorBuilder: (ctx, str, _) =>
+                            const SizedBox(
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(),
@@ -182,7 +185,7 @@ class SpecialAlertState extends State<SpecialAlertScreen> {
           },
           itemCount: _alerts.length,
           separatorBuilder: (BuildContext context, int index) {
-            return Divider(
+            return const Divider(
               indent: 10,
               endIndent: 10,
             );

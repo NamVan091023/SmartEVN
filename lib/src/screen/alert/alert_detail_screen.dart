@@ -11,20 +11,20 @@ class AlertDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chi tiết cảnh báo")),
+      appBar: AppBar(title: const Text("Chi tiết cảnh báo")),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Text(alert.title ?? "",
                 style: Theme.of(context).textTheme.headline6),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               alert.content ?? "",
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             GridView.builder(
@@ -36,10 +36,11 @@ class AlertDetailScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) => GestureDetector(
                 child: CachedNetworkImage(
                   imageUrl: alert.images![index],
-                  placeholder: (c, url) => Center(
+                  placeholder: (c, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),
-                  errorWidget: (c, e, f) => Center(child: Icon(Icons.error)),
+                  errorWidget: (c, e, f) =>
+                      const Center(child: Icon(Icons.error)),
                   fit: BoxFit.fill,
                 ),
                 onTap: () {
@@ -49,7 +50,7 @@ class AlertDetailScreen extends StatelessWidget {
                 },
               ),
               physics:
-                  NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                  const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
               shrinkWrap: true,
               itemCount: alert.images?.length ?? 0,
             )

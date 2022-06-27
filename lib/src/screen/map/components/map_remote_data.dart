@@ -16,26 +16,26 @@ class MapRemoteDataSourceImpl extends MapRemoteDataSource {
       MapFilterModel mapType, int x, int y, int zoom) async {
     try {
       // final uri = Uri.parse(
-      //     "https://tile.openweathermap.org/map/$mapType/$zoom/$x/$y.png?appid=${WeatherPath.KEY_WEATHER}");
+      //     "https://tile.openweathermap.org/map/$mapType/$zoom/$x/$y.png?appid=${WeatherPath.kWeather}");
       late Uri uri;
       if (mapType.type == MapFilterType.layer) {
         uri = Uri.parse(
-            "https://maps.openweathermap.org/maps/2.0/weather/${mapType.value}/$zoom/$x/$y?fill_bound=true&use_norm=true&arrow_step=16&appid=${WeatherPath.KEY_WEATHER_EDU}");
+            "https://maps.openweathermap.org/maps/2.0/weather/${mapType.value}/$zoom/$x/$y?fill_bound=true&use_norm=true&arrow_step=16&appid=${WeatherPath.kWeatherEdu}");
       } else {
         uri = Uri.parse(
-            "https://tiles.aqicn.org/tiles/${mapType.value}/$zoom/$x/$y.png?token=${WaqiAPIPath.TOKEN}");
+            "https://tiles.aqicn.org/tiles/${mapType.value}/$zoom/$x/$y.png?token=${WaqiAPIPath.kToken}");
       }
 
       final ByteData imageData = await NetworkAssetBundle(uri).load("");
       return MapModel.fromByteData(imageData);
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }
 
 class MapModel extends Maps {
-  MapModel({required Uint8List uint8list}) : super(uint8list: uint8list);
+  const MapModel({required Uint8List uint8list}) : super(uint8list: uint8list);
 
   factory MapModel.fromByteData(ByteData byteData) {
     final Uint8List bytes = byteData.buffer.asUint8List();

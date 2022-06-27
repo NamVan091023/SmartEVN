@@ -33,8 +33,8 @@ class NewsApi {
         NewsResponse data = NewsResponse.fromJson(baseResponse.data!);
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -54,8 +54,8 @@ class NewsApi {
         FBNewsResponse data = FBNewsResponse.fromJson(baseResponse.data!);
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 }

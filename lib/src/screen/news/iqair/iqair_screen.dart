@@ -12,6 +12,8 @@ import '../components/iqair_cell.dart';
 class IQAirScreen extends StatelessWidget {
   final IQAirController _controller = Get.put(IQAirController());
 
+  IQAirScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class IQAirScreen extends StatelessWidget {
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: false,
-          header: ClassicHeader(
+          header: const ClassicHeader(
             idleText: "Kéo để làm mới",
             refreshingText: "Đang tải...",
             releaseText: "Kéo để làm mới",
@@ -68,18 +70,18 @@ class IQAirScreen extends StatelessWidget {
               tapBodyToCollapse: true,
             ),
             header: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Text(
                   iqAirRankVN.title ?? "",
                   style: Theme.of(context).textTheme.titleMedium,
                 )),
             collapsed: Container(),
             expanded: (iqAirRankVN.rankData ?? []).isEmpty
-                ? EmptyView()
+                ? const EmptyView()
                 : ListView.separated(
                     itemBuilder: (ctx, index) {
                       return index == 0
-                          ? ListTile(
+                          ? const ListTile(
                               leading: Text(
                                 "#",
                                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -92,15 +94,15 @@ class IQAirScreen extends StatelessWidget {
                                       TextStyle(fontWeight: FontWeight.w600)),
                             )
                           : ListTile(
-                              leading: Text("${index}"),
+                              leading: Text("$index"),
                               title: Text(
                                   iqAirRankVN.rankData?[index - 1].name ?? ""),
                               trailing: Container(
                                 width: 60,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
                                     color: getColorRank(int.parse(iqAirRankVN
                                             .rankData?[index - 1].score ??
                                         "0"))),
@@ -108,7 +110,7 @@ class IQAirScreen extends StatelessWidget {
                                   child: Text(
                                     iqAirRankVN.rankData?[index - 1].score ??
                                         "",
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -118,12 +120,12 @@ class IQAirScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
+                      return const Divider();
                     },
                   ),
             builder: (_, collapsed, expanded) {
               return Padding(
-                padding: EdgeInsets.only(left: 2, right: 2, bottom: 5),
+                padding: const EdgeInsets.only(left: 2, right: 2, bottom: 5),
                 child: Expandable(
                   collapsed: collapsed,
                   expanded: expanded,
@@ -153,7 +155,7 @@ class IQAirScreen extends StatelessWidget {
               tapBodyToCollapse: true,
             ),
             header: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Text(
                   "Bảng xếp hạng diện tích rừng",
                   style: Theme.of(context).textTheme.titleMedium,
@@ -161,7 +163,7 @@ class IQAirScreen extends StatelessWidget {
             collapsed: Container(),
             expanded: Obx(
               () => _controller.areaForests.toList().isEmpty
-                  ? EmptyView()
+                  ? const EmptyView()
                   : ListView.builder(
                       itemBuilder: (ctx, index) {
                         return IQAirCell(
@@ -177,7 +179,7 @@ class IQAirScreen extends StatelessWidget {
             ),
             builder: (_, collapsed, expanded) {
               return Padding(
-                padding: EdgeInsets.only(left: 2, right: 2, bottom: 5),
+                padding: const EdgeInsets.only(left: 2, right: 2, bottom: 5),
                 child: Expandable(
                   collapsed: collapsed,
                   expanded: expanded,

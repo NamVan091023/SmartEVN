@@ -16,7 +16,7 @@ class FBNewsResponse {
     if (json['results'] != null) {
       results = <FBNews>[];
       json['results'].forEach((v) {
-        results!.add(new FBNews.fromJson(v));
+        results!.add(FBNews.fromJson(v));
       });
     }
     page = json['page'];
@@ -26,14 +26,14 @@ class FBNewsResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['totalPages'] = this.totalPages;
-    data['totalResults'] = this.totalResults;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['totalPages'] = totalPages;
+    data['totalResults'] = totalResults;
     return data;
   }
 }
@@ -63,24 +63,24 @@ class FBNews {
     permalinkUrl = json['permalink_url'];
     message = json['message'];
     fullPicture = json['full_picture'];
-    from = json['from'] != null ? new From.fromJson(json['from']) : null;
+    from = json['from'] != null ? From.fromJson(json['from']) : null;
     objectId = json['object_id'];
     createdTime = json['created_time'];
     type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['permalink_url'] = this.permalinkUrl;
-    data['message'] = this.message;
-    data['full_picture'] = this.fullPicture;
-    if (this.from != null) {
-      data['from'] = this.from!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['permalink_url'] = permalinkUrl;
+    data['message'] = message;
+    data['full_picture'] = fullPicture;
+    if (from != null) {
+      data['from'] = from!.toJson();
     }
-    data['object_id'] = this.objectId;
-    data['created_time'] = this.createdTime;
-    data['type'] = this.type;
+    data['object_id'] = objectId;
+    data['created_time'] = createdTime;
+    data['type'] = type;
     return data;
   }
 }
@@ -97,9 +97,9 @@ class From {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['id'] = id;
     return data;
   }
 }

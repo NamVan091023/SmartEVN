@@ -9,7 +9,7 @@ class AddressModel {
     if (json['data'] != null) {
       data = <ProvinceModel>[];
       json['data'].forEach((v) {
-        data!.add(new ProvinceModel.fromJson(v));
+        data!.add(ProvinceModel.fromJson(v));
       });
     }
     dataDate = json['data_date'];
@@ -17,12 +17,12 @@ class AddressModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['data_date'] = this.dataDate;
-    data['generate_date'] = this.generateDate;
+    data['data_date'] = dataDate;
+    data['generate_date'] = generateDate;
     return data;
   }
 }
@@ -65,21 +65,21 @@ class ProvinceModel {
     if (json['level2s'] != null) {
       districts = <DistrictModel>[];
       json['level2s'].forEach((v) {
-        districts!.add(new DistrictModel.fromJson(v));
+        districts!.add(DistrictModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['level1_id'] = this.id;
-    data['name'] = this.name;
-    data['type'] = this.type;
-    if (this.districts != null) {
-      data['level2s'] = this.districts!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['level1_id'] = id;
+    data['name'] = name;
+    data['type'] = type;
+    if (districts != null) {
+      data['level2s'] = districts!.map((v) => v.toJson()).toList();
     }
-    data['coordinates'] = this.coordinates;
-    data['bbox'] = this.bbox;
+    data['coordinates'] = coordinates;
+    data['bbox'] = bbox;
     return data;
   }
 }
@@ -122,21 +122,21 @@ class DistrictModel {
     if (json['level3s'] != null) {
       wards = <WardModel>[];
       json['level3s'].forEach((v) {
-        wards!.add(new WardModel.fromJson(v));
+        wards!.add(WardModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['level2_id'] = this.id;
-    data['name'] = this.name;
-    data['type'] = this.type;
-    if (this.wards != null) {
-      data['level3s'] = this.wards!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['level2_id'] = id;
+    data['name'] = name;
+    data['type'] = type;
+    if (wards != null) {
+      data['level3s'] = wards!.map((v) => v.toJson()).toList();
     }
-    data['coordinates'] = this.coordinates;
-    data['bbox'] = this.bbox;
+    data['coordinates'] = coordinates;
+    data['bbox'] = bbox;
     return data;
   }
 }
@@ -155,10 +155,10 @@ class WardModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['level3_id'] = this.id;
-    data['name'] = this.name;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['level3_id'] = id;
+    data['name'] = name;
+    data['type'] = type;
     return data;
   }
 }

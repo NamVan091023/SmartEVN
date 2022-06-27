@@ -13,7 +13,7 @@ class SignUpController extends GetxController {
   RxString password = "".obs;
   RxString conformPassword = "".obs;
   RxBool remember = false.obs;
-  final Box box = Hive.box(HIVEBOX);
+  final Box box = Hive.box(kHiveBox);
   void saveConformPass(String value) {
     conformPassword.value = value;
   }
@@ -89,10 +89,10 @@ class SignUpController extends GetxController {
       debugPrint("Register success $response");
       UserModel? user = response.user;
       if (user != null) {
-        box.put(KEY_REMEMBER_LOGIN, true);
+        box.put(kRememberLogin, true);
 
-        box.put(KEY_EMAIL, email.value);
-        box.put(KEY_PASSWORD, password.value);
+        box.put(kEmail, email.value);
+        box.put(kPassword, password.value);
 
         UserStore().saveAuth(response);
 

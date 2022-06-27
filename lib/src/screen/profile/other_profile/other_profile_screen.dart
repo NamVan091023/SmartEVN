@@ -11,10 +11,12 @@ class OtherProfileScreen extends StatelessWidget {
   late final OtherProfileController _controller =
       Get.put(OtherProfileController());
 
+  OtherProfileScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Hồ sơ thành viên"), actions: <Widget>[
+      appBar: AppBar(title: const Text("Hồ sơ thành viên"), actions: <Widget>[
         Obx(() => _controller.currentUser.value?.role == "admin"
             ? PopupMenuButton<String>(
                 onSelected: handleClickMenu,
@@ -30,54 +32,54 @@ class OtherProfileScreen extends StatelessWidget {
             : Container())
       ]),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
         child: Column(
           children: [
             Obx(() => ProfilePic(
                   user: _controller.user.value,
                 )),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Obx(
               () => Text(
                 _controller.user.value?.name ?? "",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Obx(() => Text(_controller.user.value?.email ?? "")),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Obx(
               () => Row(
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   TwoTextLine(
                       textOne:
                           "${_controller.pollution.value?.totalResults ?? 0}",
                       textTwo: "Số báo cáo"),
-                  Spacer(),
+                  const Spacer(),
                   TwoTextLine(
-                      textOne: _controller.currentUser.value?.role == ROLE_ADMIN
+                      textOne: _controller.currentUser.value?.role == kRoleAdmin
                           ? "Quản trị viên"
-                          : _controller.currentUser.value?.role == ROLE_MOD
+                          : _controller.currentUser.value?.role == kRoleMod
                               ? "Kiểm duyệt"
                               : "Thành viên",
                       textTwo: "Chức vụ"),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            Divider(
+            const SizedBox(height: 20),
+            const Divider(
               height: 1,
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Lịch sử báo cáo gần nhất",
               style: TextStyle(
                 fontSize: 18,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Obx(() =>
                 HistoryPollution(_controller.pollution.value?.results ?? []))
           ],

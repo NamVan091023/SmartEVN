@@ -5,6 +5,8 @@ import 'mxh/news_fb_screen.dart';
 import 'web/news_web_screen.dart';
 
 class NewsScreen extends StatefulWidget {
+  const NewsScreen({Key? key}) : super(key: key);
+
   @override
   _NewsScreenState createState() {
     return _NewsScreenState();
@@ -14,8 +16,8 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
-  ScrollController _scrollController = ScrollController();
-  bool _showBackToTopButton = false;
+  final ScrollController _scrollController = ScrollController();
+  final bool _showBackToTopButton = false;
 
   @override
   void initState() {
@@ -40,7 +42,7 @@ class _NewsScreenState extends State<NewsScreen>
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: Duration(milliseconds: 500), //duration of scroll
+        duration: const Duration(milliseconds: 500), //duration of scroll
         curve: Curves.fastOutSlowIn //scroll type
         );
   }
@@ -49,14 +51,14 @@ class _NewsScreenState extends State<NewsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: AnimatedOpacity(
-        duration: Duration(milliseconds: 500), //show/hide animation
+        duration: const Duration(milliseconds: 500), //show/hide animation
         opacity: _showBackToTopButton
             ? 1.0
             : 0.0, //set obacity to 1 on visible, or hide
         child: _showBackToTopButton
             ? FloatingActionButton(
                 onPressed: _scrollToTop,
-                child: Icon(Icons.arrow_upward),
+                child: const Icon(Icons.arrow_upward),
               )
             : null,
       ),
@@ -66,7 +68,7 @@ class _NewsScreenState extends State<NewsScreen>
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              title: Text('Tin tức'),
+              title: const Text('Tin tức'),
               pinned: true,
               floating: true,
               forceElevated: innerBoxIsScrolled,
@@ -74,7 +76,7 @@ class _NewsScreenState extends State<NewsScreen>
               backgroundColor:
                   Theme.of(context).appBarTheme.backgroundColor?.withOpacity(1),
               bottom: TabBar(
-                tabs: <Tab>[
+                tabs: const <Tab>[
                   Tab(
                     icon: Icon(Icons.newspaper_rounded),
                     text: "Bài báo",
@@ -94,7 +96,7 @@ class _NewsScreenState extends State<NewsScreen>
           ];
         },
         body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
             NewsWebScreen(),

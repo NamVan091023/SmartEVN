@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class _LineChart extends StatelessWidget {
-  _LineChart(
+  const _LineChart(
       {required this.weekAirData,
       required this.weekLandData,
       required this.weekSoundData,
@@ -129,7 +129,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarWater => LineChartBarData(
         isCurved: true,
-        color: Color(0xff0293ee),
+        color: const Color(0xff0293ee),
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),
@@ -145,7 +145,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarLand => LineChartBarData(
       isCurved: true,
-      color: Color(0xfff8b250),
+      color: const Color(0xfff8b250),
       barWidth: 4,
       isStrokeCapRound: true,
       dotData: FlDotData(show: true),
@@ -160,7 +160,7 @@ class _LineChart extends StatelessWidget {
 
   LineChartBarData get lineChartBarSound => LineChartBarData(
       isCurved: true,
-      color: Color(0xff845bef),
+      color: const Color(0xff845bef),
       barWidth: 4,
       isStrokeCapRound: true,
       dotData: FlDotData(show: true),
@@ -174,7 +174,7 @@ class _LineChart extends StatelessWidget {
           .toList());
   LineChartBarData get lineChartBarAir => LineChartBarData(
       isCurved: true,
-      color: Color(0xff13d38e),
+      color: const Color(0xff13d38e),
       barWidth: 4,
       isStrokeCapRound: true,
       dotData: FlDotData(show: true),
@@ -189,7 +189,7 @@ class _LineChart extends StatelessWidget {
 }
 
 class LineChartWeek extends StatefulWidget {
-  LineChartWeek(
+  const LineChartWeek(
       {Key? key,
       required this.weekAirData,
       required this.weekLandData,

@@ -12,14 +12,16 @@ import 'package:pollution_environment/src/screen/home/home_controller.dart';
 class FavoriteScreen extends StatelessWidget {
   final FavoriteController _controller = Get.put(FavoriteController());
 
+  FavoriteScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chọn tỉnh/thành phố"),
+        title: const Text("Chọn tỉnh/thành phố"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         child: Obx(
           () => ListView.separated(
             itemBuilder: (ctx, index) {
@@ -34,7 +36,7 @@ class FavoriteScreen extends StatelessWidget {
             },
             itemCount: _controller.provinces.toList().length,
             separatorBuilder: (BuildContext context, int index) {
-              return Divider();
+              return const Divider();
             },
           ),
         ),
@@ -46,14 +48,16 @@ class FavoriteScreen extends StatelessWidget {
 class ChooseDistrictScreen extends StatelessWidget {
   final FavoriteController _controller = Get.find();
 
+  ChooseDistrictScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chọn quận/huyện"),
+        title: const Text("Chọn quận/huyện"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         child: Obx(
           () => ListView.separated(
             itemBuilder: (ctx, index) {
@@ -68,7 +72,7 @@ class ChooseDistrictScreen extends StatelessWidget {
             },
             itemCount: _controller.districts.toList().length,
             separatorBuilder: (BuildContext context, int index) {
-              return Divider();
+              return const Divider();
             },
           ),
         ),
@@ -80,14 +84,16 @@ class ChooseDistrictScreen extends StatelessWidget {
 class ChooseWardScreen extends StatelessWidget {
   final FavoriteController _controller = Get.find();
 
+  ChooseWardScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chọn phường/xã"),
+        title: const Text("Chọn phường/xã"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
         child: Obx(
           () => ListView.separated(
             itemBuilder: (ctx, index) {
@@ -102,7 +108,7 @@ class ChooseWardScreen extends StatelessWidget {
             },
             itemCount: _controller.wards.toList().length,
             separatorBuilder: (BuildContext context, int index) {
-              return Divider();
+              return const Divider();
             },
           ),
         ),
@@ -114,59 +120,55 @@ class ChooseWardScreen extends StatelessWidget {
 class AddFavoriteScreen extends StatelessWidget {
   final FavoriteController _controller = Get.find();
   final HomeController _homeController = Get.find();
+
+  AddFavoriteScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thêm địa điểm quan tâm"),
+        title: const Text("Thêm địa điểm quan tâm"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Obx(() => ListView(
               children: [
                 if (_controller.aqi.value?.data != null)
-                  Container(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(() => DetailAQIScreen(),
-                            arguments: _controller.aqi.value?.data?.idx);
-                      },
-                      child: AQIWeatherCard(aqi: _controller.aqi.value!),
-                    ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => DetailAQIScreen(),
+                          arguments: _controller.aqi.value?.data?.idx);
+                    },
+                    child: AQIWeatherCard(aqi: _controller.aqi.value!),
                   ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 if (_controller.aqi.value?.data != null)
-                  Container(
-                    child: Align(
-                      child: SizedBox(
-                        width: 200,
-                        child: OutlinedButton(
-                          onPressed: () async {
-                            Favorite favorite = Favorite(
-                              province:
-                                  _controller.selectedProvince.value!.name!,
-                              district:
-                                  _controller.selectedDistrict.value!.name!,
-                              ward: _controller.selectedWard.value!.name!,
-                              lat: _controller.lat.value!,
-                              lng: _controller.lng.value!,
-                            );
+                  Align(
+                    child: SizedBox(
+                      width: 200,
+                      child: OutlinedButton(
+                        onPressed: () async {
+                          Favorite favorite = Favorite(
+                            province: _controller.selectedProvince.value!.name!,
+                            district: _controller.selectedDistrict.value!.name!,
+                            ward: _controller.selectedWard.value!.name!,
+                            lat: _controller.lat.value!,
+                            lng: _controller.lng.value!,
+                          );
 
-                            await Hive.openBox<Favorite>(KEY_FAVORITE);
-                            Box box = Hive.box<Favorite>(KEY_FAVORITE);
-                            box.add(favorite);
-                            _homeController.getFavorite();
-                            Get.offAllNamed(Routes.HOME_SCREEN);
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0))),
-                          ),
-                          child: const Text("Lưu"),
+                          await Hive.openBox<Favorite>(kFavorite);
+                          Box box = Hive.box<Favorite>(kFavorite);
+                          box.add(favorite);
+                          _homeController.getFavorite();
+                          Get.offAllNamed(Routes.HOME_SCREEN);
+                        },
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0))),
                         ),
+                        child: const Text("Lưu"),
                       ),
                     ),
                   ),

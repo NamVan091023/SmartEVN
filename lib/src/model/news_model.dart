@@ -32,23 +32,23 @@ class NewsModel {
     if (json['tags'] != null) {
       tags = <Tags>[];
       json['tags'].forEach((v) {
-        tags!.add(new Tags.fromJson(v));
+        tags!.add(Tags.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['link'] = this.link;
-    data['title'] = this.title;
-    data['topic'] = this.topic;
-    data['author'] = this.author;
-    data['time'] = this.time;
-    data['content'] = this.content;
-    data['image'] = this.image;
-    if (this.tags != null) {
-      data['tags'] = this.tags!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['link'] = link;
+    data['title'] = title;
+    data['topic'] = topic;
+    data['author'] = author;
+    data['time'] = time;
+    data['content'] = content;
+    data['image'] = image;
+    if (tags != null) {
+      data['tags'] = tags!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -66,9 +66,9 @@ class Tags {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['tag_name'] = this.tagName;
-    data['tag_link'] = this.tagLink;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['tag_name'] = tagName;
+    data['tag_link'] = tagLink;
     return data;
   }
 }
@@ -91,7 +91,7 @@ class NewsResponse {
     if (json['results'] != null) {
       results = <NewsModel>[];
       json['results'].forEach((v) {
-        results!.add(new NewsModel.fromJson(v));
+        results!.add(NewsModel.fromJson(v));
       });
     }
     page = json['page'];
@@ -101,14 +101,14 @@ class NewsResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['totalPages'] = this.totalPages;
-    data['totalResults'] = this.totalResults;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['totalPages'] = totalPages;
+    data['totalResults'] = totalResults;
     return data;
   }
 }

@@ -16,7 +16,7 @@ class AlertResponse {
     if (json['results'] != null) {
       results = <Alert>[];
       json['results'].forEach((v) {
-        results!.add(new Alert.fromJson(v));
+        results!.add(Alert.fromJson(v));
       });
     }
     page = json['page'];
@@ -26,14 +26,14 @@ class AlertResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['totalPages'] = this.totalPages;
-    data['totalResults'] = this.totalResults;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['totalPages'] = totalPages;
+    data['totalResults'] = totalResults;
     return data;
   }
 }
@@ -70,15 +70,15 @@ class Alert {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['images'] = this.images;
-    data['provinceIds'] = this.provinceIds;
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['userCreated'] = this.userCreated;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['images'] = images;
+    data['provinceIds'] = provinceIds;
+    data['title'] = title;
+    data['content'] = content;
+    data['userCreated'] = userCreated;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['id'] = id;
     return data;
   }
 }

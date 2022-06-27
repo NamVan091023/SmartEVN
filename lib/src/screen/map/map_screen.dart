@@ -19,7 +19,9 @@ import 'components/view_pollution_selected.dart';
 
 class MapScreen extends StatelessWidget {
   late final MapController _controller = Get.put(MapController());
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  MapScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class MapScreen extends StatelessWidget {
         () => (_controller.pollutionSelected.value == null &&
                 _controller.aqiMarkerSelected.value == null)
             ? Padding(
-                padding: EdgeInsets.only(bottom: 70),
+                padding: const EdgeInsets.only(bottom: 70),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -68,7 +70,7 @@ class MapScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     SpeedDial(
@@ -400,10 +402,11 @@ class MapScreen extends StatelessWidget {
   }
 
   Widget _buildViewPollutionSelected() {
-    if (_controller.pollutionSelected.value != null)
-      _controller.animationController..reverse();
-    else
-      _controller.animationController..forward();
+    if (_controller.pollutionSelected.value != null) {
+      _controller.animationController.reverse();
+    } else {
+      _controller.animationController.forward();
+    }
     return ViewPollutionSelected(
       offset: _controller.offset,
       pollutionSelected: _controller.pollutionSelected.value,
@@ -412,10 +415,11 @@ class MapScreen extends StatelessWidget {
   }
 
   Widget _buildViewAQISelected() {
-    if (_controller.aqiMarkerSelected.value != null)
-      _controller.animationController..reverse();
-    else
-      _controller.animationController..forward();
+    if (_controller.aqiMarkerSelected.value != null) {
+      _controller.animationController.reverse();
+    } else {
+      _controller.animationController.forward();
+    }
     return ViewAQISelected(controller: _controller);
   }
 

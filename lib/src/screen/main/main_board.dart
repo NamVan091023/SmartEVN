@@ -10,6 +10,9 @@ import 'package:pollution_environment/src/screen/news/news_screen.dart';
 import 'package:pollution_environment/src/screen/report_user/report_user_screen.dart';
 
 class MainBoard extends StatefulWidget {
+  const MainBoard({Key? key}) : super(key: key);
+
+  @override
   _MainBoardState createState() => _MainBoardState();
 }
 
@@ -17,9 +20,9 @@ class _MainBoardState extends State<MainBoard> {
   int indexPage = 0;
   // ReceivePort port = ReceivePort();
   final Widget map = KeepAliveWrapper(child: MapScreen());
-  final Widget news = KeepAliveWrapper(child: NewsScreen());
+  final Widget news = const KeepAliveWrapper(child: NewsScreen());
   final Widget home = KeepAliveWrapper(child: HomeScreen());
-  final Widget report = ReportUser();
+  final Widget report = const ReportUser();
 
   List<Widget> listWidgets() {
     return <Widget>[
@@ -57,8 +60,8 @@ class _MainBoardState extends State<MainBoard> {
             child: GNav(
               activeColor: Colors.white,
               iconSize: 26,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 400),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: const Duration(milliseconds: 400),
               tabBackgroundColor: Colors.grey.shade800,
               tabs: [
                 GButton(

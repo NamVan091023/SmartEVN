@@ -3,7 +3,7 @@ import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
 import 'package:pollution_environment/src/screen/detail_aqi/components/forescast_item_day.dart';
 
 class ForescastAqi extends StatefulWidget {
-  const ForescastAqi(this.daily);
+  const ForescastAqi(this.daily, {Key? key}) : super(key: key);
   final Daily daily;
   @override
   ForescastAqiState createState() => ForescastAqiState();
@@ -29,7 +29,7 @@ class ForescastAqiState extends State<ForescastAqi>
       height: 350,
       child: Column(
         children: [
-          Text(
+          const Text(
             "Dự báo",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
@@ -38,13 +38,13 @@ class ForescastAqiState extends State<ForescastAqi>
             child: TabBar(
               unselectedLabelColor: Colors.grey,
               labelColor: Theme.of(context).primaryColor,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
               indicatorColor: Theme.of(context).primaryColor,
-              indicatorPadding: EdgeInsets.all(8),
+              indicatorPadding: const EdgeInsets.all(8),
               indicatorWeight: 3,
-              tabs: [
+              tabs: const [
                 Tab(
                   text: "O₃",
                 ),

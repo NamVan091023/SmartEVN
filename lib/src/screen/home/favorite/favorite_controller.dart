@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/helper.dart';
@@ -83,7 +84,9 @@ class FavoriteController extends GetxController {
         aqi.value = await WaqiAPI().getAQIByGPS(lat.value!, lng.value!);
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

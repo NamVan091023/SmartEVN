@@ -20,10 +20,10 @@ class EmptyView extends StatelessWidget {
               height: 100,
               width: 100,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text("Không có dữ liệu nào")
+            const Text("Không có dữ liệu nào")
           ],
         ),
       ),

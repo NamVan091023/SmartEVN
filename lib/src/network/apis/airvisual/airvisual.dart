@@ -13,7 +13,7 @@ class AreaForestAPIPath {
 }
 
 class AreaForestAPI {
-  final String KEY_AIRVISUAL = "b6e09f2b-ef9f-47d8-99ec-39805e410057";
+  final String kAirVisual = "b6e09f2b-ef9f-47d8-99ec-39805e410057";
   late APIService apiService;
 
   AreaForestAPI() {
@@ -35,12 +35,12 @@ class AreaForestAPI {
       } else {
         List<AreaForestModel> data = <AreaForestModel>[];
         baseResponse.data?.forEach((v) {
-          data.add(new AreaForestModel.fromJson(v));
+          data.add(AreaForestModel.fromJson(v));
         });
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -59,12 +59,12 @@ class AreaForestAPI {
       } else {
         List<IQAirRankVN> data = <IQAirRankVN>[];
         baseResponse.data?.forEach((v) {
-          data.add(new IQAirRankVN.fromJson(v));
+          data.add(IQAirRankVN.fromJson(v));
         });
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -87,8 +87,8 @@ class AreaForestAPI {
       });
       AQIMapResponse aqiMapResponse = AQIMapResponse.fromJson(response.data);
       return aqiMapResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -101,13 +101,13 @@ class AreaForestAPI {
               receiveTimeout: 8000,
               sendTimeout: 8000))
           .request("/nearest_city", queryParameters: {
-        "key": KEY_AIRVISUAL,
+        "key": kAirVisual,
       });
       AQICurentResponse aqiCurentResponse =
           AQICurentResponse.fromJson(response.data);
       return aqiCurentResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -120,12 +120,12 @@ class AreaForestAPI {
               receiveTimeout: 8000,
               sendTimeout: 8000))
           .request("/nearest_city",
-              queryParameters: {"key": KEY_AIRVISUAL, "lat": lat, "lon": lng});
+              queryParameters: {"key": kAirVisual, "lat": lat, "lon": lng});
       AQICurentResponse aqiCurentResponse =
           AQICurentResponse.fromJson(response.data);
       return aqiCurentResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 }

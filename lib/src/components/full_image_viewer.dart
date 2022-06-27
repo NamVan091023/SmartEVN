@@ -8,15 +8,15 @@ class FullImageViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hình ảnh"),
+        title: const Text("Hình ảnh"),
       ),
       body: Center(
         child: CachedNetworkImage(
           imageUrl: url,
-          placeholder: (c, url) => Center(
+          placeholder: (c, url) => const Center(
             child: CircularProgressIndicator(),
           ),
-          errorWidget: (c, e, f) => Center(child: Icon(Icons.error)),
+          errorWidget: (c, e, f) => const Center(child: Icon(Icons.error)),
           fit: BoxFit.fill,
         ),
       ),

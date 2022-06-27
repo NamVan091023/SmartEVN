@@ -4,11 +4,12 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/facebook_response.dart';
 
 class FBPostCell extends StatelessWidget {
-  FBPostCell({Key? key, required this.fbNews, required this.onTap})
+  const FBPostCell({Key? key, required this.fbNews, required this.onTap})
       : super(key: key);
 
-  late final Function() onTap;
-  late final FBNews fbNews;
+  final Function() onTap;
+  final FBNews fbNews;
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Card(
@@ -23,14 +24,15 @@ class FBPostCell extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: fbNews.fullPicture ??
                       "https://via.placeholder.com/120/?text=Smart%20Environment",
-                  placeholder: (c, url) => Center(
+                  placeholder: (c, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),
-                  errorWidget: (c, e, f) => Center(child: Icon(Icons.error)),
+                  errorWidget: (c, e, f) =>
+                      const Center(child: Icon(Icons.error)),
                   fit: BoxFit.fill,
                 ),
               ),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               Expanded(
@@ -43,17 +45,17 @@ class FBPostCell extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         fbNews.message ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                         maxLines: 3,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
                         fbNews.from?.name ?? "",
-                        style: TextStyle(color: Colors.cyan),
+                        style: const TextStyle(color: Colors.cyan),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(convertDate(fbNews.createdTime ?? "") ?? ""),

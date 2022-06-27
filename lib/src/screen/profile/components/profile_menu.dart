@@ -18,8 +18,8 @@ class ProfileMenu extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: SizedBox(
             child: Text(
               "CÀI ĐẶT",
               textAlign: TextAlign.left,
@@ -31,13 +31,13 @@ class ProfileMenu extends StatelessWidget {
         Obx(
           () => CardMenu(
             text: "Giao diện",
-            leftIcon: Icon(Icons.dark_mode_rounded),
+            leftIcon: const Icon(Icons.dark_mode_rounded),
             right: DropdownButton<String>(
                 // isExpanded: true,
-                underline: SizedBox(),
+                underline: const SizedBox(),
                 alignment: AlignmentDirectional.centerEnd,
                 value: _profileController.themeMode.value,
-                items: [
+                items: const [
                   DropdownMenuItem(
                     child: Text("Sáng"),
                     value: "light",
@@ -58,7 +58,7 @@ class ProfileMenu extends StatelessWidget {
         ),
         CardMenu(
           text: "Thông báo",
-          leftIcon: Icon(Icons.notifications_rounded),
+          leftIcon: const Icon(Icons.notifications_rounded),
           right: Switch(
               value: user?.isNotificationReceived ?? false,
               onChanged: (value) {
@@ -66,12 +66,12 @@ class ProfileMenu extends StatelessWidget {
                 user?.isNotificationReceived = value;
               }),
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: SizedBox(
             child: Text(
               "TÀI KHOẢN",
               textAlign: TextAlign.left,
@@ -82,8 +82,8 @@ class ProfileMenu extends StatelessWidget {
         ),
         CardMenu(
           text: "Chỉnh sửa",
-          leftIcon: Icon(Icons.edit_rounded),
-          right: Icon(Icons.chevron_right_sharp),
+          leftIcon: const Icon(Icons.edit_rounded),
+          right: const Icon(Icons.chevron_right_sharp),
           onTap: () {
             Get.toNamed(Routes.EDIT_PROFILE_SCREEN, arguments: user)
                 ?.then((value) {
@@ -93,8 +93,8 @@ class ProfileMenu extends StatelessWidget {
         ),
         CardMenu(
           text: "Đăng xuất",
-          leftIcon: Icon(Icons.logout_rounded),
-          right: Icon(Icons.chevron_right_sharp),
+          leftIcon: const Icon(Icons.logout_rounded),
+          right: const Icon(Icons.chevron_right_sharp),
           onTap: () {
             AuthApi().logout();
             AuthApi().clearUserData();

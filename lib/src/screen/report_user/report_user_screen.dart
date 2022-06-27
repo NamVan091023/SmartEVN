@@ -10,13 +10,15 @@ import 'package:pollution_environment/src/screen/detail_pollution/detail_polluti
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ReportUser extends StatefulWidget {
+  const ReportUser({Key? key}) : super(key: key);
+
   @override
-  _ReportUserState createState() => new _ReportUserState();
+  _ReportUserState createState() => _ReportUserState();
 }
 
 class _ReportUserState extends State<ReportUser>
     with AutomaticKeepAliveClientMixin {
-  RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController = RefreshController();
   List<PollutionModel> pollutions = [];
   int total = 0;
   static const int _itemsPerPage = 10;
@@ -68,24 +70,24 @@ class _ReportUserState extends State<ReportUser>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Báo cáo của bạn',
         ),
         // actions: [_buildFilter()],
       ),
       body: Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
-          header: ClassicHeader(
+          header: const ClassicHeader(
             idleText: "Kéo để làm mới",
             refreshingText: "Đang tải...",
             releaseText: "Kéo để làm mới",
             completeText: "Lấy dữ liệu thành công",
             refreshStyle: RefreshStyle.Follow,
           ),
-          footer: ClassicFooter(
+          footer: const ClassicFooter(
             idleText: "Kéo để tải thêm",
             loadingText: "Đang tải...",
             failedText: "Tải thêm dữ liệu thất bại",
@@ -98,22 +100,23 @@ class _ReportUserState extends State<ReportUser>
           child: ListView.builder(
             shrinkWrap: true,
             itemBuilder: (c, i) {
-              if (i == 0)
+              if (i == 0) {
                 return _buildFilter();
-              else {
-                if (pollutions.length == 0) {
-                  return EmptyView();
-                } else
+              } else {
+                if (pollutions.isEmpty) {
+                  return const EmptyView();
+                } else {
                   return buildRow(c, i - 1);
+                }
               }
             },
-            itemCount: pollutions.length == 0 ? 2 : pollutions.length + 1,
+            itemCount: pollutions.isEmpty ? 2 : pollutions.length + 1,
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: "report",
-        child: new Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           Get.toNamed(Routes.CREATE_REPORT_SCREEN)?.then((value) => refresh());
         },
@@ -124,7 +127,7 @@ class _ReportUserState extends State<ReportUser>
 
   Widget buildRow(BuildContext context, int index) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: GestureDetector(
         onTap: () {
           // Vào màn xem chi tiết
@@ -139,7 +142,7 @@ class _ReportUserState extends State<ReportUser>
             color: Theme.of(context).cardColor,
           ),
           child: Padding(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: Row(
               children: [
                 Image.asset(
@@ -147,7 +150,7 @@ class _ReportUserState extends State<ReportUser>
                   width: 50,
                   height: 50,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -162,7 +165,7 @@ class _ReportUserState extends State<ReportUser>
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
@@ -172,7 +175,7 @@ class _ReportUserState extends State<ReportUser>
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(
@@ -206,7 +209,7 @@ class _ReportUserState extends State<ReportUser>
   }
 
   Widget _buildFilter() {
-    return Container(
+    return SizedBox(
       height: 50,
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -214,7 +217,7 @@ class _ReportUserState extends State<ReportUser>
           FilterChip(
             label: _filterSelected == null
                 ? Text("Tất cả ($total)")
-                : Text("Tất cả"),
+                : const Text("Tất cả"),
             showCheckmark: true,
             selected: _filterSelected == null,
             onSelected: (bool value) {
@@ -225,13 +228,13 @@ class _ReportUserState extends State<ReportUser>
               });
             },
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           FilterChip(
             label: _filterSelected == 1
                 ? Text("Đã duyệt ($total)")
-                : Text("Đã duyệt"),
+                : const Text("Đã duyệt"),
             showCheckmark: true,
             selected: _filterSelected == 1,
             onSelected: (bool value) {
@@ -242,13 +245,13 @@ class _ReportUserState extends State<ReportUser>
               });
             },
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           FilterChip(
             label: _filterSelected == 0
                 ? Text("Đang chờ duyệt ($total)")
-                : Text("Đang chờ duyệt"),
+                : const Text("Đang chờ duyệt"),
             showCheckmark: true,
             selected: _filterSelected == 0,
             onSelected: (bool value) {
@@ -259,13 +262,13 @@ class _ReportUserState extends State<ReportUser>
               });
             },
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           FilterChip(
             label: _filterSelected == 2
                 ? Text("Từ chối ($total)")
-                : Text("Từ chối"),
+                : const Text("Từ chối"),
             showCheckmark: true,
             selected: _filterSelected == 2,
             onSelected: (bool value) {

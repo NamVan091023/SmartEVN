@@ -17,20 +17,20 @@ class PollutionStats {
     if (json['weekData'] != null) {
       weekData = <PollutionModel>[];
       json['weekData'].forEach((v) {
-        weekData!.add(new PollutionModel.fromJson(v));
+        weekData!.add(PollutionModel.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['air'] = this.air;
-    data['land'] = this.land;
-    data['sound'] = this.sound;
-    data['water'] = this.water;
-    data['total'] = this.total;
-    if (this.weekData != null) {
-      data['weekData'] = this.weekData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['air'] = air;
+    data['land'] = land;
+    data['sound'] = sound;
+    data['water'] = water;
+    data['total'] = total;
+    if (weekData != null) {
+      data['weekData'] = weekData!.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -18,7 +18,7 @@ class NotificationAlertResponse {
     if (json['results'] != null) {
       results = <NotificationAlert>[];
       json['results'].forEach((v) {
-        results!.add(new NotificationAlert.fromJson(v));
+        results!.add(NotificationAlert.fromJson(v));
       });
     }
     page = json['page'];
@@ -28,14 +28,14 @@ class NotificationAlertResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['totalPages'] = this.totalPages;
-    data['totalResults'] = this.totalResults;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['totalPages'] = totalPages;
+    data['totalResults'] = totalResults;
     return data;
   }
 }
@@ -51,7 +51,7 @@ class NotificationAlert {
       {this.alert, this.user, this.createdAt, this.updatedAt, this.id});
 
   NotificationAlert.fromJson(Map<String, dynamic> json) {
-    alert = json['alert'] != null ? new Alert.fromJson(json['alert']) : null;
+    alert = json['alert'] != null ? Alert.fromJson(json['alert']) : null;
     user = json['user'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -59,14 +59,14 @@ class NotificationAlert {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.alert != null) {
-      data['alert'] = this.alert!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (alert != null) {
+      data['alert'] = alert!.toJson();
     }
-    data['user'] = this.user;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['id'] = this.id;
+    data['user'] = user;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['id'] = id;
     return data;
   }
 }

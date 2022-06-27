@@ -13,6 +13,8 @@ import 'package:pollution_environment/src/screen/sign_in/sign_in_controller.dart
 import '../../../components/default_button.dart';
 
 class SignForm extends StatefulWidget {
+  const SignForm({Key? key}) : super(key: key);
+
   @override
   _SignFormState createState() => _SignFormState();
 }
@@ -20,7 +22,7 @@ class SignForm extends StatefulWidget {
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   final SignInController controller = Get.find();
-  final Box box = Hive.box(HIVEBOX);
+  final Box box = Hive.box(kHiveBox);
   bool _passwordVisible = false;
   @override
   void initState() {
@@ -49,11 +51,11 @@ class _SignFormState extends State<SignForm> {
                     },
                   ),
                 ),
-                Text("Nhớ mật khẩu"),
-                Spacer(),
+                const Text("Nhớ mật khẩu"),
+                const Spacer(),
                 GestureDetector(
                   onTap: () => Get.toNamed(Routes.FORGOT_PASSWORD_SCREEN),
-                  child: Text(
+                  child: const Text(
                     "Quên mật khấu",
                     style: TextStyle(decoration: TextDecoration.underline),
                   ),
@@ -92,11 +94,11 @@ class _SignFormState extends State<SignForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: !_passwordVisible,
       onSaved: (newValue) => controller.onSavePassword(newValue!),
-      initialValue: box.get(KEY_PASSWORD),
+      initialValue: box.get(kPassword),
       validator: (value) {
         return controller.onValidatorPassword(value!);
       },
-      autofillHints: [AutofillHints.password],
+      autofillHints: const [AutofillHints.password],
       decoration: InputDecoration(
         labelText: "Mật khẩu",
         hintText: "Nhập mật khẩu",
@@ -120,7 +122,7 @@ class _SignFormState extends State<SignForm> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => controller.onSaveEmail(newValue!),
-      initialValue: box.get(KEY_EMAIL),
+      initialValue: box.get(kEmail),
       onChanged: (value) {
         controller.onChangeEmail(value);
       },
@@ -128,8 +130,8 @@ class _SignFormState extends State<SignForm> {
         return controller.onValidatorEmail(value!);
       },
       onEditingComplete: () => TextInput.finishAutofillContext(),
-      autofillHints: [AutofillHints.email],
-      decoration: InputDecoration(
+      autofillHints: const [AutofillHints.email],
+      decoration: const InputDecoration(
         labelText: "Email",
         hintText: "Nhập email",
         floatingLabelBehavior: FloatingLabelBehavior.always,

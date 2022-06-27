@@ -42,12 +42,12 @@ class PollutionApi {
       } else {
         List<PollutionType> data = <PollutionType>[];
         baseResponse.data?.forEach((v) {
-          data.add(new PollutionType.fromJson(v));
+          data.add(PollutionType.fromJson(v));
         });
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -66,12 +66,12 @@ class PollutionApi {
       } else {
         List<PollutionQuality> data = <PollutionQuality>[];
         baseResponse.data?.forEach((v) {
-          data.add(new PollutionQuality.fromJson(v));
+          data.add(PollutionQuality.fromJson(v));
         });
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -96,33 +96,42 @@ class PollutionApi {
 
     if (type != null) {
       if (type.isNotEmpty) {
-        for (int i = 0; i < type.length; i++) data["type[$i]"] = type[i];
+        for (int i = 0; i < type.length; i++) {
+          data["type[$i]"] = type[i];
+        }
       } else {
         data["type[0]"] = "";
       }
     }
     if (provinceIds != null && provinceIds.isNotEmpty) {
-      for (int i = 0; i < provinceIds.length; i++)
+      for (int i = 0; i < provinceIds.length; i++) {
         data["provinceId[$i]"] = provinceIds[i];
+      }
     }
 
     if (districtIds != null && districtIds.isNotEmpty) {
-      for (int i = 0; i < districtIds.length; i++)
+      for (int i = 0; i < districtIds.length; i++) {
         data["districtId[$i]"] = districtIds[i];
+      }
     }
 
     if (wardIds != null && wardIds.isNotEmpty) {
-      for (int i = 0; i < wardIds.length; i++) data["wardId[$i]"] = wardIds[i];
+      for (int i = 0; i < wardIds.length; i++) {
+        data["wardId[$i]"] = wardIds[i];
+      }
     }
 
-    if (provinceName != null && provinceName != '')
+    if (provinceName != null && provinceName != '') {
       data["provinceName"] = provinceName;
-    if (districtName != null && districtName != '')
+    }
+    if (districtName != null && districtName != '') {
       data["districtName"] = districtName;
+    }
     if (quality != null) {
       if (quality.isNotEmpty) {
-        for (int i = 0; i < quality.length; i++)
+        for (int i = 0; i < quality.length; i++) {
           data["quality[$i]"] = quality[i];
+        }
       } else {
         data["quality[0]"] = "";
       }
@@ -134,8 +143,9 @@ class PollutionApi {
     if (startDate != null) data['startDate'] = startDate;
     if (endDate != null) data['endDate'] = endDate;
 
-    if (searchText != null && searchText.isNotEmpty)
+    if (searchText != null && searchText.isNotEmpty) {
       data["search"] = searchText;
+    }
     try {
       response = await apiService.request(
         method: APIMethod.GET,
@@ -152,8 +162,8 @@ class PollutionApi {
             PollutionsResponse.fromJson(baseResponse.data!);
         return pollutionsResponse;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -171,14 +181,20 @@ class PollutionApi {
     Map<String, String> data = {};
 
     if (type != null && type.isNotEmpty) {
-      for (int i = 0; i < type.length; i++) data["type[$i]"] = type[i];
+      for (int i = 0; i < type.length; i++) {
+        data["type[$i]"] = type[i];
+      }
     }
-    if (provinceName != null && provinceName != '')
+    if (provinceName != null && provinceName != '') {
       data["provinceName"] = provinceName;
-    if (districtName != null && districtName != '')
+    }
+    if (districtName != null && districtName != '') {
       data["districtName"] = districtName;
+    }
     if (quality != null && quality.isNotEmpty) {
-      for (int i = 0; i < quality.length; i++) data["quality[$i]"] = quality[i];
+      for (int i = 0; i < quality.length; i++) {
+        data["quality[$i]"] = quality[i];
+      }
     }
     if (status != null) data["status"] = '$status';
     if (limit != null) data["limit"] = '$limit';
@@ -201,8 +217,8 @@ class PollutionApi {
             PollutionsResponse.fromJson(baseResponse.data!);
         return pollutionsResponse;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -232,8 +248,8 @@ class PollutionApi {
             PollutionsResponse.fromJson(baseResponse.data!);
         return pollutionsResponse;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -254,8 +270,8 @@ class PollutionApi {
             PollutionModel.fromJson(baseResponse.data!);
         return pollutionModel;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -323,8 +339,8 @@ class PollutionApi {
             PollutionModel.fromJson(baseResponse.data!);
         return pollutionModel;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -341,8 +357,8 @@ class PollutionApi {
       baseResponse = BaseResponse.fromJson(response.data);
 
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -413,8 +429,8 @@ class PollutionApi {
             PollutionModel.fromJson(baseResponse.data!);
         return pollutionModel;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -434,8 +450,8 @@ class PollutionApi {
             PollutionStats.fromJson(baseResponse.data!);
         return pollutionStats;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -457,8 +473,8 @@ class PollutionApi {
         });
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 }

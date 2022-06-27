@@ -39,8 +39,8 @@ class AlertApi {
         AlertResponse data = AlertResponse.fromJson(baseResponse.data!);
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -63,8 +63,8 @@ class AlertApi {
             NotificationAlertResponse.fromJson(baseResponse.data!);
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -81,8 +81,9 @@ class AlertApi {
     };
 
     if (provinceIds.isNotEmpty) {
-      for (var i = 0; i < provinceIds.length; i++)
+      for (var i = 0; i < provinceIds.length; i++) {
         data["provinceIds[$i]"] = provinceIds[i];
+      }
     }
 
     if (files != null) {
@@ -111,8 +112,8 @@ class AlertApi {
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -127,8 +128,8 @@ class AlertApi {
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -144,8 +145,8 @@ class AlertApi {
       baseResponse = BaseResponse.fromJson(response.data);
 
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 }

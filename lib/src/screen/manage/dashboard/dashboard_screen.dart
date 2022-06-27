@@ -7,23 +7,24 @@ import 'package:pollution_environment/src/screen/manage/components/line_chart.da
 import 'package:pollution_environment/src/screen/manage/dashboard/dashboard_controller.dart';
 
 class DashboardScreen extends StatelessWidget {
-  late final DashboardControler _dashboardControler =
-      Get.put(DashboardControler());
-  late final CarouselController _carouselController = CarouselController();
+  final DashboardControler _dashboardControler = Get.put(DashboardControler());
+  final CarouselController _carouselController = CarouselController();
+
+  DashboardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             _buildChartList(),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             _buildDot(context),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListTile(
@@ -31,12 +32,12 @@ class DashboardScreen extends StatelessWidget {
                 "Máy chủ",
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
-              subtitle: Text(baseUrl),
+              subtitle: const Text(baseUrl),
               leading: Icon(
                 Icons.computer_rounded,
                 color: Theme.of(context).primaryColor,
               ),
-              contentPadding: EdgeInsets.all(0),
+              contentPadding: const EdgeInsets.all(0),
             ),
             ListTile(
               title: Text(
@@ -51,7 +52,7 @@ class DashboardScreen extends StatelessWidget {
                 Icons.settings_applications,
                 color: Theme.of(context).primaryColor,
               ),
-              contentPadding: EdgeInsets.all(0),
+              contentPadding: const EdgeInsets.all(0),
             ),
           ],
         ),
@@ -102,7 +103,8 @@ class DashboardScreen extends StatelessWidget {
             child: Container(
               width: 12.0,
               height: 12.0,
-              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: (Theme.of(context).primaryColor).withOpacity(

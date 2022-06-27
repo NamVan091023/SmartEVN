@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,27 +17,29 @@ class CreateReport extends StatelessWidget {
   late final CreateReportController _controller =
       Get.put(CreateReportController());
   final _formKey = GlobalKey<FormState>();
+
+  CreateReport({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Báo cáo địa điểm ô nhiễm',
           ),
         ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Form(
             key: _formKey,
             child: ListView(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 _buildProvinceSelection(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -45,7 +48,7 @@ class CreateReport extends StatelessWidget {
                     Expanded(
                       child: _buildDistrictSelection(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
@@ -53,11 +56,11 @@ class CreateReport extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 _buildSpecialAddressInput(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -66,7 +69,7 @@ class CreateReport extends StatelessWidget {
                     Expanded(
                       child: _buildTypeSelection(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
@@ -74,20 +77,20 @@ class CreateReport extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 _buildDescriptionInput(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 DottedBorder(
                   borderType: BorderType.RRect,
                   color: Theme.of(context).primaryColor,
                   strokeWidth: 2,
-                  dashPattern: [5, 5],
-                  radius: Radius.circular(20),
-                  padding: EdgeInsets.all(6),
+                  dashPattern: const [5, 5],
+                  radius: const Radius.circular(20),
+                  padding: const EdgeInsets.all(6),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +105,7 @@ class CreateReport extends StatelessWidget {
                                   size: 50,
                                   color: Theme.of(context).primaryColor,
                                 ),
-                                Text(
+                                const Text(
                                   "Tải ảnh lên",
                                   textAlign: TextAlign.center,
                                 ),
@@ -110,7 +113,7 @@ class CreateReport extends StatelessWidget {
                             )),
                         TextButton(
                             onPressed: () => loadAssets(isCamera: false),
-                            child: Text(
+                            child: const Text(
                               "Chọn ảnh từ thư viện",
                               textAlign: TextAlign.center,
                             ))
@@ -118,17 +121,17 @@ class CreateReport extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 DefaultButton(
                   text: 'Hoàn thành',
                   press: () => createReport(context),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
               ],
@@ -139,11 +142,11 @@ class CreateReport extends StatelessWidget {
 
   Widget _buildImageList(BuildContext context) {
     return Obx(() => _controller.images.isNotEmpty
-        ? new Column(
+        ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.all(5.0),
+                margin: const EdgeInsets.all(5.0),
                 height: 150.0,
                 child: ListView.builder(
                     itemCount: _controller.images.length,
@@ -155,13 +158,13 @@ class CreateReport extends StatelessWidget {
               ),
             ],
           )
-        : SizedBox());
+        : const SizedBox());
   }
 
   Widget _buildItemImage(int index) {
     return Container(
       width: 150,
-      padding: EdgeInsets.all(1),
+      padding: const EdgeInsets.all(1),
       child: Stack(
         children: <Widget>[
           ClipRRect(
@@ -180,11 +183,11 @@ class CreateReport extends StatelessWidget {
                 _controller.images.removeAt(index);
               },
               child: Container(
-                margin: EdgeInsets.all(2),
-                padding: EdgeInsets.all(1),
-                decoration:
-                    BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                child: Icon(Icons.close, size: 16, color: Colors.red),
+                margin: const EdgeInsets.all(2),
+                padding: const EdgeInsets.all(1),
+                decoration: const BoxDecoration(
+                    color: Colors.white, shape: BoxShape.circle),
+                child: const Icon(Icons.close, size: 16, color: Colors.red),
               ),
             ),
           ),
@@ -201,7 +204,7 @@ class CreateReport extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedProvince.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Tỉnh/Thành phố",
             hintText: "Chọn tỉnh/thành phố",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -211,10 +214,11 @@ class CreateReport extends StatelessWidget {
           maxHeight: 300,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (item) {
-            if (item == null)
+            if (item == null) {
               return "Trường này là bắt buộc";
-            else
+            } else {
               return null;
+            }
           },
           searchFieldProps: TextFieldProps(
               decoration: InputDecoration(
@@ -224,9 +228,9 @@ class CreateReport extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -241,7 +245,7 @@ class CreateReport extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedDistrict.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Quận/Huyện",
             hintText: "Chọn quận/huyện",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -251,10 +255,11 @@ class CreateReport extends StatelessWidget {
           maxHeight: 300,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (item) {
-            if (item == null)
+            if (item == null) {
               return "Trường này là bắt buộc";
-            else
+            } else {
               return null;
+            }
           },
           searchFieldProps: TextFieldProps(
               decoration: InputDecoration(
@@ -264,9 +269,9 @@ class CreateReport extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -281,7 +286,7 @@ class CreateReport extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedWard.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Phường/Xã",
             hintText: "Chọn phường/xã",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -291,10 +296,11 @@ class CreateReport extends StatelessWidget {
           maxHeight: 300,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (item) {
-            if (item == null)
+            if (item == null) {
               return "Trường này là bắt buộc";
-            else
+            } else {
               return null;
+            }
           },
           searchFieldProps: TextFieldProps(
               decoration: InputDecoration(
@@ -304,9 +310,9 @@ class CreateReport extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -321,7 +327,7 @@ class CreateReport extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
           selectedItem: _controller.selectedType.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Loại ô nhiễm",
             hintText: "Chọn loại ô nhiễm",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -331,10 +337,11 @@ class CreateReport extends StatelessWidget {
           maxHeight: 300,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (item) {
-            if (item == null)
+            if (item == null) {
               return "Trường này là bắt buộc";
-            else
+            } else {
               return null;
+            }
           },
           searchFieldProps: TextFieldProps(
               decoration: InputDecoration(
@@ -344,9 +351,9 @@ class CreateReport extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -361,7 +368,7 @@ class CreateReport extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
           selectedItem: _controller.selectedQuality.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Mức độ ô nhiễm",
             hintText: "Chọn mức độ",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -371,10 +378,11 @@ class CreateReport extends StatelessWidget {
           maxHeight: 300,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           validator: (item) {
-            if (item == null)
+            if (item == null) {
               return "Trường này là bắt buộc";
-            else
+            } else {
               return null;
+            }
           },
           searchFieldProps: TextFieldProps(
               decoration: InputDecoration(
@@ -384,9 +392,9 @@ class CreateReport extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -410,7 +418,7 @@ class CreateReport extends StatelessWidget {
           return null;
         }
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Địa chỉ chi tiết",
         hintText: "Nhập địa chỉ chi tiết",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -436,7 +444,7 @@ class CreateReport extends StatelessWidget {
           return null;
         }
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Mô tả",
         hintText: "Nhập mô tả thông tin ô nhiễm",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -459,7 +467,9 @@ class CreateReport extends StatelessWidget {
         _controller.images.addAll(resultList.map((e) => File(e.path)).toList());
       }
     } on Exception catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

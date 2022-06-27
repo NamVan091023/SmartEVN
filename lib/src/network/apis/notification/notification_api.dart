@@ -31,8 +31,8 @@ class NotificationApi {
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -53,8 +53,8 @@ class NotificationApi {
             NotificationResponse.fromJson(baseResponse.data!);
         return data;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -69,8 +69,8 @@ class NotificationApi {
       BaseResponse baseResponse;
       baseResponse = BaseResponse.fromJson(response.data);
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -86,8 +86,8 @@ class NotificationApi {
       baseResponse = BaseResponse.fromJson(response.data);
 
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 }

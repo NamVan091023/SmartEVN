@@ -6,7 +6,7 @@ import 'package:pollution_environment/src/components/username.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 
 class PollutionUserCard extends StatelessWidget {
-  PollutionUserCard({Key? key, required this.userModel, this.createdAt})
+  const PollutionUserCard({Key? key, required this.userModel, this.createdAt})
       : super(key: key);
 
   final UserModel? userModel;
@@ -18,7 +18,7 @@ class PollutionUserCard extends StatelessWidget {
       semanticContainer: true,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: Row(
           children: [
             ClipRRect(
@@ -31,7 +31,7 @@ class PollutionUserCard extends StatelessWidget {
                     )
                   : CachedNetworkImage(
                       imageUrl: userModel!.avatar!,
-                      placeholder: (c, url) => Center(
+                      placeholder: (c, url) => const Center(
                         child: CircularProgressIndicator(),
                       ),
                       errorWidget: (c, e, f) => Center(
@@ -45,7 +45,7 @@ class PollutionUserCard extends StatelessWidget {
                       height: 50,
                     ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(

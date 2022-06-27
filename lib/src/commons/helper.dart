@@ -10,11 +10,13 @@ import 'package:get/get.dart';
 import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:pollution_environment/src/components/custom_dialog.dart';
 
 Future<Map<String, dynamic>> parseJsonFromAssets(String assetsPath) async {
-  print('--- Parse json from: $assetsPath');
+  if (kDebugMode) {
+    print('--- Parse json from: $assetsPath');
+  }
   return rootBundle
       .loadString(assetsPath)
       .then((jsonStr) => jsonDecode(jsonStr));
@@ -25,7 +27,7 @@ Future<ui.Image> getImageFromPath(String imagePath) async {
 
   Uint8List imageBytes = bytes.buffer.asUint8List();
 
-  final Completer<ui.Image> completer = new Completer();
+  final Completer<ui.Image> completer = Completer();
 
   ui.decodeImageFromList(imageBytes, (ui.Image img) {
     return completer.complete(img);
@@ -47,7 +49,7 @@ Color getQualityColor(int? quality) {
     case 2:
       return Colors.purple;
     case 1:
-      return Color.fromARGB(255, 128, 0, 0);
+      return const Color.fromARGB(255, 128, 0, 0);
     default:
       return Colors.grey;
   }
@@ -227,7 +229,7 @@ void showAlert({
             )),
       );
     },
-    transitionDuration: Duration(milliseconds: 200),
+    transitionDuration: const Duration(milliseconds: 200),
     barrierDismissible: true,
     barrierLabel: '',
   );
@@ -328,24 +330,26 @@ Future<String> getDeviceIdentifier() async {
 
 Color getColorRank(int? rank) {
   if (rank == null) return Colors.grey;
-  if (rank <= 10)
+  if (rank <= 10) {
     return Colors.green;
-  else if (rank <= 20)
+  } else if (rank <= 20) {
     return Colors.cyan;
-  else if (rank <= 50)
+  } else if (rank <= 50) {
     return Colors.yellow;
-  else if (rank <= 100)
+  } else if (rank <= 100) {
     return Colors.orange;
-  else
+  } else {
     return Colors.red;
+  }
 }
 
 Color getTextColorRank(int? quality) {
   if (quality == null) return Colors.white;
-  if (quality >= 5)
+  if (quality >= 5) {
     return Colors.black;
-  else
+  } else {
     return Colors.white;
+  }
 }
 
 int? getAQIRank(double? aqi) {

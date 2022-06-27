@@ -10,7 +10,7 @@ class PollutionAQIItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
+      child: SizedBox(
         width: 120,
         child: Row(
           children: [
@@ -20,7 +20,7 @@ class PollutionAQIItem extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -31,10 +31,10 @@ class PollutionAQIItem extends StatelessWidget {
                         Text(
                           title,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.normal),
                         ),
-                        Text(
+                        const Text(
                           "µg/m³",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -45,7 +45,7 @@ class PollutionAQIItem extends StatelessWidget {
                     Text(
                       value,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.normal,
                           color: Colors.grey),

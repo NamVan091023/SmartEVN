@@ -6,12 +6,12 @@ class AQICurentResponse {
 
   AQICurentResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -32,23 +32,22 @@ class Data {
     city = json['city'];
     state = json['state'];
     country = json['country'];
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     current =
-        json['current'] != null ? new Current.fromJson(json['current']) : null;
+        json['current'] != null ? Current.fromJson(json['current']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['city'] = this.city;
-    data['state'] = this.state;
-    data['country'] = this.country;
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['city'] = city;
+    data['state'] = state;
+    data['country'] = country;
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
-    if (this.current != null) {
-      data['current'] = this.current!.toJson();
+    if (current != null) {
+      data['current'] = current!.toJson();
     }
     return data;
   }
@@ -66,9 +65,9 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['coordinates'] = this.coordinates;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['coordinates'] = coordinates;
     return data;
   }
 }
@@ -81,19 +80,19 @@ class Current {
 
   Current.fromJson(Map<String, dynamic> json) {
     weather =
-        json['weather'] != null ? new Weather.fromJson(json['weather']) : null;
+        json['weather'] != null ? Weather.fromJson(json['weather']) : null;
     pollution = json['pollution'] != null
-        ? new Pollution.fromJson(json['pollution'])
+        ? Pollution.fromJson(json['pollution'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.weather != null) {
-      data['weather'] = this.weather!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (weather != null) {
+      data['weather'] = weather!.toJson();
     }
-    if (this.pollution != null) {
-      data['pollution'] = this.pollution!.toJson();
+    if (pollution != null) {
+      data['pollution'] = pollution!.toJson();
     }
     return data;
   }
@@ -121,14 +120,14 @@ class Weather {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ts'] = this.ts;
-    data['tp'] = this.tp;
-    data['pr'] = this.pr;
-    data['hu'] = this.hu;
-    data['ws'] = this.ws;
-    data['wd'] = this.wd;
-    data['ic'] = this.ic;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ts'] = ts;
+    data['tp'] = tp;
+    data['pr'] = pr;
+    data['hu'] = hu;
+    data['ws'] = ws;
+    data['wd'] = wd;
+    data['ic'] = ic;
     return data;
   }
 }
@@ -151,12 +150,12 @@ class Pollution {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ts'] = this.ts;
-    data['aqius'] = this.aqius;
-    data['mainus'] = this.mainus;
-    data['aqicn'] = this.aqicn;
-    data['maincn'] = this.maincn;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ts'] = ts;
+    data['aqius'] = aqius;
+    data['mainus'] = mainus;
+    data['aqicn'] = aqicn;
+    data['maincn'] = maincn;
     return data;
   }
 }

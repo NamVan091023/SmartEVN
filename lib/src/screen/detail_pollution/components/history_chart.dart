@@ -20,15 +20,13 @@ class HistoryChart extends StatelessWidget {
   static const betweenSpace = 0.0;
   final Map<String, HistoryPollutionData> data = {};
   void initData() {
-    pollutions.forEach((pollution) {
+    for (var pollution in pollutions) {
       String? date = pollution.createdAt;
       if (date != null) {
         String? newDate = convertDateFormat(date, "yyyy/MM/dd");
         if (newDate != null) {
           HistoryPollutionData? dataDate = data[newDate];
-          if (dataDate == null) {
-            dataDate = HistoryPollutionData();
-          }
+          dataDate ??= HistoryPollutionData();
           if (pollution.type == "air") dataDate.air += 1;
           if (pollution.type == "land") dataDate.land += 1;
           if (pollution.type == "sound") dataDate.sound += 1;
@@ -36,7 +34,7 @@ class HistoryChart extends StatelessWidget {
           data[newDate] = dataDate;
         }
       }
-    });
+    }
   }
 
   BarChartGroupData generateGroupData(
@@ -169,7 +167,7 @@ class HistoryChart extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Center(
-              child: const Text(
+              child: Text(
                 'Dữ liệu ô nhiễm trong 30 ngày gần nhất',
                 style: TextStyle(
                   color: Color(0xff757391),

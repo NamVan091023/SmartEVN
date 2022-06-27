@@ -12,6 +12,8 @@ import 'package:pollution_environment/src/screen/manage/user_manage/user_manage_
 import 'special_alert/special_alert_screen.dart';
 
 class ManageScreen extends StatefulWidget {
+  const ManageScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return ManageScreenState();
@@ -19,7 +21,7 @@ class ManageScreen extends StatefulWidget {
 }
 
 class ManageScreenState extends State<ManageScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   UserModel? currentUser;
   List<Widget> _listScreen = [
@@ -35,18 +37,18 @@ class ManageScreenState extends State<ManageScreen> {
   }
 
   void getCurrentUser() async {
-    currentUser = await UserStore().getAuth()?.user;
-    if (currentUser?.role == ROLE_ADMIN) {
+    currentUser = UserStore().getAuth()?.user;
+    if (currentUser?.role == kRoleAdmin) {
       _listScreen = [
         DashboardScreen(),
-        SpecialAlertScreen(),
+        const SpecialAlertScreen(),
         PollutionManageScreen(),
         UserManageScreen(),
       ];
-    } else if (currentUser?.role == ROLE_MOD) {
+    } else if (currentUser?.role == kRoleMod) {
       _listScreen = [
         DashboardScreen(),
-        SpecialAlertScreen(),
+        const SpecialAlertScreen(),
         PollutionManageScreen(),
       ];
     }
@@ -91,7 +93,7 @@ class ManageScreenState extends State<ManageScreen> {
       appBar: AppBar(
         title: Text(getTitle(_selectedIndex)),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
           iconSize: 25.0,
           onPressed: () {
             Get.back();
@@ -104,13 +106,13 @@ class ManageScreenState extends State<ManageScreen> {
                 PollutionManageController _pollutionManager = Get.find();
                 _pollutionManager.isShowFilter.toggle();
               },
-              icon: Icon(Icons.filter_alt_rounded),
+              icon: const Icon(Icons.filter_alt_rounded),
             ),
           IconButton(
               onPressed: () {
                 _scaffoldKey.currentState!.openEndDrawer();
               },
-              icon: Icon(Icons.menu))
+              icon: const Icon(Icons.menu))
         ],
       ),
       endDrawer: Drawer(

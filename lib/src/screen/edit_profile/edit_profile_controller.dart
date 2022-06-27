@@ -31,15 +31,16 @@ class EditProfileController extends GetxController {
   }
 
   void getAuthResponse() async {
-    currentUser.value = await UserStore().getAuth();
+    currentUser.value = UserStore().getAuth();
   }
 
   Future<void> updateUser() async {
     if (userModel.value.id != null) {
       List<String> provinces = [];
       provinceManage.toList().forEach((element) {
-        if (element.id != null && element.id?.isNotEmpty == true)
+        if (element.id != null && element.id?.isNotEmpty == true) {
           provinces.add(element.id!);
+        }
       });
       showLoading();
       UserAPI()
@@ -55,8 +56,9 @@ class EditProfileController extends GetxController {
               avatar: image.value)
           .then((value) async {
         currentUser.value?.user = value;
-        if (currentUser.value != null)
+        if (currentUser.value != null) {
           await UserStore().saveAuth(currentUser.value!);
+        }
         hideLoading();
         Get.back();
         Fluttertoast.showToast(msg: "Cập nhật hồ sơ thành công");
@@ -72,12 +74,12 @@ class EditProfileController extends GetxController {
     allProvince.value = response.data ?? [];
     List<ProvinceModel> provinces = [];
 
-    userModel.value.provinceManage.forEach((element) {
+    for (var element in userModel.value.provinceManage) {
       if (element.isNotEmpty) {
         var province = response.data?.firstWhere((item) => element == item.id);
         if (province != null) provinces.add(province);
       }
-    });
+    }
     provinceManage.value = provinces;
   }
 }

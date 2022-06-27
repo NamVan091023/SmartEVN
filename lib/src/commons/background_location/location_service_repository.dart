@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:io';
 import 'package:background_locator/location_dto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 import 'package:pollution_environment/src/network/apis/users/user_api.dart';
 
@@ -11,7 +11,8 @@ import 'package:shared_preferences_ios/shared_preferences_ios.dart';
 import 'package:shared_preferences_android/shared_preferences_android.dart';
 
 class LocationServiceRepository {
-  static LocationServiceRepository _instance = LocationServiceRepository._();
+  static final LocationServiceRepository _instance =
+      LocationServiceRepository._();
 
   LocationServiceRepository._();
 
@@ -27,13 +28,17 @@ class LocationServiceRepository {
   }
 
   Future<void> dispose() async {
-    print("***********Dispose callback handler");
+    if (kDebugMode) {
+      print("***********Dispose callback handler");
+    }
     // final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
     // send?.send(null);
   }
 
   Future<void> callback(LocationDto locationDto) async {
-    print("========= Callback ====== ${locationDto}");
+    if (kDebugMode) {
+      print("========= Callback ====== $locationDto");
+    }
     WidgetsFlutterBinding.ensureInitialized();
     // final AndroidNotificationDetails androidPlatformChannelSpecifics =
     //     AndroidNotificationDetails(
@@ -71,9 +76,13 @@ class LocationServiceRepository {
           .updateLocation(
               id: userId, lat: locationDto.latitude, lng: locationDto.longitude)
           .then((value) async {
-        print("==== Update user track location done ======");
+        if (kDebugMode) {
+          print("==== Update user track location done ======");
+        }
       }, onError: (e) {
-        print("===== Update track location error $e");
+        if (kDebugMode) {
+          print("===== Update track location error $e");
+        }
       });
     }
     // final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);

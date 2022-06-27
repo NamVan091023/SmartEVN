@@ -1,5 +1,5 @@
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
-import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AQIMapResponse {
   List<Markers>? markers;
@@ -11,18 +11,18 @@ class AQIMapResponse {
     if (json['markers'] != null) {
       markers = <Markers>[];
       json['markers'].forEach((v) {
-        markers!.add(new Markers.fromJson(v));
+        markers!.add(Markers.fromJson(v));
       });
     }
     total = json['total'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.markers != null) {
-      data['markers'] = this.markers!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (markers != null) {
+      data['markers'] = markers!.map((v) => v.toJson()).toList();
     }
-    data['total'] = this.total;
+    data['total'] = total;
     return data;
   }
 }
@@ -52,7 +52,7 @@ class Markers with ClusterItem {
     geohashMarker = json['geohash'];
     stationsCount = json['stationsCount'];
     coordinates = json['coordinates'] != null
-        ? new Coordinates.fromJson(json['coordinates'])
+        ? Coordinates.fromJson(json['coordinates'])
         : null;
     aqi = json['aqi'];
     name = json['name'];
@@ -61,17 +61,17 @@ class Markers with ClusterItem {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['geohash'] = this.geohash;
-    data['stationsCount'] = this.stationsCount;
-    if (this.coordinates != null) {
-      data['coordinates'] = this.coordinates!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['geohash'] = geohash;
+    data['stationsCount'] = stationsCount;
+    if (coordinates != null) {
+      data['coordinates'] = coordinates!.toJson();
     }
-    data['aqi'] = this.aqi;
-    data['name'] = this.name;
-    data['url'] = this.url;
-    data['id'] = this.id;
+    data['aqi'] = aqi;
+    data['name'] = name;
+    data['url'] = url;
+    data['id'] = id;
     return data;
   }
 
@@ -92,9 +92,9 @@ class Coordinates {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
     return data;
   }
 }

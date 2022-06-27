@@ -6,16 +6,18 @@ import 'package:pollution_environment/src/screen/notification/pollution_notifica
 import 'alert_notification_screen.dart';
 
 class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Thông báo"),
+          title: const Text("Thông báo"),
           bottom: TabBar(
             tabs: [
-              Tab(
+              const Tab(
                 icon: Icon(Icons.report_problem_outlined),
                 text: "Môi trường",
               ),
@@ -23,7 +25,7 @@ class NotificationScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             NotificationPollutionScreen(),
             NotificationAlertScreen(),

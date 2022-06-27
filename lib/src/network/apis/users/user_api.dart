@@ -23,8 +23,9 @@ class UserAPI {
     Map<String, String> data = {};
     if (limit != null) data["limit"] = '$limit';
     if (page != null) data["page"] = '$page';
-    if (searchText != null && searchText.isNotEmpty)
+    if (searchText != null && searchText.isNotEmpty) {
       data["search"] = searchText;
+    }
     try {
       response = await apiService.request(
         method: APIMethod.GET,
@@ -41,8 +42,8 @@ class UserAPI {
             UserListResponse.fromJson(baseResponse.data!);
         return listResponse;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -62,8 +63,8 @@ class UserAPI {
         UserModel userModel = UserModel.fromJson(baseResponse.data!);
         return userModel;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -90,8 +91,8 @@ class UserAPI {
         UserModel userModel = UserModel.fromJson(baseResponse.data!);
         return userModel;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -118,8 +119,8 @@ class UserAPI {
         UserModel userModel = UserModel.fromJson(baseResponse.data!);
         return userModel;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -171,8 +172,8 @@ class UserAPI {
         UserModel userModel = UserModel.fromJson(baseResponse.data!);
         return userModel;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -189,8 +190,8 @@ class UserAPI {
       baseResponse = BaseResponse.fromJson(response.data);
 
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 }

@@ -20,8 +20,8 @@ import 'package:pollution_environment/src/screen/filter/filter_storage_controlle
 
 class MapController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  late AnimationController animationController =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+  late AnimationController animationController = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 800));
   late Animation<Offset> offset;
 
   final FilterStorageController filterStorageController =
@@ -33,12 +33,12 @@ class MapController extends GetxController
   RxSet<Polygon> polygons = RxSet<Polygon>();
   List<LatLng> polygonLatLngs = [];
   RxList<Set<Marker>> markers = [
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>()
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{}
   ].obs;
 
   RxList<List<PollutionModel>> pollutions = RxList<List<PollutionModel>>();
@@ -49,12 +49,12 @@ class MapController extends GetxController
   RxList<List<WAQIMapData>> aqiPointMarkers = RxList<List<WAQIMapData>>();
   RxList<ClusterManager> aqiManagers = RxList<ClusterManager>();
   RxList<Set<Marker>> aqiMarkers = [
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>()
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{}
   ].obs;
 
   Rx<AuthResponse?> currentUser = UserStore().getAuth().obs;
@@ -64,7 +64,7 @@ class MapController extends GetxController
   @override
   void onInit() {
     getPos();
-    offset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 1.0))
+    offset = Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, 1.0))
         .animate(animationController);
     getPollutionPosition();
     setPolygon();
@@ -87,17 +87,17 @@ class MapController extends GetxController
       aqiPointMarkers.add([]);
       aqiManagers.add(ClusterManager<WAQIMapData>(aqiPointMarkers[i].toList(),
           (Set<Marker> markers) {
-        this.aqiMarkers.toList()[i].clear();
-        this.aqiMarkers.toList()[i].addAll(markers);
-        this.aqiMarkers.refresh();
+        aqiMarkers.toList()[i].clear();
+        aqiMarkers.toList()[i].addAll(markers);
+        aqiMarkers.refresh();
       }, markerBuilder: _getAQIMarkerBuilder(getQualityColor(i + 1))));
     }
 
     pollutions.refresh();
-    this.managers.refresh();
+    managers.refresh();
 
     aqiPointMarkers.refresh();
-    this.aqiManagers.refresh();
+    aqiManagers.refresh();
   }
 
   Future<Marker> Function(Cluster<PollutionModel>) _getMarkerBuilder(
@@ -144,12 +144,12 @@ class MapController extends GetxController
             }
           },
           icon: await _getAQIMarkerBitmap(cluster.isMultiple ? 125 : 100,
-              firstAQI.aqi == "-" ? Color(0x80808080) : color,
+              firstAQI.aqi == "-" ? const Color(0x80808080) : color,
               text: firstAQI.aqi == "-"
                   ? "-"
                   : cluster.isMultiple
                       ? "${firstAQI.aqi ?? "-"}+"
-                      : "${firstAQI.aqi ?? "-"}"),
+                      : firstAQI.aqi ?? "-"),
         );
       };
 
@@ -180,7 +180,7 @@ class MapController extends GetxController
     }
     if (status == 0) {
       // Đang chờ duyệt
-      final String rawSvg =
+      const String rawSvg =
           '''<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>wait-1.1s-200px</title>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
@@ -196,10 +196,11 @@ class MapController extends GetxController
       //     canvas, Size(size.toDouble() / 2, size.toDouble() / 2));
       // svgRoot.clipCanvasToViewBox(canvas);
 
-      svgRoot.draw(canvas, Rect.fromPoints(Offset(0, 0), Offset(30, 30)));
+      svgRoot.draw(
+          canvas, Rect.fromPoints(const Offset(0, 0), const Offset(30, 30)));
     } else if (status == 2) {
       // Từ chối duyệt
-      final String rawSvg =
+      const String rawSvg =
           '''<svg width="51px" height="51px" viewBox="0 0 51 51" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>2a0ac4c7-6508-4f23-a825-5f08c62a95de</title>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -215,7 +216,8 @@ class MapController extends GetxController
       //     canvas, Size(size.toDouble() / 2, size.toDouble() / 2));
       // svgRoot.clipCanvasToViewBox(canvas);
 
-      svgRoot.draw(canvas, Rect.fromPoints(Offset(0, 0), Offset(30, 30)));
+      svgRoot.draw(
+          canvas, Rect.fromPoints(const Offset(0, 0), const Offset(30, 30)));
     }
     final img = await pictureRecorder.endRecording().toImage(size, size);
     final data = await img.toByteData(format: ImageByteFormat.png) as ByteData;
@@ -231,8 +233,8 @@ class MapController extends GetxController
     final Paint paint2 = Paint()..color = color;
 
     final path = Path();
-    Rect rect = Rect.fromPoints(
-        Offset(0, 0), Offset(size.toDouble(), size.toDouble()) - Offset(0, 20));
+    Rect rect = Rect.fromPoints(const Offset(0, 0),
+        Offset(size.toDouble(), size.toDouble()) - const Offset(0, 20));
     path
       ..addRRect(
           RRect.fromRectAndRadius(rect, Radius.circular(rect.height / 2)))
@@ -243,8 +245,8 @@ class MapController extends GetxController
     canvas.drawPath(path, paint2);
 
     final path2 = Path();
-    Rect rect2 = Rect.fromPoints(Offset(5, 5),
-        Offset(size.toDouble() - 5, size.toDouble() - 5) - Offset(0, 23));
+    Rect rect2 = Rect.fromPoints(const Offset(5, 5),
+        Offset(size.toDouble() - 5, size.toDouble() - 5) - const Offset(0, 23));
     path2
       ..addRRect(
           RRect.fromRectAndRadius(rect2, Radius.circular(rect2.height / 2)))
@@ -255,8 +257,8 @@ class MapController extends GetxController
     canvas.drawPath(path2, paint1);
 
     final path3 = Path();
-    Rect rect3 = Rect.fromPoints(Offset(8, 8),
-        Offset(size.toDouble() - 8, size.toDouble() - 8) - Offset(0, 23));
+    Rect rect3 = Rect.fromPoints(const Offset(8, 8),
+        Offset(size.toDouble() - 8, size.toDouble() - 8) - const Offset(0, 23));
     path3
       ..addRRect(
           RRect.fromRectAndRadius(rect3, Radius.circular(rect3.height / 2)))
@@ -287,7 +289,7 @@ class MapController extends GetxController
     return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
   }
 
-  final CameraPosition kGooglePlex = CameraPosition(
+  final CameraPosition kGooglePlex = const CameraPosition(
     target: LatLng(20.9109654, 105.8113753),
     zoom: 14.4746,
   );
@@ -317,12 +319,15 @@ class MapController extends GetxController
           num aqi = int.tryParse(element.aqi ?? "0") ?? 0;
           if (aqi >= 0 && aqi <= 50) aqiPointMarkers.toList()[5].add(element);
           if (aqi >= 51 && aqi <= 100) aqiPointMarkers.toList()[4].add(element);
-          if (aqi >= 101 && aqi <= 150)
+          if (aqi >= 101 && aqi <= 150) {
             aqiPointMarkers.toList()[3].add(element);
-          if (aqi >= 151 && aqi <= 200)
+          }
+          if (aqi >= 151 && aqi <= 200) {
             aqiPointMarkers.toList()[2].add(element);
-          if (aqi >= 201 && aqi <= 300)
+          }
+          if (aqi >= 201 && aqi <= 300) {
             aqiPointMarkers.toList()[1].add(element);
+          }
           if (aqi >= 301) aqiPointMarkers.toList()[0].add(element);
         });
         aqiPointMarkers.refresh();
@@ -401,9 +406,9 @@ class MapController extends GetxController
     var polygon = filterStorageController.polygon.toList();
     var bbox = filterStorageController.bbox.toList();
     polygonLatLngs.clear();
-    polygon.forEach((element) {
+    for (var element in polygon) {
       polygonLatLngs.add(LatLng(element.last, element.first));
-    });
+    }
     polygons.clear();
     if (polygonLatLngs.length > 3) {
       polygons.add(Polygon(
@@ -430,14 +435,14 @@ class MapController extends GetxController
     for (int i = 0; i < 6; i++) {
       pollutions.toList()[i].clear();
     }
-    list.forEach((element) {
+    for (var element in list) {
       if (element.lat != null &&
           element.lng != null &&
           element.type != null &&
           element.qualityScore != null) {
         pollutions.toList()[element.qualityScore! - 1].add(element);
       }
-    });
+    }
     pollutions.refresh();
     for (int i = 0; i < 6; i++) {
       managers.toList()[i].setItems(pollutions[i].toList());

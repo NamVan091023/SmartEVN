@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:background_locator/location_dto.dart';
+import 'package:flutter/foundation.dart';
 
 import 'location_service_repository.dart';
 
@@ -24,6 +25,8 @@ class LocationCallbackHandler {
   }
 
   static Future<void> notificationCallback() async {
-    print('***notificationCallback');
+    if (kDebugMode) {
+      print('***notificationCallback');
+    }
   }
 }

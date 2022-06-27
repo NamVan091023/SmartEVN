@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -30,14 +31,14 @@ Future<void> onBackgroundMessage(RemoteMessage message) async {
 }
 
 Future<AudioPlayer> playSoundAlert() async {
-  AudioCache cache = new AudioCache();
+  AudioCache cache = AudioCache();
   return await cache.play("sound_alert.mp3");
 }
 
 class FCM {
   final _firebaseMessaging = FirebaseMessaging.instance;
 
-  NotificationService _notificationService = NotificationService();
+  final NotificationService _notificationService = NotificationService();
 
   setNotifications() async {
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
@@ -51,12 +52,18 @@ class FCM {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
+      if (kDebugMode) {
+        print('User granted permission');
+      }
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
-      print('User granted provisional permission');
+      if (kDebugMode) {
+        print('User granted provisional permission');
+      }
     } else {
-      print('User declined or has not accepted permission');
+      if (kDebugMode) {
+        print('User declined or has not accepted permission');
+      }
     }
 
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
@@ -92,7 +99,7 @@ class FCM {
                     )),
               );
             },
-            transitionDuration: Duration(milliseconds: 200),
+            transitionDuration: const Duration(milliseconds: 200),
             barrierDismissible: true,
             barrierLabel: '',
           );
@@ -106,7 +113,9 @@ class FCM {
     );
     //Message for Background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      print('A new messageopen app event was published');
+      if (kDebugMode) {
+        print('A new messageopen app event was published');
+      }
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -152,7 +161,7 @@ class FCM {
                 onPressed: () {
                   OverlaySupportEntry.of(ctx)?.dismiss();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.cancel_rounded,
                   color: Colors.red,
                 ),
@@ -165,7 +174,7 @@ class FCM {
           ),
         );
       },
-      duration: Duration(seconds: 20),
+      duration: const Duration(seconds: 20),
       position: NotificationPosition.top,
     );
   }

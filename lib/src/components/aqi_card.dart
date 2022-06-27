@@ -4,7 +4,7 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/waqi/waqi_map_model.dart';
 
 class AQICard extends StatelessWidget {
-  AQICard({Key? key, required this.aqiModel}) : super(key: key);
+  const AQICard({Key? key, required this.aqiModel}) : super(key: key);
 
   final WAQIMapData aqiModel;
 
@@ -13,7 +13,7 @@ class AQICard extends StatelessWidget {
     return Card(
       semanticContainer: true,
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Container(
+      child: SizedBox(
         height: 90,
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -23,7 +23,7 @@ class AQICard extends StatelessWidget {
               flex: 1,
               child: Container(
                 child: Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: SvgPicture.asset(
                     getAssetAQI(
                         getAQIRank(double.tryParse(aqiModel.aqi ?? "-"))),
@@ -41,7 +41,7 @@ class AQICard extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    stops: [
+                    stops: const [
                       0.1,
                       0.4,
                       0.6,
@@ -75,19 +75,19 @@ class AQICard extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.headline5,
                           ),
-                          subtitle: Text(
+                          subtitle: const Text(
                             "AQI Mỹ",
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Center(
                           child: Text(
                             getQualityAQIText(getAQIRank(

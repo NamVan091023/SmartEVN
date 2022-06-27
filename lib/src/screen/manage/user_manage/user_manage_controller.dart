@@ -15,7 +15,7 @@ class UserManageController extends GetxController {
 
   Rx<int> total = 0.obs;
 
-  String? searchText = null;
+  String? searchText;
   int nextPage = 1;
   static const int _itemsPerPage = 10;
   bool canLoadMore = true;
@@ -44,6 +44,7 @@ class UserManageController extends GetxController {
     });
   }
 
+  @override
   Future<void> refresh() async {
     canLoadMore = true;
     userList.value = [];

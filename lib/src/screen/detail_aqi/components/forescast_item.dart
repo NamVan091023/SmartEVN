@@ -25,10 +25,10 @@ class ForecastItem extends StatelessWidget {
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           SizedBox(
@@ -41,7 +41,7 @@ class ForecastItem extends StatelessWidget {
                   color: getQualityColor(getAQIRank(double.tryParse(avg)))),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           SizedBox(
@@ -54,7 +54,7 @@ class ForecastItem extends StatelessWidget {
                   color: getQualityColor(getAQIRank(double.tryParse(min)))),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           SizedBox(

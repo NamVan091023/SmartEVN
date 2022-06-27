@@ -8,25 +8,27 @@ import 'package:pollution_environment/src/screen/manage/pollution_manage/polluti
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PollutionManageScreen extends StatelessWidget {
-  late final PollutionManageController _controller =
+  final PollutionManageController _controller =
       Get.put(PollutionManageController());
+
+  PollutionManageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
-          header: ClassicHeader(
+          header: const ClassicHeader(
             idleText: "Kéo để làm mới",
             refreshingText: "Đang tải...",
             releaseText: "Kéo để làm mới",
             completeText: "Lấy dữ liệu thành công",
             refreshStyle: RefreshStyle.Follow,
           ),
-          footer: ClassicFooter(
+          footer: const ClassicFooter(
             idleText: "Kéo để tải thêm",
             loadingText: "Đang tải...",
             failedText: "Tải thêm dữ liệu thất bại",
@@ -41,7 +43,7 @@ class PollutionManageScreen extends StatelessWidget {
               children: [
                 TextField(
                   controller: _controller.textEditController.value,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.search_rounded),
                     hintText: "Nhập để tìm kiếm",
                     contentPadding: EdgeInsets.all(5),
@@ -50,7 +52,7 @@ class PollutionManageScreen extends StatelessWidget {
                     _controller.onSearch(value);
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Obx(() => (_controller.isShowFilter.value)
@@ -58,7 +60,7 @@ class PollutionManageScreen extends StatelessWidget {
                     : Container()),
                 Obx(
                   () => _controller.pollutionList.toList().isEmpty
-                      ? EmptyView()
+                      ? const EmptyView()
                       : ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -76,7 +78,7 @@ class PollutionManageScreen extends StatelessWidget {
 
   Widget buildRow(BuildContext context, int index) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: GestureDetector(
         onTap: () {
           // Vào màn xem chi tiết
@@ -105,7 +107,7 @@ class PollutionManageScreen extends StatelessWidget {
                   _controller.deletePollution(
                       id: _controller.pollutionList[index].id!);
                 },
-                backgroundColor: Color(0xFFFE4A49),
+                backgroundColor: const Color(0xFFFE4A49),
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
                 label: 'Xóa',
@@ -119,7 +121,7 @@ class PollutionManageScreen extends StatelessWidget {
               color: Theme.of(context).cardColor,
             ),
             child: Padding(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               child: Row(
                 children: [
                   Image.asset(
@@ -127,7 +129,7 @@ class PollutionManageScreen extends StatelessWidget {
                     width: 50,
                     height: 50,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Expanded(
@@ -142,7 +144,7 @@ class PollutionManageScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
@@ -152,7 +154,7 @@ class PollutionManageScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Text(
@@ -191,16 +193,16 @@ class PollutionManageScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           "Trạng thái",
         ),
-        Container(
+        SizedBox(
           height: 50,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.only(right: 8),
                 child: Obx(
                   () => FilterChip(
                       label: _controller.filterSelected.value ==
@@ -222,16 +224,16 @@ class PollutionManageScreen extends StatelessWidget {
             itemCount: _controller.listFilterStatusTxt.length,
           ),
         ),
-        Text(
+        const Text(
           "Loại ô nhiễm",
         ),
-        Container(
+        SizedBox(
           height: 50,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.only(right: 8),
                 child: Obx(
                   () => FilterChip(
                       label: Text(getNamePollution(
@@ -239,12 +241,13 @@ class PollutionManageScreen extends StatelessWidget {
                       selected: _controller.filterTypes
                           .contains(_controller.listPollutionType[index]),
                       onSelected: (selected) {
-                        if (selected)
+                        if (selected) {
                           _controller.filterTypes
                               .add(_controller.listPollutionType[index]);
-                        else
+                        } else {
                           _controller.filterTypes.removeWhere((element) =>
                               element == _controller.listPollutionType[index]);
+                        }
                         showLoading();
                         _controller.refresh().then((value) => {hideLoading()});
                       }),

@@ -3,11 +3,13 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/area_forest_model.dart';
 
 class IQAirCell extends StatelessWidget {
-  IQAirCell({Key? key, required this.areaForestModel, required this.onTap})
+  const IQAirCell(
+      {Key? key, required this.areaForestModel, required this.onTap})
       : super(key: key);
 
-  late final Function() onTap;
-  late final AreaForestModel areaForestModel;
+  final Function() onTap;
+  final AreaForestModel areaForestModel;
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Card(
@@ -25,14 +27,14 @@ class IQAirCell extends StatelessWidget {
                     child: Center(
                       child: Text(
                         areaForestModel.rank ?? "",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                             fontSize: 17),
                       ),
                     ),
                   )),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               Expanded(
@@ -45,30 +47,30 @@ class IQAirCell extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         areaForestModel.country ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                         maxLines: 3,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text.rich(TextSpan(text: "Diện tích rừng: ", children: [
                         TextSpan(
                             text: areaForestModel.forestAreaHectares ?? "",
-                            style: TextStyle(color: Colors.cyan)),
-                        TextSpan(text: " hecta")
+                            style: const TextStyle(color: Colors.cyan)),
+                        const TextSpan(text: " hecta")
                       ])),
                       Text.rich(TextSpan(text: "Dân số: ", children: [
                         TextSpan(
                             text: areaForestModel.population2017 ?? "",
-                            style: TextStyle(color: Colors.cyan)),
-                        TextSpan(text: " người")
+                            style: const TextStyle(color: Colors.cyan)),
+                        const TextSpan(text: " người")
                       ])),
                       Text.rich(
                         TextSpan(text: "Diện tích/Người: ", children: [
                           TextSpan(
                               text: areaForestModel.sqareMetersPerCapita ?? "",
-                              style: TextStyle(color: Colors.cyan)),
-                          TextSpan(text: " m\u00B2")
+                              style: const TextStyle(color: Colors.cyan)),
+                          const TextSpan(text: " m\u00B2")
                         ]),
                       ),
                     ],

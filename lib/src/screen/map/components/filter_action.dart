@@ -35,37 +35,35 @@ class FilterAction extends StatelessWidget {
             Container(
               child: IconButton(
                 focusColor: Colors.green,
-                icon: Icon(
+                icon: const Icon(
                   Icons.gps_fixed_rounded,
                 ),
                 onPressed: () {
                   _controller.getPos();
                 },
               ),
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 2), // changes position of shadow
+                      offset: const Offset(0, 2), // changes position of shadow
                     ),
                   ],
-                  borderRadius:
-                      new BorderRadius.all(const Radius.circular(8.0))),
+                  borderRadius: const BorderRadius.all(Radius.circular(8.0))),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Expanded(
-              child: Container(
-                  child: ListView.builder(
+              child: ListView.builder(
                 reverse: true,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    padding: EdgeInsets.only(left: 8, right: 8),
+                    padding: const EdgeInsets.only(left: 8, right: 8),
                     // color: getQualityColor(index + 1),
                     child: Obx(
                       () => Column(
@@ -73,12 +71,12 @@ class FilterAction extends StatelessWidget {
                         children: [
                           _controller.filterStorageController.isFilterAQI.value
                               ? Text(getQualityAQIText(index + 1),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500))
                               : Text(
                                   getQualityText(index + 1),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -86,8 +84,8 @@ class FilterAction extends StatelessWidget {
                               .filterStorageController.isFilterAQI.value)
                             Text(
                               getAqiFromQuality(index + 1),
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 12),
                             )
                         ],
                       ),
@@ -109,14 +107,14 @@ class FilterAction extends StatelessWidget {
                   );
                 },
                 itemCount: 6,
-              )),
+              ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Container(
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.list_rounded,
                 ),
                 onPressed: () {
@@ -128,24 +126,25 @@ class FilterAction extends StatelessWidget {
                           .toList()
                           .expand((element) => element)
                           .toList();
-                      return Container(
+                      return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.8,
                         child: Scaffold(
                           appBar: AppBar(
-                            title: Text("Danh sách ô nhiễm"),
+                            title: const Text("Danh sách ô nhiễm"),
                             automaticallyImplyLeading: false,
                             centerTitle: true,
                           ),
                           body: Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: ListView.builder(
                               itemBuilder: (c, i) {
-                                if (list.length == 0) {
-                                  return EmptyView();
-                                } else
+                                if (list.isEmpty) {
+                                  return const EmptyView();
+                                } else {
                                   return buildRow(c, list[i]);
+                                }
                               },
-                              itemCount: list.length == 0 ? 1 : list.length,
+                              itemCount: list.isEmpty ? 1 : list.length,
                             ),
                           ),
                         ),
@@ -154,18 +153,17 @@ class FilterAction extends StatelessWidget {
                   );
                 },
               ),
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 2), // changes position of shadow
+                      offset: const Offset(0, 2), // changes position of shadow
                     ),
                   ],
-                  borderRadius:
-                      new BorderRadius.all(const Radius.circular(8.0))),
+                  borderRadius: const BorderRadius.all(Radius.circular(8.0))),
             ),
           ],
         ),
@@ -175,7 +173,7 @@ class FilterAction extends StatelessWidget {
 
   Widget buildRow(BuildContext context, PollutionModel pollution) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: GestureDetector(
         onTap: () {
           // Vào màn xem chi tiết
@@ -188,7 +186,7 @@ class FilterAction extends StatelessWidget {
             color: Theme.of(context).cardColor,
           ),
           child: Padding(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: Row(
               children: [
                 Image.asset(
@@ -196,7 +194,7 @@ class FilterAction extends StatelessWidget {
                   width: 50,
                   height: 50,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -211,7 +209,7 @@ class FilterAction extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
@@ -221,7 +219,7 @@ class FilterAction extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       if (_controller.currentUser.value?.user?.role ==
@@ -264,7 +262,7 @@ class FilterAction extends StatelessWidget {
                               zoom: 17)));
                       Get.back();
                     },
-                    icon: Icon(Icons.location_pin))
+                    icon: const Icon(Icons.location_pin))
               ],
             ),
           ),

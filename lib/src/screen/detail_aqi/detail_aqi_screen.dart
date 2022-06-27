@@ -9,64 +9,64 @@ import 'package:pollution_environment/src/screen/home/components/pollution_aqi_i
 import 'detail_aqi_controller.dart';
 
 class DetailAQIScreen extends StatelessWidget {
-  late final DetailAQIController _controller = Get.put(DetailAQIController());
+  final DetailAQIController _controller = Get.put(DetailAQIController());
+
+  DetailAQIScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chất lượng không khí"),
+        title: const Text("Chất lượng không khí"),
       ),
       body: Obx(
-        () => Container(
-          child: Padding(
-            padding: EdgeInsets.all(5),
-            child: ListView(
-              children: [
-                Text(
-                  _controller.aqiModel.value?.data?.city?.name ?? "",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge,
+        () => Padding(
+          padding: const EdgeInsets.all(5),
+          child: ListView(
+            children: [
+              Text(
+                _controller.aqiModel.value?.data?.city?.name ?? "",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                _controller.aqiModel.value?.data?.city?.location ?? "",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              if (_controller.aqiModel.value != null)
+                AQIWeatherCard(aqi: _controller.aqiModel.value!),
+              const SizedBox(
+                height: 8,
+              ),
+              const Divider(),
+              if (_controller.aqiModel.value != null)
+                PollutionAqiItems(
+                  aqi: _controller.aqiModel.value!,
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  _controller.aqiModel.value?.data?.city?.location ?? "",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-                SizedBox(
+              const SizedBox(
+                height: 8,
+              ),
+              const Divider(),
+              if (_controller.aqiModel.value != null) _buildRecommend(),
+              if (_controller.aqiModel.value != null)
+                const SizedBox(
                   height: 10,
                 ),
-                if (_controller.aqiModel.value != null)
-                  AQIWeatherCard(aqi: _controller.aqiModel.value!),
-                SizedBox(
-                  height: 8,
-                ),
-                Divider(),
-                if (_controller.aqiModel.value != null)
-                  PollutionAqiItems(
-                    aqi: _controller.aqiModel.value!,
-                  ),
-                SizedBox(
-                  height: 8,
-                ),
-                Divider(),
-                if (_controller.aqiModel.value != null) _buildRecommend(),
-                if (_controller.aqiModel.value != null)
-                  SizedBox(
-                    height: 10,
-                  ),
-                if (_controller.aqiModel.value != null) Divider(),
-                SizedBox(
-                  height: 10,
-                ),
-                if (_controller.aqiModel.value?.data?.forecast?.daily != null)
-                  ForescastAqi(
-                      _controller.aqiModel.value!.data!.forecast!.daily!),
-              ],
-            ),
+              if (_controller.aqiModel.value != null) const Divider(),
+              const SizedBox(
+                height: 10,
+              ),
+              if (_controller.aqiModel.value?.data?.forecast?.daily != null)
+                ForescastAqi(
+                    _controller.aqiModel.value!.data!.forecast!.daily!),
+            ],
           ),
         ),
       ),
@@ -77,11 +77,11 @@ class DetailAQIScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           "Khuyến nghị",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         SizedBox(
@@ -101,10 +101,10 @@ class DetailAQIScreen extends StatelessWidget {
                           (_controller.aqiModel.value?.data?.aqi ?? 0)
                               .toDouble()))
                       : null,
-                  child: Container(
+                  child: SizedBox(
                     width: 100,
                     child: Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -113,7 +113,7 @@ class DetailAQIScreen extends StatelessWidget {
                             height: 32,
                             width: 32,
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text(
                               "Sức khỏe",
                               style: TextStyle(fontWeight: FontWeight.w500),
@@ -137,25 +137,23 @@ class DetailAQIScreen extends StatelessWidget {
                               .toDouble()))
                       : null,
                   elevation: 3,
-                  child: Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            Assets.normalPeople,
-                            height: 32,
-                            width: 32,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          Assets.normalPeople,
+                          height: 32,
+                          width: 32,
+                        ),
+                        const Expanded(
+                          child: Text(
+                            "Người bình thường",
+                            style: TextStyle(fontWeight: FontWeight.w500),
                           ),
-                          Expanded(
-                            child: Text(
-                              "Người bình thường",
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -172,25 +170,23 @@ class DetailAQIScreen extends StatelessWidget {
                               .toDouble()))
                       : null,
                   elevation: 3,
-                  child: Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            Assets.sensitivePeople,
-                            height: 32,
-                            width: 32,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          Assets.sensitivePeople,
+                          height: 32,
+                          width: 32,
+                        ),
+                        const Expanded(
+                          child: Text(
+                            "Người nhạy cảm",
+                            style: TextStyle(fontWeight: FontWeight.w500),
                           ),
-                          Expanded(
-                            child: Text(
-                              "Người nhạy cảm",
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -204,7 +200,7 @@ class DetailAQIScreen extends StatelessWidget {
               (_controller.aqiModel.value?.data?.aqi ?? 0).toDouble())),
           child: SizedBox(
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Text(
                 _controller.recommend.value,
                 style: TextStyle(

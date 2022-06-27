@@ -24,8 +24,8 @@ class AddressApi {
       );
       AddressModel data = AddressModel.fromJson(response.data!);
       return data;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -39,8 +39,8 @@ class AddressApi {
       );
       ProvinceModel data = ProvinceModel.fromJson(response.data!);
       return data;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -54,8 +54,8 @@ class AddressApi {
           data: {"lat": lat, "lng": lng});
       ParseAddressResponse data = ParseAddressResponse.fromJson(response.data);
       return data;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 }

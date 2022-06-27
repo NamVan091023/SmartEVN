@@ -10,22 +10,24 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class UserManageScreen extends StatelessWidget {
   late final UserManageController _controller = Get.put(UserManageController());
 
+  UserManageScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
-          header: ClassicHeader(
+          header: const ClassicHeader(
             idleText: "Kéo để làm mới",
             refreshingText: "Đang tải...",
             releaseText: "Kéo để làm mới",
             completeText: "Lấy dữ liệu thành công",
             refreshStyle: RefreshStyle.Follow,
           ),
-          footer: ClassicFooter(
+          footer: const ClassicFooter(
             idleText: "Kéo để tải thêm",
             loadingText: "Đang tải...",
             failedText: "Tải thêm dữ liệu thất bại",
@@ -40,7 +42,7 @@ class UserManageScreen extends StatelessWidget {
               children: [
                 TextField(
                   controller: _controller.textEditController.value,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.search_rounded),
                     hintText: "Nhập để tìm kiếm",
                     contentPadding: EdgeInsets.all(5),
@@ -49,12 +51,12 @@ class UserManageScreen extends StatelessWidget {
                     _controller.onSearch(value);
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Obx(
                   () => _controller.userList.toList().isEmpty
-                      ? EmptyView()
+                      ? const EmptyView()
                       : ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -80,10 +82,10 @@ class UserManageScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(10000.0),
           child: CachedNetworkImage(
             imageUrl: userModel?.avatar ?? "",
-            placeholder: (c, url) => Center(
+            placeholder: (c, url) => const Center(
               child: CircularProgressIndicator(),
             ),
-            errorWidget: (c, e, f) => Center(
+            errorWidget: (c, e, f) => const Center(
                 child: Icon(
               Icons.person,
               size: 50,
@@ -95,7 +97,7 @@ class UserManageScreen extends StatelessWidget {
         ),
         title: Text(userModel?.name ?? ""),
         subtitle: Text(userModel?.email ?? ""),
-        trailing: Icon(Icons.chevron_right_rounded),
+        trailing: const Icon(Icons.chevron_right_rounded),
         onTap: () {
           Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
                   arguments: userModel?.id, preventDuplicates: false)

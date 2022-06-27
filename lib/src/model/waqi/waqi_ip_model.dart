@@ -6,12 +6,12 @@ class WAQIIpResponse {
 
   WAQIIpResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new WAQIIpData.fromJson(json['data']) : null;
+    data = json['data'] != null ? WAQIIpData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -47,41 +47,40 @@ class WAQIIpData {
     if (json['attributions'] != null) {
       attributions = <Attributions>[];
       json['attributions'].forEach((v) {
-        attributions!.add(new Attributions.fromJson(v));
+        attributions!.add(Attributions.fromJson(v));
       });
     }
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
     dominentpol = json['dominentpol'];
-    iaqi = json['iaqi'] != null ? new Iaqi.fromJson(json['iaqi']) : null;
-    time = json['time'] != null ? new Time.fromJson(json['time']) : null;
-    forecast = json['forecast'] != null
-        ? new Forecast.fromJson(json['forecast'])
-        : null;
-    debug = json['debug'] != null ? new Debug.fromJson(json['debug']) : null;
+    iaqi = json['iaqi'] != null ? Iaqi.fromJson(json['iaqi']) : null;
+    time = json['time'] != null ? Time.fromJson(json['time']) : null;
+    forecast =
+        json['forecast'] != null ? Forecast.fromJson(json['forecast']) : null;
+    debug = json['debug'] != null ? Debug.fromJson(json['debug']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['aqi'] = this.aqi;
-    data['idx'] = this.idx;
-    if (this.attributions != null) {
-      data['attributions'] = this.attributions!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['aqi'] = aqi;
+    data['idx'] = idx;
+    if (attributions != null) {
+      data['attributions'] = attributions!.map((v) => v.toJson()).toList();
     }
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
+    if (city != null) {
+      data['city'] = city!.toJson();
     }
-    data['dominentpol'] = this.dominentpol;
-    if (this.iaqi != null) {
-      data['iaqi'] = this.iaqi!.toJson();
+    data['dominentpol'] = dominentpol;
+    if (iaqi != null) {
+      data['iaqi'] = iaqi!.toJson();
     }
-    if (this.time != null) {
-      data['time'] = this.time!.toJson();
+    if (time != null) {
+      data['time'] = time!.toJson();
     }
-    if (this.forecast != null) {
-      data['forecast'] = this.forecast!.toJson();
+    if (forecast != null) {
+      data['forecast'] = forecast!.toJson();
     }
-    if (this.debug != null) {
-      data['debug'] = this.debug!.toJson();
+    if (debug != null) {
+      data['debug'] = debug!.toJson();
     }
     return data;
   }
@@ -101,10 +100,10 @@ class Attributions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['name'] = this.name;
-    data['logo'] = this.logo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    data['name'] = name;
+    data['logo'] = logo;
     return data;
   }
 }
@@ -125,11 +124,11 @@ class City {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['geo'] = this.geo;
-    data['name'] = this.name;
-    data['url'] = this.url;
-    data['location'] = this.location;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['geo'] = geo;
+    data['name'] = name;
+    data['url'] = url;
+    data['location'] = location;
     return data;
   }
 }
@@ -161,53 +160,53 @@ class Iaqi {
       this.w});
 
   Iaqi.fromJson(Map<String, dynamic> json) {
-    co = json['co'] != null ? new IAqiItem.fromJson(json['co']) : null;
-    dew = json['dew'] != null ? new IAqiItem.fromJson(json['dew']) : null;
-    h = json['h'] != null ? new IAqiItem.fromJson(json['h']) : null;
-    no2 = json['no2'] != null ? new IAqiItem.fromJson(json['no2']) : null;
-    o3 = json['o3'] != null ? new IAqiItem.fromJson(json['o3']) : null;
-    p = json['p'] != null ? new IAqiItem.fromJson(json['p']) : null;
-    pm10 = json['pm10'] != null ? new IAqiItem.fromJson(json['pm10']) : null;
-    pm25 = json['pm25'] != null ? new IAqiItem.fromJson(json['pm25']) : null;
-    so2 = json['so2'] != null ? new IAqiItem.fromJson(json['so2']) : null;
-    t = json['t'] != null ? new IAqiItem.fromJson(json['t']) : null;
-    w = json['w'] != null ? new IAqiItem.fromJson(json['w']) : null;
+    co = json['co'] != null ? IAqiItem.fromJson(json['co']) : null;
+    dew = json['dew'] != null ? IAqiItem.fromJson(json['dew']) : null;
+    h = json['h'] != null ? IAqiItem.fromJson(json['h']) : null;
+    no2 = json['no2'] != null ? IAqiItem.fromJson(json['no2']) : null;
+    o3 = json['o3'] != null ? IAqiItem.fromJson(json['o3']) : null;
+    p = json['p'] != null ? IAqiItem.fromJson(json['p']) : null;
+    pm10 = json['pm10'] != null ? IAqiItem.fromJson(json['pm10']) : null;
+    pm25 = json['pm25'] != null ? IAqiItem.fromJson(json['pm25']) : null;
+    so2 = json['so2'] != null ? IAqiItem.fromJson(json['so2']) : null;
+    t = json['t'] != null ? IAqiItem.fromJson(json['t']) : null;
+    w = json['w'] != null ? IAqiItem.fromJson(json['w']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.co != null) {
-      data['co'] = this.co!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (co != null) {
+      data['co'] = co!.toJson();
     }
-    if (this.dew != null) {
-      data['dew'] = this.dew!.toJson();
+    if (dew != null) {
+      data['dew'] = dew!.toJson();
     }
-    if (this.h != null) {
-      data['h'] = this.h!.toJson();
+    if (h != null) {
+      data['h'] = h!.toJson();
     }
-    if (this.no2 != null) {
-      data['no2'] = this.no2!.toJson();
+    if (no2 != null) {
+      data['no2'] = no2!.toJson();
     }
-    if (this.o3 != null) {
-      data['o3'] = this.o3!.toJson();
+    if (o3 != null) {
+      data['o3'] = o3!.toJson();
     }
-    if (this.p != null) {
-      data['p'] = this.p!.toJson();
+    if (p != null) {
+      data['p'] = p!.toJson();
     }
-    if (this.pm10 != null) {
-      data['pm10'] = this.pm10!.toJson();
+    if (pm10 != null) {
+      data['pm10'] = pm10!.toJson();
     }
-    if (this.pm25 != null) {
-      data['pm25'] = this.pm25!.toJson();
+    if (pm25 != null) {
+      data['pm25'] = pm25!.toJson();
     }
-    if (this.so2 != null) {
-      data['so2'] = this.so2!.toJson();
+    if (so2 != null) {
+      data['so2'] = so2!.toJson();
     }
-    if (this.t != null) {
-      data['t'] = this.t!.toJson();
+    if (t != null) {
+      data['t'] = t!.toJson();
     }
-    if (this.w != null) {
-      data['w'] = this.w!.toJson();
+    if (w != null) {
+      data['w'] = w!.toJson();
     }
     return data;
   }
@@ -223,8 +222,8 @@ class IAqiItem {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['v'] = this.v;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['v'] = v;
     return data;
   }
 }
@@ -245,11 +244,11 @@ class Time {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['s'] = this.s;
-    data['tz'] = this.tz;
-    data['v'] = this.v;
-    data['iso'] = this.iso;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['s'] = s;
+    data['tz'] = tz;
+    data['v'] = v;
+    data['iso'] = iso;
     return data;
   }
 }
@@ -260,13 +259,13 @@ class Forecast {
   Forecast({this.daily});
 
   Forecast.fromJson(Map<String, dynamic> json) {
-    daily = json['daily'] != null ? new Daily.fromJson(json['daily']) : null;
+    daily = json['daily'] != null ? Daily.fromJson(json['daily']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.daily != null) {
-      data['daily'] = this.daily!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (daily != null) {
+      data['daily'] = daily!.toJson();
     }
     return data;
   }
@@ -284,42 +283,42 @@ class Daily {
     if (json['o3'] != null) {
       o3 = <DailyAqiItem>[];
       json['o3'].forEach((v) {
-        o3!.add(new DailyAqiItem.fromJson(v));
+        o3!.add(DailyAqiItem.fromJson(v));
       });
     }
     if (json['pm10'] != null) {
       pm10 = <DailyAqiItem>[];
       json['pm10'].forEach((v) {
-        pm10!.add(new DailyAqiItem.fromJson(v));
+        pm10!.add(DailyAqiItem.fromJson(v));
       });
     }
     if (json['pm25'] != null) {
       pm25 = <DailyAqiItem>[];
       json['pm25'].forEach((v) {
-        pm25!.add(new DailyAqiItem.fromJson(v));
+        pm25!.add(DailyAqiItem.fromJson(v));
       });
     }
     if (json['uvi'] != null) {
       uvi = <DailyAqiItem>[];
       json['uvi'].forEach((v) {
-        uvi!.add(new DailyAqiItem.fromJson(v));
+        uvi!.add(DailyAqiItem.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.o3 != null) {
-      data['o3'] = this.o3!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (o3 != null) {
+      data['o3'] = o3!.map((v) => v.toJson()).toList();
     }
-    if (this.pm10 != null) {
-      data['pm10'] = this.pm10!.map((v) => v.toJson()).toList();
+    if (pm10 != null) {
+      data['pm10'] = pm10!.map((v) => v.toJson()).toList();
     }
-    if (this.pm25 != null) {
-      data['pm25'] = this.pm25!.map((v) => v.toJson()).toList();
+    if (pm25 != null) {
+      data['pm25'] = pm25!.map((v) => v.toJson()).toList();
     }
-    if (this.uvi != null) {
-      data['uvi'] = this.uvi!.map((v) => v.toJson()).toList();
+    if (uvi != null) {
+      data['uvi'] = uvi!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -341,11 +340,11 @@ class DailyAqiItem {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['avg'] = this.avg;
-    data['day'] = this.day;
-    data['max'] = this.max;
-    data['min'] = this.min;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['avg'] = avg;
+    data['day'] = day;
+    data['max'] = max;
+    data['min'] = min;
     return data;
   }
 }
@@ -360,8 +359,8 @@ class Debug {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['sync'] = this.sync;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['sync'] = sync;
     return data;
   }
 }

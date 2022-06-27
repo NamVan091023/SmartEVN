@@ -13,13 +13,16 @@ import 'package:pollution_environment/src/screen/alert/alert_detail_screen.dart'
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NotificationAlertScreen extends StatefulWidget {
+  const NotificationAlertScreen({Key? key}) : super(key: key);
+
+  @override
   _NotificationAlertState createState() => _NotificationAlertState();
 }
 
 class _NotificationAlertState extends State<NotificationAlertScreen>
     with AutomaticKeepAliveClientMixin<NotificationAlertScreen> {
   List<NotificationAlert> list = [];
-  RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController = RefreshController();
   static const int _itemsPerPage = 10;
   bool canLoadMore = true;
   int nextPage = 1;
@@ -29,18 +32,18 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: SmartRefresher(
             enablePullDown: true,
             enablePullUp: true,
-            header: ClassicHeader(
+            header: const ClassicHeader(
               idleText: "Kéo để làm mới",
               refreshingText: "Đang tải...",
               releaseText: "Kéo để làm mới",
               completeText: "Lấy dữ liệu thành công",
               refreshStyle: RefreshStyle.Follow,
             ),
-            footer: ClassicFooter(
+            footer: const ClassicFooter(
               idleText: "Kéo để tải thêm",
               loadingText: "Đang tải...",
               failedText: "Tải thêm dữ liệu thất bại",
@@ -55,14 +58,15 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
               // physics: NeverScrollableScrollPhysics(),
               // primary: true,
               itemBuilder: (c, i) {
-                if (list.isEmpty)
-                  return EmptyView();
-                else
+                if (list.isEmpty) {
+                  return const EmptyView();
+                } else {
                   return buildRow(c, i);
+                }
               },
               itemCount: list.isEmpty ? 1 : list.length,
               separatorBuilder: (BuildContext context, int index) {
-                return Divider(
+                return const Divider(
                   indent: 10,
                   endIndent: 10,
                 );
@@ -87,7 +91,7 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.red,
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.delete_outlined,
                   color: Colors.white,
                   size: 30,
@@ -166,7 +170,7 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
 
   Widget buildRow(BuildContext context, int index) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Slidable(
         key: UniqueKey(),
         startActionPane: ActionPane(
@@ -179,7 +183,7 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
               onPressed: (ct) {
                 _deleteById(list[index].id!);
               },
-              backgroundColor: Color(0xFFFE4A49),
+              backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
               icon: Icons.delete,
               label: 'Xóa',
@@ -210,7 +214,7 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
                       return LineIcon(LineIcons.bullhorn,
                           size: 30, color: Colors.red);
                     },
-                    progressIndicatorBuilder: (ctx, str, _) => SizedBox(
+                    progressIndicatorBuilder: (ctx, str, _) => const SizedBox(
                       height: 20,
                       width: 20,
                       child: CircularProgressIndicator(),
@@ -236,10 +240,10 @@ class _NotificationAlertState extends State<NotificationAlertScreen>
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Text(
                   timeAgoSinceDate(dateStr: list[index].createdAt!),

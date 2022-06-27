@@ -15,14 +15,14 @@ class ForescastItemDay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: SizedBox(
           // height: 200,
           child: ListView.builder(
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) {
-                return ForecastItem(
+                return const ForecastItem(
                   title: "Ngày",
                   avg: 'Trung bình',
                   min: 'Nhỏ nhất',

@@ -18,7 +18,7 @@ class NotificationResponse {
     if (json['results'] != null) {
       results = <NotificationModel>[];
       json['results'].forEach((v) {
-        results!.add(new NotificationModel.fromJson(v));
+        results!.add(NotificationModel.fromJson(v));
       });
     }
     page = json['page'];
@@ -28,14 +28,14 @@ class NotificationResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['totalPages'] = this.totalPages;
-    data['totalResults'] = this.totalResults;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['totalPages'] = totalPages;
+    data['totalResults'] = totalResults;
     return data;
   }
 }
@@ -53,7 +53,7 @@ class NotificationModel {
   NotificationModel.fromJson(Map<String, dynamic> json) {
     user = json['user'];
     pollution = json['pollution'] != null
-        ? new PollutionModel.fromJson(json['pollution'])
+        ? PollutionModel.fromJson(json['pollution'])
         : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -61,14 +61,14 @@ class NotificationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = this.user;
-    if (this.pollution != null) {
-      data['pollution'] = this.pollution!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user'] = user;
+    if (pollution != null) {
+      data['pollution'] = pollution!.toJson();
     }
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['id'] = this.id;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['id'] = id;
     return data;
   }
 }

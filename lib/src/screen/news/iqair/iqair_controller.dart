@@ -33,6 +33,7 @@ class IQAirController extends GetxController {
     });
   }
 
+  @override
   Future<void> refresh() async {
     areaForests.value = [];
     iqAirRankVN.value = [];
@@ -43,10 +44,5 @@ class IQAirController extends GetxController {
   void onRefresh() async {
     await refresh();
     refreshController.value.refreshCompleted();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }

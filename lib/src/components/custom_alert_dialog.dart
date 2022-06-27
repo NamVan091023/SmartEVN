@@ -19,21 +19,21 @@ class CustomAlertDialog extends StatelessWidget {
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.only(left: 0.0, right: 0.0),
+        margin: const EdgeInsets.only(left: 0.0, right: 0.0),
         child: Stack(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 18.0,
               ),
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 40.0,
               ),
               decoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: <BoxShadow>[
+                  boxShadow: const <BoxShadow>[
                     BoxShadow(
                       color: Colors.black26,
                       blurRadius: 0.0,
@@ -44,15 +44,16 @@ class CustomAlertDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: new Text(
+                      child: Text(
                         alert.title ?? "Cảnh báo",
-                        style: TextStyle(fontSize: 20.0, color: Colors.red),
+                        style:
+                            const TextStyle(fontSize: 20.0, color: Colors.red),
                         maxLines: 2,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
@@ -62,7 +63,7 @@ class CustomAlertDialog extends StatelessWidget {
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: new Text(
+                      child: Text(
                         alert.content ?? "",
                         maxLines: 5,
                         textAlign: TextAlign.center,
@@ -70,17 +71,17 @@ class CustomAlertDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 24.0),
+                  const SizedBox(height: 24.0),
                   InkWell(
                     child: Container(
-                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      decoration: const BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(16.0),
                             bottomRight: Radius.circular(16.0)),
                       ),
-                      child: Text(
+                      child: const Text(
                         "Xem chi tiết",
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                         textAlign: TextAlign.center,

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailScreen extends StatefulWidget {
-  NewsDetailScreen({Key? key, required this.title, required this.url})
+  const NewsDetailScreen({Key? key, required this.title, required this.url})
       : super(key: key);
 
   final String? url;
@@ -38,17 +39,17 @@ class _NewsDetailState extends State<NewsDetailScreen> {
               // elevation: 0.5,
               // shape: Border.all(width: 0.5),
               color: Theme.of(context).cardColor.withOpacity(1),
-              offset: Offset(0, kToolbarHeight),
+              offset: const Offset(0, kToolbarHeight),
               itemBuilder: (ctx) {
                 return <PopupMenuItem>[
                   PopupMenuItem(
                     child: ListTile(
                       horizontalTitleGap: 5,
-                      contentPadding: EdgeInsets.all(5),
+                      contentPadding: const EdgeInsets.all(5),
                       minVerticalPadding: 5,
                       minLeadingWidth: 5,
-                      leading: Icon(Icons.share_rounded),
-                      title: Text("Chia sẻ"),
+                      leading: const Icon(Icons.share_rounded),
+                      title: const Text("Chia sẻ"),
                       onTap: () {
                         Share.share("Truy cập địa chỉ ${widget.url ?? ""}",
                                 subject: widget.title)
@@ -59,11 +60,11 @@ class _NewsDetailState extends State<NewsDetailScreen> {
                   PopupMenuItem(
                     child: ListTile(
                       horizontalTitleGap: 5,
-                      contentPadding: EdgeInsets.all(5),
+                      contentPadding: const EdgeInsets.all(5),
                       minVerticalPadding: 5,
                       minLeadingWidth: 5,
-                      leading: Icon(Icons.copy_rounded),
-                      title: Text("Sao chép liên kết"),
+                      leading: const Icon(Icons.copy_rounded),
+                      title: const Text("Sao chép liên kết"),
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: widget.url))
                             .then((value) {
@@ -76,11 +77,11 @@ class _NewsDetailState extends State<NewsDetailScreen> {
                   PopupMenuItem(
                     child: ListTile(
                       horizontalTitleGap: 5,
-                      contentPadding: EdgeInsets.all(5),
+                      contentPadding: const EdgeInsets.all(5),
                       minVerticalPadding: 5,
                       minLeadingWidth: 5,
-                      leading: Icon(Icons.login_rounded),
-                      title: Text("Mở bằng trình duyệt"),
+                      leading: const Icon(Icons.login_rounded),
+                      title: const Text("Mở bằng trình duyệt"),
                       onTap: () {
                         launchUrl(
                           Uri.parse(widget.url ?? ""),
@@ -99,7 +100,7 @@ class _NewsDetailState extends State<NewsDetailScreen> {
         ],
         title: ListTile(
           minVerticalPadding: 0,
-          contentPadding: EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.all(0),
           title: MarqueeWidget(
               direction: Axis.horizontal,
               child: Text(
@@ -116,11 +117,12 @@ class _NewsDetailState extends State<NewsDetailScreen> {
         bottom: _progressLoading >= 1.0
             ? null
             : PreferredSize(
-                preferredSize: Size(double.infinity, 1.0),
+                preferredSize: const Size(double.infinity, 1.0),
                 child: MyLinearProgressIndicator(
                   // backgroundColor: Colors.orange,
                   value: _progressLoading,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(Colors.orange),
                 ),
               ),
       ),
@@ -135,12 +137,11 @@ class _NewsDetailState extends State<NewsDetailScreen> {
           onProgress: (int progress) {
             setState(() {
               _progressLoading = progress.toDouble() / 100.0;
-              print(_progressLoading);
             });
             _webViewController
-                .runJavascript("javascript:(function() { " +
-                    "var head = document.getElementsByClassName('l-nav')[0];" +
-                    "head.remove('c-header');" +
+                .runJavascript("javascript:(function() { "
+                    "var head = document.getElementsByClassName('l-nav')[0];"
+                    "head.remove('c-header');"
                     "})()")
                 .then((value) => debugPrint('Page finished loading Javascript'))
                 .catchError((onError) => debugPrint('$onError'));
@@ -152,17 +153,21 @@ class _NewsDetailState extends State<NewsDetailScreen> {
             return NavigationDecision.navigate;
           },
           onPageStarted: (String url) {
-            print('Page started loading: $url');
+            if (kDebugMode) {
+              print('Page started loading: $url');
+            }
           },
           onPageFinished: (String url) {
-            print('Page finished loading: $url');
+            if (kDebugMode) {
+              print('Page finished loading: $url');
+            }
             // hideLoading();
             _webViewController
-                .runJavascript("javascript:(function() { " +
-                    "var footer = document.getElementsByClassName('l-footer')[0];" +
-                    "footer.remove('l-footer');" +
-                    "var powered = document.getElementsByClassName('c-powered')[0];" +
-                    "powered.remove('c-powered');" +
+                .runJavascript("javascript:(function() { "
+                    "var footer = document.getElementsByClassName('l-footer')[0];"
+                    "footer.remove('l-footer');"
+                    "var powered = document.getElementsByClassName('c-powered')[0];"
+                    "powered.remove('c-powered');"
                     "})()")
                 .then((value) => debugPrint('Page finished loading Javascript'))
                 .catchError((onError) => debugPrint('$onError'));
@@ -187,7 +192,7 @@ class _NewsDetailState extends State<NewsDetailScreen> {
 
 class MyLinearProgressIndicator extends LinearProgressIndicator
     implements PreferredSizeWidget {
-  MyLinearProgressIndicator({
+  const MyLinearProgressIndicator({
     Key? key,
     double? value,
     Color? backgroundColor,
@@ -197,10 +202,8 @@ class MyLinearProgressIndicator extends LinearProgressIndicator
           value: value,
           backgroundColor: backgroundColor,
           valueColor: valueColor,
-        ) {
-    ;
-  }
+        );
 
   @override
-  final Size preferredSize = Size(double.infinity, 2);
+  final Size preferredSize = const Size(double.infinity, 2);
 }

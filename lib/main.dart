@@ -16,7 +16,8 @@ import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 import 'package:pollution_environment/src/commons/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kDebugMode, kIsWeb;
 import 'package:workmanager/workmanager.dart';
 
 import 'package:home_widget/home_widget.dart';
@@ -27,7 +28,9 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     switch (task) {
       case Workmanager.iOSBackgroundTask:
-        print("The iOS background fetch was triggered");
+        if (kDebugMode) {
+          print("The iOS background fetch was triggered");
+        }
         try {
           await LocationBackground.initPlatformState();
           WAQIIpResponse aqiCurentResponse = await WaqiAPI().getAQIByIP();
@@ -35,7 +38,9 @@ void callbackDispatcher() {
           NotificationService notificationService = NotificationService();
           await notificationService.showCurrentAQI(aqiCurentResponse);
         } catch (e) {
-          print(e);
+          if (kDebugMode) {
+            print(e);
+          }
         }
         break;
       case fetchAQIBackground:
@@ -45,7 +50,9 @@ void callbackDispatcher() {
           NotificationService notificationService = NotificationService();
           await notificationService.showCurrentAQI(aqiCurentResponse);
         } catch (e) {
-          print(e);
+          if (kDebugMode) {
+            print(e);
+          }
         }
         break;
       case fetchLocationBackground:
@@ -58,13 +65,13 @@ void callbackDispatcher() {
 void main() async {
   await init();
   await Hive.initFlutter();
-  await Hive.openBox(HIVEBOX);
+  await Hive.openBox(kHiveBox);
   Hive.registerAdapter(FavoriteAdapter());
   if (defaultTargetPlatform == TargetPlatform.android) {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
   HomeWidget.registerBackgroundCallback(backgroundCallback);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // Called when Doing Background Work initiated from Widget
@@ -86,7 +93,7 @@ Future init() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
-      options: FirebaseOptions(
+      options: const FirebaseOptions(
           apiKey: "AIzaSyDZUra8Uh6Bgv3VuPqQMfVsC9gUIjbGf_4",
           appId: "1:86534504753:web:ee8ddb5fc22d6f4cf3b010",
           messagingSenderId: "86534504753",
@@ -100,6 +107,8 @@ Future init() async {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -131,12 +140,12 @@ class _MyAppState extends State<MyApp> {
       Workmanager().registerPeriodicTask(
         fetchAQIBackground,
         fetchAQIBackground,
-        frequency: Duration(minutes: 120),
+        frequency: const Duration(minutes: 120),
       );
       Workmanager().registerPeriodicTask(
         fetchLocationBackground,
         fetchLocationBackground,
-        frequency: Duration(minutes: 15),
+        frequency: const Duration(minutes: 15),
       );
     }
   }
@@ -151,7 +160,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
@@ -161,9 +170,9 @@ class _MyAppState extends State<MyApp> {
     return OverlaySupport.global(
       child: DismissKeyboard(
         child: ValueListenableBuilder(
-            valueListenable: Hive.box(HIVEBOX).listenable(),
+            valueListenable: Hive.box(kHiveBox).listenable(),
             builder: (context, box, widget) {
-              var themeMode = getThemeMode((box as Box).get(KEY_THEME_MODE));
+              var themeMode = getThemeMode((box as Box).get(kThemeMode));
               return GetMaterialApp(
                 theme: themeLight(),
                 darkTheme: themeDark(),

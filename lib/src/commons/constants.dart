@@ -10,14 +10,14 @@ const String kMatchPassError = "Mật khẩu không trùng nhau";
 const String kNamelNullError = "Vui lòng nhập tên của bạn";
 const String kPhoneNumberNullError = "Vui lòng nhập số điện thoại";
 
-const String KEY_REMEMBER_LOGIN = "KEY_REMEMBER_LOGIN";
-const String KEY_EMAIL = "KEY_EMAIL";
-const String KEY_PASSWORD = "KEY_PASSWORD";
-const String KEY_CURRENT_USER = "KEY_CURRENT_USER";
-const String KEY_THEME_MODE = "KEY_THEME_MODE";
-const String KEY_FAVORITE = "KEY_FAVORITE";
+const String kRememberLogin = "kRememberLogin";
+const String kEmail = "kEmail";
+const String kPassword = "kPassword";
+const String kCurrentUser = "kCurrentUser";
+const String kThemeMode = "kThemeMode";
+const String kFavorite = "kFavorite";
 
-const String HIVEBOX = "smartenvironment";
+const String kHiveBox = "smartenvironment";
 
-const String ROLE_ADMIN = "admin";
-const String ROLE_MOD = "mod";
+const String kRoleAdmin = "admin";
+const String kRoleMod = "mod";

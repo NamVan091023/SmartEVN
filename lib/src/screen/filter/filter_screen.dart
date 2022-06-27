@@ -8,37 +8,39 @@ import 'package:pollution_environment/src/screen/filter/filter_screen_controller
 import 'package:dropdown_search/dropdown_search.dart';
 
 class FilterMapScreen extends StatelessWidget {
-  late final FilterMapController _controller = Get.put(FilterMapController());
+  final FilterMapController _controller = Get.put(FilterMapController());
+
+  FilterMapScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bộ lọc chi tiết'),
+        title: const Text('Bộ lọc chi tiết'),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: ListView(
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           children: <Widget>[
             _buildProvinceSelection(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             _buildDistrictSelection(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             _buildWardSelection(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             _buildTypeSelection(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             _buildQualitySelection(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             DefaultButton(
@@ -60,7 +62,7 @@ class FilterMapScreen extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedProvince.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Tỉnh/Thành phố",
             hintText: "Chọn tỉnh/thành phố",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -77,9 +79,9 @@ class FilterMapScreen extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -94,7 +96,7 @@ class FilterMapScreen extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedDistrict.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Quận/huyện",
             hintText: "Chọn quận/huyện",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -110,9 +112,9 @@ class FilterMapScreen extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -127,7 +129,7 @@ class FilterMapScreen extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItem: _controller.selectedWard.value,
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Phường/Xã",
             hintText: "Chọn phường/xã",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -143,9 +145,9 @@ class FilterMapScreen extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -160,7 +162,7 @@ class FilterMapScreen extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
           selectedItems: _controller.selectedType.toList(),
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Loại ô nhiễm",
             hintText: "Chọn loại ô nhiễm",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -176,9 +178,9 @@ class FilterMapScreen extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -193,7 +195,7 @@ class FilterMapScreen extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.key == selectedItem?.key,
           selectedItems: _controller.selectedQuality.toList(),
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Mức độ ô nhiễm",
             hintText: "Chọn mức độ ô nhiễm",
             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -209,9 +211,9 @@ class FilterMapScreen extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),

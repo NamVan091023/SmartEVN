@@ -13,7 +13,7 @@ class SplashController extends GetxController {
   late Timer _timer;
   int _start = 3;
   var currentPage = 0.obs;
-  final Box box = Hive.box(HIVEBOX);
+  final Box box = Hive.box(kHiveBox);
   @override
   void onInit() {
     super.onInit();
@@ -21,18 +21,13 @@ class SplashController extends GetxController {
     startTimer();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   void setPage(int page) {
     currentPage.value = page;
   }
 
   void startTimer() {
-    const oneSec = const Duration(seconds: 2);
-    _timer = new Timer.periodic(
+    const oneSec = Duration(seconds: 2);
+    _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
         if (_start == 0) {
@@ -47,9 +42,9 @@ class SplashController extends GetxController {
   }
 
   void checkAccessPermission() async {
-    bool isRememberLogin = box.get(KEY_REMEMBER_LOGIN, defaultValue: false);
+    bool isRememberLogin = box.get(kRememberLogin, defaultValue: false);
     if (isRememberLogin) {
-      AuthResponse? currentUser = await UserStore().getAuth();
+      AuthResponse? currentUser = UserStore().getAuth();
       String? refreshToken = currentUser?.tokens?.refresh?.token;
       if (refreshToken == null) {
         Get.offAllNamed(Routes.LOGIN_SCREEN);

@@ -11,11 +11,11 @@ class SignInController extends GetxController {
   RxString email = "".obs;
   RxString password = "".obs;
   RxBool remember = false.obs;
-  final Box box = Hive.box(HIVEBOX);
+  final Box box = Hive.box(kHiveBox);
 
   @override
   void onInit() {
-    remember.value = box.get(KEY_REMEMBER_LOGIN, defaultValue: false);
+    remember.value = box.get(kRememberLogin, defaultValue: false);
     super.onInit();
   }
 
@@ -39,7 +39,7 @@ class SignInController extends GetxController {
   }
 
   void onChangeEmail(String value) {
-    return null;
+    return;
   }
 
   String? onValidatorEmail(String value) {
@@ -58,14 +58,14 @@ class SignInController extends GetxController {
       debugPrint("Login success $response");
       UserModel? user = response.user;
       if (user != null) {
-        box.put(KEY_REMEMBER_LOGIN, remember.value);
+        box.put(kRememberLogin, remember.value);
 
         if (remember.value == true) {
-          box.put(KEY_EMAIL, email.value);
-          box.put(KEY_PASSWORD, password.value);
+          box.put(kEmail, email.value);
+          box.put(kPassword, password.value);
         } else {
-          box.delete(KEY_EMAIL);
-          box.delete(KEY_PASSWORD);
+          box.delete(kEmail);
+          box.delete(kPassword);
         }
 
         await UserStore().saveAuth(response);

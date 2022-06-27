@@ -31,6 +31,7 @@ class NewsFBController extends GetxController {
     });
   }
 
+  @override
   Future<void> refresh() async {
     canLoadMore = true;
     newsList.value = [];
@@ -46,10 +47,5 @@ class NewsFBController extends GetxController {
   void onLoading() async {
     await getNews();
     refreshController.value.loadComplete();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }

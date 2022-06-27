@@ -24,13 +24,13 @@ class AreaForestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['rank'] = this.rank;
-    data['country'] = this.country;
-    data['forest_area(hectares)'] = this.forestAreaHectares;
-    data['population(2017)'] = this.population2017;
-    data['sqare_meters_per_capita'] = this.sqareMetersPerCapita;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rank'] = rank;
+    data['country'] = country;
+    data['forest_area(hectares)'] = forestAreaHectares;
+    data['population(2017)'] = population2017;
+    data['sqare_meters_per_capita'] = sqareMetersPerCapita;
+    data['id'] = id;
     return data;
   }
 }
@@ -46,16 +46,16 @@ class IQAirRankVN {
     if (json['rankData'] != null) {
       rankData = <RankData>[];
       json['rankData'].forEach((v) {
-        rankData!.add(new RankData.fromJson(v));
+        rankData!.add(RankData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    if (this.rankData != null) {
-      data['rankData'] = this.rankData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    if (rankData != null) {
+      data['rankData'] = rankData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -73,9 +73,9 @@ class RankData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['score'] = this.score;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['score'] = score;
     return data;
   }
 }

@@ -6,10 +6,12 @@ import 'package:pollution_environment/src/screen/profile/profile/profile_control
 class ProfileScreen extends StatelessWidget {
   late final ProfileController _controller = Get.put(ProfileController());
 
+  ProfileScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Hồ sơ")),
+      appBar: AppBar(title: const Text("Hồ sơ")),
       body: Obx(() => Body(user: _controller.user.value)),
     );
   }

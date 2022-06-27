@@ -8,7 +8,9 @@ import '../detail/news_detail_screen.dart';
 import 'news_fb_controller.dart';
 
 class NewsFBScreen extends StatelessWidget {
-  late final NewsFBController _controller = Get.put(NewsFBController());
+  final NewsFBController _controller = Get.put(NewsFBController());
+
+  NewsFBScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +21,14 @@ class NewsFBScreen extends StatelessWidget {
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
-          header: ClassicHeader(
+          header: const ClassicHeader(
             idleText: "Kéo để làm mới",
             refreshingText: "Đang tải...",
             releaseText: "Kéo để làm mới",
             completeText: "Lấy dữ liệu thành công",
             refreshStyle: RefreshStyle.Follow,
           ),
-          footer: ClassicFooter(
+          footer: const ClassicFooter(
             idleText: "Kéo để tải thêm",
             loadingText: "Đang tải...",
             failedText: "Tải thêm dữ liệu thất bại",
@@ -38,7 +40,7 @@ class NewsFBScreen extends StatelessWidget {
           onLoading: _controller.onLoading,
           child: Obx(
             () => _controller.newsList.toList().isEmpty
-                ? EmptyView()
+                ? const EmptyView()
                 : ListView.builder(
                     itemBuilder: (ctx, index) {
                       return FBPostCell(

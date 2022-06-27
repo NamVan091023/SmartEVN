@@ -10,6 +10,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class NewsWebScreen extends StatelessWidget {
   late final NewsWebController _controller = Get.put(NewsWebController());
 
+  NewsWebScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,14 +21,14 @@ class NewsWebScreen extends StatelessWidget {
         child: SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
-          header: ClassicHeader(
+          header: const ClassicHeader(
             idleText: "Kéo để làm mới",
             refreshingText: "Đang tải...",
             releaseText: "Kéo để làm mới",
             completeText: "Lấy dữ liệu thành công",
             refreshStyle: RefreshStyle.Follow,
           ),
-          footer: ClassicFooter(
+          footer: const ClassicFooter(
             idleText: "Kéo để tải thêm",
             loadingText: "Đang tải...",
             failedText: "Tải thêm dữ liệu thất bại",
@@ -43,7 +45,7 @@ class NewsWebScreen extends StatelessWidget {
                 _buildFilter(),
                 Obx(
                   () => _controller.newsList.toList().isEmpty
-                      ? EmptyView()
+                      ? const EmptyView()
                       : ListView.builder(
                           itemBuilder: (ctx, index) {
                             return NewsCell(
@@ -82,7 +84,7 @@ class NewsWebScreen extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: Obx(
               () => FilterChip(
                   label: Text(_controller.listFilterStatusTxt[index]),

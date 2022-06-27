@@ -4,6 +4,8 @@ import 'package:pollution_environment/src/components/no_account_text.dart';
 import 'sign_form.dart';
 
 class SignInBody extends StatelessWidget {
+  const SignInBody({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,9 +29,9 @@ class SignInBody extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                SignForm(),
+                const SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                NoAccountText(),
+                const NoAccountText(),
                 SizedBox(height: getProportionateScreenHeight(20)),
               ],
             ),

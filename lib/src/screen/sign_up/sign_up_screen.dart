@@ -12,13 +12,15 @@ class SignUpBindings extends Bindings {
 }
 
 class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Đăng ký tài khoản"),
+        title: const Text("Đăng ký tài khoản"),
       ),
-      body: Body(),
+      body: const Body(),
     );
   }
 }

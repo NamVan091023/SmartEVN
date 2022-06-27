@@ -37,7 +37,7 @@ class ViewAQISelected extends StatelessWidget {
                 right: 5,
                 left: 5),
             child: ListView(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               shrinkWrap: true,
               children: [
                 ListTile(
@@ -53,7 +53,7 @@ class ViewAQISelected extends StatelessWidget {
                         Share.share(
                             "Chỉ số không khí tại ${_controller.aqiMarkerSelected.value?.station?.name ?? ""} là ${_controller.aqiMarkerSelected.value?.aqi ?? 0}. Xem chi tiết tại ứng dụng Smart Environment");
                       },
-                      icon: Icon(Icons.share_rounded)),
+                      icon: const Icon(Icons.share_rounded)),
                 ),
                 _controller.aqiMarkerSelected.value != null
                     ? AQICard(

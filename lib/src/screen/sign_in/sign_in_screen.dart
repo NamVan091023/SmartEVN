@@ -12,9 +12,11 @@ class SignInBindings extends Bindings {
 }
 
 class SignInScreen extends StatelessWidget {
+  const SignInScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SignInBody(),
     );
   }

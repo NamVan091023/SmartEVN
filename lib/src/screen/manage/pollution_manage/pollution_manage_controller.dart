@@ -31,7 +31,7 @@ class PollutionManageController extends GetxController {
   RxList<String> filterTypes = ["land", "air", "sound", "water"].obs;
   List<String> listPollutionType = ["land", "air", "sound", "water"];
 
-  String? searchText = null;
+  String? searchText;
   int nextPage = 1;
   static const int _itemsPerPage = 10;
   bool canLoadMore = true;
@@ -47,7 +47,7 @@ class PollutionManageController extends GetxController {
   }
 
   Future<void> getAllPollution() async {
-    currentUser = await UserStore().getAuth()?.user;
+    currentUser = UserStore().getAuth()?.user;
     PollutionApi()
         .getAllPollution(
       page: nextPage,
@@ -56,7 +56,7 @@ class PollutionManageController extends GetxController {
       status: filterSelected.value,
       type: filterTypes.toList(),
       provinceIds:
-          currentUser?.role == ROLE_ADMIN ? null : currentUser?.provinceManage,
+          currentUser?.role == kRoleAdmin ? null : currentUser?.provinceManage,
     )
         .then((value) {
       pollutionList.addAll(value.results ?? []);
@@ -83,6 +83,7 @@ class PollutionManageController extends GetxController {
     });
   }
 
+  @override
   Future<void> refresh() async {
     canLoadMore = true;
     pollutionList.value = [];

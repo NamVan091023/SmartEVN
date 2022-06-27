@@ -1,5 +1,5 @@
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
-import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class WAQIMapResponse {
   String? status;
@@ -12,14 +12,14 @@ class WAQIMapResponse {
     if (json['data'] != null) {
       data = <WAQIMapData>[];
       json['data'].forEach((v) {
-        data!.add(new WAQIMapData.fromJson(v));
+        data!.add(WAQIMapData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -42,18 +42,18 @@ class WAQIMapData with ClusterItem {
     uid = json['uid'];
     aqi = json['aqi'];
     station = json['station'] != null
-        ? new WAQIMapStation.fromJson(json['station'])
+        ? WAQIMapStation.fromJson(json['station'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lon'] = this.lon;
-    data['uid'] = this.uid;
-    data['aqi'] = this.aqi;
-    if (this.station != null) {
-      data['station'] = this.station!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['lat'] = lat;
+    data['lon'] = lon;
+    data['uid'] = uid;
+    data['aqi'] = aqi;
+    if (station != null) {
+      data['station'] = station!.toJson();
     }
     return data;
   }
@@ -74,9 +74,9 @@ class WAQIMapStation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['time'] = this.time;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['time'] = time;
     return data;
   }
 }

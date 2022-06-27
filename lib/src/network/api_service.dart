@@ -1,6 +1,9 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart' as GetX;
+import 'package:get/get.dart' as getx;
 import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/base_response.dart';
 import 'package:pollution_environment/src/model/token_response.dart';
@@ -14,8 +17,8 @@ enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 // final host = "https://smartenvironment.up.railway.app";
 // final host = "http://192.168.123.235:3000";
 // final host = "http://172.16.133.35:3000";
-final host = "https://www.hungs20.xyz";
-final baseUrl = "$host/v1";
+const host = "https://www.hungs20.xyz";
+const baseUrl = "$host/v1";
 
 class AuthInterceptor extends QueuedInterceptorsWrapper {
   final Dio _dio;
@@ -68,7 +71,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
 
     if (_refreshed) {
       // add access token to the request header
-      AuthResponse? newAuth = await UserStore().getAuth();
+      AuthResponse? newAuth = UserStore().getAuth();
       String? newAccessToken = newAuth?.tokens?.access?.token;
       options.headers["Authorization"] = "Bearer $newAccessToken";
       return handler.next(options);
@@ -104,7 +107,9 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    print(response.data);
+    if (kDebugMode) {
+      print(response.data);
+    }
     return handler.next(response);
   }
 
@@ -113,7 +118,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
     // back to login page without using context
     Fluttertoast.showToast(
         msg: "Phiên làm việc đã hết hạn, vui lòng đăng nhập lại");
-    GetX.Get.offAllNamed(Routes.LOGIN_SCREEN);
+    getx.Get.offAllNamed(Routes.LOGIN_SCREEN);
   }
 
   /// return true if it is successfully regenerate the access token
@@ -123,7 +128,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
           Dio(); // should create new dio instance because the request interceptor is being locked
 
       // get refresh token from local storage
-      AuthResponse? currentAuth = await UserStore().getAuth();
+      AuthResponse? currentAuth = UserStore().getAuth();
       final refreshToken = currentAuth?.tokens?.refresh?.token;
 
       // make request to server to get the new access token from server using refresh token
@@ -144,7 +149,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
           String? accessToken = tokenResponse.access?.token;
           String? refreshToken = tokenResponse.refresh?.token;
           if (accessToken != null && refreshToken != null) {
-            AuthResponse? currentAuth = await UserStore().getAuth();
+            AuthResponse? currentAuth = UserStore().getAuth();
             if (currentAuth != null) {
               currentAuth.tokens = tokenResponse;
               await UserStore().saveAuth(currentAuth);
@@ -163,7 +168,9 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
         _performLogout(_dio);
         return false;
       } else {
-        print(response.statusCode);
+        if (kDebugMode) {
+          print(response.statusCode);
+        }
         return false;
       }
     } on DioError {

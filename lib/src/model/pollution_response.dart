@@ -1,5 +1,5 @@
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
-import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PollutionModel with ClusterItem {
   List<String>? images;
@@ -66,26 +66,26 @@ class PollutionModel with ClusterItem {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['images'] = this.images;
-    data['qualityScore'] = this.qualityScore;
-    data['provinceName'] = this.provinceName;
-    data['provinceId'] = this.provinceId;
-    data['districtName'] = this.districtName;
-    data['districtId'] = this.districtId;
-    data['wardName'] = this.wardName;
-    data['wardId'] = this.wardId;
-    data['type'] = this.type;
-    data['quality'] = this.quality;
-    data['user'] = this.user;
-    data['desc'] = this.desc;
-    data['specialAddress'] = this.specialAddress;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['id'] = this.id;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['images'] = images;
+    data['qualityScore'] = qualityScore;
+    data['provinceName'] = provinceName;
+    data['provinceId'] = provinceId;
+    data['districtName'] = districtName;
+    data['districtId'] = districtId;
+    data['wardName'] = wardName;
+    data['wardId'] = wardId;
+    data['type'] = type;
+    data['quality'] = quality;
+    data['user'] = user;
+    data['desc'] = desc;
+    data['specialAddress'] = specialAddress;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['id'] = id;
+    data['status'] = status;
     return data;
   }
 
@@ -115,7 +115,7 @@ class PollutionsResponse {
     if (json['results'] != null) {
       results = <PollutionModel>[];
       json['results'].forEach((v) {
-        results!.add(new PollutionModel.fromJson(v));
+        results!.add(PollutionModel.fromJson(v));
       });
     }
     page = json['page'];
@@ -127,16 +127,16 @@ class PollutionsResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['totalPages'] = this.totalPages;
-    data['totalResults'] = this.totalResults;
-    data['avgQualityScore'] = this.avgQualityScore;
-    data['avgQuality'] = this.avgQuality;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['totalPages'] = totalPages;
+    data['totalResults'] = totalResults;
+    data['avgQualityScore'] = avgQualityScore;
+    data['avgQuality'] = avgQuality;
     return data;
   }
 }

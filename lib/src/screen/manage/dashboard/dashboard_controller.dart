@@ -41,7 +41,7 @@ class DashboardControler extends GetxController {
         String? createdAt = element.createdAt;
         if (createdAt != null) {
           DateTime parseDate =
-              new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(createdAt);
+              DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(createdAt);
 
           var date = parseDate.weekday;
           if (element.type == "air") weekAirData[date] += 1;

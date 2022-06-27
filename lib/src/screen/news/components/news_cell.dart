@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:pollution_environment/src/model/news_model.dart';
 
 class NewsCell extends StatelessWidget {
-  NewsCell({Key? key, required this.newsModel, required this.onTap})
+  const NewsCell({Key? key, required this.newsModel, required this.onTap})
       : super(key: key);
 
-  late final Function() onTap;
-  late final NewsModel newsModel;
+  final Function() onTap;
+  final NewsModel newsModel;
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Card(
@@ -23,14 +24,15 @@ class NewsCell extends StatelessWidget {
                   imageUrl: (newsModel.image ?? []).isNotEmpty
                       ? (newsModel.image ?? []).first
                       : "https://via.placeholder.com/120/?text=Smart%20Environment",
-                  placeholder: (c, url) => Center(
+                  placeholder: (c, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),
-                  errorWidget: (c, e, f) => Center(child: Icon(Icons.error)),
+                  errorWidget: (c, e, f) =>
+                      const Center(child: Icon(Icons.error)),
                   fit: BoxFit.fill,
                 ),
               ),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               Expanded(
@@ -43,27 +45,27 @@ class NewsCell extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         newsModel.title ?? "",
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
                         newsModel.author ?? "",
-                        style: TextStyle(color: Colors.cyan),
+                        style: const TextStyle(color: Colors.cyan),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text.rich(
                         TextSpan(children: <TextSpan>[
                           TextSpan(
                             text: newsModel.topic ?? "",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.cyan,
                             ),
                           ),
-                          TextSpan(text: " | "),
+                          const TextSpan(text: " | "),
                           TextSpan(text: newsModel.time ?? ""),
                         ]),
                       ),

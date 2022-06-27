@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,18 +11,19 @@ import 'package:pollution_environment/src/model/address_model.dart';
 import 'package:pollution_environment/src/screen/edit_profile/edit_profile_controller.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  late final EditProfileController _controller =
-      Get.put(EditProfileController());
+  final EditProfileController _controller = Get.put(EditProfileController());
 
-  final nameController = new TextEditingController();
-  final mailController = new TextEditingController();
+  final nameController = TextEditingController();
+  final mailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  EditProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thay đổi thông tin"),
+        title: const Text("Thay đổi thông tin"),
       ),
       body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -30,7 +32,7 @@ class EditProfileScreen extends StatelessWidget {
               key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   SizedBox(
                     height: 115,
                     width: 115,
@@ -41,7 +43,7 @@ class EditProfileScreen extends StatelessWidget {
                         Obx(() => CircleAvatar(
                               backgroundImage: (_controller.image.value == null
                                   ? (_controller.userModel.value.avatar == null
-                                      ? AssetImage(
+                                      ? const AssetImage(
                                           "assets/images/profile_image.png")
                                       : NetworkImage(
                                           _controller.userModel.value.avatar!,
@@ -58,7 +60,7 @@ class EditProfileScreen extends StatelessWidget {
                             child: Container(
                               width: 30,
                               height: 30,
-                              decoration: new BoxDecoration(
+                              decoration: BoxDecoration(
                                 color: Theme.of(context).primaryColor,
                                 shape: BoxShape.circle,
                               ),
@@ -67,7 +69,7 @@ class EditProfileScreen extends StatelessWidget {
                                 onPressed: () {
                                   loadAssets();
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.edit_rounded,
                                   size: 16,
                                 ),
@@ -78,17 +80,17 @@ class EditProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   buildNameFormField(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   buildEmailFormField(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Obx(() => _controller.currentUser.value?.user?.role == "admin"
                       ? Column(children: [
                           buildRole(),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                         ])
@@ -99,16 +101,16 @@ class EditProfileScreen extends StatelessWidget {
                           ? Column(
                               children: [
                                 _buildProvinceSelection(),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                               ],
                             )
                           : Container()),
                   buildPasswordFormField(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   buildRePasswordFormField(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       SizedBox(
@@ -121,7 +123,7 @@ class EditProfileScreen extends StatelessWidget {
                           onPressed: () {
                             Get.back();
                           },
-                          child: Text(
+                          child: const Text(
                             "Huỷ",
                             style: TextStyle(
                               color: Colors.white,
@@ -129,7 +131,7 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         height: 50,
@@ -141,7 +143,7 @@ class EditProfileScreen extends StatelessWidget {
                               _controller.updateUser();
                             }
                           },
-                          child: Text(
+                          child: const Text(
                             "Cập nhật",
                           ),
                         ),
@@ -216,7 +218,7 @@ class EditProfileScreen extends StatelessWidget {
         }
         return null;
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Mật khẩu",
         hintText: "Nhập mật khẩu mới",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -239,7 +241,7 @@ class EditProfileScreen extends StatelessWidget {
         }
         return null;
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Mật khẩu",
         hintText: "Nhập lại mật khẩu mới",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -255,20 +257,21 @@ class EditProfileScreen extends StatelessWidget {
       compareFn: (item, selectedItem) => item == selectedItem,
       selectedItem: _controller.role.value,
       showSearchBox: false,
-      dropdownSearchDecoration: InputDecoration(
+      dropdownSearchDecoration: const InputDecoration(
         labelText: "Chức vụ",
         hintText: "Chọn chức vụ",
         contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
       ),
       itemAsString: (item) {
-        if (item == "mod")
+        if (item == "mod") {
           return "Người kiểm duyệt";
-        else if (item == "admin")
+        } else if (item == "admin") {
           return "Quản trị viên";
-        else
+        } else {
           return "Thành viên";
+        }
       },
-      items: ["user", "mod", "admin"],
+      items: const ["user", "mod", "admin"],
       // maxHeight: 300,
       popupShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -284,7 +287,7 @@ class EditProfileScreen extends StatelessWidget {
           compareFn: (item, selectedItem) => item?.id == selectedItem?.id,
           selectedItems: _controller.provinceManage.toList(),
           showSearchBox: true,
-          dropdownSearchDecoration: InputDecoration(
+          dropdownSearchDecoration: const InputDecoration(
             labelText: "Tỉnh/Thành phố kiểm duyệt",
             hintText: "Chọn tỉnh/thành phố kiểm duyệt",
             contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
@@ -300,9 +303,9 @@ class EditProfileScreen extends StatelessWidget {
                         const BorderSide(color: Colors.grey, width: 0.5),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   hintText: "Nhập để tìm kiếm",
-                  hintStyle: TextStyle(color: Colors.grey))),
+                  hintStyle: const TextStyle(color: Colors.grey))),
           popupShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -315,7 +318,9 @@ class EditProfileScreen extends StatelessWidget {
       XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       if (image != null) _controller.image.value = File(image.path);
     } on Exception catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

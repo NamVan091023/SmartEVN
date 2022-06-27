@@ -13,6 +13,8 @@ class SignUpForm extends StatelessWidget {
 
   late final SignUpController controller = Get.put(SignUpController());
 
+  SignUpForm({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -66,7 +68,7 @@ class SignUpForm extends StatelessWidget {
         return controller.validatorConformPass(value!);
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Xác nhận mật khẩu",
         hintText: "Nhập lại mật khẩu",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -88,7 +90,7 @@ class SignUpForm extends StatelessWidget {
         return controller.validatorPassword(value!);
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Mật khẩu",
         hintText: "Nhập mật khẩu",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -110,7 +112,7 @@ class SignUpForm extends StatelessWidget {
         return controller.validatorEmail(value!);
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: "Email",
         hintText: "Nhập email",
         // If  you are using latest version of flutter then lable text and hint text shown like this
@@ -132,7 +134,7 @@ class SignUpForm extends StatelessWidget {
           return controller.validatorName(value!);
         },
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: "Họ và tên",
           hintText: "Nhập họ tên của bạn",
           // If  you are using latest version of flutter then lable text and hint text shown like this

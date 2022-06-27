@@ -8,6 +8,8 @@ import 'components/body.dart';
 class SplashScreen extends StatelessWidget {
   final SplashController controller = Get.put(SplashController());
 
+  SplashScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

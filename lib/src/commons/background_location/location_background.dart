@@ -2,19 +2,26 @@ import 'package:background_locator/background_locator.dart';
 import 'package:background_locator/settings/android_settings.dart';
 import 'package:background_locator/settings/ios_settings.dart';
 import 'package:background_locator/settings/locator_settings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart' as GeoLocator;
+import 'package:geolocator/geolocator.dart' as geo_locator;
 
 import 'location_callback_handler.dart';
 
 class LocationBackground {
   static Future<void> initPlatformState() async {
     WidgetsFlutterBinding.ensureInitialized();
-    print('Initializing...');
+    if (kDebugMode) {
+      print('Initializing...');
+    }
     await BackgroundLocator.initialize();
-    print('Initialization done');
+    if (kDebugMode) {
+      print('Initialization done');
+    }
     final _isRunning = await BackgroundLocator.isServiceRunning();
-    print('Running ${_isRunning.toString()}');
+    if (kDebugMode) {
+      print('Running ${_isRunning.toString()}');
+    }
     onStart();
   }
 
@@ -27,17 +34,18 @@ class LocationBackground {
   }
 
   static Future<bool> checkLocationPermission() async {
-    GeoLocator.LocationPermission permission =
-        await GeoLocator.Geolocator.checkPermission();
+    geo_locator.LocationPermission permission =
+        await geo_locator.Geolocator.checkPermission();
     switch (permission) {
-      case GeoLocator.LocationPermission.unableToDetermine:
-        permission = await GeoLocator.Geolocator.requestPermission();
-        if (permission == GeoLocator.LocationPermission.denied ||
-            permission == GeoLocator.LocationPermission.deniedForever)
+      case geo_locator.LocationPermission.unableToDetermine:
+        permission = await geo_locator.Geolocator.requestPermission();
+        if (permission == geo_locator.LocationPermission.denied ||
+            permission == geo_locator.LocationPermission.deniedForever) {
           return false;
+        }
         return true;
-      case GeoLocator.LocationPermission.always:
-      case GeoLocator.LocationPermission.whileInUse:
+      case geo_locator.LocationPermission.always:
+      case geo_locator.LocationPermission.whileInUse:
         return true;
       default:
         return false;
@@ -51,13 +59,13 @@ class LocationBackground {
       LocationCallbackHandler.callback,
       initCallback: LocationCallbackHandler.initCallback,
       disposeCallback: LocationCallbackHandler.disposeCallback,
-      iosSettings: IOSSettings(
+      iosSettings: const IOSSettings(
         accuracy: LocationAccuracy.NAVIGATION,
         showsBackgroundLocationIndicator: true,
         distanceFilter: 20,
       ),
       autoStop: false,
-      androidSettings: AndroidSettings(
+      androidSettings: const AndroidSettings(
         accuracy: LocationAccuracy.NAVIGATION,
         interval: 15 * 60,
         distanceFilter: 20,

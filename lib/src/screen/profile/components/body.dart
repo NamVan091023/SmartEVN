@@ -7,27 +7,27 @@ import 'profile_pic.dart';
 class Body extends StatelessWidget {
   final UserModel? user;
 
-  Body({Key? key, this.user}) : super(key: key);
+  const Body({Key? key, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       child: Column(
         children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           ProfilePic(
             user: user,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             user?.name ?? "",
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(user?.email ?? ""),
-          SizedBox(height: 20),
-          Divider(
+          const SizedBox(height: 20),
+          const Divider(
             height: 1,
           ),
           ProfileMenu(

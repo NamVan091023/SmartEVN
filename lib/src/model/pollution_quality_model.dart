@@ -12,10 +12,10 @@ class PollutionQuality {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key'] = this.key;
-    data['name'] = this.name;
-    data['score'] = this.score;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key'] = key;
+    data['name'] = name;
+    data['score'] = score;
     return data;
   }
 }

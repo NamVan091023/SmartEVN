@@ -16,9 +16,9 @@ class AuthResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user'] = this.user;
-    data['tokens'] = this.tokens;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['user'] = user;
+    data['tokens'] = tokens;
     return data;
   }
 }
@@ -41,7 +41,7 @@ class UserListResponse {
     if (json['results'] != null) {
       results = <UserModel>[];
       json['results'].forEach((v) {
-        results!.add(new UserModel.fromJson(v));
+        results!.add(UserModel.fromJson(v));
       });
     }
     page = json['page'];
@@ -51,14 +51,14 @@ class UserListResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.results != null) {
-      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (results != null) {
+      data['results'] = results!.map((v) => v.toJson()).toList();
     }
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['totalPages'] = this.totalPages;
-    data['totalResults'] = this.totalResults;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['totalPages'] = totalPages;
+    data['totalResults'] = totalResults;
     return data;
   }
 }
@@ -99,17 +99,17 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['role'] = this.role;
-    data['isEmailVerified'] = this.isEmailVerified;
-    data['isNotificationReceived'] = this.isNotificationReceived;
-    data['email'] = this.email;
-    data['name'] = this.name;
-    data['createdAt'] = this.createdAt;
-    data['avatar'] = this.avatar;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['role'] = role;
+    data['isEmailVerified'] = isEmailVerified;
+    data['isNotificationReceived'] = isNotificationReceived;
+    data['email'] = email;
+    data['name'] = name;
+    data['createdAt'] = createdAt;
+    data['avatar'] = avatar;
+    data['lat'] = lat;
+    data['lng'] = lng;
     data['provinceManage'] = provinceManage;
     return data;
   }
@@ -117,7 +117,7 @@ class UserModel {
 
 class UserStore {
   static final UserStore _singleton = UserStore._internal();
-  final String KEY_UID = "KEY_UID";
+  final String kKeyUid = "kKeyUid";
   factory UserStore() {
     return _singleton;
   }
@@ -129,18 +129,18 @@ class UserStore {
     String? uid = authResponse.user?.id;
     if (uid != null) {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(KEY_UID, uid);
+      await prefs.setString(kKeyUid, uid);
     }
 
     ///
     String user = jsonEncode(authResponse);
-    Box box = Hive.box(HIVEBOX);
-    await box.put(KEY_CURRENT_USER, user);
+    Box box = Hive.box(kHiveBox);
+    await box.put(kCurrentUser, user);
   }
 
   AuthResponse? getAuth() {
-    Box box = Hive.box(HIVEBOX);
-    String? userData = box.get(KEY_CURRENT_USER);
+    Box box = Hive.box(kHiveBox);
+    String? userData = box.get(kCurrentUser);
     if (userData != null) {
       Map<String, dynamic> userMap = jsonDecode(userData);
       var user = AuthResponse.fromJson(userMap);
@@ -152,15 +152,15 @@ class UserStore {
 
   Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? uid = prefs.getString(KEY_UID);
+    final String? uid = prefs.getString(kKeyUid);
     return uid;
   }
 
   Future<void> removeAuth() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(KEY_UID);
+    await prefs.remove(kKeyUid);
 
-    var box = Hive.box(HIVEBOX);
-    await box.delete(KEY_CURRENT_USER);
+    var box = Hive.box(kHiveBox);
+    await box.delete(kCurrentUser);
   }
 }

@@ -10,6 +10,8 @@ import 'package:pollution_environment/src/screen/forgot_password/forgot_password
 import 'forgot_token_screen.dart';
 
 class Body extends StatelessWidget {
+  const Body({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,7 +23,7 @@ class Body extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: SizeConfig.screenHeight * 0.04),
-              Text(
+              const Text(
                 "Nhập địa chỉ email của bạn, chúng tôi sẽ gửi\n mã xác nhận đến email của bạn",
                 textAlign: TextAlign.center,
               ),
@@ -39,6 +41,8 @@ class ForgotPassForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final ForgotPasswordController controller =
       Get.put(ForgotPasswordController());
+
+  ForgotPassForm({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -55,7 +59,7 @@ class ForgotPassForm extends StatelessWidget {
             validator: (value) {
               return controller.onValidator(value!);
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Email",
               hintText: "Nhập email",
               floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -71,7 +75,7 @@ class ForgotPassForm extends StatelessWidget {
                 showLoading();
                 AuthApi().forgotPassword(controller.email.value).then((value) {
                   hideLoading();
-                  Get.to(() => ResetPassword());
+                  Get.to(() => const ResetPassword());
                 }, onError: (e) {
                   hideLoading();
                 });

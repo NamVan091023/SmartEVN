@@ -31,17 +31,17 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
-    final AndroidInitializationSettings initializationSettingsAndroid =
+    const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    final IOSInitializationSettings initializationSettingsIOS =
+    const IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
 
-    final InitializationSettings initializationSettings =
+    const InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS,
@@ -112,15 +112,15 @@ class NotificationService {
   }
 
   Future showNotificationWithoutSound(Position position) async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
         '1', 'location-bg',
         channelDescription: 'fetch location in background',
         playSound: false,
         importance: Importance.max,
         priority: Priority.high);
     var iOSPlatformChannelSpecifics =
-        new IOSNotificationDetails(presentSound: false);
-    var platformChannelSpecifics = new NotificationDetails(
+        const IOSNotificationDetails(presentSound: false);
+    var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
@@ -137,7 +137,7 @@ class NotificationService {
     //     await _getByteArrayFromUrl(
     //         'http://openweathermap.org/img/wn/${aqiCurentResponse.data?.current?.weather?.ic ?? ''}@2x.png'));
 
-    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       '2',
       'Thông tin thời tiết',
@@ -147,9 +147,9 @@ class NotificationService {
       channelShowBadge: false,
       priority: Priority.high,
       importance: Importance.max,
-      color: const Color.fromARGB(255, 0, 255, 0),
+      color: Color.fromARGB(255, 0, 255, 0),
     );
-    final NotificationDetails platformChannelSpecifics =
+    const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         2,

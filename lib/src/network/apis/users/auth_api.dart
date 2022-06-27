@@ -44,7 +44,7 @@ class AuthApi {
         return authResponse;
       }
     } catch (e) {
-      throw (e);
+      rethrow;
     }
   }
 
@@ -67,8 +67,8 @@ class AuthApi {
         AuthResponse authResponse = AuthResponse.fromJson(baseResponse.data!);
         return authResponse;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -90,15 +90,15 @@ class AuthApi {
             TokensResponse.fromJson(baseResponse.data!["tokens"]);
         return tokenResponse;
       }
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
   Future<BaseResponse> logout() async {
     Response response;
     try {
-      AuthResponse? auth = await UserStore().getAuth();
+      AuthResponse? auth = UserStore().getAuth();
       response = await apiService.request(
           method: APIMethod.POST,
           endPoint: AuthAPIPath.logout,
@@ -109,8 +109,8 @@ class AuthApi {
 
       BaseResponse baseResponse = BaseResponse.fromJson(response.data);
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -127,8 +127,8 @@ class AuthApi {
 
       BaseResponse baseResponse = BaseResponse.fromJson(response.data);
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 
@@ -145,8 +145,8 @@ class AuthApi {
 
       BaseResponse baseResponse = BaseResponse.fromJson(response.data);
       return baseResponse;
-    } on DioError catch (e) {
-      throw (e);
+    } on DioError {
+      rethrow;
     }
   }
 

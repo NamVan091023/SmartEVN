@@ -23,22 +23,22 @@ class AppPages {
     ),
     GetPage(
       name: Routes.LOGIN_SCREEN,
-      page: () => SignInScreen(),
+      page: () => const SignInScreen(),
       binding: SignInBindings(),
     ),
     GetPage(
       name: Routes.SIGNUP_SCREEN,
-      page: () => SignUpScreen(),
+      page: () => const SignUpScreen(),
       binding: SignUpBindings(),
     ),
     GetPage(
       name: Routes.FORGOT_PASSWORD_SCREEN,
-      page: () => ForgotPasswordScreen(),
+      page: () => const ForgotPasswordScreen(),
       binding: ForgotPasswordBindings(),
     ),
     GetPage(
       name: Routes.HOME_SCREEN,
-      page: () => MainBoard(),
+      page: () => const MainBoard(),
     ),
     GetPage(
       name: Routes.MAP_FILTER_SCREEN,
@@ -66,11 +66,11 @@ class AppPages {
     ),
     GetPage(
       name: Routes.NOTIFICATION_SCREEN,
-      page: () => NotificationScreen(),
+      page: () => const NotificationScreen(),
     ),
     GetPage(
       name: Routes.MANAGE_SCREEN,
-      page: () => ManageScreen(),
+      page: () => const ManageScreen(),
     ),
     GetPage(
       name: Routes.FAVORITE_SCREEN,

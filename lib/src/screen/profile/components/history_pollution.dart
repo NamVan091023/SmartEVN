@@ -8,27 +8,28 @@ import 'package:pollution_environment/src/model/pollution_response.dart';
 import 'package:pollution_environment/src/routes/app_pages.dart';
 
 class HistoryPollution extends StatelessWidget {
-  HistoryPollution(this.pollutions);
+  const HistoryPollution(this.pollutions, {Key? key}) : super(key: key);
   final List<PollutionModel> pollutions;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (c, i) {
-        if (pollutions.length == 0) {
-          return EmptyView();
-        } else
+        if (pollutions.isEmpty) {
+          return const EmptyView();
+        } else {
           return buildRow(c, i);
+        }
       },
-      itemCount: pollutions.length == 0 ? 1 : min(10, pollutions.length),
+      itemCount: pollutions.isEmpty ? 1 : min(10, pollutions.length),
     );
   }
 
   Widget buildRow(BuildContext context, int index) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: GestureDetector(
         onTap: () {
           // Vào màn xem chi tiết
@@ -44,7 +45,7 @@ class HistoryPollution extends StatelessWidget {
             color: Theme.of(context).cardColor,
           ),
           child: Padding(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: Row(
               children: [
                 Image.asset(
@@ -52,7 +53,7 @@ class HistoryPollution extends StatelessWidget {
                   width: 50,
                   height: 50,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
@@ -67,7 +68,7 @@ class HistoryPollution extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
@@ -77,7 +78,7 @@ class HistoryPollution extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Text(

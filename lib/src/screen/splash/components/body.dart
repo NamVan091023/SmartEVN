@@ -50,10 +50,10 @@ class Body extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: <Widget>[
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
@@ -62,7 +62,7 @@ class Body extends StatelessWidget {
                             Obx(() => buildDot(context: context, index: index)),
                       ),
                     ),
-                    Spacer(flex: 3),
+                    const Spacer(flex: 3),
                     DefaultButton(
                       text: "Tiếp tục",
                       press: () {
@@ -70,7 +70,7 @@ class Body extends StatelessWidget {
                         conn.checkAccessPermission();
                       },
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
               ),
@@ -84,13 +84,13 @@ class Body extends StatelessWidget {
   AnimatedContainer buildDot({required BuildContext context, int? index}) {
     return AnimatedContainer(
       duration: kAnimationDuration,
-      margin: EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 5),
       height: 6,
       width: conn.currentPage.value == index ? 20 : 6,
       decoration: BoxDecoration(
         color: conn.currentPage.value == index
             ? Theme.of(context).primaryColor
-            : Color(0xFFD8D8D8),
+            : const Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(3),
       ),
     );

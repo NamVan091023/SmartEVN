@@ -4,9 +4,9 @@ import 'package:pollution_environment/src/commons/generated/assets.dart';
 import 'package:pollution_environment/src/model/user_response.dart';
 
 class ProfilePic extends StatelessWidget {
-  late final UserModel? user;
+  final UserModel? user;
 
-  ProfilePic({
+  const ProfilePic({
     Key? key,
     this.user,
   }) : super(key: key);

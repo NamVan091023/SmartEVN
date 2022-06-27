@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 //   return name;
 // }
 class CustomDropdown<T> extends StatefulWidget {
-  CustomDropdown({
+  const CustomDropdown({
     Key? key,
     required this.items,
     required this.onChanged,
@@ -66,13 +66,14 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T?>> {
   _initValue() {
     if (widget.items.isEmpty) {
       _selectedValue = null;
-    } else
+    } else {
       _selectedValue = widget.items[0];
+    }
     if (widget.onInit != null) widget.onInit!(_selectedValue);
   }
 
   _buildBody() {
-    Color borderLine = Color(0xffc0c0c0);
+    Color borderLine = const Color(0xffc0c0c0);
     return Padding(
       padding: widget.padding,
       child: Row(
@@ -80,19 +81,19 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T?>> {
             ? MainAxisAlignment.center
             : MainAxisAlignment.start,
         children: <Widget>[
-          new Container(
+          Container(
             height: widget.height,
-            padding: EdgeInsets.only(left: 10.0),
+            padding: const EdgeInsets.only(left: 10.0),
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
                 side: BorderSide(
                     width: 0.8, style: BorderStyle.solid, color: borderLine),
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               ),
             ),
-            child: new DropdownButtonHideUnderline(
-              child: new DropdownButton<T>(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<T>(
                 value: _selectedValue,
                 onChanged: (T? newValue) {
                   setState(() {
@@ -103,13 +104,13 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T?>> {
                 menuMaxHeight: 300,
                 isExpanded: true,
                 items: widget.items.map((T? f) {
-                  return new DropdownMenuItem<T>(
+                  return DropdownMenuItem<T>(
                     value: f,
-                    child: new Text(
+                    child: Text(
                       (widget.itemText != null)
                           ? widget.itemText!(f)
                           : f.toString(),
-                      style: new TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                     ),
                   );
                 }).toList(),

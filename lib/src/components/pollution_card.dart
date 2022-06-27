@@ -3,7 +3,8 @@ import 'package:pollution_environment/src/commons/helper.dart';
 import 'package:pollution_environment/src/model/pollution_response.dart';
 
 class PollutionCard extends StatelessWidget {
-  PollutionCard({Key? key, required this.pollutionModel}) : super(key: key);
+  const PollutionCard({Key? key, required this.pollutionModel})
+      : super(key: key);
 
   final PollutionModel pollutionModel;
 
@@ -12,7 +13,7 @@ class PollutionCard extends StatelessWidget {
     return Card(
       semanticContainer: true,
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Container(
+      child: SizedBox(
         height: 80,
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -33,7 +34,7 @@ class PollutionCard extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    stops: [
+                    stops: const [
                       0.1,
                       0.4,
                       0.6,
@@ -60,7 +61,7 @@ class PollutionCard extends StatelessWidget {
                           color: getTextColorRank(
                               pollutionModel.qualityScore ?? 0)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Text(

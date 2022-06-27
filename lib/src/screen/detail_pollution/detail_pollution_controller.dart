@@ -33,12 +33,12 @@ class DetailPollutionController extends GetxController {
 
   RxList<ClusterManager> managers = RxList<ClusterManager>();
   RxList<Set<Marker>> markers = [
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>(),
-    Set<Marker>()
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{},
+    <Marker>{}
   ].obs;
 
   RxInt recommentType = 0.obs;
@@ -66,7 +66,7 @@ class DetailPollutionController extends GetxController {
     }
 
     pollutions.refresh();
-    this.managers.refresh();
+    managers.refresh();
   }
 
   Future<Marker> Function(Cluster<PollutionModel>) _getMarkerBuilder(
@@ -170,14 +170,14 @@ class DetailPollutionController extends GetxController {
     for (int i = 0; i < 6; i++) {
       pollutions.toList()[i].clear();
     }
-    list.forEach((element) {
+    for (var element in list) {
       if (element.lat != null &&
           element.lng != null &&
           element.type != null &&
           element.qualityScore != null) {
         pollutions.toList()[element.qualityScore! - 1].add(element);
       }
-    });
+    }
     pollutions.refresh();
     for (int i = 0; i < 6; i++) {
       managers.toList()[i].setItems(pollutions[i].toList());
