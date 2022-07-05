@@ -6,18 +6,18 @@ import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pollution_environment/src/commons/background_location/location_background.dart';
-import 'package:pollution_environment/src/commons/constants.dart';
-import 'package:pollution_environment/src/commons/notification_service.dart';
-import 'package:pollution_environment/src/components/custom_loading.dart';
-import 'package:pollution_environment/src/model/favorite_model.dart';
-import 'package:pollution_environment/src/model/waqi/waqi_ip_model.dart';
-import 'package:pollution_environment/src/network/apis/waqi/waqi.dart';
-import 'package:pollution_environment/src/routes/app_pages.dart';
-import 'package:pollution_environment/src/commons/theme.dart';
+import 'package:pollution_environment/model/favorite_model.dart';
+import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
+import 'package:pollution_environment/routes/app_pages.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kDebugMode, kIsWeb;
+import 'package:pollution_environment/services/commons/background_location/location_background.dart';
+import 'package:pollution_environment/services/commons/constants.dart';
+import 'package:pollution_environment/services/commons/notification_service.dart';
+import 'package:pollution_environment/services/commons/theme.dart';
+import 'package:pollution_environment/services/network/apis/waqi/waqi.dart';
+import 'package:pollution_environment/views/components/custom_loading.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'package:home_widget/home_widget.dart';
