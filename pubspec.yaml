@@ -84,6 +84,8 @@ dependencies:
   geolocator_android: ^3.1.5
   # firebase_analytics: ^9.1.2
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 

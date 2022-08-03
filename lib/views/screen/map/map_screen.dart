@@ -113,7 +113,7 @@ class MapScreen extends StatelessWidget {
                           },
                         ),
                         SpeedDialChild(
-                          child: const Icon(Icons.flag_outlined),
+                          child: const Text("PM25"),
                           backgroundColor: _controller
                                   .filterStorageController.mapLayer
                                   .contains(MapLayerFilterValue.pm25)
@@ -136,7 +136,7 @@ class MapScreen extends StatelessWidget {
                           },
                         ),
                         SpeedDialChild(
-                          child: const Icon(Icons.flag_outlined),
+                          child: const Text("PM10"),
                           backgroundColor: _controller
                                   .filterStorageController.mapLayer
                                   .contains(MapLayerFilterValue.pm10)
@@ -159,7 +159,7 @@ class MapScreen extends StatelessWidget {
                           },
                         ),
                         SpeedDialChild(
-                          child: const Icon(Icons.flag_outlined),
+                          child: const Text("O3"),
                           backgroundColor: _controller
                                   .filterStorageController.mapLayer
                                   .contains(MapLayerFilterValue.o3)
@@ -182,7 +182,7 @@ class MapScreen extends StatelessWidget {
                           },
                         ),
                         SpeedDialChild(
-                          child: const Icon(Icons.flag_outlined),
+                          child: const Text("CO"),
                           backgroundColor: _controller
                                   .filterStorageController.mapLayer
                                   .contains(MapLayerFilterValue.co)

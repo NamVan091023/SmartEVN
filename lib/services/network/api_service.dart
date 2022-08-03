@@ -184,13 +184,19 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
 
 class APIService {
   late Dio _dio;
+  static final APIService _singleton = APIService._internal();
 
-  APIService() {
+  factory APIService() {
+    return _singleton;
+  }
+
+  APIService._internal();
+  void init() {
     _dio = Dio(BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: 16000,
-        receiveTimeout: 16000,
-        sendTimeout: 16000));
+        connectTimeout: 8000,
+        receiveTimeout: 8000,
+        sendTimeout: 8000));
 
     _dio.interceptors.addAll([
       AuthInterceptor(_dio), // add this line before LogInterceptor

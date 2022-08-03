@@ -65,6 +65,7 @@ class _SignFormState extends State<SignForm> {
             SizedBox(height: getProportionateScreenHeight(20)),
             DefaultButton(
               text: "Đăng nhập",
+              key: ValueKey("btn.login"),
               press: () async {
                 if (_formKey.currentState!.validate()) {
                   // đăng nhập thành công
@@ -91,6 +92,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      key: ValueKey("password"),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: !_passwordVisible,
       onSaved: (newValue) => controller.onSavePassword(newValue!),
@@ -119,6 +121,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      key: ValueKey("email"),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => controller.onSaveEmail(newValue!),

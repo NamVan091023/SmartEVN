@@ -59,9 +59,9 @@ class OtherProfileScreen extends StatelessWidget {
                       textTwo: "Số báo cáo"),
                   const Spacer(),
                   TwoTextLine(
-                      textOne: _controller.currentUser.value?.role == kRoleAdmin
+                      textOne: _controller.user.value?.role == kRoleAdmin
                           ? "Quản trị viên"
-                          : _controller.currentUser.value?.role == kRoleMod
+                          : _controller.user.value?.role == kRoleMod
                               ? "Kiểm duyệt"
                               : "Thành viên",
                       textTwo: "Chức vụ"),

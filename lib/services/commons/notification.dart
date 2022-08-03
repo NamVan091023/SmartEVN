@@ -84,6 +84,7 @@ class FCM {
         if (jsonData["userCreated"] != null) {
           // Thông báo khẩn cấp
           Alert alert = Alert.fromJson(jsonData);
+          playSoundAlert();
           Get.generalDialog(
             pageBuilder: (ctx, ani1, ani2) {
               return CustomAlertDialog(

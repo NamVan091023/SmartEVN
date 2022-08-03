@@ -16,11 +16,10 @@ import 'package:pollution_environment/services/commons/background_location/locat
 import 'package:pollution_environment/services/commons/constants.dart';
 import 'package:pollution_environment/services/commons/notification_service.dart';
 import 'package:pollution_environment/services/commons/theme.dart';
+import 'package:pollution_environment/services/network/api_service.dart';
 import 'package:pollution_environment/services/network/apis/waqi/waqi.dart';
 import 'package:pollution_environment/views/components/custom_loading.dart';
 import 'package:workmanager/workmanager.dart';
-
-import 'package:home_widget/home_widget.dart';
 
 const fetchLocationBackground = "fetchLocationBackground";
 const fetchAQIBackground = "fetchAQIBackground";
@@ -70,23 +69,8 @@ void main() async {
   if (defaultTargetPlatform == TargetPlatform.android) {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
-  HomeWidget.registerBackgroundCallback(backgroundCallback);
+  APIService().init();
   runApp(const MyApp());
-}
-
-// Called when Doing Background Work initiated from Widget
-Future<void> backgroundCallback(Uri? uri) async {
-  if (uri?.host == 'updatecounter') {
-    int? _counter;
-    await HomeWidget.getWidgetData<int>('_counter', defaultValue: 0)
-        .then((value) {
-      _counter = value ?? 0;
-      _counter = (_counter ?? 0) + 1;
-    });
-    await HomeWidget.saveWidgetData<int>('_counter', _counter);
-    await HomeWidget.updateWidget(
-        name: 'AppWidgetProvider', iOSName: 'AppWidgetProvider');
-  }
 }
 
 Future init() async {

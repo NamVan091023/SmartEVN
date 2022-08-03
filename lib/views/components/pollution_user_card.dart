@@ -58,7 +58,7 @@ class PollutionUserCard extends StatelessWidget {
                     "Dữ liệu được cung cấp bởi",
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  UserName(user: userModel ?? UserModel(name: "Người nào đó")),
+                  UserName(user: userModel ?? UserModel(name: "")),
                   Text(
                     "Cập nhật lần cuối: ${timeAgoSinceDate(dateStr: createdAt ?? "")}",
                     style: Theme.of(context).textTheme.caption,
