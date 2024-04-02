@@ -207,7 +207,7 @@ void showAlert({
   Get.generalDialog(
     pageBuilder: (ctx, ani1, ani2) {
       return CustomDialog(
-        key: ValueKey("alert"),
+        key: const ValueKey("alert"),
         title: title,
         content: desc,
         confirmText: textConfirm,

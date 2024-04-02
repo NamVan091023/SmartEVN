@@ -29,7 +29,7 @@ class SignInBody extends StatelessWidget {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                const SignForm(),
+                SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 const NoAccountText(),
                 SizedBox(height: getProportionateScreenHeight(20)),

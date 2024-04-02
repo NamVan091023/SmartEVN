@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.6.10'
     ext {
-       compileSdkVersion   = 31                // or latest
+       compileSdkVersion   = 33                // or latest
        targetSdkVersion    = 30                // or latest
        appCompatVersion    = "1.1.0"           // or latest
    }
@@ -33,6 +33,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

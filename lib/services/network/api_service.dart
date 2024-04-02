@@ -18,7 +18,8 @@ enum APIMethod { GET, POST, PUT, PATCH, DELETE }
 // final host = "https://smartenvironment.up.railway.app";
 // final host = "http://192.168.123.235:3000";
 // final host = "http://172.16.133.35:3000";
-const host = "https://www.hungs20.xyz";
+const host = "http://103.163.119.33:3033";
+// const host = "https://www.hungs20.xyz";
 const baseUrl = "$host/v1";
 
 class AuthInterceptor extends QueuedInterceptorsWrapper {

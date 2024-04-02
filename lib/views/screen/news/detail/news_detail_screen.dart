@@ -67,7 +67,7 @@ class _NewsDetailState extends State<NewsDetailScreen> {
                       leading: const Icon(Icons.copy_rounded),
                       title: const Text("Sao chép liên kết"),
                       onTap: () {
-                        Clipboard.setData(ClipboardData(text: widget.url))
+                        Clipboard.setData(ClipboardData(text: widget.url ?? ""))
                             .then((value) {
                           Fluttertoast.showToast(msg: "Đã sao chép liên kết");
                           Get.back();
@@ -99,6 +99,7 @@ class _NewsDetailState extends State<NewsDetailScreen> {
                 ];
               })
         ],
+      
         title: ListTile(
           minVerticalPadding: 0,
           contentPadding: const EdgeInsets.all(0),
@@ -183,8 +184,7 @@ class _NewsDetailState extends State<NewsDetailScreen> {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
-          // ignore: deprecated_member_use
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(message.message)),
           );
         });
