@@ -73,9 +73,9 @@ class AreaForestAPI {
     try {
       response = await Dio(BaseOptions(
               baseUrl: "https://website-api.airvisual.com/v1",
-              connectTimeout: 8000,
-              receiveTimeout: 8000,
-              sendTimeout: 8000))
+              connectTimeout: Duration(milliseconds: 8000),
+              receiveTimeout: Duration(milliseconds: 8000),
+              sendTimeout: Duration(milliseconds: 8000)))
           .request("/places/map/clusters", queryParameters: {
         "units.temperature": "celsius",
         "units.distance": "kilometer",
@@ -97,9 +97,9 @@ class AreaForestAPI {
     try {
       response = await Dio(BaseOptions(
               baseUrl: "http://api.airvisual.com/v2",
-              connectTimeout: 8000,
-              receiveTimeout: 8000,
-              sendTimeout: 8000))
+              connectTimeout: Duration(milliseconds: 8000),
+              receiveTimeout: Duration(milliseconds: 8000),
+              sendTimeout: Duration(milliseconds: 8000)))
           .request("/nearest_city", queryParameters: {
         "key": kAirVisual,
       });
@@ -116,9 +116,9 @@ class AreaForestAPI {
     try {
       response = await Dio(BaseOptions(
               baseUrl: "http://api.airvisual.com/v2",
-              connectTimeout: 8000,
-              receiveTimeout: 8000,
-              sendTimeout: 8000))
+              connectTimeout: Duration(milliseconds: 8000),
+              receiveTimeout: const Duration(milliseconds: 8000),
+              sendTimeout: Duration(milliseconds: 8000)))
           .request("/nearest_city",
               queryParameters: {"key": kAirVisual, "lat": lat, "lon": lng});
       AQICurentResponse aqiCurentResponse =

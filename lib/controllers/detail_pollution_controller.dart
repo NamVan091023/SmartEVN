@@ -70,9 +70,10 @@ class DetailPollutionController extends GetxController {
     managers.refresh();
   }
 
-  Future<Marker> Function(Cluster<PollutionModel>) _getMarkerBuilder(
-          Color color) =>
-      (cluster) async {
+ Future<Marker> someOtherFunction(Future<Marker> Function(Cluster<PollutionModel>)? markerFunction) {
+    // Your implementation here
+}
+ {
         var firstPollution = cluster.items.first;
         return Marker(
           markerId: MarkerId(cluster.getId()),
