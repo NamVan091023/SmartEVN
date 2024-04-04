@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/base_response.dart';
-import 'package:pollution_environment/model/pollution_quality_model.dart';
-import 'package:pollution_environment/model/pollution_response.dart';
-import 'package:pollution_environment/model/pollution_stats.dart';
-import 'package:pollution_environment/model/pollution_type_model.dart';
+import 'package:pollution_environment/new_base/models/entities/base_response.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_quality_model.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_stats.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_type_model.dart';
 import '../../api_service.dart';
 
 class PollutionAPIPath {

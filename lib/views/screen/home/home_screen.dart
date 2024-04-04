@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../services/commons/constants.dart';

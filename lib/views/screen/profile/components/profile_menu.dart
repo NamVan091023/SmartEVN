@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/model/user_response.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 
 import '../../../../services/network/apis/users/auth_api.dart';
 import '../../../../controllers/profile_controller.dart';

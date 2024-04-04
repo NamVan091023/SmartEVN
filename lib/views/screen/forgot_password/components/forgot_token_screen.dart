@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 
 import '../../../../services/commons/constants.dart';
 import '../../../../services/commons/helper.dart';

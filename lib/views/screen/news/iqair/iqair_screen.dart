@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/model/area_forest_model.dart';
+import 'package:pollution_environment/new_base/models/entities/area_forest_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../services/commons/helper.dart';

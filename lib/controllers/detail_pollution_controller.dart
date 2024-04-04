@@ -7,10 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pollution_environment/model/pollution_response.dart';
-import 'package:pollution_environment/model/user_response.dart';
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 
 import '../services/commons/helper.dart';
 import '../services/commons/recommend.dart';

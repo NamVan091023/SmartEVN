@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/base_response.dart';
-import 'package:pollution_environment/model/facebook_response.dart';
-import 'package:pollution_environment/model/news_model.dart';
+import 'package:pollution_environment/new_base/models/entities/base_response.dart';
+import 'package:pollution_environment/new_base/models/entities/facebook_response.dart';
+import 'package:pollution_environment/new_base/models/entities/news_model.dart';
 import '../../api_service.dart';
 
 class NewsAPIPath {

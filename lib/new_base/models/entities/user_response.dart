@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/model/token_response.dart';
+import 'package:pollution_environment/new_base/models/entities/token_response.dart';
 import 'package:pollution_environment/services/commons/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

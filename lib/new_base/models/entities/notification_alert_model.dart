@@ -1,4 +1,5 @@
-import 'alert_model.dart';
+
+import 'package:pollution_environment/new_base/models/entities/alert_model.dart';
 
 class NotificationAlertResponse {
   List<NotificationAlert>? results;

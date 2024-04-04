@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/aqi_current_model.dart';
-import 'package:pollution_environment/model/aqi_map_model.dart';
-import 'package:pollution_environment/model/area_forest_model.dart';
-import 'package:pollution_environment/model/base_response.dart';
+import 'package:pollution_environment/new_base/models/entities/aqi_current_model.dart';
+import 'package:pollution_environment/new_base/models/entities/aqi_map_model.dart';
+import 'package:pollution_environment/new_base/models/entities/area_forest_model.dart';
+import 'package:pollution_environment/new_base/models/entities/base_response.dart';
 import '../../api_service.dart';
 
 class AreaForestAPIPath {
@@ -73,18 +73,21 @@ class AreaForestAPI {
     try {
       response = await Dio(BaseOptions(
               baseUrl: "https://website-api.airvisual.com/v1",
-              connectTimeout: 8000,
-              receiveTimeout: 8000,
-              sendTimeout: 8000))
-          .request("/places/map/clusters", queryParameters: {
-        "units.temperature": "celsius",
-        "units.distance": "kilometer",
-        "units.pressure": "millibar",
-        "AQI": "US",
-        "language": "vi",
-        "zoomLevel": min(12, zoomLevel),
-        "bbox": "102.170435826, 8.1790665, 109.33526981, 23.393395",
-      });
+              connectTimeout: 80000,
+              receiveTimeout: 80000,
+              sendTimeout: 80000))
+          .request(
+        "/places/map/clusters",
+        queryParameters: {
+          "units.temperature": "celsius",
+          "units.distance": "kilometer",
+          "units.pressure": "millibar",
+          "AQI": "US",
+          "language": "vi",
+          "zoomLevel": min(12, zoomLevel),
+          "bbox": "102.170435826, 8.1790665, 109.33526981, 23.393395",
+        },
+      );
       AQIMapResponse aqiMapResponse = AQIMapResponse.fromJson(response.data);
       return aqiMapResponse;
     } on DioError {
@@ -97,9 +100,9 @@ class AreaForestAPI {
     try {
       response = await Dio(BaseOptions(
               baseUrl: "http://api.airvisual.com/v2",
-              connectTimeout: 8000,
-              receiveTimeout: 8000,
-              sendTimeout: 8000))
+              connectTimeout: 80000,
+              receiveTimeout: 80000,
+              sendTimeout: 80000))
           .request("/nearest_city", queryParameters: {
         "key": kAirVisual,
       });
@@ -116,9 +119,9 @@ class AreaForestAPI {
     try {
       response = await Dio(BaseOptions(
               baseUrl: "http://api.airvisual.com/v2",
-              connectTimeout: 8000,
-              receiveTimeout: 8000,
-              sendTimeout: 8000))
+              connectTimeout: 80000,
+              receiveTimeout: 80000,
+              sendTimeout: 80000))
           .request("/nearest_city",
               queryParameters: {"key": kAirVisual, "lat": lat, "lon": lng});
       AQICurentResponse aqiCurentResponse =

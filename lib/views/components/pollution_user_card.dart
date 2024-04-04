@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/model/user_response.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
 import 'package:pollution_environment/views/components/username.dart';
 
 import '../../services/commons/generated/assets.dart';

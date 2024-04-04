@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/model/notification_model.dart';
+import 'package:pollution_environment/new_base/models/entities/notification_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../services/commons/helper.dart';

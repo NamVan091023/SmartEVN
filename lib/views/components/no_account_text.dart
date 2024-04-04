@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 
 class NoAccountText extends StatelessWidget {
   const NoAccountText({

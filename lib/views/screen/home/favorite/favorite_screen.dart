@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/model/favorite_model.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/favorite_model.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 
 import '../../../../services/commons/constants.dart';
 import '../../../components/aqi_weather_card.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
 
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 

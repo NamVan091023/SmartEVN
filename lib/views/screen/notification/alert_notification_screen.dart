@@ -7,7 +7,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../model/notification_alert_model.dart';
+import '../../../new_base/models/entities/notification_alert_model.dart';
 import '../../../services/commons/helper.dart';
 import '../../../services/network/apis/alert/alert_api.dart';
 import '../../components/empty_view.dart';

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/model/token_response.dart';
-import 'package:pollution_environment/model/user_response.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/token_response.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 
 import '../services/commons/constants.dart';
 import '../services/commons/helper.dart';
@@ -15,6 +15,7 @@ class SplashController extends GetxController {
   int _start = 3;
   var currentPage = 0.obs;
   final Box box = Hive.box(kHiveBox);
+
   @override
   void onInit() {
     super.onInit();

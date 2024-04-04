@@ -6,9 +6,9 @@ import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pollution_environment/model/favorite_model.dart';
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/favorite_model.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kDebugMode, kIsWeb;
@@ -70,6 +70,11 @@ void main() async {
     AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
   APIService().init();
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.white.withOpacity(0),
+    ),
+  );
   runApp(const MyApp());
 }
 

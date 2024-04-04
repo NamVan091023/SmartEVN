@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:pollution_environment/model/alert_model.dart';
-import 'package:pollution_environment/model/user_response.dart';
+import 'package:pollution_environment/new_base/models/entities/alert_model.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../services/commons/helper.dart';

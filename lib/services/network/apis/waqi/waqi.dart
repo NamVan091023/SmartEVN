@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
-import 'package:pollution_environment/model/waqi/waqi_map_model.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_map_model.dart';
 import '../../api_service.dart';
 
 class WaqiAPIPath {

@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as getx;
-import 'package:pollution_environment/model/base_response.dart';
-import 'package:pollution_environment/model/token_response.dart';
-import 'package:pollution_environment/model/user_response.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/base_response.dart';
+import 'package:pollution_environment/new_base/models/entities/token_response.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../commons/helper.dart';
@@ -194,9 +194,9 @@ class APIService {
   void init() {
     _dio = Dio(BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: 8000,
-        receiveTimeout: 8000,
-        sendTimeout: 8000));
+        connectTimeout: 80000,
+        receiveTimeout: 80000,
+        sendTimeout: 80000));
 
     _dio.interceptors.addAll([
       AuthInterceptor(_dio), // add this line before LogInterceptor

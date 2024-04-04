@@ -1,21 +1,21 @@
 import 'package:get/get.dart';
 
-import '../views/screen/detail_pollution/detail_pollution_screen.dart';
-import '../views/screen/edit_profile/edit_profile_screen.dart';
-import '../views/screen/filter/filter_screen.dart';
-import '../views/screen/forgot_password/forgot_password_screen.dart';
-import '../views/screen/home/favorite/favorite_screen.dart';
-import '../views/screen/main/main_board.dart';
-import '../views/screen/manage/manage_screen.dart';
-import '../views/screen/notification/main_notification_screen.dart';
-import '../views/screen/profile/other_profile/other_profile_screen.dart';
-import '../views/screen/profile/profile/profile_screen.dart';
-import '../views/screen/report/create_report.dart';
-import '../views/screen/sign_in/sign_in_screen.dart';
-import '../views/screen/sign_up/sign_up_screen.dart';
-import '../views/screen/splash/splash_screen.dart';
+import '../../views/screen/detail_pollution/detail_pollution_screen.dart';
+import '../../views/screen/edit_profile/edit_profile_screen.dart';
+import '../../views/screen/filter/filter_screen.dart';
+import '../../views/screen/forgot_password/forgot_password_screen.dart';
+import '../../views/screen/home/favorite/favorite_screen.dart';
+import '../../views/screen/main/main_board.dart';
+import '../../views/screen/manage/manage_screen.dart';
+import '../../views/screen/notification/main_notification_screen.dart';
+import '../../views/screen/profile/other_profile/other_profile_screen.dart';
+import '../../views/screen/profile/profile/profile_screen.dart';
+import '../../views/screen/report/create_report.dart';
+import '../../views/screen/sign_in/sign_in_screen.dart';
+import '../../views/screen/sign_up/sign_up_screen.dart';
+import '../../views/screen/splash/splash_screen.dart';
 
-part './app_routes.dart';
+part 'app_routes.dart';
 
 class AppPages {
   static final pages = [

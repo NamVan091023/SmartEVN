@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/model/favorite_model.dart';
-import 'package:pollution_environment/model/user_response.dart';
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/models/entities/favorite_model.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../services/commons/constants.dart';
