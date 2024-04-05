@@ -7,13 +7,16 @@ import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dar
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
-import '../../services/commons/generated/assets.dart';
-import '../../services/commons/helper.dart';
+import '../../../services/commons/generated/assets.dart';
+import '../../../services/commons/helper.dart';
 
 class AQIWeatherCard extends StatelessWidget {
   final WAQIIpResponse aqi;
 
-  const AQIWeatherCard({Key? key, required this.aqi}) : super(key: key);
+  const AQIWeatherCard({
+    Key? key,
+    required this.aqi,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +37,19 @@ class AQIWeatherCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(5),
                       child: SvgPicture.asset(
-                        getAssetAQI(getAQIRank(aqi.data?.aqi?.toDouble())),
+                        getAssetAQI(
+                          getAQIRank(
+                            aqi.data?.aqi?.toDouble(),
+                          ),
+                        ),
                         color: Colors.black,
                       ),
                     ),
-                    color:
-                        getQualityColor(getAQIRank(aqi.data?.aqi?.toDouble())),
+                    color: getQualityColor(
+                      getAQIRank(
+                        aqi.data?.aqi?.toDouble(),
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -153,13 +163,6 @@ class AQIWeatherCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // CachedNetworkImage(
-                      //   imageUrl:
-                      //       'http://openweathermap.org/img/wn/${aqi.data?.current?.weather?.ic ?? ''}@2x.png',
-                      // ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
                       SvgPicture.asset(
                         Assets.thermometer,
                         color: Colors.blue,

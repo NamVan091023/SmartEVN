@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
 import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../../../../services/commons/helper.dart';
 import '../../../components/empty_view.dart';
@@ -34,7 +35,7 @@ class HistoryPollution extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           // Vào màn xem chi tiết
-          Get.offNamed(Routes.DETAIL_POLLUTION_SCREEN,
+          Get.offNamed(RouterPaths.DETAIL_POLLUTION_SCREEN,
               arguments: pollutions[index].id);
           // Get.offAllNamed(Routes.DETAIL_POLLUTION_SCREEN,
           //     arguments: pollutions[index].id);

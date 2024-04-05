@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../../../../services/commons/constants.dart';
 import '../../../../services/commons/helper.dart';
@@ -54,7 +55,7 @@ class _SignFormState extends State<SignForm> {
                 const Text("Nhớ mật khẩu"),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () => Get.toNamed(Routes.FORGOT_PASSWORD_SCREEN),
+                  onTap: () => Get.toNamed(RouterPaths.FORGOT_PASSWORD_SCREEN),
                   child: const Text(
                     "Quên mật khấu",
                     style: TextStyle(decoration: TextDecoration.underline),
@@ -76,7 +77,7 @@ class _SignFormState extends State<SignForm> {
                       Fluttertoast.showToast(
                         msg: "Đăng nhập thành công",
                       );
-                      Get.offAllNamed(Routes.HOME_SCREEN);
+                      Get.offAllNamed(RouterPaths.HOME_SCREEN);
                     }
                   }, (err) {
                     showAlert(desc: err);

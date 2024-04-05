@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../../../../services/commons/constants.dart';
 import '../components/history_pollution.dart';
@@ -95,7 +96,7 @@ class OtherProfileScreen extends StatelessWidget {
         _controller.deleteUser();
         break;
       case 'Chỉnh sửa':
-        Get.toNamed(Routes.EDIT_PROFILE_SCREEN,
+        Get.toNamed(RouterPaths.EDIT_PROFILE_SCREEN,
                 arguments: _controller.user.value)
             ?.then((value) {
           _controller.getUser();

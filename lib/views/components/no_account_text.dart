@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 class NoAccountText extends StatelessWidget {
   const NoAccountText({
@@ -17,7 +17,7 @@ class NoAccountText extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         GestureDetector(
-          onTap: () => Get.toNamed(Routes.SIGNUP_SCREEN),
+          onTap: () => Get.toNamed(RouterPaths.SIGNUP_SCREEN),
           child: Text(
             "Đăng ký ngay",
             style: TextStyle(

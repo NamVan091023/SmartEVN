@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/alert_model.dart';
+import 'package:pollution_environment/new_base/models/entities/alert_entity.dart';
 
 import '../../components/full_image_viewer.dart';
 
 class AlertDetailScreen extends StatelessWidget {
-  final Alert alert;
+  final AlertEntity alert;
 
   const AlertDetailScreen({
     Key? key,

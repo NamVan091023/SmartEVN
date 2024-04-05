@@ -20,13 +20,13 @@ class NotificationAlertScreen extends StatefulWidget {
   _NotificationAlertState createState() => _NotificationAlertState();
 }
 
-class _NotificationAlertState extends State<NotificationAlertScreen>
-    with AutomaticKeepAliveClientMixin<NotificationAlertScreen> {
+class _NotificationAlertState extends State<NotificationAlertScreen> with AutomaticKeepAliveClientMixin<NotificationAlertScreen> {
   List<NotificationAlert> list = [];
   final RefreshController _refreshController = RefreshController();
   static const int _itemsPerPage = 10;
   bool canLoadMore = true;
   int nextPage = 1;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);

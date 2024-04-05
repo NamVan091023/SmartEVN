@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pollution_environment/new_base/ui/pages/aqi_detail/widgets/forecast_aqi.dart';
 
 import '../../../services/commons/generated/assets.dart';
 import '../../../services/commons/helper.dart';
-import '../../components/aqi_weather_card.dart';
+import '../../../new_base/ui/components/aqi_weather_card.dart';
 import '../home/components/pollution_aqi_items.dart';
-import 'components/forescast_aqi.dart';
 import '../../../controllers/detail_aqi_controller.dart';
 
 class DetailAQIScreen extends StatelessWidget {
@@ -64,8 +64,8 @@ class DetailAQIScreen extends StatelessWidget {
                 height: 10,
               ),
               if (_controller.aqiModel.value?.data?.forecast?.daily != null)
-                ForescastAqi(
-                    _controller.aqiModel.value!.data!.forecast!.daily!),
+                ForecastAqi(
+                    daily: _controller.aqiModel.value!.data!.forecast!.daily!),
             ],
           ),
         ),

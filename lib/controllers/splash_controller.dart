@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:pollution_environment/new_base/models/entities/token_response.dart';
 import 'package:pollution_environment/new_base/models/entities/user_response.dart';
 import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../services/commons/constants.dart';
 import '../services/commons/helper.dart';
@@ -49,7 +50,7 @@ class SplashController extends GetxController {
       AuthResponse? currentUser = UserStore().getAuth();
       String? refreshToken = currentUser?.tokens?.refresh?.token;
       if (refreshToken == null) {
-        Get.offAllNamed(Routes.LOGIN_SCREEN);
+        Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
       } else {
         showLoading();
         try {
@@ -64,17 +65,17 @@ class SplashController extends GetxController {
             if (currentUser != null) {
               UserStore().saveAuth(currentUser);
             }
-            Get.offAllNamed(Routes.HOME_SCREEN);
+            Get.offAllNamed(RouterPaths.HOME_SCREEN);
           } else {
-            Get.offAllNamed(Routes.LOGIN_SCREEN);
+            Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
           }
         } catch (e) {
           hideLoading();
-          Get.offAllNamed(Routes.LOGIN_SCREEN);
+          Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
         }
       }
     } else {
-      Get.offAllNamed(Routes.LOGIN_SCREEN);
+      Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
     }
   }
 

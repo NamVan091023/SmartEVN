@@ -1,5 +1,5 @@
 
-import 'package:pollution_environment/new_base/models/entities/alert_model.dart';
+import 'package:pollution_environment/new_base/models/entities/alert_entity.dart';
 
 class NotificationAlertResponse {
   List<NotificationAlert>? results;
@@ -42,7 +42,7 @@ class NotificationAlertResponse {
 }
 
 class NotificationAlert {
-  Alert? alert;
+  AlertEntity? alert;
   String? user;
   String? createdAt;
   String? updatedAt;
@@ -52,7 +52,7 @@ class NotificationAlert {
       {this.alert, this.user, this.createdAt, this.updatedAt, this.id});
 
   NotificationAlert.fromJson(Map<String, dynamic> json) {
-    alert = json['alert'] != null ? Alert.fromJson(json['alert']) : null;
+    alert = json['alert'] != null ? AlertEntity.fromJson(json['alert']) : null;
     user = json['user'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

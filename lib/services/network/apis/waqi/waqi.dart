@@ -66,6 +66,7 @@ class WaqiAPI {
           .request("/feed/geo:$lat;$lng", queryParameters: {
         "token": WaqiAPIPath.kToken,
       });
+
       WAQIIpResponse aqiCurentResponse = WAQIIpResponse.fromJson(response.data);
       return aqiCurentResponse;
     } on DioError {
@@ -76,14 +77,17 @@ class WaqiAPI {
   Future<WAQIIpResponse> getAQIById(int id) async {
     Response response;
     try {
-      response = await Dio(BaseOptions(
-              baseUrl: "https://api.waqi.info",
-              connectTimeout: 16000,
-              receiveTimeout: 16000,
-              sendTimeout: 16000))
-          .request("/feed/@$id", queryParameters: {
+      response = await Dio(
+        BaseOptions(
+          baseUrl: "https://api.waqi.info",
+          connectTimeout: 16000,
+          receiveTimeout: 16000,
+          sendTimeout: 16000,
+        ),
+      ).request("/feed/@$id", queryParameters: {
         "token": WaqiAPIPath.kToken,
       });
+
       WAQIIpResponse aqiCurentResponse = WAQIIpResponse.fromJson(response.data);
       return aqiCurentResponse;
     } on DioError {

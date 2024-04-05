@@ -9,6 +9,7 @@ import 'package:pollution_environment/new_base/models/entities/token_response.da
 import 'package:pollution_environment/new_base/models/entities/user_response.dart';
 import 'package:pollution_environment/new_base/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../commons/helper.dart';
 import 'apis/users/auth_api.dart';
@@ -119,7 +120,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
     // back to login page without using context
     Fluttertoast.showToast(
         msg: "Phiên làm việc đã hết hạn, vui lòng đăng nhập lại");
-    getx.Get.offAllNamed(Routes.LOGIN_SCREEN);
+    getx.Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
   }
 
   /// return true if it is successfully regenerate the access token

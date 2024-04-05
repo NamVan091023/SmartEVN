@@ -20,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(
-              AppImages.imgBackground,
+              AppImages.iconLogo,
               fit: BoxFit.fitWidth,
             ),
           ),

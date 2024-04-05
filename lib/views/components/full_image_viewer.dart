@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class FullImageViewer extends StatelessWidget {
   const FullImageViewer({Key? key, required this.url}) : super(key: key);
   final String url;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

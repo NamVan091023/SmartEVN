@@ -254,12 +254,12 @@ class Time {
 }
 
 class Forecast {
-  Daily? daily;
+  DailyEntity? daily;
 
   Forecast({this.daily});
 
   Forecast.fromJson(Map<String, dynamic> json) {
-    daily = json['daily'] != null ? Daily.fromJson(json['daily']) : null;
+    daily = json['daily'] != null ? DailyEntity.fromJson(json['daily']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -271,15 +271,15 @@ class Forecast {
   }
 }
 
-class Daily {
+class DailyEntity {
   List<DailyAqiItem>? o3;
   List<DailyAqiItem>? pm10;
   List<DailyAqiItem>? pm25;
   List<DailyAqiItem>? uvi;
 
-  Daily({this.o3, this.pm10, this.pm25, this.uvi});
+  DailyEntity({this.o3, this.pm10, this.pm25, this.uvi});
 
-  Daily.fromJson(Map<String, dynamic> json) {
+  DailyEntity.fromJson(Map<String, dynamic> json) {
     if (json['o3'] != null) {
       o3 = <DailyAqiItem>[];
       json['o3'].forEach((v) {

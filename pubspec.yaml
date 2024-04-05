@@ -86,19 +86,24 @@ dependencies:
   wave: ^0.2.0
   geolocator_android: ^3.1.5
   go_router:
+
   # firebase_analytics: ^9.1.2
 dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_test:
     sdk: flutter
-
   flutter_native_splash: ^2.1.6
   build_runner: ^2.1.11
   hive_generator: ^1.1.2
   flutter_lints: ^1.0.4
   auto_route_generator: ^3.1.0
-  retrofit_generator: ^2.2.0
+  retrofit_generator:
+  json_serializable: ^6.2.0
+
+dependency_overrides:
+  build_resolvers:
+
 # The following section is specific to Flutter.
 flutter:
 

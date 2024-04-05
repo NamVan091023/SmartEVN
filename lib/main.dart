@@ -12,6 +12,7 @@ import 'package:pollution_environment/new_base/routes/app_pages.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kDebugMode, kIsWeb;
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 import 'package:pollution_environment/services/commons/background_location/location_background.dart';
 import 'package:pollution_environment/services/commons/constants.dart';
 import 'package:pollution_environment/services/commons/notification_service.dart';
@@ -166,7 +167,7 @@ class _MyAppState extends State<MyApp> {
                 theme: themeLight(),
                 darkTheme: themeDark(),
                 themeMode: themeMode,
-                initialRoute: Routes.INITIAL,
+                initialRoute: RouterPaths.INITIAL,
                 getPages: AppPages.pages,
                 // defaultTransition: Transition.cupertino,
                 debugShowCheckedModeBanner: false,

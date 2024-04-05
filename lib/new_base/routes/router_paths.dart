@@ -1,8 +1,5 @@
 // ignore_for_file: constant_identifier_names
-
-part of 'app_pages.dart';
-
-abstract class Routes {
+class RouterPaths {
   static const INITIAL = '/';
 
   static const LOGIN_SCREEN = '/login';
@@ -26,4 +23,8 @@ abstract class Routes {
   static const MANAGE_SCREEN = '/manage_screen';
 
   static const FAVORITE_SCREEN = '/favorite_screen';
+
+  static const imageViewer = '/image_viewer';
+  static const aqiDetailPage = '/aqi_detail_page';
+
 }

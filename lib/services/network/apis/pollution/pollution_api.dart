@@ -103,6 +103,7 @@ class PollutionApi {
         data["type[0]"] = "";
       }
     }
+
     if (provinceIds != null && provinceIds.isNotEmpty) {
       for (int i = 0; i < provinceIds.length; i++) {
         data["provinceId[$i]"] = provinceIds[i];
@@ -222,8 +223,12 @@ class PollutionApi {
     }
   }
 
-  Future<PollutionsResponse> getPollutionByUser(
-      {required String userId, int? limit, String? sortBy, int? page}) async {
+  Future<PollutionsResponse> getPollutionByUser({
+    required String userId,
+    int? limit,
+    String? sortBy,
+    int? page,
+  }) async {
     Response response;
     Map<String, String> data = {};
 

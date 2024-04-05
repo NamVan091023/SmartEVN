@@ -1,8 +1,10 @@
 import 'package:pollution_environment/new_base/blocs/app_cubit.dart';
 import 'package:pollution_environment/new_base/configs/global_data.dart';
 import 'package:pollution_environment/new_base/network/api_client.dart';
+import 'package:pollution_environment/new_base/network/aqi_client.dart';
 import 'package:pollution_environment/new_base/network/manager_api.dart';
-import 'package:pollution_environment/new_base/reponsitories/user_repository.dart';
+import 'package:pollution_environment/new_base/repositories/aqi_repository.dart';
+import 'package:pollution_environment/new_base/repositories/user_repository.dart';
 import 'package:pollution_environment/new_base/ui/pages/splash/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,10 +19,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late AppLifecycleState state;
   late ApiClient _apiClient;
+  late AqiClient _aqiClient;
 
   @override
   void initState() {
     _apiClient = ManagerApi.instance.apiClient;
+    _aqiClient = ManagerApi.instance.aqiClient;
     super.initState();
   }
 
@@ -30,6 +34,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         RepositoryProvider<IUserRepository>(create: (context) {
           return UserRepository(_apiClient);
+        }),
+        RepositoryProvider<AqiRepository>(create: (context) {
+          return AqiRepositoryImpl(_aqiClient);
         }),
       ],
       child: MultiBlocProvider(

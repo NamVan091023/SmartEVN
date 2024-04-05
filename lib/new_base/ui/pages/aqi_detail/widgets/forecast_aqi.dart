@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
 
-import 'forescast_item_day.dart';
+import 'forecast_item_day.dart';
 
-class ForescastAqi extends StatefulWidget {
-  const ForescastAqi(this.daily, {Key? key}) : super(key: key);
-  final Daily daily;
+class ForecastAqi extends StatefulWidget {
+  final DailyEntity daily;
+
+  const ForecastAqi({
+    Key? key,
+    required this.daily,
+  }) : super(key: key);
+
   @override
-  ForescastAqiState createState() => ForescastAqiState();
+  ForecastAqiState createState() => ForecastAqiState();
 }
 
-class ForescastAqiState extends State<ForescastAqi>
+class ForecastAqiState extends State<ForecastAqi>
     with TickerProviderStateMixin {
   late TabController tabController;
 
@@ -66,16 +71,16 @@ class ForescastAqiState extends State<ForescastAqi>
             child: TabBarView(
               controller: tabController,
               children: [
-                ForescastItemDay(
+                ForecastItemDay(
                   aqiItemDay: widget.daily.o3 ?? [],
                 ),
-                ForescastItemDay(
+                ForecastItemDay(
                   aqiItemDay: widget.daily.pm10 ?? [],
                 ),
-                ForescastItemDay(
+                ForecastItemDay(
                   aqiItemDay: widget.daily.pm25 ?? [],
                 ),
-                ForescastItemDay(
+                ForecastItemDay(
                   aqiItemDay: widget.daily.uvi ?? [],
                 ),
               ],

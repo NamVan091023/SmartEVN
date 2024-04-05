@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../../views/screen/detail_pollution/detail_pollution_screen.dart';
 import '../../views/screen/edit_profile/edit_profile_screen.dart';
@@ -15,67 +16,66 @@ import '../../views/screen/sign_in/sign_in_screen.dart';
 import '../../views/screen/sign_up/sign_up_screen.dart';
 import '../../views/screen/splash/splash_screen.dart';
 
-part 'app_routes.dart';
 
 class AppPages {
   static final pages = [
     GetPage(
-      name: Routes.INITIAL,
+      name: RouterPaths.INITIAL,
       page: () => SplashScreen(),
     ),
     GetPage(
-      name: Routes.LOGIN_SCREEN,
+      name: RouterPaths.LOGIN_SCREEN,
       page: () => const SignInScreen(),
       binding: SignInBindings(),
     ),
     GetPage(
-      name: Routes.SIGNUP_SCREEN,
+      name: RouterPaths.SIGNUP_SCREEN,
       page: () => const SignUpScreen(),
       binding: SignUpBindings(),
     ),
     GetPage(
-      name: Routes.FORGOT_PASSWORD_SCREEN,
+      name: RouterPaths.FORGOT_PASSWORD_SCREEN,
       page: () => const ForgotPasswordScreen(),
       binding: ForgotPasswordBindings(),
     ),
     GetPage(
-      name: Routes.HOME_SCREEN,
+      name: RouterPaths.HOME_SCREEN,
       page: () => const MainBoard(),
     ),
     GetPage(
-      name: Routes.MAP_FILTER_SCREEN,
+      name: RouterPaths.MAP_FILTER_SCREEN,
       page: () => FilterMapScreen(),
     ),
     GetPage(
-      name: Routes.CREATE_REPORT_SCREEN,
+      name: RouterPaths.CREATE_REPORT_SCREEN,
       page: () => CreateReport(),
     ),
     GetPage(
-      name: Routes.EDIT_PROFILE_SCREEN,
+      name: RouterPaths.EDIT_PROFILE_SCREEN,
       page: () => EditProfileScreen(),
     ),
     GetPage(
-      name: Routes.PROFILE_SCREEN,
+      name: RouterPaths.PROFILE_SCREEN,
       page: () => ProfileScreen(),
     ),
     GetPage(
-      name: Routes.OTHER_PROFILE_SCREEN,
+      name: RouterPaths.OTHER_PROFILE_SCREEN,
       page: () => OtherProfileScreen(),
     ),
     GetPage(
-      name: Routes.DETAIL_POLLUTION_SCREEN,
+      name: RouterPaths.DETAIL_POLLUTION_SCREEN,
       page: () => DetailPollutionScreen(),
     ),
     GetPage(
-      name: Routes.NOTIFICATION_SCREEN,
+      name: RouterPaths.NOTIFICATION_SCREEN,
       page: () => const NotificationScreen(),
     ),
     GetPage(
-      name: Routes.MANAGE_SCREEN,
+      name: RouterPaths.MANAGE_SCREEN,
       page: () => const ManageScreen(),
     ),
     GetPage(
-      name: Routes.FAVORITE_SCREEN,
+      name: RouterPaths.FAVORITE_SCREEN,
       page: () => FavoriteScreen(),
     ),
   ];
