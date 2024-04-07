@@ -7,7 +7,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../model/notification_alert_model.dart';
+import '../../../new_base/models/entities/notification_alert_model.dart';
 import '../../../services/commons/helper.dart';
 import '../../../services/network/apis/alert/alert_api.dart';
 import '../../components/empty_view.dart';
@@ -20,13 +20,13 @@ class NotificationAlertScreen extends StatefulWidget {
   _NotificationAlertState createState() => _NotificationAlertState();
 }
 
-class _NotificationAlertState extends State<NotificationAlertScreen>
-    with AutomaticKeepAliveClientMixin<NotificationAlertScreen> {
+class _NotificationAlertState extends State<NotificationAlertScreen> with AutomaticKeepAliveClientMixin<NotificationAlertScreen> {
   List<NotificationAlert> list = [];
   final RefreshController _refreshController = RefreshController();
   static const int _itemsPerPage = 10;
   bool canLoadMore = true;
   int nextPage = 1;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);

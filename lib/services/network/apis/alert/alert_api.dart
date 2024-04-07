@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/alert_model.dart';
-import 'package:pollution_environment/model/base_response.dart';
-import 'package:pollution_environment/model/notification_alert_model.dart';
+import 'package:pollution_environment/new_base/models/entities/base_response.dart';
+import 'package:pollution_environment/new_base/models/entities/notification_alert_model.dart';
+import 'package:pollution_environment/new_base/models/responses/alert_response.dart';
 import '../../api_service.dart';
 
 class AlertAPIPath {

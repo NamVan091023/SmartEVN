@@ -7,10 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pollution_environment/model/pollution_response.dart';
-import 'package:pollution_environment/model/user_response.dart';
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../services/commons/helper.dart';
 import '../services/commons/recommend.dart';
@@ -20,6 +20,7 @@ import '../services/network/apis/waqi/waqi.dart';
 
 class DetailPollutionController extends GetxController {
   late String pollutionId = Get.arguments;
+
   Rxn<UserModel> user = Rxn<UserModel>();
   Rxn<PollutionModel> pollutionModel = Rxn<PollutionModel>();
   Rxn<UserModel> currentUser = Rxn<UserModel>();
@@ -28,6 +29,7 @@ class DetailPollutionController extends GetxController {
   RxList<List<PollutionModel>> pollutions = RxList<List<PollutionModel>>();
 
   Rxn<WAQIIpResponse> aqiGPS = Rxn<WAQIIpResponse>();
+
   // MAP
 
   Completer<GoogleMapController> mapController = Completer();
@@ -85,7 +87,7 @@ class DetailPollutionController extends GetxController {
                   "Chất lượng ${getShortNamePollution(firstPollution.type)}: ${getQualityText(firstPollution.qualityScore)}",
               onTap: () {
                 if (firstPollution.id != null) {
-                  Get.offNamed(Routes.DETAIL_POLLUTION_SCREEN,
+                  Get.offNamed(RouterPaths.DETAIL_POLLUTION_SCREEN,
                       arguments: firstPollution.id, preventDuplicates: false);
                 }
               }),
@@ -102,8 +104,12 @@ class DetailPollutionController extends GetxController {
               text: cluster.isMultiple ? cluster.count.toString() : null),
         );
       };
-  Future<BitmapDescriptor> _getMarkerBitmap(int size, Color color,
-      {String? text}) async {
+
+  Future<BitmapDescriptor> _getMarkerBitmap(
+    int size,
+    Color color, {
+    String? text,
+  }) async {
     final PictureRecorder pictureRecorder = PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     final Paint paint1 = Paint()..color = color.withOpacity(0.3);

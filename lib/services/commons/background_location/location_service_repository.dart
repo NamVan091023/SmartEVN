@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:background_locator/location_dto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/model/user_response.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
 import 'package:pollution_environment/services/network/apis/users/user_api.dart';
 
 import 'package:shared_preferences_ios/shared_preferences_ios.dart';

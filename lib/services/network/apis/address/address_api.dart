@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/address_model.dart';
+import 'package:pollution_environment/new_base/models/entities/address_model.dart';
 
 import '../../api_service.dart';
 

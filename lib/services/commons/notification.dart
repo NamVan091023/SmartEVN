@@ -7,8 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pollution_environment/model/alert_model.dart';
-import 'package:pollution_environment/model/pollution_response.dart';
+import 'package:pollution_environment/new_base/models/entities/alert_entity.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
 import 'package:pollution_environment/views/screen/detail_pollution/detail_pollution_screen.dart';
 
 import '../../views/components/custom_alert_dialog.dart';
@@ -83,7 +83,7 @@ class FCM {
         final jsonData = json.decode(message.data["data"]);
         if (jsonData["userCreated"] != null) {
           // Thông báo khẩn cấp
-          Alert alert = Alert.fromJson(jsonData);
+          AlertEntity alert = AlertEntity.fromJson(jsonData);
           playSoundAlert();
           Get.generalDialog(
             pageBuilder: (ctx, ani1, ani2) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:pollution_environment/model/alert_model.dart';
+import 'package:pollution_environment/new_base/models/entities/alert_entity.dart';
 
 import '../screen/alert/alert_detail_screen.dart';
 
@@ -11,7 +11,7 @@ class CustomAlertDialog extends StatelessWidget {
     Key? key,
     required this.alert,
   }) : super(key: key);
-  final Alert alert;
+  final AlertEntity alert;
 
   @override
   Widget build(BuildContext context) {
