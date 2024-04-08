@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pollution_environment/new_base/models/entities/waqi_map_model.dart';
+import 'package:pollution_environment/model/waqi/waqi_map_model.dart';
 
 import '../../services/commons/helper.dart';
 

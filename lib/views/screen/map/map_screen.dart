@@ -3,7 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pollution_environment/new_base/models/entities/pollution_type_model.dart';
+import 'package:pollution_environment/model/pollution_type_model.dart';
 
 import '../../../services/commons/generated/assets.dart';
 import '../../../services/commons/helper.dart';

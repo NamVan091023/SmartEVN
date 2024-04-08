@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/new_base/routes/app_pages.dart';
-import 'package:pollution_environment/new_base/routes/router_paths.dart';
+import 'package:pollution_environment/routes/app_pages.dart';
 
 import '../../../../services/commons/constants.dart';
 import '../../../../services/commons/helper.dart';
@@ -37,58 +36,6 @@ class SignForm extends StatelessWidget {
             },
           ),
         ],
-      child: AutofillGroup(
-        child: Column(
-          children: [
-            buildEmailFormField(),
-            SizedBox(height: getProportionateScreenHeight(30)),
-            buildPasswordFormField(),
-            SizedBox(height: getProportionateScreenHeight(30)),
-            Row(
-              children: [
-                Obx(
-                  () => Checkbox(
-                    value: controller.remember.value,
-                    onChanged: (value) {
-                      controller.setRemember(value!);
-                    },
-                  ),
-                ),
-                const Text("Nhớ mật khẩu"),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () => Get.toNamed(RouterPaths.FORGOT_PASSWORD_SCREEN),
-                  child: const Text(
-                    "Quên mật khấu",
-                    style: TextStyle(decoration: TextDecoration.underline),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: getProportionateScreenHeight(20)),
-            DefaultButton(
-              text: "Đăng nhập",
-              key: ValueKey("btn.login"),
-              press: () async {
-                if (_formKey.currentState!.validate()) {
-                  // đăng nhập thành công
-                  _formKey.currentState!.save();
-                  KeyboardUtil.hideKeyboard(context);
-                  await controller.loginUser(() {
-                    {
-                      Fluttertoast.showToast(
-                        msg: "Đăng nhập thành công",
-                      );
-                      Get.offAllNamed(RouterPaths.HOME_SCREEN);
-                    }
-                  }, (err) {
-                    showAlert(desc: err);
-                  });
-                }
-              },
-            ),
-          ],
-        ),
       ),
     );
   }

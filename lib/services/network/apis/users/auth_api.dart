@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:background_locator/background_locator.dart';
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/new_base/models/entities/base_response.dart';
-import 'package:pollution_environment/new_base/models/entities/token_response.dart';
-import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/model/base_response.dart';
+import 'package:pollution_environment/model/token_response.dart';
+import 'package:pollution_environment/model/user_response.dart';
 import 'package:pollution_environment/services/commons/background_location/location_service_repository.dart';
 import '../../api_service.dart';
 

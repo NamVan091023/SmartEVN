@@ -4,12 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as getx;
-import 'package:pollution_environment/new_base/models/entities/base_response.dart';
-import 'package:pollution_environment/new_base/models/entities/token_response.dart';
-import 'package:pollution_environment/new_base/models/entities/user_response.dart';
-import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/model/base_response.dart';
+import 'package:pollution_environment/model/token_response.dart';
+import 'package:pollution_environment/model/user_response.dart';
+import 'package:pollution_environment/routes/app_pages.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../commons/helper.dart';
 import 'apis/users/auth_api.dart';
@@ -121,7 +120,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
     // back to login page without using context
     Fluttertoast.showToast(
         msg: "Phiên làm việc đã hết hạn, vui lòng đăng nhập lại");
-    getx.Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
+    getx.Get.offAllNamed(Routes.LOGIN_SCREEN);
   }
 
   /// return true if it is successfully regenerate the access token
@@ -196,9 +195,9 @@ class APIService {
   void init() {
     _dio = Dio(BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: 80000,
-        receiveTimeout: 80000,
-        sendTimeout: 80000));
+        connectTimeout: 8000,
+        receiveTimeout: 8000,
+        sendTimeout: 8000));
 
     _dio.interceptors.addAll([
       AuthInterceptor(_dio), // add this line before LogInterceptor

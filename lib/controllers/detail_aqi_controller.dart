@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
+import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
 
 import '../services/commons/helper.dart';
 import '../services/commons/recommend.dart';

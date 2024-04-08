@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/new_base/models/entities/news_model.dart';
+import 'package:pollution_environment/model/news_model.dart';
 
 class NewsCell extends StatelessWidget {
   const NewsCell({Key? key, required this.newsModel, required this.onTap})

@@ -1,17 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/alert_entity.dart';
+import 'package:pollution_environment/model/alert_model.dart';
 
 import '../../components/full_image_viewer.dart';
 
 class AlertDetailScreen extends StatelessWidget {
-  final AlertEntity alert;
-
-  const AlertDetailScreen({
-    Key? key,
-    required this.alert,
-  }) : super(key: key);
+  final Alert alert;
+  const AlertDetailScreen({Key? key, required this.alert}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +50,8 @@ class AlertDetailScreen extends StatelessWidget {
                       ));
                 },
               ),
-              physics: const NeverScrollableScrollPhysics(),
-              // to disable GridView's scrolling
+              physics:
+                  const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
               shrinkWrap: true,
               itemCount: alert.images?.length ?? 0,
             )

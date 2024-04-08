@@ -2,14 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/routes/app_pages.dart';
-import 'package:pollution_environment/new_base/routes/router_paths.dart';
+import 'package:pollution_environment/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../services/commons/constants.dart';
 import '../../../services/commons/generated/assets.dart';
 import '../../../services/commons/helper.dart';
-import '../../../new_base/ui/components/aqi_weather_card.dart';
+import '../../components/aqi_weather_card.dart';
 import '../detail_aqi/detail_aqi_screen.dart';
 import '../../../controllers/home_controller.dart';
 
@@ -25,7 +24,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Get.toNamed(RouterPaths.NOTIFICATION_SCREEN);
+                Get.toNamed(Routes.NOTIFICATION_SCREEN);
               },
               icon: const Icon(
                 Icons.notifications_active,
@@ -36,7 +35,7 @@ class HomeScreen extends StatelessWidget {
               _controller.currentUser?.value.role == kRoleMod)
             IconButton(
               onPressed: () {
-                Get.toNamed(RouterPaths.MANAGE_SCREEN);
+                Get.toNamed(Routes.MANAGE_SCREEN);
               },
               icon: SvgPicture.asset(
                 Assets.dashboard,
@@ -46,7 +45,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           IconButton(
-            onPressed: () => Get.toNamed(RouterPaths.PROFILE_SCREEN),
+            onPressed: () => Get.toNamed(Routes.PROFILE_SCREEN),
             icon: ClipRRect(
               borderRadius: BorderRadius.circular(10000.0),
               child: CachedNetworkImage(
@@ -113,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                   width: 200,
                   child: OutlinedButton(
                     onPressed: () {
-                      Get.toNamed(RouterPaths.FAVORITE_SCREEN);
+                      Get.toNamed(Routes.FAVORITE_SCREEN);
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(

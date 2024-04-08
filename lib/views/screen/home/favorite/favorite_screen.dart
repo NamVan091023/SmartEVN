@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/new_base/models/entities/favorite_model.dart';
-import 'package:pollution_environment/new_base/routes/app_pages.dart';
-import 'package:pollution_environment/new_base/routes/router_paths.dart';
+import 'package:pollution_environment/model/favorite_model.dart';
+import 'package:pollution_environment/routes/app_pages.dart';
 
 import '../../../../services/commons/constants.dart';
-import '../../../../new_base/ui/components/aqi_weather_card.dart';
+import '../../../components/aqi_weather_card.dart';
 import '../../detail_aqi/detail_aqi_screen.dart';
 import '../../../../controllers/home_controller.dart';
 import '../../../../controllers/favorite_controller.dart';
@@ -163,7 +162,7 @@ class AddFavoriteScreen extends StatelessWidget {
                           Box box = Hive.box<Favorite>(kFavorite);
                           box.add(favorite);
                           _homeController.getFavorite();
-                          Get.offAllNamed(RouterPaths.HOME_SCREEN);
+                          Get.offAllNamed(Routes.HOME_SCREEN);
                         },
                         style: ButtonStyle(
                           shape: MaterialStateProperty.all(

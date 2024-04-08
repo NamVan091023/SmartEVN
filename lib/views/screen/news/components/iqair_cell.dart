@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/new_base/models/entities/area_forest_model.dart';
+import 'package:pollution_environment/model/area_forest_model.dart';
 
 import '../../../../services/commons/helper.dart';
 

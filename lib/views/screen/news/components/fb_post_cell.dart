@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/new_base/models/entities/facebook_response.dart';
+import 'package:pollution_environment/model/facebook_response.dart';
 
 import '../../../../services/commons/helper.dart';
 

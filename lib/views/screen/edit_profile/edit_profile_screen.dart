@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pollution_environment/new_base/models/entities/address_model.dart';
+import 'package:pollution_environment/model/address_model.dart';
 
 import '../../../services/commons/constants.dart';
 import '../../components/keyboard.dart';

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/facebook_response.dart';
+import 'package:pollution_environment/model/facebook_response.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../services/commons/helper.dart';

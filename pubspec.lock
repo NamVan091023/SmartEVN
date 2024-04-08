@@ -8,7 +8,6 @@ packages:
       sha256: "0b2f2bd91ba804e53a61d757b986f89f1f9eaed5b11e4b2f5a2468d86d6c9fc7"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "67.0.0"
   _flutterfire_internals:
     dependency: transitive
@@ -18,9 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.28"
-=======
-    version: "31.0.0"
->>>>>>> origin/feature/hiep-create-base
   analyzer:
     dependency: transitive
     description:
@@ -28,11 +24,7 @@ packages:
       sha256: "37577842a27e4338429a1cbc32679d508836510b056f1eedf0c8d20e39c1383d"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "6.4.1"
-=======
-    version: "2.8.0"
->>>>>>> origin/feature/hiep-create-base
   animations:
     dependency: "direct main"
     description:
@@ -80,7 +72,6 @@ packages:
       sha256: "752039d6aa752597c98ec212e9759519061759e402e7da59a511f39d43aa07d2"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "6.0.0"
   audioplayers_android:
     dependency: transitive
@@ -131,24 +122,6 @@ packages:
     source: hosted
     version: "4.0.0"
   background_locator_2:
-=======
-    version: "0.20.1"
-  auto_route:
-    dependency: transitive
-    description:
-      name: auto_route
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.2.4"
-  auto_route_generator:
-    dependency: "direct dev"
-    description:
-      name: auto_route_generator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.2.3"
-  background_locator:
->>>>>>> origin/feature/hiep-create-base
     dependency: "direct main"
     description:
       path: "."
@@ -156,18 +129,7 @@ packages:
       resolved-ref: f174944122db0ea2df3d0a23749c6abcc943a18b
       url: "https://github.com/Yukams/background_locator_fixed"
     source: git
-<<<<<<< HEAD
     version: "2.0.6"
-=======
-    version: "1.6.12"
-  bloc:
-    dependency: transitive
-    description:
-      name: bloc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.2.1"
->>>>>>> origin/feature/hiep-create-base
   boolean_selector:
     dependency: transitive
     description:
@@ -201,17 +163,13 @@ packages:
     source: hosted
     version: "4.0.1"
   build_resolvers:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: build_resolvers
       sha256: "339086358431fa15d7eca8b6a36e5d783728cf025e559b834f4609a1fcfb7b0a"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.4.2"
-=======
-    version: "2.0.6"
->>>>>>> origin/feature/hiep-create-base
   build_runner:
     dependency: "direct dev"
     description:
@@ -219,11 +177,7 @@ packages:
       sha256: "3ac61a79bfb6f6cc11f693591063a7f19a7af628dc52f141743edac5c16e8c22"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.4.9"
-=======
-    version: "2.1.11"
->>>>>>> origin/feature/hiep-create-base
   build_runner_core:
     dependency: transitive
     description:
@@ -295,25 +249,15 @@ packages:
       sha256: feb6bed21949061731a7a75fc5d2aa727cf160b91af9a3e464c5e3a32e28b5ff
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.0.3"
-=======
-    version: "2.0.1"
->>>>>>> origin/feature/hiep-create-base
   cli_util:
     dependency: transitive
     description:
       name: cli_util
-<<<<<<< HEAD
       sha256: c05b7406fdabc7a49a3929d4af76bcaccbbffcbcdcf185b082e1ae07da323d19
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
-=======
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.5"
->>>>>>> origin/feature/hiep-create-base
   clock:
     dependency: transitive
     description:
@@ -385,11 +329,7 @@ packages:
       sha256: "99e066ce75c89d6b29903d788a7bb9369cf754f7b24bf70bf4b6d6d6b26853b9"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.3.6"
-=======
-    version: "2.2.1"
->>>>>>> origin/feature/hiep-create-base
   dbus:
     dependency: transitive
     description:
@@ -595,23 +535,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD
-=======
-  flutter_bloc:
-    dependency: "direct main"
-    description:
-      name: flutter_bloc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.3.3"
-  flutter_blurhash:
-    dependency: transitive
-    description:
-      name: flutter_blurhash
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.8"
->>>>>>> origin/feature/hiep-create-base
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -847,18 +770,7 @@ packages:
       sha256: "0e7014b3b7d4dac1ca4d6114f82bf1782ee86745b9b42a92c9289c23d8a0ab63"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.1.2"
-=======
-    version: "2.0.2"
-  go_router:
-    dependency: "direct main"
-    description:
-      name: go_router
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.1"
->>>>>>> origin/feature/hiep-create-base
   google_fonts:
     dependency: "direct main"
     description:
@@ -1113,24 +1025,13 @@ packages:
     source: hosted
     version: "0.7.4"
   json_annotation:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: json_annotation
       sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "4.8.1"
-=======
-    version: "4.5.0"
-  json_serializable:
-    dependency: "direct dev"
-    description:
-      name: json_serializable
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.2.0"
->>>>>>> origin/feature/hiep-create-base
   jwt_decoder:
     dependency: "direct main"
     description:
@@ -1226,18 +1127,7 @@ packages:
       sha256: eac66ef8cb0461bf069a38c5eb0fa728cee525a531a8304bd3f7b2185407c67e
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "3.0.0"
-=======
-    version: "2.0.1"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
->>>>>>> origin/feature/hiep-create-base
   octo_image:
     dependency: transitive
     description:
@@ -1397,18 +1287,7 @@ packages:
       sha256: "21e54fd2faf1b5bdd5102afd25012184a6793927648ea81eea80552ac9405b32"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "5.0.2"
-=======
-    version: "4.2.4"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.1.2"
->>>>>>> origin/feature/hiep-create-base
   pub_semver:
     dependency: transitive
     description:
@@ -1433,20 +1312,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  retrofit:
-    dependency: "direct main"
-    description:
-      name: retrofit
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.0"
-  retrofit_generator:
-    dependency: "direct dev"
-    description:
-      name: retrofit_generator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.0"
   rxdart:
     dependency: "direct main"
     description:
@@ -1683,18 +1548,7 @@ packages:
       sha256: "70a3b636575d4163c477e6de42f247a23b315ae20e86442bebe32d3cabf61c32"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "1.0.1"
-=======
-    version: "1.0.0"
-  tuple:
-    dependency: transitive
-    description:
-      name: tuple
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
->>>>>>> origin/feature/hiep-create-base
   typed_data:
     dependency: transitive
     description:
@@ -1702,18 +1556,7 @@ packages:
       sha256: facc8d6582f16042dd49f2463ff1bd6e2c9ef9f3d5da3d9b087e244a7b564b3c
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "1.3.2"
-=======
-    version: "1.3.0"
-  universal_html:
-    dependency: transitive
-    description:
-      name: universal_html
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.8"
->>>>>>> origin/feature/hiep-create-base
   universal_io:
     dependency: transitive
     description:

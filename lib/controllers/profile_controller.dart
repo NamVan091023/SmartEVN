@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/model/user_response.dart';
 
 import '../services/commons/constants.dart';
 import '../services/commons/helper.dart';

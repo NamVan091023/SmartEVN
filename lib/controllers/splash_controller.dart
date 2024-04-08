@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:pollution_environment/new_base/models/entities/token_response.dart';
-import 'package:pollution_environment/new_base/models/entities/user_response.dart';
-import 'package:pollution_environment/new_base/routes/app_pages.dart';
-import 'package:pollution_environment/new_base/routes/router_paths.dart';
+import 'package:pollution_environment/model/token_response.dart';
+import 'package:pollution_environment/model/user_response.dart';
+import 'package:pollution_environment/routes/app_pages.dart';
 
 import '../services/commons/constants.dart';
 import '../services/commons/helper.dart';
@@ -16,7 +15,6 @@ class SplashController extends GetxController {
   int _start = 3;
   var currentPage = 0.obs;
   final Box box = Hive.box(kHiveBox);
-
   @override
   void onInit() {
     super.onInit();
@@ -50,7 +48,7 @@ class SplashController extends GetxController {
       AuthResponse? currentUser = UserStore().getAuth();
       String? refreshToken = currentUser?.tokens?.refresh?.token;
       if (refreshToken == null) {
-        Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
+        Get.offAllNamed(Routes.LOGIN_SCREEN);
       } else {
         showLoading();
         try {
@@ -65,17 +63,17 @@ class SplashController extends GetxController {
             if (currentUser != null) {
               UserStore().saveAuth(currentUser);
             }
-            Get.offAllNamed(RouterPaths.HOME_SCREEN);
+            Get.offAllNamed(Routes.HOME_SCREEN);
           } else {
-            Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
+            Get.offAllNamed(Routes.LOGIN_SCREEN);
           }
         } catch (e) {
           hideLoading();
-          Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
+          Get.offAllNamed(Routes.LOGIN_SCREEN);
         }
       }
     } else {
-      Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
+      Get.offAllNamed(Routes.LOGIN_SCREEN);
     }
   }
 

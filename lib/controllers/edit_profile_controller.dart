@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/address_model.dart';
-import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/model/address_model.dart';
+import 'package:pollution_environment/model/user_response.dart';
 
 import '../services/commons/helper.dart';
 import '../services/network/apis/address/address_api.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
-import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/model/pollution_response.dart';
+import 'package:pollution_environment/model/user_response.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../services/commons/helper.dart';

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/user_response.dart';
-import 'package:pollution_environment/new_base/routes/app_pages.dart';
-import 'package:pollution_environment/new_base/routes/router_paths.dart';
+import 'package:pollution_environment/model/user_response.dart';
+import 'package:pollution_environment/routes/app_pages.dart';
 
 import '../../../../services/network/apis/users/auth_api.dart';
 import '../../../../controllers/profile_controller.dart';
@@ -86,7 +85,7 @@ class ProfileMenu extends StatelessWidget {
           leftIcon: const Icon(Icons.edit_rounded),
           right: const Icon(Icons.chevron_right_sharp),
           onTap: () {
-            Get.toNamed(RouterPaths.EDIT_PROFILE_SCREEN, arguments: user)
+            Get.toNamed(Routes.EDIT_PROFILE_SCREEN, arguments: user)
                 ?.then((value) {
               _profileController.getUser();
             });
@@ -99,7 +98,7 @@ class ProfileMenu extends StatelessWidget {
           onTap: () {
             AuthApi().logout();
             AuthApi().clearUserData();
-            Get.offAllNamed(RouterPaths.LOGIN_SCREEN);
+            Get.offAllNamed(Routes.LOGIN_SCREEN);
           },
         ),
       ],

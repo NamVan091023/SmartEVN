@@ -65,6 +65,3 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
-
-# FVM Version Cache
-.fvm/

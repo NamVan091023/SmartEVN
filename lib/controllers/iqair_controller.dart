@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:pollution_environment/new_base/models/entities/area_forest_model.dart';
+import 'package:pollution_environment/model/area_forest_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../services/network/apis/airvisual/airvisual.dart';
