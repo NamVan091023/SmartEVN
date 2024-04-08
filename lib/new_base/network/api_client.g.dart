@@ -35,11 +35,8 @@ class _ApiClient implements ApiClient {
   @override
   Future<ParseAddressResponse?> parseAddress({lat, lon}) async {
     const _extra = <String, dynamic>{};
-<<<<<<< HEAD
     final queryParameters = <String, dynamic>{r'lat': lat, r'lon': lon};
-=======
     final queryParameters = <String, dynamic>{r'lat': lat, r'lng': lon};
->>>>>>> origin/feature/hiep-create-base
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -155,8 +152,7 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
-<<<<<<< HEAD
-=======
+
   @override
   Future<ListDataResponse<PollutionType>?> getPollutionTypes() async {
     const _extra = <String, dynamic>{};
@@ -453,7 +449,6 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
->>>>>>> origin/feature/hiep-create-base
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

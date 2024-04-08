@@ -1,5 +1,4 @@
 class AppImages {
-<<<<<<< HEAD
   static const imgBackground = 'assets/images/background.png';
   static const icRainBig = 'assets/images/ic_rain_big.png';
   static const icRainSmall = 'assets/images/ic_rain_small.png';
@@ -8,7 +7,6 @@ class AppImages {
   static const icWind = 'assets/images/ic_wind.png';
   static const imgCardHome = 'assets/images/img_card_home.png';
   static const icCardDetailHome = 'assets/images/img_card_detail_home.png';
-=======
   static const String iconPinAir = 'assets/icons/ic_pin_air.png';
   static const String iconPinWater = 'assets/icons/ic_pin_water.png';
   static const String iconPinLand = 'assets/icons/ic_pin_land.png';
@@ -30,5 +28,4 @@ class AppImages {
       'assets/images/severe-air-quality-background-image.webp';
   static const String unhealthyAirBgCard =
       'assets/images/unhealthy-air-quality-background-image.webp';
->>>>>>> origin/feature/hiep-create-base
 }

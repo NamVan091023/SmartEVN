@@ -1,7 +1,5 @@
 class AppVector {
-<<<<<<< HEAD
 
-=======
   static const String iconAQI1 = 'assets/icons/ic-face-maroon.svg';
   static const String iconAQI2 = 'assets/icons/ic-face-purple.svg';
   static const String iconAQI3 = 'assets/icons/ic-face-red.svg';
@@ -18,5 +16,4 @@ class AppVector {
   static const String bell = 'assets/icons/bell.svg';
   static const String dashboard = 'assets/icons/dashboard.svg';
   static const String remove = 'assets/icons/remove.svg';
->>>>>>> origin/feature/hiep-create-base
 }

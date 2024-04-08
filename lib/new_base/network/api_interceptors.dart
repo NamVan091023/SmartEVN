@@ -37,8 +37,6 @@ class ApiInterceptors extends InterceptorsWrapper {
     logger.log("⚠️ ERROR[$statusCode] => PATH: $uri\n DATA: $data");
     super.onError(err, handler);
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/feature/hiep-create-base
+
+

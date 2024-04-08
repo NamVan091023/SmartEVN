@@ -20,11 +20,8 @@ class _SplashPageState extends State<SplashPage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(
-<<<<<<< HEAD
               AppImages.imgBackground,
-=======
               AppImages.iconLogo,
->>>>>>> origin/feature/hiep-create-base
               fit: BoxFit.fitWidth,
             ),
           ),

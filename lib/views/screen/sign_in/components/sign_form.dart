@@ -22,7 +22,6 @@ class SignForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-<<<<<<< HEAD
       child: Column(
         children: [
           buildEmailFormField(),
@@ -38,7 +37,6 @@ class SignForm extends StatelessWidget {
             },
           ),
         ],
-=======
       child: AutofillGroup(
         child: Column(
           children: [
@@ -91,7 +89,6 @@ class SignForm extends StatelessWidget {
             ),
           ],
         ),
->>>>>>> origin/feature/hiep-create-base
       ),
     );
   }

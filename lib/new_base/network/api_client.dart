@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:pollution_environment/new_base/configs/app_config.dart';
 import 'package:pollution_environment/new_base/models/entities/address_model.dart';
-<<<<<<< HEAD
 import 'package:pollution_environment/new_base/models/entities/alert_model.dart';
 import 'package:pollution_environment/new_base/models/entities/area_forest_model.dart';
 import 'package:pollution_environment/new_base/models/entities/base_response.dart';
 import 'package:pollution_environment/new_base/models/entities/news_model.dart';
-=======
 import 'package:pollution_environment/new_base/models/entities/area_forest_model.dart';
 import 'package:pollution_environment/new_base/models/entities/base_response.dart';
 import 'package:pollution_environment/new_base/models/entities/news_model.dart';
@@ -17,7 +15,6 @@ import 'package:pollution_environment/new_base/models/entities/pollution_type_mo
 import 'package:pollution_environment/new_base/models/responses/alert_response.dart';
 import 'package:pollution_environment/new_base/models/responses/data_response.dart';
 import 'package:pollution_environment/new_base/models/responses/list_data_response.dart';
->>>>>>> origin/feature/hiep-create-base
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client.g.dart';
@@ -74,8 +71,6 @@ abstract class ApiClient {
     @Query("limit") int? limit,
     @Query("type") String? type,
   });
-<<<<<<< HEAD
-=======
 
   @GET('/pollutions/types')
   Future<ListDataResponse<PollutionType>?> getPollutionTypes();
@@ -152,5 +147,4 @@ abstract class ApiClient {
     @Query("districtId") String? districtId,
   });
 
->>>>>>> origin/feature/hiep-create-base
 }
