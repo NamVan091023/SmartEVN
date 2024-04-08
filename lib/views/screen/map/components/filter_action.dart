@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:pollution_environment/model/pollution_response.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
 
 import '../../../../services/commons/helper.dart';
 import '../../../components/empty_view.dart';

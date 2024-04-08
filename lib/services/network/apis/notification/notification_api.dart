@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/base_response.dart';
-import 'package:pollution_environment/model/notification_model.dart';
+import 'package:pollution_environment/new_base/models/entities/base_response.dart';
+import 'package:pollution_environment/new_base/models/entities/notification_model.dart';
 import '../../../commons/helper.dart';
 import '../../api_service.dart';
 

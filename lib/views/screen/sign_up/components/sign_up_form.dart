@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 
 import '../../../../services/commons/helper.dart';
 import '../../../../services/commons/size_config.dart';
@@ -46,7 +47,7 @@ class SignUpForm extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       fontSize: 16.0);
-                  Get.offAllNamed(Routes.HOME_SCREEN);
+                  Get.offAllNamed(RouterPaths.HOME_SCREEN);
                 }, (err) {
                   showAlert(desc: err);
                 });

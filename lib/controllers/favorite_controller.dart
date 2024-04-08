@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/model/address_model.dart';
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/models/entities/address_model.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
 
 import '../services/commons/helper.dart';
 import '../services/network/apis/address/address_api.dart';

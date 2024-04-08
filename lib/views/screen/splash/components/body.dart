@@ -25,7 +25,9 @@ class Body extends StatelessWidget {
       "image": "assets/images/image_splash3.png"
     },
   ];
+
   final SplashController conn = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

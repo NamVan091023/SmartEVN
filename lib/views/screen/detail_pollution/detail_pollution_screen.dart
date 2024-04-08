@@ -3,13 +3,14 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../services/commons/constants.dart';
 import '../../../services/commons/generated/assets.dart';
 import '../../../services/commons/helper.dart';
-import '../../components/aqi_weather_card.dart';
+import '../../../new_base/ui/components/aqi_weather_card.dart';
 import '../../components/full_image_viewer.dart';
 import '../../components/pollution_card.dart';
 import '../../components/pollution_user_card.dart';
@@ -20,6 +21,7 @@ import '../../../controllers/detail_pollution_controller.dart';
 class DetailPollutionScreen extends StatelessWidget {
   final DetailPollutionController _controller =
       Get.put(DetailPollutionController());
+  DetailPollutionScreen({Key? key}) : super(key: key);
 
   final choices = [
     {'title': 'Duyệt', 'icon': const Icon(Icons.verified_rounded)},
@@ -27,7 +29,6 @@ class DetailPollutionScreen extends StatelessWidget {
     {'title': 'Xóa', 'icon': const Icon(Icons.delete_rounded)},
   ];
 
-  DetailPollutionScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -305,7 +306,7 @@ class DetailPollutionScreen extends StatelessWidget {
         createdAt: _controller.pollutionModel.value?.createdAt,
       ),
       onTap: () {
-        Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
+        Get.toNamed(RouterPaths.OTHER_PROFILE_SCREEN,
             arguments: _controller.user.value?.id, preventDuplicates: false);
       },
     );

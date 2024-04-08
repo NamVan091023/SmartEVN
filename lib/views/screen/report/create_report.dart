@@ -6,9 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pollution_environment/model/address_model.dart';
-import 'package:pollution_environment/model/pollution_quality_model.dart';
-import 'package:pollution_environment/model/pollution_type_model.dart';
+import 'package:pollution_environment/new_base/models/entities/address_model.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_quality_model.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_type_model.dart';
 
 import '../../../services/commons/helper.dart';
 import '../../components/default_button.dart';

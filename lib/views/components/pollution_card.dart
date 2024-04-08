@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/model/pollution_response.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
 
 import '../../services/commons/helper.dart';
 

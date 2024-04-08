@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pollution_environment/model/user_response.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../components/empty_view.dart';
@@ -100,7 +101,7 @@ class UserManageScreen extends StatelessWidget {
         subtitle: Text(userModel?.email ?? ""),
         trailing: const Icon(Icons.chevron_right_rounded),
         onTap: () {
-          Get.toNamed(Routes.OTHER_PROFILE_SCREEN,
+          Get.toNamed(RouterPaths.OTHER_PROFILE_SCREEN,
                   arguments: userModel?.id, preventDuplicates: false)
               ?.then((value) {
             _controller.refresh();

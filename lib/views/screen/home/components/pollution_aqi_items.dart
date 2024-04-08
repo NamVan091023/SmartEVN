@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pollution_environment/model/waqi/waqi_ip_model.dart';
+import 'package:pollution_environment/new_base/models/entities/waqi_ip_model.dart';
 
 import 'pollution_aqi_item.dart';
 

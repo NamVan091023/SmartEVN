@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:pollution_environment/model/base_response.dart';
-import 'package:pollution_environment/model/user_response.dart';
+import 'package:pollution_environment/new_base/models/entities/base_response.dart';
+import 'package:pollution_environment/new_base/models/entities/user_response.dart';
 import '../../api_service.dart';
 
 class UserAPIPath {

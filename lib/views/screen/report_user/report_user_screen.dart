@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:pollution_environment/model/pollution_response.dart';
-import 'package:pollution_environment/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/models/entities/pollution_response.dart';
+import 'package:pollution_environment/new_base/routes/app_pages.dart';
+import 'package:pollution_environment/new_base/routes/router_paths.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../services/commons/helper.dart';
@@ -119,7 +120,7 @@ class _ReportUserState extends State<ReportUser>
         heroTag: "report",
         child: const Icon(Icons.add),
         onPressed: () {
-          Get.toNamed(Routes.CREATE_REPORT_SCREEN)?.then((value) => refresh());
+          Get.toNamed(RouterPaths.CREATE_REPORT_SCREEN)?.then((value) => refresh());
         },
         tooltip: "Thêm báo cáo",
       ),
