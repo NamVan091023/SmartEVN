@@ -4,6 +4,7 @@ class PollutionDetailState extends Equatable {
   final LoadStatus loadDataStatus;
   final UserModel? userInfo;
   final PollutionModel? pollutionInfo;
+  final List<PollutionModel>? historyPollutions;
   final UserModel? currentUser;
   final List<PollutionModel>? pollutions;
   final WAQIIpResponse? aqiGPS;
@@ -14,6 +15,7 @@ class PollutionDetailState extends Equatable {
     this.loadDataStatus = LoadStatus.initial,
     this.userInfo,
     this.pollutionInfo,
+    this.historyPollutions,
     this.currentUser,
     this.pollutions,
     this.aqiGPS,
@@ -26,6 +28,7 @@ class PollutionDetailState extends Equatable {
         loadDataStatus,
         userInfo,
         pollutionInfo,
+    historyPollutions,
         currentUser,
         pollutions,
         aqiGPS,
@@ -37,6 +40,7 @@ class PollutionDetailState extends Equatable {
     LoadStatus? loadDataStatus,
     UserModel? userInfo,
     PollutionModel? pollutionInfo,
+    List<PollutionModel>? historyPollutions,
     UserModel? currentUser,
     List<PollutionModel>? pollutions,
     WAQIIpResponse? aqiGPS,
@@ -47,6 +51,7 @@ class PollutionDetailState extends Equatable {
       loadDataStatus: loadDataStatus ?? this.loadDataStatus,
       userInfo: userInfo ?? this.userInfo,
       pollutionInfo: pollutionInfo ?? this.pollutionInfo,
+      historyPollutions: historyPollutions ?? this.historyPollutions,
       currentUser: currentUser ?? this.currentUser,
       pollutions: pollutions ?? this.pollutions,
       aqiGPS: aqiGPS ?? this.aqiGPS,
